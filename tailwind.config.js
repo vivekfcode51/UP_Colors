@@ -16,41 +16,43 @@ export default {
     },
     extend: {
       
-      // keyframes: {
-      //   translateAnimation: {
-      //     '0%': { transform: 'translate(0, 0)' },
-      //     '100%': { transform: 'translate(var(--x-target), var(--y-target))' },
-      //   },
-      //   pulseFadeOut: {
-      //     '0%': { opacity: 1, transform: 'scale(0)' },
-      //     '100%': { opacity: 0, transform: 'scale(1)' },
-      //   },
-      // },
-      // animation: {
-      //   translateAnimation: 'translateAnimation 2s ease-in-out forwards',
-      //   'pulse-fade': 'pulseFadeOut 2s ease-in-out infinite',
-      // },
-      // fontFamily: {
-      //   roboto: ['Roboto', 'sans-serif'],
-      //   inter: ['Inter', 'sans-serif'],
-      // },
-      // fontSize: {
-      //   xs: '11px', 
-      //   sm: '16px',
-      //   lg: '19px', 
-      // },
-      // colors: {
-      //   bg1: "#22275B",
-      //   bg2: "#2B3270",
-      //   bg3: "#2A95F3",
-      //   bg4: "#374992",
-      //   yellow: "#DD9138",
-      //   green: "#17B15E",
-      //   voilet: "#9B48DB",
-      //   red: "#D23838",
-      //   gray: "#9A99B5",
-      //   gold: "#ff8310",
-      // }
+      keyframes: {
+        translateAnimation: {
+          '0%': { transform: 'translate(0, 0)' },
+          '100%': { transform: 'translate(var(--x-target), var(--y-target))' },
+        },
+        pulseFadeOut: {
+          '0%': { opacity: 1, transform: 'scale(0)' },
+          '100%': { opacity: 0, transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        translateAnimation: 'translateAnimation 2s ease-in-out forwards',
+        'pulse-fade': 'pulseFadeOut 2s ease-in-out infinite',
+      },
+      fontFamily: {
+        roboto: [' Verdana, sans-serif;', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
+      fontSize: {
+        xs: '11px', 
+        xsm: '13px', 
+        sm: '16px',
+        lg: '19px', 
+      },
+      colors: {
+        bg1: "#F7F8FF",
+        bg2: "#FC7C76",
+        bg3: "#2A95F3",
+        bg4: "#374992",
+        yellow: "#DD9138",
+        green: "#17B15E",
+        voilet: "#9B48DB",
+        red: "#D23838",
+        gray: "#666666",
+        gold: "#ff8310",
+        chocolate: "#B1835A",
+      }
     },
   },
   plugins: [
