@@ -87,8 +87,8 @@ function Register() {
             <p className="text-[10px] px-5 my-2">Please register with your phone number or email </p>
           </div>
         </div>
-        <div className="bg-bg1 px-5 flex flex-col h-full w-full  items-center justify-center mx-auto lg:py-0">
-          <div className="flex  flex-col items-center justify-center w-full py-2 border-b-2 mx-5 text-bg2 border-bg2" >
+        <div className="bg-white px-5 flex flex-col h-full w-full  items-center justify-center mx-auto lg:py-0">
+          <div className="flex  flex-col items-center justify-center w-full py-2 border-b-2 mx-5 text-redLight border-redLight" >
             <div>
               <img className='w-6 h-6' src={loginPhone} alt="sd" />
             </div>
@@ -97,14 +97,14 @@ function Register() {
           <div className="w-full h-full text-white">
             <form className="space-y-4 w-full md:space-y-6 my-5" action="#">
               <div className="w-full">
-                <div className=' flex items-center py-2'>
+                <div className=' flex items-center gap-2 py-2'>
                   <div>
                     <img className='w-6 h-6' src={phoneUsa} alt="sd" />
                   </div>
                   <label htmlFor="mobile" className=" text-sm text-gray font-medium">Phone number</label>
                 </div>
-                <div className='flex items-center w-full gap-1'>
-                  <p className='bg-slate-100 w-[30%] text-gray p-2.5 flex items-center rounded-md'>+91 <MdKeyboardArrowDown size={20} />
+                <div className='flex items-center w-full mt-2 gap-1'>
+                  <p className='bg-inputBg w-[30%] text-gray p-3 flex items-center rounded-md'>+91 <MdKeyboardArrowDown size={20} />
                   </p>
                   <input
                     value={allInputs.mobile}
@@ -118,11 +118,10 @@ function Register() {
                     name="mobile"
                     id="mobile"
                     placeholder="Enter your phone number"
-                    className={`col-span-[60%] bg-slate-100 text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray`}
+                    className={`col-span-[60%] bg-inputBg text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray`}
                   />
                 </div>
               </div>
-
               <div className="relative">
                 <div className='flex items-center py-2 gap-2'>
                   <div>
@@ -141,7 +140,7 @@ function Register() {
                   name="password"
                   id="password"
                   placeholder="Password"
-                  className="bg-slate-100 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray "
+                  className="bg-inputBg mt-2 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray "
                 />
                 <button
                   type="button"
@@ -169,7 +168,7 @@ function Register() {
                   name="password_confirmation"
                   id="password_confirmation"
                   placeholder="Confirm Password"
-                  className="bg-slate-100 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray"
+                  className="bg-inputBg mt-2 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
                 />
                 <button
                   type="button"
@@ -193,7 +192,7 @@ function Register() {
                   placeholder="Please enter the invitation code"
                   value={allInputs.referral_code}
                   onChange={(e) => setAllInputs({ ...allInputs, referral_code: e.target.value })}
-                  className="bg-slate-100 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray"
+                  className="bg-inputBg mt-2 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
                 />
               </div>
               <div className="flex items-center mt-4">
@@ -205,12 +204,12 @@ function Register() {
                   )}
                 </div>
                 <label htmlFor="agree" className="text-gray ml-2 text-xs sm:text-base md:text-xs">I have read and agree </label>
-                <a href="/aboutus/risk" className="ml-2 text-red underline text-xs sm:text-base md:text-xs">Privacy Agreement</a>
+                <a href="/aboutus/risk" className="ml-2 text-redLight underline text-xs sm:text-base md:text-xs">Privacy Agreement</a>
               </div>
               <div className='flex flex-col w-full font-bold items-center justify-center'>
                 <button onClick={(e) => throttledRegiaterHandler(e)} type="submit" className="w-[90%] font-bold tracking-[0.20333rem] py-2.5 rounded-full border-none bg-gradient-to-b from-[#f95959] to-[#ff9a8e] shadow-lg flex items-center justify-center">Register</button>
-                <p className="border w-[90%] text-xs border-bg2 mt-5 tracking-[2px] text-gray rounded-full p-2 flex gap-2 items-center justify-center">
-                  I have an account  <Link to="/login" className="font-bold text-sm hover:underline text-bg2 tracking-[0.20333rem] ">Login</Link>
+                <p className="border w-[90%] text-xs border-redLight mt-5 tracking-[2px] text-gray rounded-full p-2 flex gap-2 items-center justify-center">
+                  I have an account  <Link to="/login" className="font-bold text-sm hover:underline text-redLight tracking-[0.20333rem] ">Login</Link>
                 </p>
               </div>
             </form>

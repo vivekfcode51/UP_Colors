@@ -43,59 +43,7 @@ function PopularGamesList() {
 
   return (
     <>
-      <div className="mt-5 flex justify-between items-center">
-        <div className="border-bg3 border-l-4 pl-2">Lottery</div>
-        <button className="flex items-center text-xs border-[1px] border-white px-4 py-0.5 rounded-md">All  <span className='text-bg3 ml-1'>4</span> <LiaGreaterThanSolid /></button>
-      </div>
-      <div className="grid grid-cols-2 gap-2 h-full mt-1">
-        {lottery.map((item, index) => (
-          <Link key={index} className='h-56' to={`${item?.route}`} >
-            <div
-              className="col-span-1 font-bold rounded-xl h-56"
-
-              style={{ backgroundImage: `url(${item.bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-            >
-              <h1 className='pt-6 text-center' >{item.name}</h1>
-              <div className='flex items-center justify-center mt-7'>
-                <img src={item?.img} alt="d" />
-              </div>
-              <div className='flex mt-8 justify-end mr-3'>
-                <button className="flex items-center border-[1px] border-white px-4 rounded-full">Go <LiaGreaterThanSolid /></button>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-      <div className="mt-5 flex justify-between items-center">
-        <div className="border-bg3 border-l-4 pl-2">Original</div>
-        <button className="flex items-center text-xs border-[1px] border-white px-4 py-0.5 rounded-md">All <span className='text-bg3 ml-1'>35</span> <LiaGreaterThanSolid /></button>
-      </div>
-      <div className="grid grid-cols-3 gap-2 h-full mt-1">
-        {original?.map((item, index) => (
-          <Link key={index} className='col-span-1 text-xs font-bold  rounded-xl flex flex-col justify-between items-center h-44' to={`${item?.route}`} >
-            <img className='h-full' src={item?.bg} alt="w" />
-          </Link>
-        ))}
-      </div>
-      <div className="mt-5 flex justify-between items-center">
-        <div className='flex items-center gap-'>
-
-          <div className='text-bg3'> <RiFireFill /> </div>
-          <div className="">Platform recommendation</div>
-        </div>
-        <button className="flex items-center text-xs border-[1px] border-white px-4 py-0.5 rounded-md">All <span className='text-bg3 ml-1'>6</span> <LiaGreaterThanSolid /></button>
-      </div>
-      <div className="grid grid-cols-3 gap-2 h-full mt-1">
-        {platform?.map((item, index) => (
-          <Link key={index} className='col-span-1 mt-3 text-xs font-bold  rounded-xl flex flex-col justify-between items-center h-44' to={`${item?.route}`} >
-            <img className='h-full' src={item?.bg} alt="w" />
-            <div className='flex items-center justify-between bg-bg3 w-full p-0.5 text-white rounded-lg mt-1'>
-              <p>Odds of</p>
-              <p className=''>{item?.percentage}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
+     <div>Popular list</div>
     </>
   );
 }

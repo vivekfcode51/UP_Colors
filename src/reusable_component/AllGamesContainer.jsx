@@ -2,6 +2,12 @@ import React, { useEffect, useRef } from "react";
 import LotteryGamesList from "../components/LotteryGamesList";
 import { useSelector } from "react-redux";
 import PopularGamesList from "../components/PopularGamesList";
+import MiniGamesList from "../components/MiniGamesList";
+import SlotsGamesList from "../components/SlotsGamesList";
+import FishingGamesList from "../components/FishingGamesList";
+import CasinoGamesList from "../components/CasinoGamesList";
+import LobbyGamesList from "../components/LobbyGamesList";
+import PokerGamesList from "../components/PokerGamesList";
 
 function AllGamesContainer() {
     const { gameName } = useSelector((state) => state.AllGamesContainer);
@@ -13,10 +19,46 @@ function AllGamesContainer() {
                         <LotteryGamesList />
                     </div>
                 );
+            case "minigames":
+                return (
+                    <div className="">
+                        <MiniGamesList />
+                    </div>
+                );
             case "popular":
                 return (
                     <div className="">
                         <PopularGamesList />
+                    </div>
+                );
+            case "slots":
+                return (
+                    <div className="">
+                        <SlotsGamesList />
+                    </div>
+                );
+            case "fishing":
+                return (
+                    <div className="">
+                        <FishingGamesList />
+                    </div>
+                );
+            case "casino":
+                return (
+                    <div className="">
+                        <CasinoGamesList />
+                    </div>
+                );
+            case "lobby":
+                return (
+                    <div className="">
+                        <LobbyGamesList />
+                    </div>
+                );
+            case "poker":
+                return (
+                    <div className="">
+                        <PokerGamesList />
                     </div>
                 );
             default:

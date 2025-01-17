@@ -1,44 +1,38 @@
-import { MdKeyboardArrowLeft } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import invitation_gift from "../../assets/icons/invitation_gift.png"
+import reward from "../../assets/usaAsset/activity/reward.png"
+import bonus from "../../assets/usaAsset/activity/bonus.png"
 import inviterule from "../../assets/icons/inviterule.png"
 import inviterecord from "../../assets/icons/inviterecord.png"
-
+import invitationBonus from "../../assets/usaAsset/activity/invitationBonus.png"
 function InvitationBonus() {
     return (
         <div >
-            <header className='bg-bg2 px-3 pb-32 font-inter'>
-                <div className='flex items-center justify-between'>
-                    <Link to="/activity" >
-                        <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
-                    </Link>
-                    <p className='text-sm'>Invitation bonus</p>
-                    <div></div>
-                </div>
+            <header className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] px-3 pb-5 font-inter'>
+               
                 <div className='grid grid-cols-3 py-3 '>
                     <div className='col-span-1'>
                         <img
-                            src={invitation_gift}
+                            src={invitationBonus}
                             alt="Gifts"
                             className="w-full  object-cover rounded"
                         />
                     </div>
-                    <div className='col-span-2 px-5'>
+                    <div className='col-span-2 pl-2'>
                         <h1 className='font-bold'>Invite friends and deposit</h1>
-                        <p className='text-xs mt-2'>Both parties can receive rewards</p>
+                        <p className='text-xs mt-5'>Both parties can receive rewards</p>
                         <p className='text-xs mt-2'>Invite friends to register and recharge to receive rewards</p>
                         <p className='text-xs mt-2'>Activity Date</p>
-                        <p className='text-xs mt-2'>26-12-2024 - 30-12-2024</p>
+                        <p className='text-lg text-nowrap mt-2'>2024-05-01 - 2024-05-31</p>
                     </div>
                 </div>
             </header>
-            <div className='bg-bg3 mx-3 -mt-16 text-xs py-5 rounded-md flex items-center justify-evenly'>
+            <div className='bg-white mx-3 -mt-5 text-gray text-xs py-5 rounded-lg flex items-center justify-evenly'>
                 <Link to="/activity/invitationbonus/invitationrewardrule" className='flex flex-col items-center' >
-                    <img src={inviterule} alt="sd" />
+                    <img className='w-8 h-8' src={inviterule} alt="sd" />
                     <p >Invitation reward rules</p>
                 </Link>
                 <Link to="/activity/invitationbonus/invitationrecord" className='flex flex-col items-center' >
-                    <img src={inviterecord} alt="sd" />
+                    <img className='w-8 h-8' src={inviterecord} alt="sd" />
                     <p>Invitation record</p>
                 </Link>
             </div>

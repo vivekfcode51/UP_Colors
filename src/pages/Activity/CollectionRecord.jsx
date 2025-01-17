@@ -6,28 +6,29 @@ import noData from "../../assets/images/no_data_available.png"
 function CollectionRecord() {
     const [selected, setSelected] = useState("Daily")
     return (
-        <div className='' >
-            <header className='py-2 bg-bg2 flex justify-between items-center'>
+        <div className='bg-bg1' >
+            <header className='py-2 bg-white flex justify-between items-center'>
                 <Link to="/activity/award" >
-                    <MdKeyboardArrowLeft className=" text-3xl text-white" />
+                    <MdKeyboardArrowLeft className=" text-3xl text-black" />
                 </Link>
-                <div>Receive History</div>
+                <div className='text-black text-lg'>Receive History</div>
                 <div></div>
             </header>
-            <div className="py-2 px-2 text-lg flex gap-4">
-                <button
-                    onClick={() => setSelected("Daily")}
-                    className={` w-full px-4 py-5 rounded-md ${selected === "Daily" ? "bg-bg3 text-white" : "bg-bg2"
-                        }`}
-                >
-                    Daily
-                </button>
+            <div className="py-2 px-2 text-lg flex">
+              
                 <button
                     onClick={() => setSelected("Weekly")}
-                    className={`w-full px-4 py-2 rounded-md ${selected === "Weekly" ? "bg-bg3 text-white" : "bg-bg2"
+                    className={`w-full px-4 rounded-md ${selected === "Weekly" ? "bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white" : "bg-white text-gray"
                         }`}
                 >
                     Weekly
+                </button>
+                <button
+                    onClick={() => setSelected("Daily")}
+                    className={` w-full px-4 py-2 rounded-md ${selected === "Daily" ? "bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white" : "bg-white text-gray"
+                        }`}
+                >
+                    Daily
                 </button>
             </div>
             <div>

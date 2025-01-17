@@ -6,8 +6,9 @@ export default {
   ],
   theme: {
     screens: {
-      'xsm': '410px',
-      'sm': '540px',
+      'xs': '400px',
+      'xsm': '500px',
+      'sm': '640px',
       'md': '800px',
       'lg': '1024px',
       'xl': '1280px',
@@ -15,7 +16,7 @@ export default {
       '3xl': '1836px',
     },
     extend: {
-      
+
       keyframes: {
         translateAnimation: {
           '0%': { transform: 'translate(0, 0)' },
@@ -35,10 +36,10 @@ export default {
         inter: ['Inter', 'sans-serif'],
       },
       fontSize: {
-        xs: '11px', 
-        xsm: '13px', 
+        xs: '11px',
+        xsm: '13px',
         sm: '16px',
-        lg: '19px', 
+        lg: '18px',
       },
       colors: {
         bg1: "#F7F8FF",
@@ -48,10 +49,14 @@ export default {
         yellow: "#DD9138",
         green: "#17B15E",
         voilet: "#9B48DB",
-        red: "#D23838",
+        red: "#F85050",
+        redLight: "#ff9a8e",
         gray: "#666666",
+        lightGray: "#768096",
         gold: "#ff8310",
         chocolate: "#B1835A",
+        border1: "#eaeaea",
+        inputBg: "#F0F0F5",
       }
     },
   },

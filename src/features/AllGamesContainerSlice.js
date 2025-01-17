@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     height: null,
-    gameName: ''
+    gameName: 'lottery'
 }
 
 export const AllGamesContainerSlice = createSlice(

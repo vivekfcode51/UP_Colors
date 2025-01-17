@@ -26,7 +26,7 @@ const ImageCarousel = () => {
                 {images.map((image, index) => (
                     <div
                         key={index}
-                        className="w-full h-[18vh] sm:h-[25vh] md:h-[20vh] rounded-xl bg-contain bg-no-repeat bg-center"
+                        className="w-full h-[18vh] xsm:h-[20vh] rounded-xl bg-contain bg-no-repeat bg-center"
                         style={{ backgroundImage: `url(${image})` }}
                     >
                       

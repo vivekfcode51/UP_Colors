@@ -27,6 +27,7 @@ const Layout = () => {
              location?.pathname === "/" ||
                 location?.pathname === "/lottery/wingo" ||
                 location?.pathname === "/activity" ||
+                location?.pathname === "/activity/invitationbonus" ||
                 location?.pathname === "/activity/award" ||
                 location?.pathname === "/activity/invitationbonus/invitationrewardrule" ||
                 location?.pathname === "/activity/invitationbonus/invitationrecord" ||

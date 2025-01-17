@@ -58,7 +58,7 @@ function Login() {
         </div>
         <div className="flex flex-col w-full items-center justify-center px-5 lg:py-0">
           <div className="bg-bg1 w-full  text-white">
-            <div className="flex  flex-col items-center justify-center w-full py-2 border-b-2 text-bg2 border-bg2" >
+            <div className="flex  flex-col items-center justify-center w-full py-2 border-b-2 text-redLight border-redLight" >
               <div>
                 <img className='w-6 h-6' src={loginPhone} alt="sd" />
               </div>
@@ -66,21 +66,21 @@ function Login() {
             </div>
             <form className="space-y-4 md:space-y-6 mt-3" onSubmit={handleLogin}>
               <div className="">
-                <div className=' flex items-center py-2'>
+                <div className=' flex items-center gap-2 py-2'>
                   <div>
                     <img className='w-6 h-6' src={phoneUsa} alt="sd" />
                   </div>
                   <label htmlFor="mobile" className=" text-sm text-gray font-medium">Phone number</label>
                 </div>
-                <div className='flex items-center gap-2'>
-                  <p className='bg-slate-100 w-[30%] text-gray p-2.5 flex items-center rounded-md'>+91 <MdKeyboardArrowDown size={20} />
+                <div className='flex items-center mt-2 gap-2'>
+                  <p className='bg-inputBg w-[30%] text-gray p-3 flex items-center rounded-md'>+91 <MdKeyboardArrowDown size={20} />
                   </p>
                   <input
                     type="number"
                     name="mobile"
                     id="mobile"
-                    placeholder="Please enter your mobile"
-                    className="col-span-[60%] bg-slate-100 text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray"
+                    placeholder="Please enter the phone number"
+                    className="col-span-[60%] bg-inputBg text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
                     value={formData.mobile}
                     onChange={handleInputChange}
                     required
@@ -99,7 +99,7 @@ function Login() {
                   name="password"
                   id="password"
                   placeholder="Password"
-                  className="bg-slate-100 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray"
+                  className="bg-inputBg mt-2 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
                   value={formData.password}
                   onChange={handleInputChange}
                   required
@@ -129,7 +129,7 @@ function Login() {
                 >
                   Log in
                 </button>
-                <button className='w-[90%] border text-lg border-bg2 mt-5 tracking-[2px] rounded-full p-2'> <Link to="/register" className="font-bold text-sm hover:underline text-bg2 tracking-[0.20333rem] ">Register</Link>
+                <button className='w-[90%] border border-redLight mt-5 tracking-[2px] rounded-full p-2'> <Link to="/register" className="font-bold text-sm hover:underline text-redLight tracking-[0.20333rem] ">Register</Link>
                 </button>
               </div>
             </form>
