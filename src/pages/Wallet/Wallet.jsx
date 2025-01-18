@@ -1,88 +1,93 @@
-import wallets from "../../assets/icons/wallets.png"
-import pro_deposit from "../../assets/icons/pro_deposit.png"
-import pro_withdraw from "../../assets/icons/pro_withdraw.png"
-import rechargeHistory from "../../assets/icons/rechargeHistory.png"
-import withdraw_history from "../../assets/icons/withdraw_history.png"
+import wallets from "../../assets/usaAsset/wallet/pro_wallet.png"
 import CircularIndicator from "../../reusable_component/CircularIndicator";
+import depositIcon from "../../assets/usaAsset/wallet/rechargeIcon.png"
+import rechargeHistory from "../../assets/usaAsset/wallet/rechargeHistory.png"
+import withdraw from "../../assets/usaAsset/wallet/widthdrawBlue.png"
+import withdrawHistory from "../../assets/usaAsset/wallet/withdrawHistory.png"
 import { Link } from "react-router-dom"
 const Wallet = () => {
+  const array = [{ game: "Lottery", amount: 0.04 }, { game: "JILI", amount: 0.04 }, { game: "EVO_Video", amount: 0.04 }, { game: "TV_Chess", amount: 0.04 }, { game: "Wickets9", amount: 0.04 }, { game: "JDB", amount: 0.04 }, { game: "DG", amount: 0.04 }, { game: "CMD", amount: 0.04 }, { game: "CQ9", amount: 0.04 }, { game: "MG", amount: 0.04 }, { game: "SaBa", amount: 0.04 }, { game: "TB", amount: 0.04 }, { game: "PG", amount: 0.04 }, { game: "AG_Video", amount: 0.04 }, { game: "Card365", amount: 0.04 }, { game: "V8Card", amount: 0.04 }]
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center">
-      {/* Wallet Header */}
-      <div className="bg-bg2 flex flex-col justify-center items-center  text-white w-full px-6 pb-24 text-center shadow-md">
+    <div className="min-h-screen text-lightGray bg-inputBg flex font-inter flex-col items-center">
+      <div className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] flex flex-col justify-center items-center  text-white w-full px-6 pb-4 text-center shadow-md">
         <img className="h-14 w-14" src={wallets} alt="cx" />
-        <p className="text-2xl font-bold mt-2">₹ 477.57</p>
-        <p className="text-sm mt-1">Total Balance</p>
+        <p className="text-2xl font- mt-2">₹ 0.00</p>
+        <p className="text-xsm mt-1">Total Balance</p>
       </div>
-      {/* Wallet Stats */}
-      <div className="bg-bg3 shadow-md rounded-lg px-2 pt-5 pb-20 -mt-12 w-11/12 max-w-md">
-        <div className="flex justify-between">
-          {/* Main Wallet */}
-          <div className="flex flex-col items-center">
-            <CircularIndicator percentage={100} />
+      <div className="bg-white shadow-md rounded-lg px-2 pt-5 pb-20 mt-2 w-11/12 max-w-md">
+        <div className="flex text-black">
+          <div className="flex w-[50%] flex-col justify-center items-center">
+            <CircularIndicator percentage={0} />
 
-            <p className="mt-2 ">₹ 477.57</p>
-            <p className="text-gray-500 text-sm">Main wallet</p>
+            <p className="mt-2 ">₹ 0.00</p>
+            <p className="text-gray-500 text-xsm">Total withdraw amount</p>
           </div>
-
-          {/* 3rd Party Wallet */}
-          <div className="flex flex-col items-center">
+          <div className="flex w-[50%] flex-col justify-center items-center">
             <CircularIndicator percentage={0} />
             <p className="mt-2 ">₹ 0.00</p>
-            <p className="text-gray-500 text-sm">3rd party wallet</p>
+            <p className="text-gray-500 text-xsm">Total deposit amount</p>
           </div>
         </div>
-
-        {/* Main Wallet Transfer */}
-        <button className="bg-blue-600 text-xs text-white w-full py-3 mt-4 rounded-full font-semibold hover:bg-red">
+        <button className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-sm text-white w-full py-2 mt-4 rounded-full font-semibold">
           Main wallet transfer
         </button>
-        {/* Actions Section */}
         <div className="grid grid-cols-4 gap-4 mt-6 max-w-md">
-          <button>
-            <Link className="shadow p-1 rounded-lg flex flex-col items-center" to="/wallet/deposit"  >
+          <button className="">
+            <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/deposit"  >
               <img
-                src={pro_deposit}
+                src={depositIcon}
                 alt="Deposit"
-                className="w-8 h-8"
+                className="w-16 h-16"
               />
-              <p className="text-xs mt-2 font-semibold">Deposit</p>
+              <p className="text-xs mt-2">Deposit</p>
             </Link>
           </button>
-          <button>
-            <Link className="shadow p-1 rounded-lg flex flex-col items-center" to="/wallet/withdrawal"  >
+          <button className="">
+            <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/withdrawal"  >
               <img
-                src={pro_withdraw}
+                src={withdraw}
                 alt="Withdrawal"
-                className="w-8 h-8"
+                className="w-16 h-16"
               />
-              <p className="text-xs mt-2 font-semibold">Withdrawal</p>
+              <p className="text-xs mt-2">Withdrawal</p>
             </Link>
           </button>
-          <button >
-            <Link className="shadow p-1 rounded-lg flex flex-col items-center" to="/wallet/deposithistory"  >
+          <button className="" >
+            <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/deposithistory"  >
               <img
                 src={rechargeHistory}
                 alt="Deposit History"
-                className="w-8 h-8"
+                className="w-16 h-16"
               />
-              <p className="text-xs mt-2 font-semibold">Deposit history</p>
+              <p className="text-xs mt-2">Deposit history</p>
             </Link>
           </button>
-          <button >
-            <Link className="shadow p-1 rounded-lg flex flex-col items-center" to="/wallet/withdrawalhistory"  >
+          <button className="" >
+            <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/withdrawalhistory"  >
               <img
-                src={withdraw_history}
+                src={withdrawHistory}
                 alt="Withdrawal History"
-                className="w-8 h-8"
+                className="w-16 h-16"
               />
-              <p className="text-xs mt-2 font-semibold">Withdrawal history</p>
+              <p className="text-xs mt-2">Withdrawal history</p>
             </Link>
           </button>
         </div>
 
-
       </div>
+      <div className="w-full grid grid-cols-3 pl-4 mt-2 mb-20">
+        {array?.map((item, i) => (
+          <div
+            key={i} 
+            className={`col-span-1 mb-2 w-28 h-20 rounded-md flex flex-col items-center text-xsm justify-evenly ${i === 0 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white"
+              } shadow-md text-lightGray`}
+          >
+            <p>₹ {item?.amount}</p>
+            <p>{item?.game}</p>
+          </div>
+        ))}
+      </div>
+
 
     </div>
   );

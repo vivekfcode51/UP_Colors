@@ -73,7 +73,7 @@ function AllTransactionsHistory() {
       <div className="grid grid-cols-2 gap-3 mt-3">
         <button
           onClick={() => handleModalFirst(!modalFirst)}
-          className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-between items-center shadow-md"
+          className="bg-inputBg text-black rounded-md text-xsm font-bold py-4 px-2 flex justify-between items-center shadow-md"
         >
           <p>{modalFirstValue}</p>
           <p>
@@ -82,35 +82,48 @@ function AllTransactionsHistory() {
         </button>
         <button
           onClick={() => handleModalSecond(!modalSecond)}
-          className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-between items-center shadow-md"
+          className="bg-inputBg text-black rounded-md text-xsm font-bold py-4 px-2 flex justify-center items-center shadow-md"
         >
-          <p className="text-gray">
+          {/* <p className="text-gray">
             {confirmedDate}
-          </p>
-          <p>
-            <IoIosArrowDown size={18} />
-          </p>
+          </p> */}
+          <input className='bg-inputBg' type="date" />
         </button>
       </div>
-      <div>
-        <div className='bg-[#60B2FE] w-full text-white p-2 rounded-t-md mt-5'>Attendance</div>
-        <div className='bg-[#96D4F9] text-xs text-black p-2 rounded-b-md'>
-          <div className='bg-white flex items-center rounded-md justify-between p-2'>
+      <div className='bg-inputBg rounded-b-md'>
+        <div className=' bg-gradient-to-l from-[#96D4F9] to-[#60B2FE] w-full text-white p-2 rounded-t-md mt-5'>Attendance</div>
+        <div className=' text-xs text-black p-2 rounded-b-md'>
+          <div className='flex items-center rounded-md justify-between px-2'>
             <p>Detail</p>
-            <p>Attendance</p>
+            <p
+              style={{
+                clipPath: 'polygon(1rem 0, 100% 0, 100% 100%, 1rem 100%, 0 100%)',
+              }}
+              className="bg-white py-1 px-5"
+            >
+              Attendance
+            </p>
           </div>
-          <div className='bg-white mt-2 flex items-center rounded-md justify-between p-2'>
+          <div className=' mt-2 flex items-center rounded-md justify-between p-2'>
             <p>Time</p>
-            <p>02-01-2025 12:10:12</p>
+            <p
+              style={{
+                clipPath: 'polygon(1rem 0, 100% 0, 100% 100%, 1rem 100%, 0 100%)',
+              }}
+              className='bg-white  py-1 px-5'>02-01-2025 12:10:12</p>
           </div>
-          <div className='bg-white mt-2 flex items-center rounded-md justify-between p-2'>
+          <div className=' mt-2 flex items-center rounded-md justify-between p-2'>
             <p>Balance</p>
-            <p className='text-red'>₹4.00</p>
+            <p
+              style={{
+                clipPath: 'polygon(1rem 0, 100% 0, 100% 100%, 1rem 100%, 0 100%)',
+              }}
+              className='text-red bg-white text-lg font-bold px-5'>₹4.00</p>
           </div>
-          <div></div>
+          <div className='w-full h-14 bg-white rounded-md'></div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <div className='bg-[#60B2FE] w-full text-white p-2 rounded-t-md mt-5'>Yesterday Commission</div>
         <div className='bg-[#96D4F9] text-xs text-black p-2 rounded-b-md'>
           <div className='bg-white flex items-center rounded-md justify-between p-2'>
@@ -127,7 +140,7 @@ function AllTransactionsHistory() {
           </div>
           <div></div>
         </div>
-      </div>
+      </div> */}
       {/* modals */}
       {modalFirst && (
         <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">

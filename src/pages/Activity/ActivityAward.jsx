@@ -4,7 +4,7 @@ import Activitygift from "../../assets/icons/Activitygift.png"
 function ActivityAward() {
   const array = [{ p1: 1000, p2: 38 }, { p1: 5000, p2: 128 }, { p1: 100000, p2: 208 }]
   return (
-    <div className='pb-10'>
+    <div className='pb-10 font-roboto'>
       <div className='grid grid-cols-3 bg-gradient-to-l from-[#f95959] to-[#ff9a8e] py-3 '>
         <div className='col-span-1'>
           <img

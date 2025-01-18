@@ -6,7 +6,7 @@ import noData from "../../assets/images/no_data_available.png"
 function CollectionRecord() {
     const [selected, setSelected] = useState("Daily")
     return (
-        <div className='bg-bg1' >
+        <div className='bg-bg1 font-roboto' >
             <header className='py-2 bg-white flex justify-between items-center'>
                 <Link to="/activity/award" >
                     <MdKeyboardArrowLeft className=" text-3xl text-black" />

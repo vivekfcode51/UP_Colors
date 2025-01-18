@@ -28,7 +28,7 @@ const CircularIndicator = ({ percentage=0, color }) => {
           cy="50"
           r={circleRadius}
           fill="none"
-          stroke={color || "#3b82f6"} /* Default to Tailwind blue-500 */
+          stroke={color || "#ff9a8e"} /* Default to Tailwind blue-500 */
           strokeWidth="10"
           strokeDasharray={circleCircumference}
           strokeDashoffset={strokeDashoffset}
@@ -37,7 +37,7 @@ const CircularIndicator = ({ percentage=0, color }) => {
       </svg>
       {/* Percentage Text */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <p className="text-sm font-semibold">{percentage}%</p>
+        <p className="text-sm text-black font-semibold">{percentage}%</p>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ export default {
         'pulse-fade': 'pulseFadeOut 2s ease-in-out infinite',
       },
       fontFamily: {
-        roboto: [' Verdana, sans-serif;', 'sans-serif'],
+        roboto: [' Verdana, sans-serif;'],
         inter: ['Inter', 'sans-serif'],
       },
       fontSize: {

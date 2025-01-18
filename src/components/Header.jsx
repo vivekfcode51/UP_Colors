@@ -49,16 +49,16 @@ function Header() {
               </div>
 
             </header>
-              : location?.pathname === "/activity/invitationbonus/invitationrewardrule" ? <div className='flex items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e]'>
+              : location?.pathname === "/activity/invitationbonus/invitationrewardrule" ? <div className='bg-white h-[3.22rem] flex items-center justify-between '>
                 <Link to="/activity/invitationbonus" >
-                  <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+                  <MdKeyboardArrowLeft className="text-3xl text-gray" />
                 </Link>
-                <p className='text-sm'>Invitation reward rules</p>
+                <p className='text-sm text-black'>Invitation reward rules</p>
                 <div></div>
               </div>
-                : location?.pathname === "/activity/invitationbonus/invitationrecord" ? <div className='flex items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e]'>
+                : location?.pathname === "/activity/invitationbonus/invitationrecord" ? <div className='bg-white h-[3.22rem] flex items-center justify-between text-gray'>
                   <Link to="/activity/invitationbonus" >
-                    <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+                    <MdKeyboardArrowLeft className="font-extrabold text-4xl" />
                   </Link>
                   <p className='text-sm'>Invitation record</p>
                   <div></div>
@@ -103,16 +103,16 @@ function Header() {
                             <p className='text-sm'>Attendance History</p>
                             <div></div>
                           </div>
-                            : location?.pathname === "/wallet" ? <div className='flex  items-center justify-center bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                            : location?.pathname === "/wallet" ? <div className='flex items-center justify-center bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[3.22rem]'>
                               <p className='text-sm'>Wallet</p>
                               <div></div>
                             </div>
-                              : location?.pathname === "/wallet/deposit" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                              : location?.pathname === "/wallet/deposit" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
                                 <Link to="/wallet" >
-                                  <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+                                  <MdKeyboardArrowLeft className="font-extrabold text-3xl text-gray" />
                                 </Link>
                                 <p className='text-sm'>Deposit</p>
-                                <Link to="wallet/deposithistory" className='text-xs'>Deposit History</Link>
+                                <Link to="wallet/deposithistory" className='text-xsm'>Deposit History</Link>
                               </div>
                                 : location?.pathname === "/wallet/withdrawal" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
                                   <Link to="/wallet" >

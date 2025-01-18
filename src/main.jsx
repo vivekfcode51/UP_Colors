@@ -8,7 +8,7 @@ import { store } from './store/store'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import '@fontsource/roboto'; // Default weight (400)
-import '@fontsource/inter'; // Default weight (400)
+import '@fontsource/inter'; // Variable font weights
 
 
 createRoot(document.getElementById('root')).render(

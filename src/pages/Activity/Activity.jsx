@@ -9,7 +9,7 @@ import bonus from "../../assets/usaAsset/activity/bonus.png"
 import { Link } from "react-router-dom";
 function Activity() {
   return (
-    <div className="font-inter w-full pb-20">
+    <div className="font-roboto w-full pb-20">
       <div className=" px-3 pb-2 bg-gradient-to-r from-[#f95959] to-[#ff9a8e]">
         <h2 className="text-white font-semibold text-lg ">Activity</h2>
         <p className="text-xs pt-5">
@@ -66,33 +66,27 @@ function Activity() {
             src={banner1}
 
             alt="Gifts"
-            className="w-full h-40 object-fill rounded-t"
+            className="w-full h-40 object-fill rounded-lg"
           />
-          <p className=" text-xs text-center py-4">
-            Enter the redemption code to receive gift rewards.
-          </p>
+         
         </div>
         <div className="rounded-lg shadow-md bg-bg2 mt-2">
           <img
             src={banner2}
 
             alt="Gifts"
-            className="w-full h-40 object-fill rounded-t"
+            className="w-full h-40 object-fill rounded-lg"
           />
-          <p className=" text-xs text-center py-4">
-            Enter the redemption code to receive gift rewards.
-          </p>
+         
         </div>
         <div className="rounded-lg shadow-md bg-bg2 mt-2">
           <img
             src={banner3}
 
             alt="Gifts"
-            className="w-full h-40 object-fill rounded-t"
+            className="w-full h-40 object-fill rounded-lg"
           />
-          <p className=" text-xs text-center py-4">
-            Enter the redemption code to receive gift rewards.
-          </p>
+         
         </div>
       </div>
     </div>
