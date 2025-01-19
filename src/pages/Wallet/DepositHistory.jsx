@@ -3,9 +3,12 @@ import fastpay_image from '../../assets/images/fastpay_image.png';
 import no_data_available from '../../assets/images/no_data_available.png';
 import { useState, useEffect, useRef } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
+import { RxDashboard } from 'react-icons/rx';
+import upi from "../../assets/usaAsset/wallet/upi.png"
+import { PiCopyLight } from 'react-icons/pi';
 
 function DepositHistory() {
-    const [activeModal, setActiveModal] = useState("UPI");
+    const [activeModal, setActiveModal] = useState(0);
     const [modalFirst, handleModalFirst] = useState(false);
     const [modalFirstValue, handleModalFirstValue] = useState("All");
     const [modalSecond, handleModalSecond] = useState(false);
@@ -43,7 +46,7 @@ function DepositHistory() {
     };
 
     const toggleModal = (modalType) => {
-        setActiveModal((prev) => (prev === modalType ? null : modalType));
+        setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
 
     // Close modal when clicking outside
@@ -82,28 +85,47 @@ function DepositHistory() {
         };
     }, [modalSecond]);
 
+    const array = [{ status: "To Be Paid", balance: 200, type: "WOW Pay", time: "2025-01-15 05:19:29 PM", orderNumber: 2025011526522256 }]
     return (
         <>
-            <div>
-                <div className="grid grid-cols-4 gap-2 text-xs font-bold mx-3">
-                    <div
-                        className={`col-span-1 flex flex-col items-center justify-center shadow-lg rounded-lg ${activeModal === "UPI" ? "bg-bg3" : "bg-bg2"
-                            } mt-3 px-5 cursor-pointer`}
-                        onClick={() => toggleModal("UPI")}
-                    >
-                        <img src={fastpay_image} alt="UPI Payment" />
-                        <p className="mt-1 font-bold text-nowrap">UPI Payment</p>
+            <div className='w-full'>
+                <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
+                    <div className="flex gap-2 text-xsm font-bold">
+                        <div
+                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 0 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                                }  px-7 cursor-pointer`}
+                            onClick={() => toggleModal(0)}
+                        >
+                            <RxDashboard className={``} size={20} />
+                            <p className="font-bold text-nowrap">All</p>
+                        </div>
+                        <div
+                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 1 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                                }  px-5 cursor-pointer`}
+                            onClick={() => toggleModal(1)}
+                        >
+                            <img className='w-5 h-5' src={upi} alt="UPI Payment" />
+                            <p className=" font-bold text-nowrap">UPI-APP</p>
+                        </div>
+                        <div
+                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 2 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                                }  px-3 cursor-pointer`}
+                            onClick={() => toggleModal(2)}
+                        >
+                            <img className='w-5 h-5' src={upi} alt="UPI Payment" />
+                            <p className=" font-bold text-nowrap">UPI-Manual</p>
+                        </div>
+                        <div
+                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 3 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                                }  px-5 cursor-pointer`}
+                            onClick={() => toggleModal(3)}
+                        >
+                            <img className="w-6 h-6" src={usdt_icon} alt="USDT TRC 20" />
+                            <p className=" text-nowrap">USDT</p>
+                        </div>
                     </div>
-                    <div
-                        className={`col-span-1 flex flex-col items-center justify-center shadow-lg ${activeModal === "USDT" ? "bg-bg3" : "bg-bg2"
-                            } rounded-lg mt-3 px-5 py-2 cursor-pointer`}
-                        onClick={() => toggleModal("USDT")}
-                    >
-                        <img className="w-6 h-6" src={usdt_icon} alt="USDT TRC 20" />
-                        <p className="mt-3 text-nowrap">USDT TRC 20</p>
-                    </div>
-                    <div className="col-span-1"></div>
                 </div>
+
                 <div className="grid grid-cols-2 gap-3 mt-3 mx-3">
                     <button
                         onClick={() => handleModalFirst(!modalFirst)}
@@ -115,22 +137,51 @@ function DepositHistory() {
                         </p>
                     </button>
                     <button
-                        onClick={() => handleModalSecond(!modalSecond)}
-                        className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-between items-center shadow-md"
+                        // onClick={() => handleModalSecond(!modalSecond)}
+                        className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-center items-center shadow-md"
                     >
-                        <p className="text-gray">
+                        {/* <p className="text-gray">
                             {confirmedDate}
-                        </p>
-                        <p>
+                        </p> */}
+                        <input type="date" />
+                        {/* <p>
                             <IoIosArrowDown size={18} />
-                        </p>
+                        </p> */}
                     </button>
                 </div>
-                <div className="flex flex-col items-center mt-10">
-                    <img src={no_data_available} alt="No data" />
-                    <p className="mt-10">No data</p>
+                <div className='px-3 mt-3'>
+                    {array && array.length > 0 ? (
+                        array.map((item, i) => (
+                            <div className='bg-white rounded-lg p-2' key={i}>
+                                <div className='flex text-gray justify-between items-center'>
+                                    <p className='bg-green text-white rounded-lg px-3 py-0.5'>Deposit</p>
+                                    <p className='text-xsm text-black font-semibold'>{item.status}</p>
+                                </div>
+                                <div className='bg-border1 mt-3 w-full h-[1px]'></div>
+                                <div className='flex mt-3 text-gray justify-between items-center'>
+                                    <p className='text-xsm font-bold'>Balance</p>
+                                    <p className='text-xsm font-semibold text-red'>₹{item.balance}.00</p>
+                                </div> <div className='flex mt-4 text-gray justify-between items-center'>
+                                    <p className='text-xsm font-bold'>Type</p>
+                                    <p className='text-xsm text-gray font-semibold'>{item.type}</p>
+                                </div> <div className='flex mt-4 text-gray justify-between items-center'>
+                                    <p className='text-xsm font-bold'>Time</p>
+                                    <p className='text-xsm text-gray font-semibold'>{item.time}</p>
+                                </div> <div className='flex my-4 text-gray justify-between items-center'>
+                                    <p className='text-xsm font-bold'>Order Number</p>
+                                    <p className='text-xsm flex items-center text-gray font-semibold'>{item.orderNumber} &nbsp; <PiCopyLight size={15} />
+                                    </p>
+                                </div>
+                            </div>
+                            
+                        ))
+                    ) : (
+                        <div className="flex flex-col items-center mt-10">
+                            <img src={no_data_available} alt="No data" />
+                            <p className="mt-10 text-black">No data</p>
+                        </div>
+                    )}
                 </div>
-
                 {modalFirst && (
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
                         <div
@@ -149,7 +200,7 @@ function DepositHistory() {
                                         handleModalFirstValue("All");
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "All" ? "text-bg3" : "text-gray"
+                                    className={`${modalFirstValue === "All" ? "text-black" : "text-white"
                                         }`}
                                 >
                                     All
@@ -159,7 +210,7 @@ function DepositHistory() {
                                         handleModalFirstValue("Processing");
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Processing" ? "text-bg3" : "text-gray"
+                                    className={`${modalFirstValue === "Processing" ? "text-black" : "text-white"
                                         }`}
                                 >
                                     Processing
@@ -169,7 +220,7 @@ function DepositHistory() {
                                         handleModalFirstValue("Completed");
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Completed" ? "text-bg3" : "text-gray"
+                                    className={`${modalFirstValue === "Completed" ? "text-black" : "text-white"
                                         }`}
                                 >
                                     Completed
@@ -179,7 +230,7 @@ function DepositHistory() {
                                         handleModalFirstValue('Reject');
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Reject" ? "text-bg3" : "text-gray"
+                                    className={`${modalFirstValue === "Reject" ? "text-black" : "text-white"
                                         }`}
                                 >
                                     Reject

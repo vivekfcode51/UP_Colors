@@ -1,11 +1,13 @@
 import usdt_icon from '../../assets/images/usdt_icon.png';
-import fastpay_image from '../../assets/images/fastpay_image.png';
+import upi from "../../assets/usaAsset/wallet/upi.png"
+import chip from "../../assets/usaAsset/wallet/chip.png"
 import no_data_available from '../../assets/images/no_data_available.png';
 import { useState, useEffect, useRef } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
+import { RxDashboard } from 'react-icons/rx';
 
 function WithdrawalHistory() {
-    const [activeModal, setActiveModal] = useState("UPI");
+    const [activeModal, setActiveModal] = useState(0);
     const [modalFirst, handleModalFirst] = useState(false);
     const [modalFirstValue, handleModalFirstValue] = useState("All");
     const [modalSecond, handleModalSecond] = useState(false);
@@ -43,7 +45,7 @@ function WithdrawalHistory() {
     };
 
     const toggleModal = (modalType) => {
-        setActiveModal((prev) => (prev === modalType ? null : modalType));
+        setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
 
     // Close modal when clicking outside
@@ -85,29 +87,39 @@ function WithdrawalHistory() {
     return (
         <>
             <div>
-                <div className="grid grid-cols-4 gap-2 text-xs font-bold mx-3">
-                    <div
-                        className={`col-span-1 flex flex-col items-center justify-center shadow-lg rounded-lg ${activeModal === "UPI" ? "bg-bg3" : "bg-bg2"
-                            } mt-3 px-5 cursor-pointer`}
-                        onClick={() => toggleModal("UPI")}
-                    >
-                        <img src={fastpay_image} alt="UPI Payment" />
-                        <p className="mt-1 font-bold text-nowrap">UPI Payment</p>
+                <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
+                    <div className="flex gap-2 text-xsm font-bold">
+                        <div
+                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 0 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                                }  px-7 cursor-pointer`}
+                            onClick={() => toggleModal(0)}
+                        >
+                            <RxDashboard className={``} size={20} />
+                            <p className="font-bold text-nowrap">All</p>
+                        </div>
+                        <div
+                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 1 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                                }  px-3 cursor-pointer`}
+                            onClick={() => toggleModal(1)}
+                        >
+                            <img className='w-6 h-6' src={chip} alt="UPI Payment" />
+                            <p className=" font-bold text-nowrap">Bank Card</p>
+                        </div>
+
+                        <div
+                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 2 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                                }  px-5 cursor-pointer`}
+                            onClick={() => toggleModal(2)}
+                        >
+                            <img className="w-6 h-6" src={usdt_icon} alt="USDT TRC 20" />
+                            <p className=" text-nowrap">USDT</p>
+                        </div>
                     </div>
-                    <div
-                        className={`col-span-1 flex flex-col items-center justify-center shadow-lg ${activeModal === "USDT" ? "bg-bg3" : "bg-bg2"
-                            } rounded-lg mt-3 px-5 py-2 cursor-pointer`}
-                        onClick={() => toggleModal("USDT")}
-                    >
-                        <img className="w-6 h-6" src={usdt_icon} alt="USDT TRC 20" />
-                        <p className="mt-3 text-nowrap">USDT TRC 20</p>
-                    </div>
-                    <div className="col-span-1"></div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 mt-3 mx-3">
                     <div
                         onClick={() => handleModalFirst(!modalFirst)}
-                        className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-between items-center shadow-md"
+                        className="bg-white text-black rounded-md text-xsm font-bold py-4 px-2 flex justify-between items-center shadow-md"
                     >
                         <p>{modalFirstValue}</p>
                         <p>
@@ -115,15 +127,17 @@ function WithdrawalHistory() {
                         </p>
                     </div>
                     <div
-                        onClick={() => handleModalSecond(!modalSecond)}
-                        className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-between items-center shadow-md"
+                        // onClick={() => handleModalSecond(!modalSecond)}
+                        className="bg-white text-black rounded-md text-xsm font-bold py-4 px-2 flex justify-center items-center shadow-md"
                     >
-                        <p className="text-gray">
+                        <input type="date" />
+
+                        {/* <p className="text-gray">
                             {confirmedDate}
                         </p>
                         <p>
                             <IoIosArrowDown size={18} />
-                        </p>
+                        </p> */}
                     </div>
                 </div>
                 <div className="flex flex-col items-center mt-10">

@@ -5,16 +5,9 @@ import { useDispatch } from "react-redux";
 import { setProfileDetails } from "../../features/ProfileDetailsSlice"
 import walletnew from "../../assets/icons/walletnew.png"
 import profilevip1 from "../../assets/icons/profilevip1.png"
-import pro_notification from "../../assets/icons/pro_notification.png"
-import notification from "../../assets/icons/notification.png"
-import gift from "../../assets/icons/gift.png"
+// import notification from "../../assets/icons/notification.png"
 import bet_history from "../../assets/icons/bet_history.png"
 import trans_history from "../../assets/icons/trans_history.png"
-import setting from "../../assets/icons/setting.png"
-import feedback from "../../assets/icons/feedback.png"
-import customer from "../../assets/icons/customer.png"
-import big_guide from "../../assets/icons/big_guide.png"
-import aboutus from "../../assets/icons/aboutus.png"
 import { FaRegCopy } from 'react-icons/fa'
 import { LiaSignOutAltSolid } from 'react-icons/lia'
 import { MdKeyboardArrowRight } from 'react-icons/md'
@@ -28,10 +21,15 @@ import withdraw from "../../assets/usaAsset/account/withdraw.png"
 import withdrawHis from "../../assets/usaAsset/account/withdrawHis.png"
 import gifts from "../../assets/usaAsset/account/gifts.png"
 import statistics from "../../assets/usaAsset/account/statistics.png"
+import setting from "../../assets/usaAsset/account/setting.png"
+import guide from "../../assets/usaAsset/account/guide.png"
+import service from "../../assets/usaAsset/account/service.png"
+import aboutus from "../../assets/usaAsset/account/aboutus.png"
 const profileApi = apis.profile
 
 function Profile() {
     const [myDetails, setMyDetails] = useState(null)
+    const [langModal, setLangModal] = useState(false)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userId = localStorage.getItem("userId");
@@ -79,9 +77,17 @@ function Profile() {
             toast.error('UID is not available.');
         }
     };
-    // console.log("myDetailsmyDetails", myDetails?.total_wallet)
+
+    useEffect(() => {
+        if (langModal) {
+            const timer = setTimeout(() => {
+                setLangModal(false);
+            }, 2000); 
+            return () => clearTimeout(timer); 
+        }
+    }, [langModal, setLangModal]);
     return (
-        <div className='h-full w-full mb-72 3xl:mb-40'>
+        <div className='h-full w-full mb-80'>
             {/* balance div */}
             <div className='bg-bg2 relative h-[35%] 3xl:h-[30%] px-3 flex justify-center rounded-b-[2rem]'>
                 <div className='grid grid-cols-4 px-3'>
@@ -183,9 +189,6 @@ function Profile() {
                         </div>
                     </Link>
                 </button>
-
-
-
             </div>
 
             {/*  , gifts*/}
@@ -198,7 +201,7 @@ function Profile() {
                         <MdKeyboardArrowRight size={25} className="text-gray" />
                     </div>
                 </Link>
-                <Link to="/s&s" className='px-2 border-b border-border1 py-4  flex justify-between items-center'>
+                <Link to="/changepassword" className='px-2 border-b border-border1 py-4  flex justify-between items-center'>
                     <div className='flex items-center'>
                         <img src={gifts} className='rounded-full h-7 w-7' alt="not found" />&nbsp;Security & Safety
                     </div>
@@ -215,20 +218,20 @@ function Profile() {
                         <MdKeyboardArrowRight size={25} className="text-gray" />
                     </div>
                 </Link>
-                <Link to="/activity/gifts" className='px-2 border-b border-border1 py-4  flex justify-between items-center' >
+                <button onClick={() => setLangModal(true)} className='px-2 w-full border-b border-border1 py-4  flex justify-between items-center' >
                     <div className='flex items-center'>
                         <img src={statistics} className='rounded-full h-7 w-7' alt="not found" />&nbsp;Language
                     </div>
                     <div className='flex items-end'>
-                    <p className='flex text-gray text-sm items-center justify-center'>English</p>&nbsp;
+                        <p className='flex text-gray text-sm items-center justify-center'>English</p>&nbsp;
                         <MdKeyboardArrowRight size={25} className="text-gray" />
                     </div>
-                </Link>
+                </button>
             </div>
 
             {/* service center */}
-            <div className='mx-3  mt-3 rounded-md px-3 py-4 bg-bg2'>
-                <h1 className='text-sm'>Service Center</h1>
+            <div className='mx-3 mt-3 rounded-md px-3 py-4 bg-white'>
+                <h1 className='text-sm text-black'>Service Center</h1>
                 <div className='grid grid-cols-3 my-5'>
                     <button >
                         <Link to="/setting" className='flex flex-col items-center justify-center pt-2'>
@@ -236,30 +239,31 @@ function Profile() {
                             <p className='text-xs text-gray mt-1'>Settings</p>
                         </Link>
                     </button>
-                    <button >
+                    {/* <button >
                         <Link to="/feedback" className='flex flex-col items-center justify-center pt-2'>
                             <img src={feedback} className='h-8 w-8 ' alt="not found" />
                             <p className='text-xs text-gray mt-1'>Feedback</p>
                         </Link>
-                    </button>
-                    <button >
+                    </button> */}
+                    {/* <button >
                         <Link to="/notifications" className='flex flex-col items-center justify-center pt-2'>
                             <img src={notification} className='h-8 w-8 ' alt="not found" />
                             <p className='text-xs text-gray mt-1'>Notification</p>
                         </Link>
-                    </button>
-                    <button >
-                        <Link to="/customerservices" className='flex flex-col items-center justify-center pt-2'>
-                            <img src={customer} className='h-8 w-8 ' alt="not found" />
-                            <p className='text-xs text-gray mt-1'>Customer Service</p>
-                        </Link>
-                    </button>
+                    </button> */}
                     <button >
                         <Link to="/beginnersguide" className='flex flex-col items-center justify-center pt-2'>
-                            <img src={big_guide} className='h-8 w-8 ' alt="not found" />
+                            <img src={guide} className='h-8 w-8 ' alt="not found" />
                             <p className='text-xs text-gray mt-1'>Beginner&apos;s Guide</p>
                         </Link>
                     </button>
+                    <button >
+                        <Link to="/customerservices" className='flex flex-col items-center justify-center pt-2'>
+                            <img src={service} className='h-8 w-8 ' alt="not found" />
+                            <p className='text-xs text-gray mt-1'>24/7 Customer Service</p>
+                        </Link>
+                    </button>
+                    
                     <button >
                         <Link to="/aboutus" className='flex flex-col items-center justify-center pt-2'>
                             <img src={aboutus} className='h-8 w-8 ' alt="not found" />
@@ -270,11 +274,18 @@ function Profile() {
             </div>
 
             {/* logout button */}
-            <div className='mx-3'>
-                <button onClick={logoutHandler} className='flex items-center justify-center border border-bg3 mt-10  py-1 rounded-full w-full text-bg3'><LiaSignOutAltSolid className='rotate-[-90deg]' size={30} />  &nbsp;  &nbsp; Logout
+            <div className='mx-3 pb-16 3xl:pb-0'>
+                <button onClick={logoutHandler} className='flex items-center justify-center border border-gray mt-10  py-0.5 rounded-full w-full text-gray'><LiaSignOutAltSolid className='rotate-[-90deg]' size={30} />  &nbsp;  &nbsp; Logout
                 </button>
             </div>
-
+            {langModal && (
+                <div className="fixed inset-0 flex items-center justify-center ">
+                    <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
+                        {/* <img  className='w-10 h-10 opacity-4' src={tick} alt="df" /> */}
+                        <p>English <br />Language</p>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

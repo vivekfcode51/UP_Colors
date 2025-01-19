@@ -121,9 +121,9 @@ function Header() {
                                   <p className='text-sm'>Withdrawal</p>
                                   <Link to="wallet/withdrawalhistory" className='text-xs'>Withdrawal History</Link>
                                 </div>
-                                  : location?.pathname === "/wallet/deposithistory" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                  : location?.pathname === "/wallet/deposithistory" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
                                     <Link to="/wallet" >
-                                      <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+                                      <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                     </Link>
                                     <p className='text-sm'>Deposit History</p>
                                     <p className='text-xs'></p>
@@ -132,7 +132,7 @@ function Header() {
                                       <Link to="/wallet" >
                                         <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                       </Link>
-                                      <p className='text-sm'>Withdrawal History</p>
+                                      <p className='text-sm'>Withdraw History</p>
                                       <p className='text-xs'></p>
                                     </div>
                                       : location?.pathname === "/wallet/withdrawal/addbankaccount" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
@@ -163,11 +163,11 @@ function Header() {
                                               <p className='text-sm'>VIP</p>
                                               <p className='text-xs'></p>
                                             </div>
-                                              : location?.pathname === "/gamehistory" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                              : location?.pathname === "/gamehistory" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
                                                 <Link to="/profile" >
-                                                  <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+                                                  <MdKeyboardArrowLeft className="font-extrabold text-3xl text-gray" />
                                                 </Link>
-                                                <p className='text-sm'>All Bet History</p>
+                                                <p className='text-sm'>Game statistics</p>
                                                 <p className='text-xs'></p>
                                               </div>
                                                 : location?.pathname === "/alltransactionhistory" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
@@ -177,18 +177,18 @@ function Header() {
                                                   <p className='text-sm'>Transaction History</p>
                                                   <p className='text-xs'></p>
                                                 </div>
-                                                  : location?.pathname === "/setting" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                  : location?.pathname === "/setting" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[3.22rem]'>
                                                     <Link to="/profile" >
                                                       <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                     </Link>
-                                                    <p className='text-sm'>Setting Center</p>
+                                                    <p className='text-sm'>Settings Center</p>
                                                     <p className='text-xs'></p>
                                                   </div>
-                                                    : location?.pathname === "/changepassword" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                    : location?.pathname === "/changepassword" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
                                                       <Link to="/setting" >
-                                                        <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+                                                        <MdKeyboardArrowLeft className="font-extrabold text-3xl text-gray" />
                                                       </Link>
-                                                      <p className='text-sm'>Change Password</p>
+                                                      <p className='text-sm'>Change login Password</p>
                                                       <p className='text-xs'></p>
                                                     </div>
                                                       : location?.pathname === "/bindmail" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>

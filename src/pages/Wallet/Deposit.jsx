@@ -1,7 +1,6 @@
 import { HiArrowPathRoundedSquare } from 'react-icons/hi2'
 import usdt_icon from '../../assets/images/usdt_icon.png'
 import depo_wallet from '../../assets/icons/depo_wallet.png'
-import rec_ins from '../../assets/icons/rec_ins.png'
 import { useState } from 'react';
 import { RxCrossCircled } from 'react-icons/rx';
 import depositbg from "../../assets/usaAsset/wallet/depositbg.png"

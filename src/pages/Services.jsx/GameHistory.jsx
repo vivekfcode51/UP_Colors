@@ -1,20 +1,105 @@
 import { useState } from 'react'
-import deco_first from "../../assets/images/deco_first.png"
-import deco_four from "../../assets/images/deco_four.png"
-import DragonTiger from "../../assets/dragontiger/DragonTiger.png"
-import fan_aviator from "../../assets/aviator/fan_aviator.png"
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import no_data_available from '../../assets/images/no_data_available.png';
-import plonkoicon from '../../assets/icons/plonkoicon.png';
-
+// import deco_first from "../../assets/images/deco_first.png"
+// import deco_four from "../../assets/images/deco_four.png"
+// import DragonTiger from "../../assets/dragontiger/DragonTiger.png"
+// import fan_aviator from "../../assets/aviator/fan_aviator.png"
+// import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
+// import no_data_available from '../../assets/images/no_data_available.png';
+// import plonkoicon from '../../assets/icons/plonkoicon.png';
+// import { RxDashboard } from 'react-icons/rx'
+import gameStats from "../../assets/usaAsset/wallet/gameStats.png"
 function GameHistory() {
-  const [toggleGame, setToggleGame] = useState(1)
-  const [toggleWingoGame, setToggleWingoGame] = useState(1)
-  const [activeIndex, setActiveIndex] = useState(false);
-
+  const [activeModal, setActiveModal] = useState(0);
+  // const [toggleGame, setToggleGame] = useState(1)
+  // const [activeIndex, setActiveIndex] = useState(false);
+  // const [toggleWingoGame, setToggleWingoGame] = useState(1)
+  const toggleModal = (modalType) => {
+    setActiveModal((prev) => (prev === modalType ? modalType : modalType));
+  };
   return (
     <>
-      <div className="flex items-center gap-4 justify-start mt-3 px-4 w-full sm:w-[540px] md:w-[400px] hide-scrollbar overflow-x-auto">
+      <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
+        <div className="flex gap-2 text-xsm ">
+          <div
+            className={` py-1.5 flex-shrink-0 flex items-center justify-center shadow-lg rounded-full ${activeModal === 0 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-inputBg text-lightGray"
+              }  px-5 cursor-pointer`}
+            onClick={() => toggleModal(0)}
+          >
+            <p className=" text-nowrap">Today</p>
+          </div>
+          <div
+            className={`w- py-1.5 flex-shrink-0 flex items-center justify-center shadow-lg rounded-full ${activeModal === 1 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-inputBg text-lightGray"
+              }  px-5 cursor-pointer`}
+            onClick={() => toggleModal(1)}
+          >
+            <p className="  text-nowrap">Yesterday</p>
+          </div>
+
+          <div
+            className={`w- py-1.5 flex-shrink-0 flex items-center justify-center shadow-lg rounded-full ${activeModal === 2 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-inputBg text-lightGray"
+              }  px-5 cursor-pointer`}
+            onClick={() => toggleModal(2)}
+          >
+            <p className=" text-nowrap">This weak</p>
+          </div>
+          <div
+            className={`w- py-1.5 flex-shrink-0 flex items-center justify-center shadow-lg rounded-full ${activeModal === 3 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-inputBg text-lightGray"
+              }  px-5 cursor-pointer`}
+            onClick={() => toggleModal(3)}
+          >
+            <p className=" text-nowrap">This month</p>
+          </div>
+        </div>
+      </div>
+      <div className='mt-3 px-3'>
+        <div className='h-32 rounded-lg flex flex-col items-center justify-center bg-gradient-to-l from-[#f95959] to-[#ff9a8e]'>
+          <p className='font-bold text-xl'>₹0</p>
+          <p className='mt-3'>Total bet</p>
+        </div>
+      </div>
+      <div className='px-3 mt-3 '>
+        <div className='rounded-lg p-3  bg-inputBg text-gray'>
+          <div className=''>
+            <div className='flex items-center gap-2'>
+              <img className='w-8 h-8' src={gameStats} alt="sd" />
+              <p className='text-red text-sm font-bold'>lottery</p>
+            </div>
+            <div className='flex ml-10 text-[15px] items-center justify-between mt-2.5 gap-2'>
+              <p className=''>Total bet</p>
+              <p className='text-black'>₹0.00</p>
+            </div>
+            <div className='flex ml-10 text-[15px] items-center justify-between mt-2.5 gap-2'>
+              <p className=''>Number of bets</p>
+              <p className='text-black'>0</p>
+            </div>
+            <div className='flex ml-10 text-[15px] items-center justify-between mt-2.5 gap-2'>
+              <p className=''>Winning amount</p>
+              <p className='text-green'>₹0.00</p>
+            </div>
+          </div>
+        </div>
+        <div className='rounded-lg p-3  bg-inputBg text-gray mt-3'>
+          <div className=''>
+            <div className='flex items-center gap-2'>
+              <img className='w-8 h-8' src={gameStats} alt="sd" />
+              <p className='text-red text-sm font-bold'>Jilli</p>
+            </div>
+            <div className='flex ml-10 text-[15px] items-center justify-between mt-2.5 gap-2'>
+              <p className=''>Total bet</p>
+              <p className='text-black'>₹0.00</p>
+            </div>
+            <div className='flex ml-10 text-[15px] items-center justify-between mt-2.5 gap-2'>
+              <p className=''>Number of bets</p>
+              <p className='text-black'>0</p>
+            </div>
+            <div className='flex ml-10 text-[15px] items-center justify-between mt-2.5 gap-2'>
+              <p className=''>Winning amount</p>
+              <p className='text-green'>₹0.00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div className="flex items-center gap-4 justify-start mt-3 px-4 w-full sm:w-[540px] md:w-[400px] hide-scrollbar overflow-x-auto">
         {[
           { id: 1, img: deco_first, label: "Wingo" },
           { id: 2, img: deco_four, label: "Trx" },
@@ -242,7 +327,7 @@ function GameHistory() {
         >
           <MdKeyboardArrowRight className="font-extrabold text-4xl text-white" />
         </button>
-      </div>
+      </div> */}
     </>
   )
 }
