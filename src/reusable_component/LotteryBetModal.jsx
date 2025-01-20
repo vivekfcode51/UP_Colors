@@ -114,7 +114,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                 onClick={handleOverlayClick}
             >
                 <div onClick={(e) => e.stopPropagation()} className="w-full sm:w-[540px] md:w-[400px] bg-white text-white rounded-t-3xl shadow-lg">
-                    <div className={`${gameDetails?.colorCode === "rv" ? `bg-[#9B48DB]` : gameDetails?.colorCode === "gv" ? `bg-[#9B48DB]` : "bg-bg2"} h-[6.6rem] rounded-t-3xl`}>
+                    <div className={`${gameDetails?.colorCode === "rv" ? `bg-[#9B48DB]` : gameDetails?.colorCode === "gv" ? `bg-[#9B48DB]` : "bg-inputBg text-blackLight"} h-[6.6rem] rounded-t-3xl`}>
                         <div className="relative flex flex-col items-center justify-center rounded-t-3xl py-3 text-white" style={{ backgroundColor: colorClass }}>
                             <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-3 w-full h-3" style={{ backgroundColor: colorClass, clipPath: 'polygon(50% 100%, -20% -20%, 100% 0%)' }} />
                             <h1 className="text-lg font-bold">Win Go {gameDetails?.gameId === 1 ? "1 Minute" : gameDetails?.gameId === 2 ? "3 Minutes" : gameDetails?.gameId === 3 ? "5 Minutes" : "10 Minutes"} </h1>
@@ -131,7 +131,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                                 <button
                                     key={i}
                                     onClick={() => handleBalanceClick(value, i)}
-                                    className={`flex items-center justify-center text-sm sm:text-base md:text-sm rounded-md h-7 px-2 ${balanceIndex === i ? '' : 'bg-bg2 text-white'}`}
+                                    className={`flex items-center justify-center text-sm sm:text-base md:text-sm rounded-md h-7 px-2 ${balanceIndex === i ? '' : 'bg-inputBg text-blackLight'}`}
                                     style={{ backgroundColor: balanceIndex === i ? colorClass : '' }}
                                 >
                                     {value}
@@ -146,7 +146,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                             <button onClick={decrementBet} className="w-7 h-7 rounded-md font-extrabold text-[14px] flex justify-center items-center" style={{ backgroundColor: colorClass }}>
                                 <FaMinus className="text-white text-center" />
                             </button>
-                            <div className="w-20 h-7 flex items-center justify-center bg-bg2 text-sm sm:text-base md:text-sm">{finalBetValue}</div>
+                            <div className="w-20 h-7 flex items-center justify-center bg-inputBg text-blackLight text-sm sm:text-base md:text-sm">{finalBetValue}</div>
                             <button onClick={incrementBet} className="w-7 h-7 rounded-md font-extrabold text-[14px] flex justify-center items-center" style={{ backgroundColor: colorClass }}>
                                 <FaPlus className="text-white text-center" />
                             </button>
@@ -160,7 +160,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                                 <button
                                     key={i}
                                     onClick={() => handleQuantityClick(numericValue)}
-                                    className={`flex items-center justify-center text-sm sm:text-base md:text-sm rounded-md h-7 px-2 ${quantityIndex === numericValue ? '' : 'bg-bg2 text-white'}`}
+                                    className={`flex items-center justify-center text-sm sm:text-base md:text-sm rounded-md h-7 px-2 ${quantityIndex === numericValue ? '' : 'bg-inputBg text-blackLight'}`}
                                     style={{ backgroundColor: quantityIndex === numericValue ? colorClass : '' }}
                                 >
                                     {label}
@@ -172,18 +172,18 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                     <div className="flex items-center mt-4 px-4">
                         <div onClick={() => setCheckAgreement(!checkAgreement)} className="flex items-center cursor-pointer bg-white rounded-full">
                             {checkAgreement ? (
-                                <FaCheckCircle size={26} style={{ color: colorClass }} />
+                                <FaCheckCircle className='text-[#B1835A]' size={26} style={{ color: `[#B1835A]` }} />
                             ) : (
-                                <FaRegCircle size={26} style={{ color: colorClass }} />
+                                <FaRegCircle className='text-[#B1835A]' size={26} style={{ color: `[#B1835A]` }} />
                             )}
                         </div>
                         <label htmlFor="agree" className="text-black ml-2 text-sm sm:text-base md:text-sm">I agree</label>
-                        <button onClick={togglePreSalesModal} className="ml-2 text-red underline text-sm sm:text-base md:text-sm">{'<<Pre-sale rules>>'}</button>
+                        <button onClick={togglePreSalesModal} className="ml-2 text-redLight underline text-sm sm:text-base md:text-sm">{'<<Pre-sale rules>>'}</button>
                     </div>
 
                     <div className="grid grid-cols-12 mt-5">
-                        <button onClick={onClose} className={`${gameDetails?.colorCode === "rv" ? `bg-[#9B48DB]` : gameDetails?.colorCode === "gv" ? `bg-[#9B48DB]` : "bg-bg2"} col-span-4 h-12`}>Cancel</button>
-                        <button onClick={() => wingoBetHandler()} className="col-span-8 h-12" style={{ backgroundColor: colorClass }}>Total amount ₹{finalBetValue}</button>
+                        <button onClick={onClose} className={` bg-[#25253C] col-span-4 h-12`}>Cancel</button>
+                        <button onClick={() => wingoBetHandler()} className="bg-bg2 col-span-8 h-12" style={{ backgroundColor: colorClass }}>Total amount ₹{finalBetValue}</button>
                     </div>
                 </div>
             </div>

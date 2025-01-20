@@ -29,7 +29,7 @@ function Footer() {
         <p className="text-xs  text-red">Activity</p>
       </Link>
      
-      <Link className="z-50 -mt-9 xsm:-mt-8 col-span-1 flex flex-col items-center ">
+      <Link to="/promotion" className="z-50 -mt-9 xsm:-mt-8 col-span-1 flex flex-col items-center ">
         <div className="flex items-center justify-center bg-red border-[2px] border-bg1 rounded-full h-16 w-16 xsm:h-14 xsm:w-14">
           <img src={diamond} className="h-6 w-7 mt-1" alt="diamond not found" />
         </div>

@@ -57,7 +57,7 @@ const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
                                         )}
                                     </div>
                                     <div>
-                                        <p>{item?.gamesno}</p>
+                                        <p>{item?.games_no}</p>
                                         <p className="text-gray">{item?.created_at}</p>
                                     </div>
                                 </div>
@@ -184,15 +184,15 @@ const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
                         </div>
                     ))
                 ) : (
-                    <div className="h-64 sm:h-[22rem] flex flex-col justify-center md:h-64 bg-bg2 mx-4 p-3 mt-3 mb-3 sm:mb-5 md:mb-3">
+                    <div className="h-64 xsm:h-[22rem] flex flex-col justify-center bg-white mx-4 p-3 mt-3 mb-3 ">
                         <div className="flex justify-center items-center mt-5">
                             <img
                                 src={noData}
                                 alt="Not Found"
-                                className="w-44 h-28 sm:w-64 sm:h-40 md:w-44 md:h-28"
+                                className="w-44 h-28"
                             />
                         </div>
-                        <p className="text-center mt-5 text-sm sm:text-base md:text-sm font-bold text-gray">
+                        <p className="text-center mt-5 text-xsm  font-bold text-lightGray">
                             No data
                         </p>
                     </div>

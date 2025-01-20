@@ -49,7 +49,7 @@ const Wallet = () => {
                 alt="Withdrawal"
                 className="w-16 h-16"
               />
-              <p className="text-xs mt-2">Withdrawal</p>
+              <p className="text-xs mt-2">Withdraw</p>
             </Link>
           </button>
           <button className="" >

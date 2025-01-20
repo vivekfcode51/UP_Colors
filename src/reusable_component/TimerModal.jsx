@@ -48,11 +48,11 @@ const TimerModal = ({ duration, isOpen, onClose, parentRef }) => {
       >
       </div>
       <div className="modal-content relative flex items-center justify-center h-full mt-2">
-        <div className={`flex items-center justify-center space-x-8 sm:space-x-12 md:space-x-9 ${isWarning ? 'text-red' : ''}`}>
-          <div className='bg-bg4  h-[10rem] w-[6.5rem] sm:h-[15rem] sm:w-[10rem] md:h-[11rem] md:w-[7.5rem] rounded-2xl flex items-center justify-center font-semibold text-[9rem] sm:text-[12rem] md:text-[9rem] text-[#61A9FF]'>
+        <div className={`flex items-center justify-center space-x-8 sm:space-x-12 md:space-x-9 ${isWarning ? 'text-redLight' : ''}`}>
+          <div className='bg-white  h-[10rem] w-[6.5rem] sm:h-[15rem] sm:w-[10rem] md:h-[11rem] md:w-[7.5rem] rounded-2xl flex items-center justify-center font-semibold text-[9rem] sm:text-[12rem] md:text-[9rem] '>
             {formatTime(seconds)[0]}
           </div>
-          <div className='bg-bg4  h-[10rem] w-[6.5rem] sm:h-[15rem] sm:w-[10rem] md:h-[11rem] md:w-[7.5rem] rounded-2xl flex items-center justify-center font-semibold text-[9rem] sm:text-[12rem] md:text-[9rem] text-[#61A9FF]'>
+          <div className='bg-white  h-[10rem] w-[6.5rem] sm:h-[15rem] sm:w-[10rem] md:h-[11rem] md:w-[7.5rem] rounded-2xl flex items-center justify-center font-semibold text-[9rem] sm:text-[12rem] md:text-[9rem] '>
             {formatTime(seconds)[1]}
           </div>
         </div>

@@ -182,7 +182,7 @@ function DepositHistory() {
                         </div>
                     )}
                 </div>
-                {modalFirst && (
+                {/* {modalFirst && (
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
                         <div
                             ref={modalRef}
@@ -238,7 +238,7 @@ function DepositHistory() {
                             </div>
                         </div>
                     </div>
-                )}
+                )} */}
 
                 {modalSecond && (
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">

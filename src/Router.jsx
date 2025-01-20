@@ -50,6 +50,12 @@ import DragonTigerHistory from "./pages/DragonTiger.jsx/DragonTigerHistory";
 import AndarBaharHome from "./pages/AndarBahar.jsx/AndarBaharHome";
 import AndarBaharHistory from "./pages/AndarBahar.jsx/AndarBaharHistory";
 import ForgotPassword from "./auth/ForgotPassword";
+import SelectBank from "./pages/Wallet/SelectBank";
+import PromotionHome from "./pages/Promotion/PromotionHome";
+import SubordinateData from "./pages/Promotion/SubordinateData";
+import CommissionDetails from "./pages/Promotion/CommissionDetails";
+import InvitationRules from "./pages/Promotion/InvitationRules";
+import RebateRatio from "./pages/Promotion/RebateRatio";
 
 export const Router = createBrowserRouter([
   {
@@ -163,6 +169,26 @@ export const Router = createBrowserRouter([
         element: <AttendanceHistory />,
       },
       {
+        path: "/promotion",
+        element: <PromotionHome />,
+      },
+      {
+        path: "/promotion/subordinatedata",
+        element: <SubordinateData />,
+      },
+      {
+        path: "/promotion/commissiondetail",
+        element: <CommissionDetails />,
+      },
+      {
+        path: "/promotion/invitationrules",
+        element: <InvitationRules />,
+      },
+      {
+        path: "/promotion/rebateratio",
+        element: <RebateRatio />,
+      },
+      {
         path: "/wallet",
         element: <Wallet />,
       },
@@ -177,6 +203,10 @@ export const Router = createBrowserRouter([
       {
         path: "/wallet/withdrawal/addbankaccount",
         element: <AddBankAccountDetails />,
+      },
+      {
+        path: "/wallet/withdrawal/addbankaccount/selectbank",
+        element: <SelectBank />,
       },
       {
         path: "/wallet/withdrawal/addusdtwalletaddress",

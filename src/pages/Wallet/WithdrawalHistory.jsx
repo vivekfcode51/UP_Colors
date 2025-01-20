@@ -1,5 +1,4 @@
 import usdt_icon from '../../assets/images/usdt_icon.png';
-import upi from "../../assets/usaAsset/wallet/upi.png"
 import chip from "../../assets/usaAsset/wallet/chip.png"
 import no_data_available from '../../assets/images/no_data_available.png';
 import { useState, useEffect, useRef } from 'react';

@@ -11,7 +11,7 @@ const Layout = () => {
     const bgColor = location?.pathname === "/" ? "bg-bg1" : "bg-bg1";
 
     const hiddenFooterPaths = new Set(["/login", "/register"]);
-    const visibleFooterPaths = new Set(["/", "/activity", "/profile", "/wallet"]);
+    const visibleFooterPaths = new Set(["/", "/activity", "/profile","/promotion", "/wallet"]);
 
     const footerDisplay = hiddenFooterPaths.has(location?.pathname)
         ? "hidden"
@@ -36,12 +36,18 @@ const Layout = () => {
                 location?.pathname === "/activity/attendance" ||
                 location?.pathname === "/activity/attendacehistory" ||
                 location?.pathname === "/activity/gamerule" ||
+                location?.pathname === "/promotion" ||
+                location?.pathname === "/promotion/subordinatedata" ||
+                location?.pathname === "/promotion/commissiondetail" ||
+                location?.pathname === "/promotion/invitationrules" ||
+                location?.pathname === "/promotion/rebateratio" ||
                 location?.pathname === "/wallet" ||
                 location?.pathname === "/wallet/deposit" ||
                 location?.pathname === "/wallet/withdrawal" ||
                 location?.pathname === "/wallet/deposithistory" ||
                 location?.pathname === "/wallet/withdrawalhistory" ||
                 location?.pathname === "/wallet/withdrawal/addbankaccount" ||
+                location?.pathname === "/wallet/withdrawal/addbankaccount/selectbank" ||
                 location?.pathname === "/wallet/withdrawal/addusdtwalletaddress" ||
                 location?.pathname === "/notifications" ||
                 location?.pathname === "/vip" ||

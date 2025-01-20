@@ -3,21 +3,22 @@ const GameHistoryBox = ({ isVisible, gameHistoryData }) => {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-bg1 w-full px-4 mt-5">
+    <div className="w-full px-4 mt-5">
       {/* Header */}
-      <div className="flex w-full bg-bg4 rounded-t-lg py-2 sm:py-3 md:py-2 font-semibold">
-        <p className="text-sm sm:text-lg md:text-sm w-[34%] flex justify-center items-center">Period</p>
-        <p className="text-sm sm:text-lg md:text-sm w-[22%] flex justify-center items-center">Number</p>
-        <p className="text-sm sm:text-lg md:text-sm w-[22%] flex justify-center items-center">Big Small</p>
-        <p className="text-sm sm:text-lg md:text-sm w-[22%] flex justify-center items-center">Color</p>
+      <div className="flex text-xsm w-full bg-redLight rounded-t-lg py-2 font-semibold">
+        <p className="  w-[34%] flex justify-center items-center">Period</p>
+        <p className="  w-[22%] flex justify-center items-center">Number</p>
+        <p className="  w-[22%] flex justify-center items-center">Big Small</p>
+        <p className="  w-[22%] flex justify-center items-center">Color</p>
       </div>
       {/* Data Rows */}
       {gameHistoryData?.map((item, i) => {
+
         const json = JSON.parse(item?.json)
         return (
-          <div key={i} className='flex w-full bg-bg2 py-2 sm:py-3 md:py-2'>
-            <p className='text-sm sm:text-lg md:text-sm w-[34%] flex justify-center items-center'>{item?.gamesno}</p>
-            <div className='flex justify-center items-center w-[22%] font-bold relative'>
+          <div key={i} className='flex w-full border-b-[1px] border-border1 text-black text-xsm bg-white py-2'>
+            <p className='w-[34%] flex justify-center items-center'>{item?.games_no}</p>
+            <div className='flex text-2xl justify-center items-center w-[22%] font-bold relative'>
               {item?.number === 0 && (
                 <>
                   <span
@@ -97,14 +98,12 @@ const GameHistoryBox = ({ isVisible, gameHistoryData }) => {
                 </span>
               )}
             </div>
-
-            <p className='text-sm sm:text-lg md:text-sm w-[22%] flex justify-center items-center'>{json[1]}</p>
+            <p className='w-[22%] flex justify-center items-center'>{json[1]}</p>
             <div className='flex justify-center items-center w-[22%] gap-2'>
               <p className={`h-3 w-3 bg-${json[0] == 0 ? "red" : json[0] == 5 ? "green" : json[0] == 1 ? "green" : json[0] == 3 ? "green" : json[0] == 7 ? "green" : json[0] == 9 ? "green" : "red"} rounded-full flex justify-center items-center`}></p>
               <p className={`${json[0] == 0 ? "block" : json[0] == 5 ? "block" : "hidden"} h-3 w-3 bg-${json[2] === "Green" ? "green" : json[2] === "Red" ? "red" : "voilet"} rounded-full flex justify-center items-center`}></p>
             </div>
           </div>
-
         )
       })}
     </div>

@@ -31,6 +31,10 @@ import WingoWinnerAnnoucement from '../../reusable_component/WingoWinnerAnnoucem
 import GameHistoryBox from '../../reusable_component/WingoGameHistory';
 import WingoPagination from '../../reusable_component/WingoPagination';
 import countdownone from '../../assets/music/countdownone.mp3';
+import mainWallet from "../../assets/usaAsset/wingo/mainWallet.png"
+import cutBg1 from "../../assets/usaAsset/wingo/cutBg1.png"
+import grayWatch from "../../assets/usaAsset/wingo/grayWatch.png"
+import redWatch from "../../assets/usaAsset/wingo/redWatch.png"
 const profileApi = apis.profile
 const wingo_bet_api = apis.wingo_bet
 const wingo_my_history = apis.wingo_my_history
@@ -38,9 +42,11 @@ const wingo_game_history = apis.wingo_game_history
 const wingo_win_amount_announcement = apis.wingo_win_amount_announcement
 const images = [zero, one, two, three, four, five, six, seven, eight, nine];
 const notes = [
-  "Welcome to the Tiranga Games! Greetings, Gamers and Enthusiasts! the Tiranga",
-  "Please be sure to always use our official website for playing the games with the fol",
-  "If your deposit is not received, Please send it directly to Tiranga Games Self-service Ce"
+  "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
+  "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
+  "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
+  // "Please be sure to always use our official website for playing the games with the fol",
+  // "If your deposit is not received, Please send it directly to Tiranga Games Self-service Ce"
 ];
 const WinGo = () => {
   const [myDetails, setMyDetails] = useState(null)
@@ -273,49 +279,43 @@ const WinGo = () => {
   return (
     <>
       {isModalVisible && modalData && (
-        <div className="relative z-50 font-inter">
+        <div className="relative z-50 font-roboto">
           <WingoWinnerAnnoucement
             data={modalData}
             onClose={() => setIsModalVisible(false)}
           /></div>
       )}
-      <div className='bg-bg1 h-full font-inter'>
+      <div className='bg-bg1 h-full font-roboto'>
         <audio ref={audioRef} className='' src={countdownone}>
           Your browser does not support the audio element.
         </audio>
-        <div className='bg-bg2 h-[18rem] sm:h-[48%] md:h-[19rem] rounded-b-[55px] px-4 pt-2'>
+        <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[19rem] rounded-b-[55px] px-4 pt-2'>
           {/* 1st div */}
           <div
-            className='p-5 h-[9rem] sm:h-[11.5rem] md:h-[9rem] rounded-3xl'
-            style={{
-              backgroundImage: `url(${lotterybg1})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              width: '100%',
-            }}
+            className='p-5 h-[9rem] text-black bg-inputBg rounded-3xl'
           >
             <div className='flex justify-center gap-5 items-center'>
-              <p className='ml-10 font-semibold text-base sm:text-2xl md:text-base'><b className='text-xl'>₹</b> &nbsp;{myDetails?.total_wallet}</p>
-              <button onClick={profileDetails}>
+              <p className='ml-10 font-semibold text-base'><b className='text-xl'>₹</b> &nbsp;{myDetails?.total_wallet}</p>
+              {/* <button onClick={profileDetails}>
                 <HiArrowPathRoundedSquare size={20}  className='text-gray ' />
-              </button>
+              </button> */}
             </div>
             <div className='flex justify-center gap-2 items-center'>
-              <img className='h-7 w-7 sm:h-10 md:h-7 sm:w-10 md:w-7' src={gamewallet} alt="not found" />
-              <p className='text-base sm:text-xl md:text-base'>Wallet balance</p>
+              <img className='h-5 w-5 ' src={mainWallet} alt="not found" />
+              <p className='text-xsm '>Main Wallet </p>
             </div>
-            <div className='mt-4 sm:mt-8 md:mt-5 flex justify-between items-center'>
-              <button className='bg-red text-base sm:text-xl md:text-base font-semibold w-32 sm:w-48 md:w-36 h-10 sm:h-12 md:h-10 rounded-full'>Withdraw</button>
-              <button className='bg-green text-base sm:text-xl md:text-base font-semibold w-32 sm:w-48 md:w-36 h-10 sm:h-12 md:h-10 rounded-full'>Deposit</button>
+            <div className='mt-4 text-white flex justify-between items-center'>
+              <button className='bg-red text-base font-semibold w-32 h-9 rounded-full'>Withdraw</button>
+              <button className='bg-green text-base font-semibold w-32 h-9 rounded-full'>Deposit</button>
             </div>
           </div>
 
           {/* 2nd div */}
-          <div className='flex justify-between w-full gap-1 md:gap-2 mt-6 mg:mt-5 items-center'>
-            <div className='shrink-0'><img src={micphone} className='w-7 h-7 ' alt="not found" /></div>
-            <div className="h-7 sm:h-12 md:h-7 flex items-center overflow-hidden">
+          <div className='flex justify-between w-full bg-white p-2 rounded-full text-blackLight mt-6 items-center'>
+            {/* <div className='shrink-0'><img src={micphone} className='w-7 h-7 ' alt="not found" /></div> */}
+            <div className="h-7 flex items-center overflow-hidden">
               <div
-                className={`flex-1 md:flex-0 text-[#C0C1D4] w-60 sm:w-[360px] md:w-80 text-[10px] sm:text-sm md:text-xs overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
+                className={`flex-1 xsm:flex-0 font-bold w-full  text-[10px] xsm:text-xs overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
                   }`}
                 style={{ transform: animate ? "translateY(-100%)" : "translateY(0)" }}
               >
@@ -323,21 +323,21 @@ const WinGo = () => {
               </div>
             </div>
             <div
-              className='shrink-0  w-[24%] md:w-[22%] text-xs sm:text-xl md:text-xs py-1 sm:py-0 flex gap-1 justify-center items-center  rounded-3xl'
-              style={{
-                backgroundImage: `url(${detailbutttonbg})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
+              className='shrink-0 py-0.5 text-xsm px-4 bg-red text-white  flex gap-1 justify-center items-center  rounded-3xl'
+            // style={{
+            //   backgroundImage: `url(${detailbutttonbg})`,
+            //   backgroundSize: 'cover',
+            //   backgroundPosition: 'center',
 
-              }}
+            // }}
             >
-              <RiFireFill className='text-white' />
+              {/* <RiFireFill className='text-white' /> */}
               Detail
             </div>
           </div>
 
           {/* game id 3rd div */}
-          <div className='bg-bg4 grid grid-cols-4 w-full rounded-xl mt-5'>
+          <div className='bg-inputBg text-xsm grid grid-cols-4 w-full rounded-xl mt-5'>
             {[
               { label: 'Win go', time: '1 min', duration: 60, gameid: 1 },
               { label: 'Win go', time: '3 min', duration: 180, gameid: 2 },
@@ -346,53 +346,55 @@ const WinGo = () => {
             ].map((item) => (
               <div
                 key={item.time}
-                className={`flex flex-col col-span-1 rounded-xl items-center p-2 cursor-pointer ${selectedIMgIndex === item.time ? 'bg-bg3' : ''}`}
+                className={`flex flex-col col-span-1 rounded-xl items-center px-2 py-1 cursor-pointer ${selectedIMgIndex === item.time ? 'bg-gradient-to-b from-[#f95959] to-[#ff9a8e]' : ''}`}
                 onClick={() => {
                   gameDetailsHandler(item)
                   handleTimerClick(item.time, item.duration)
                 }}
               >
                 <img
-                  src={selectedIMgIndex === item.time ? timehover : time}
+                  src={selectedIMgIndex === item.time ? redWatch : grayWatch}
                   className='h-12 sm:h-16 md:h-12 w-12 sm:w-16 md:w-12'
                   alt="timer"
                 />
-                <p className={`text-sm sm:text-xl md:text-sm ${selectedIMgIndex === item.time ? '' : 'text-gray'}`}>{item.label}</p>
-                <p className={`text-sm sm:text-lg md:text-sm  ${selectedIMgIndex === item.time ? '' : 'text-gray'}`}>{item.time}</p>
+                <p className={` ${selectedIMgIndex === item.time ? '' : 'text-lightGray'}`}>{item.label}</p>
+                <p className={`  ${selectedIMgIndex === item.time ? '' : 'text-lightGray'}`}>{item.time}</p>
               </div>
             ))}
           </div>
 
           {/* game timer 4th div */}
           <div className='flex  justify-between p-3 mt-5 rounded-2xl' style={{
-            backgroundImage: `url(${bgcut})`,
+            backgroundImage: `url(${cutBg1})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
             width: "100%",
           }} >
             <div className='w-[50%] pr-3'>
-              <button className='flex items-center justify-center  border border-black w-full text-xs sm:text-lg md:text-xs rounded-2xl '> <img src={howtoplay} className='w-6 mr-1' alt="sad" /> How to play</button>
-              <p className='text-sm sm:text-lg md:text-base mt-2'>Win Go {selectedIMgIndex}</p>
-              <div className='flex items-center justify-between mt-2'>
-                <img src={images[gameHistoryData[0]?.number]} className='w-7 sm:w-9 md:w-7' alt="asdf" />
-                <img src={images[gameHistoryData[1]?.number]} className='w-7 sm:w-9 md:w-7' alt="asdf" />
-                <img src={images[gameHistoryData[2]?.number]} className='w-7 sm:w-9 md:w-7' alt="asdf" />
-                <img src={images[gameHistoryData[3]?.number]} className='w-7 sm:w-9 md:w-7' alt="asdf" />
-                <img src={images[gameHistoryData[4]?.number]} className='w-7 sm:w-9 md:w-7' alt="asdf" />
+              <button className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '>
+                {/* <img src={howtoplay} className='w-6 mr-1' alt="sad" /> */}
+                How to play</button>
+              <p className='text-xs mt-4'>Win Go {selectedIMgIndex}</p>
+              <div className='flex text-black items-center justify-between mt-3'>
+                <img src={images[gameHistoryData[0]?.number]} className='w-7' alt="asdf" />
+                <img src={images[gameHistoryData[1]?.number]} className='w-7' alt="asdf" />
+                <img src={images[gameHistoryData[2]?.number]} className='w-7' alt="asdf" />
+                <img src={images[gameHistoryData[3]?.number]} className='w-7' alt="asdf" />
+                <img src={images[gameHistoryData[4]?.number]} className='w-7' alt="asdf" />
               </div>
             </div>
             <div className='w-[50%]'>
-              <p className='text-sm sm:text-lg md:text-base text-end font-semibold'>Time remaining</p>
-              <div className='flex justify-end items-center gap-1 mt-1 w-full text-sm sm:text-lg md:text-base'>
+              <p className='text-xsm  text-end font-semibold'>Time remaining</p>
+              <div className='flex justify-end items-center gap-1 mt-1 w-full text-sm'>
                 <LotteryTimer duration={callTimer} />
               </div>
-              <p className='flex justify-end text-sm sm:text-lg md:text-base font-semibold mt-5'>{gameHistoryData[0]?.gamesno + 1}</p>
+              <p className='flex justify-end text-sm font-semibold mt-5'>{gameHistoryData[0]?.gamesno + 1}</p>
             </div>
           </div>
         </div>
         {/* betting buttons 5th divv */}
-        <div ref={fifthDivRef} className=' bg-bg2 mt-[13.5rem] sm:mt-[15rem] md:mt-[12.5rem] p-3 mx-4 rounded-2xl'>
-          <div className='flex items-center bg-red justify-center mr-1'>
+        <div ref={fifthDivRef} className=' bg-white mt-[13.5rem] xsm:mt-[12rem] p-3 mx-4 rounded-2xl'>
+          <div className='flex items-center bg-white justify-center mr-1'>
             <TimerModal duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
           </div>
           <div className='flex justify-between gap-5'>
@@ -419,24 +421,24 @@ const WinGo = () => {
             ))}
           </div>
           {/* <div className='mt-3 flex gap-2'>
-          <button onClick={handleBtnClick} className={`${timerModal ? "" : "relative z-10"}flex items-center justify-center text-sm sm:text-base md:text-sm w-[26%] py-1 sm:py-2 text-red border border-red rounded-lg`}>
-            Random
-          </button>
-          {['X1', 'X5', 'X10', 'X20', 'X50', 'X100'].map((value, i) => (
-            <button
-              key={i}
-              onClick={() => handleBtnClick(i)}
-              className={`${timerModal ? "" : "relative z-10"} flex items-center justify-center text-xs sm:text-base md:text-xs w-[11%] rounded-lg ${selectedBtnIndex === i ? 'bg-green text-white' : 'bg-bg1 text-gray'
-                }`}
-            >
-              {value}
+            <button onClick={handleBtnClick} className={`${timerModal ? "" : "relative z-10"}flex items-center justify-center text-sm sm:text-base md:text-sm w-[26%] py-1 sm:py-2 text-red border border-red rounded-lg`}>
+              Random
             </button>
-          ))}
-        </div> */}
+            {['X1', 'X5', 'X10', 'X20', 'X50', 'X100'].map((value, i) => (
+              <button
+                key={i}
+                onClick={() => handleBtnClick(i)}
+                className={`${timerModal ? "" : "relative z-10"} flex items-center justify-center text-xs sm:text-base md:text-xs w-[11%] rounded-lg ${selectedBtnIndex === i ? 'bg-green text-white' : 'bg-bg1 text-gray'
+                  }`}
+              >
+                {value}
+              </button>
+            ))}
+          </div> */}
           <div className='w-full mt-3 flex'>
             <button
               onClick={() => handleBtnClick("yellow", 40)}
-              className={`${timerModal ? "bg-yellow" : "relative z-10 bg-yellow"} rounded-l-full w-[50%] py-2 sm:py-3 md:py-2 text-center text-sm sm:text-xl md:text-base`}>
+              className={`${timerModal ? "bg-red" : "relative z-10 bg-red"} rounded-l-full w-[50%] py-2 sm:py-3 md:py-2 text-center text-sm sm:text-xl md:text-base`}>
               Big
             </button>
             <button onClick={() => handleBtnClick("bg3", 50)} className={`${timerModal ? "bg-bg3" : "relative z-10 bg-bg3"} rounded-r-full w-[50%] py-2 sm:py-3 md:py-2 text-center text-sm sm:text-xl md:text-base `}>Small</button>
@@ -447,7 +449,7 @@ const WinGo = () => {
             <button
               key={i}
               onClick={() => handlehistoryClick(i)}
-              className={`flex items-center justify-center  w-[33%] text-sm sm:text-lg md:text-sm py-2 sm:py-3 md:py-2 rounded-lg ${selectedHistoryIndex === i ? 'bg-bg3 text-white font-semibold' : 'bg-bg2 text-gray'
+              className={`flex items-center justify-center  w-[33%] text-xsm py-2 rounded-lg ${selectedHistoryIndex === i ? 'bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white font-semibold' : 'bg-white text-lightGray'
                 }`}
             >
               {value}

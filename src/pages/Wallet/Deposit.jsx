@@ -35,7 +35,7 @@ function Deposit() {
     // const channel = [{ name: "Icepay", balance: "100 - 50K" }, { name: "7 Days", balance: "100 - 50K" }, { name: "Pailepay", balance: "110 - 50K" }, { name: "Rspay", balance: "100 - 50K" },]
     return (
         <div className='mx-3'>
-            <div className='h-40 w-full object-fill bg-no-repeat mt-5 rounded-lg p-2'
+            <div className='h-40 w-full object-fill bg-no-repeat  rounded-lg p-2'
                 style={{
                     backgroundImage: `url(${depositbg})`,
                     backgroundSize: "contain",
@@ -50,7 +50,6 @@ function Deposit() {
                     <p>₹ 400.00</p>
                     <HiArrowPathRoundedSquare className=' text-base sm:text-xl md:text-base' />
                 </p>
-
             </div>
             <div className="w-full grid grid-cols-3 gap-3 mt-2">
                 {array?.map((item, i) => (
