@@ -57,7 +57,7 @@ const LotteryTimer = ({ duration }) => {
         </div>
       </div>
       <div
-        className="absolute mt-[3.9rem] sm:mt-[4.5rem] md:mt-[4.9rem] flex items-center h-[16.5rem] xsm:h-[17.7rem] sm:h-[22.6rem] md:h-[17.6rem] left-0"
+        className="absolute mt-[3.9rem] xsm:mt-[4.9rem] flex items-center h-[16.5rem] xsm:h-[17.7rem] left-0"
         style={{ width: "214%", transform: "translateX(-50%)" }}
       >
         <TimerModal

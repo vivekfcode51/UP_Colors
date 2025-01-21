@@ -14,7 +14,7 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
             >
                 {/* Modal Content */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                    <h2 className="text-2xl mt-60 font-semibold text-white">{data.win === 0 ? "Sorry" : "Congratulations!"}</h2>
+                    <h2 className="text-2xl mt-60 font-semibold text-blackLight">{data.win === 0 ? "Sorry" : "Congratulations!"}</h2>
                     <p className=" text-sm text-black mt-8">
                         Lottery Result:  <span className={`${data?.number === 0 || data?.number === 2 || data?.number === 4 || data?.number === 6 || data?.number === 8 ? "bg-red" : "bg-green"} font-bold text-white p-2 rounded-lg`}>
                             {data?.number === 0
@@ -40,16 +40,16 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
                                                                     : ""}
                         </span>
                     </p>
-                    <p className=" text-2xl text-bg1">
-                        <p className="mt-14 text-2xl text-bg1">
+                    <p className=" text-2xl text-blackLight">
+                        <p className="mt-14 text-2xl text-blackLight">
                            {data?.win === 0 ?"":"Bonus"} 
                             <p className="font-bold text-yellow-400">{data?.win === 0 ? "Lost" : `₹ ${data?.win?.toFixed(2)}`}</p>
                         </p>
                     </p>
-                    <p className=" text-2xl  text-bg1">
-                        <p className="mt-8 text-sm flex text-bg1">
+                    <p className=" text-2xl  text-blackLight">
+                        <p className="mt-8 text-sm flex text-blackLight">
                             Period:{" "}
-                            <p className="font-bold text-yellow-400">{data?.gameid === 1 ? `1 min , ${data?.gamesno}` : data?.gameid === 2 ? `3 mins${data?.gamesno}` : data?.gameid === 3 ? `5 mins${data?.gamesno}` : data?.gameid === 4 ? `10 mins${data?.gamesno}` : "null"}</p>
+                            <p className="font-bold text-yellow-400">{data?.gameid === 1 ? `30 Seconds , ${data?.games_no}` : data?.gameid === 2 ? `1 min ${data?.games_no}` : data?.gameid === 3 ? `3 mins ${data?.games_no}` : data?.gameid === 4 ? `5 mins ${data?.games_no}` : "null"}</p>
                         </p>
                     </p>
                     <button

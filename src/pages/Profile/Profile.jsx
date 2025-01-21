@@ -86,6 +86,7 @@ function Profile() {
             return () => clearTimeout(timer); 
         }
     }, [langModal, setLangModal]);
+    console.log("myDetailsmyDetails",myDetails)
     return (
         <div className='h-full w-full mb-80'>
             {/* balance div */}

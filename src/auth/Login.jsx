@@ -17,7 +17,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [checkAgreement, setCheckAgreement] = useState(false);
-  const [formData, setFormData] = useState({ mobile: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ mobile: '', password: '' });
   const navigate = useNavigate()
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -32,18 +32,19 @@ function Login() {
     e.preventDefault();
     setLoading(true)
     try {
-      const payload = { identity: formData.mobile, password: formData.password };
+      const payload = { mobile: formData.mobile, password: formData.password };
       const response = await axios.post(loginEndpoint, payload);
+      console.log("responseresponseresponse login",response)
       if (response?.status === 200) {
-        localStorage.setItem("userId", response?.data?.id)
+        localStorage.setItem("userId", response?.data?.data?.userId)
         setLoading(false)
         toast.success("Login successful!");
         navigate("/")
       }
     } catch (err) {
-      toast.error(err?.response?.data?.message);
+      toast.error(err?.response?.data?.data?.message);
       setLoading(false)
-      console.log("Error:", err?.response?.data?.message);
+      console.log("Error:", err?.response?.data?.data?.message);
     }
   };
 

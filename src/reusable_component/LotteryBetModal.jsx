@@ -55,7 +55,7 @@ const colorClassMap = {
 
 function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onClose, gameDetails }) {
     const [balanceIndex, setBalanceIndex] = useState(0);
-    const [quantityIndex, setQuantityIndex] = useState(1);
+    const [quantityIndex, setQuantityIndex] = useState(gameDetails?.numericValue !== -1 ? gameDetails?.numericValue : 1);
     const [finalBetValue, setFinalBetValue] = useState(1);
     const [checkAgreement, setCheckAgreement] = useState(true);
     const [betValue, setBetTotalValue] = useState(1);
@@ -63,7 +63,14 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
     const togglePreSalesModal = () => setPreSalesModalOpen(!isPreSalesModalOpen);
     const userId = localStorage.getItem("userId")
     useEffect(() => {
-        setFinalBetValue(betValue * quantityIndex);
+        if (gameDetails?.numericValue !== undefined && gameDetails.numericValue !== -1) {
+            setQuantityIndex(gameDetails.numericValue);
+        }
+    }, [gameDetails?.numericValue]);
+    useEffect(() => {
+        if (betValue > 0 && quantityIndex > 0) {
+            setFinalBetValue(betValue * quantityIndex);
+        }
     }, [betValue, quantityIndex]);
 
     const handleBalanceClick = (buttonValue, i) => {
@@ -72,7 +79,9 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
     };
 
     const handleQuantityClick = (multiplier) => {
-        setQuantityIndex(multiplier);
+        if (multiplier > 0) {
+            setQuantityIndex(multiplier);
+        }
     };
     const incrementBet = () => setQuantityIndex((prev) => prev + 1);
     const decrementBet = () => setQuantityIndex((prev) => (prev > 1 ? prev - 1 : 1));
@@ -88,12 +97,18 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
         if (checkAgreement) {
             try {
                 const res = await axios.post(`${bet_api}`, payload)
-                if (res.status === 200) {
-                    setIsBetDone(true)
+                if (res?.data?.status === 200) {
+                    const currentValue = parseInt(localStorage.getItem(`betStatus${gameDetails?.gameId}`)) || 0;
+
+                    // Increment the value by 1
+                    const updatedValue = currentValue + 1;
+                    localStorage.setItem(`betStatus${gameDetails?.gameId}`, updatedValue)
+
+                    // setIsBetDone(res)
                     profileDetails()
                     myHistory()
                     onClose()
-                    toast.success("Bet successful")
+                    toast.success(res?.data?.message)
                 }
             } catch (err) {
                 console.log(err)
@@ -113,11 +128,11 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                 className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50"
                 onClick={handleOverlayClick}
             >
-                <div onClick={(e) => e.stopPropagation()} className="w-full sm:w-[540px] md:w-[400px] bg-white text-white rounded-t-3xl shadow-lg">
+                <div onClick={(e) => e.stopPropagation()} className="w-full xsm:w-[400px] bg-white text-white rounded-t-3xl shadow-lg">
                     <div className={`${gameDetails?.colorCode === "rv" ? `bg-[#9B48DB]` : gameDetails?.colorCode === "gv" ? `bg-[#9B48DB]` : "bg-inputBg text-blackLight"} h-[6.6rem] rounded-t-3xl`}>
                         <div className="relative flex flex-col items-center justify-center rounded-t-3xl py-3 text-white" style={{ backgroundColor: colorClass }}>
                             <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-3 w-full h-3" style={{ backgroundColor: colorClass, clipPath: 'polygon(50% 100%, -20% -20%, 100% 0%)' }} />
-                            <h1 className="text-lg font-bold">Win Go {gameDetails?.gameId === 1 ? "1 Minute" : gameDetails?.gameId === 2 ? "3 Minutes" : gameDetails?.gameId === 3 ? "5 Minutes" : "10 Minutes"} </h1>
+                            <h1 className="text-lg font-bold">Win Go {gameDetails?.gameId === 1 ? "30 Seconds" : gameDetails?.gameId === 2 ? "1 Minute" : gameDetails?.gameId === 3 ? "3 Minutes" : "5 Minutes"} </h1>
                             <p className="bg-white capitalize w-[80%] mt-3 text-black flex justify-center rounded-md text-sm sm:text-base md:text-sm py-1">
                                 Select &nbsp; &nbsp; {gameDetails?.colorCode === "yellow" ? "Big" : gameDetails?.colorCode === "bg3" ? "Small" : gameDetails?.colorCode === "r" ? gameDetails?.betButtonId : gameDetails?.colorCode === "rv" ? gameDetails?.betButtonId : gameDetails?.colorCode === "g" ? gameDetails?.betButtonId : gameDetails?.colorCode === "gv" ? gameDetails?.betButtonId : gameDetails?.colorCode}
                             </p>
@@ -131,7 +146,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                                 <button
                                     key={i}
                                     onClick={() => handleBalanceClick(value, i)}
-                                    className={`flex items-center justify-center text-sm sm:text-base md:text-sm rounded-md h-7 px-2 ${balanceIndex === i ? '' : 'bg-inputBg text-blackLight'}`}
+                                    className={`flex items-center justify-center text-xsm rounded-md h-7 px-2 ${balanceIndex === i ? '' : 'bg-inputBg text-blackLight'}`}
                                     style={{ backgroundColor: balanceIndex === i ? colorClass : '' }}
                                 >
                                     {value}
@@ -160,7 +175,8 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                                 <button
                                     key={i}
                                     onClick={() => handleQuantityClick(numericValue)}
-                                    className={`flex items-center justify-center text-sm sm:text-base md:text-sm rounded-md h-7 px-2 ${quantityIndex === numericValue ? '' : 'bg-inputBg text-blackLight'}`}
+                                    className={`flex items-center justify-center text-xsm rounded-md h-7 px-2 ${quantityIndex === numericValue ? '' : 'bg-inputBg text-blackLight'
+                                        }`}
                                     style={{ backgroundColor: quantityIndex === numericValue ? colorClass : '' }}
                                 >
                                     {label}
@@ -168,6 +184,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                             );
                         })}
                     </div>
+
 
                     <div className="flex items-center mt-4 px-4">
                         <div onClick={() => setCheckAgreement(!checkAgreement)} className="flex items-center cursor-pointer bg-white rounded-full">
@@ -177,8 +194,8 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                                 <FaRegCircle className='text-[#B1835A]' size={26} style={{ color: `[#B1835A]` }} />
                             )}
                         </div>
-                        <label htmlFor="agree" className="text-black ml-2 text-sm sm:text-base md:text-sm">I agree</label>
-                        <button onClick={togglePreSalesModal} className="ml-2 text-redLight underline text-sm sm:text-base md:text-sm">{'<<Pre-sale rules>>'}</button>
+                        <label htmlFor="agree" className="text-black ml-2 text-xsm ">I agree</label>
+                        <button onClick={togglePreSalesModal} className="ml-2 text-redLight underline text-xsm ">{'<<Pre-sale rules>>'}</button>
                     </div>
 
                     <div className="grid grid-cols-12 mt-5">
