@@ -14,6 +14,7 @@ const apis = {
   register: `${configModalUsaWin}register`,
   login: `${configModalUsaWin}login`,
   profile: `${configModalUsaWin}profile/`,
+  fundTransfer: `${configModalUsaWin}main_wallet_transfers`,
   wingo_bet: `${configModalUsaWin}bets`,
   wingo_my_history: `${configModalUsaWin}bet_history`,
   wingo_game_history: `${configModalUsaWin}results`,
@@ -21,6 +22,12 @@ const apis = {
   dragon_bet: `${configModalUsaWin}dragon_bet`,
   dragonBet_history: `${configModalUsaWin}bet_history`,
   dragonResults: `${configModalUsaWin}results`,
+  payin_deposit: `${configModalUsaWin}payin`,
+  depositHistory: `${configModalUsaWin}deposit-history`,
+  addAccount: `${configModalUsaWin}addAccount`,
+  accountView: `${configModalUsaWin}accountView`,
+  payout_withdraw: `${configModalUsaWin}withdraw`,
+  withdrawHistory: `${configModalUsaWin}withdraw-history`,
 };
 
 export default apis

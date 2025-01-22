@@ -13,7 +13,6 @@ import { LiaSignOutAltSolid } from 'react-icons/lia'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import apis from '../../utils/apis'
 import deposit from "../../assets/usaAsset/account/deposit.png"
 import depositHis from "../../assets/usaAsset/account/depositHis.png"
 import vip from "../../assets/usaAsset/account/vip.png"
@@ -25,11 +24,13 @@ import setting from "../../assets/usaAsset/account/setting.png"
 import guide from "../../assets/usaAsset/account/guide.png"
 import service from "../../assets/usaAsset/account/service.png"
 import aboutus from "../../assets/usaAsset/account/aboutus.png"
+import apis from '../../utils/apis'
 const profileApi = apis.profile
 
 function Profile() {
     const [myDetails, setMyDetails] = useState(null)
     const [langModal, setLangModal] = useState(false)
+    const [isUidCopied, setIsUidCopied] = useState(false)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userId = localStorage.getItem("userId");
@@ -48,9 +49,10 @@ function Profile() {
         }
         try {
             const res = await axios.get(`${profileApi}${userId}`);
-            if (res?.status === 200) {
+            if (res?.data?.success === 200) {
                 setMyDetails(res?.data)
-                dispatch(setProfileDetails({ total_wallet: res.data.total_wallet }))
+                const total_wallet = res?.data?.data?.wallet + res?.data?.data?.third_party_wallet
+                dispatch(setProfileDetails({ total_wallet }))
             }
         } catch (err) {
             toast.error(err);
@@ -64,11 +66,12 @@ function Profile() {
     }, [userId]);
 
     const handleCopyUID = () => {
-        if (myDetails?.u_id) {
+        if (myDetails?.data?.u_id) {
             navigator.clipboard
-                .writeText(myDetails.u_id)
+                .writeText(myDetails?.data?.u_id)
                 .then(() => {
-                    toast.success('UID copied to clipboard!');
+                    setIsUidCopied(true)
+                    // toast.success('UID copied to clipboard!');
                 })
                 .catch(() => {
                     toast.error('Failed to copy UID.');
@@ -82,33 +85,41 @@ function Profile() {
         if (langModal) {
             const timer = setTimeout(() => {
                 setLangModal(false);
-            }, 2000); 
-            return () => clearTimeout(timer); 
+            }, 2000);
+            return () => clearTimeout(timer);
         }
     }, [langModal, setLangModal]);
-    console.log("myDetailsmyDetails",myDetails)
+    useEffect(() => {
+        if (isUidCopied) {
+            const timer = setTimeout(() => {
+                setIsUidCopied(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [isUidCopied, setIsUidCopied]);
+    // console.log("myDetailsmyDetails",myDetails)
     return (
         <div className='h-full w-full mb-80'>
             {/* balance div */}
             <div className='bg-bg2 relative h-[35%] 3xl:h-[30%] px-3 flex justify-center rounded-b-[2rem]'>
                 <div className='grid grid-cols-4 px-3'>
                     <div className='col-span-1 flex items-center -mt-20 justify-center'>
-                        <img src={myDetails?.userimage ? myDetails?.userimage : avatar} className='rounded-full' alt="not found" />
+                        <img src={myDetails?.data?.image ? myDetails?.data?.image : avatar} className='rounded-full' alt="not found" />
                     </div>
                     <div className='col-span-3 flex flex-col justify-center -mt-20 px-2'>
                         <div className=' flex items-center justify-start gap-2'>
-                            <p className='capitalise text-sm'>{myDetails?.username}</p>
+                            <p className='capitalise text-sm'>{myDetails?.data?.name}</p>
                             <img className='h-6 w-14' src={profilevip1} alt="not found" />
                         </div>
                         <div className='mt-3 text-xsm rounded-full w-48 flex items-center justify-start'>
-                            UID &nbsp;&nbsp;|&nbsp;&nbsp;{myDetails?.u_id}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button onClick={handleCopyUID}> <FaRegCopy /></button>
+                            UID &nbsp;&nbsp;|&nbsp;&nbsp;{myDetails?.data?.u_id}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button onClick={handleCopyUID}> <FaRegCopy /></button>
                         </div>
                         <div className='mt-1 text-xsm'>Last Login : {myDetails?.last_login_time}</div>
                     </div>
                 </div>
                 <div className="absolute bg-white shadow-lg left-3 right-3 top-40 px-3 pt-3 pb-6 rounded-md text-sm ">
                     <h1 className='text-lightGray '>Total balance</h1>
-                    <p className='flex items-center text-black'> <b className='text-xl'>₹</b>  {myDetails?.total_wallet} &nbsp; <span><HiMiniArrowPathRoundedSquare onClick={() => profileDetails(userId)} className='text-gray text-xl' />
+                    <p className='flex items-center text-black'> <b className='text-xl'>₹</b>  {myDetails?.data?.wallet + myDetails?.data?.third_party_wallet} &nbsp; <span><HiMiniArrowPathRoundedSquare onClick={() => profileDetails(userId)} className='text-gray text-xl' />
                     </span></p>
                     <div className='w-full bg-border1 mt-3 h-[1px]'></div>
                     <div className='grid grid-cols-4 mt-5 text-black'>
@@ -264,7 +275,7 @@ function Profile() {
                             <p className='text-xs text-gray mt-1'>24/7 Customer Service</p>
                         </Link>
                     </button>
-                    
+
                     <button >
                         <Link to="/aboutus" className='flex flex-col items-center justify-center pt-2'>
                             <img src={aboutus} className='h-8 w-8 ' alt="not found" />
@@ -282,8 +293,14 @@ function Profile() {
             {langModal && (
                 <div className="fixed inset-0 flex items-center justify-center ">
                     <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
-                        {/* <img  className='w-10 h-10 opacity-4' src={tick} alt="df" /> */}
                         <p>English <br />Language</p>
+                    </div>
+                </div>
+            )}
+            {isUidCopied && (
+                <div className="fixed inset-0 flex items-center justify-center ">
+                    <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
+                        <p className='text-center'>UID copied to  <br />clipboard!</p>
                     </div>
                 </div>
             )}

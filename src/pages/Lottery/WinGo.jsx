@@ -421,7 +421,6 @@ const WinGo = () => {
       const remainingTime = Math.max(60 - secondsInCycle, 0);
       profileDetails()
       myHistory()
-      // const betStatus = localStorage.getItem("betStatus")
       for (let i = 1; i <= 4; i++) {
         let betstats1
         let betstats2

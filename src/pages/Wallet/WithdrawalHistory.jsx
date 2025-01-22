@@ -4,33 +4,38 @@ import no_data_available from '../../assets/images/no_data_available.png';
 import { useState, useEffect, useRef } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { RxDashboard } from 'react-icons/rx';
-
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import apis from '../../utils/apis'
+import { useNavigate } from 'react-router-dom';
+import moment from "moment";
+import { PiCopyLight } from 'react-icons/pi';
 function WithdrawalHistory() {
     const [activeModal, setActiveModal] = useState(0);
     const [modalFirst, handleModalFirst] = useState(false);
-    const [modalFirstValue, handleModalFirstValue] = useState("All");
+    const [modalFirstValue, handleModalFirstValue] = useState(0);
     const [modalSecond, handleModalSecond] = useState(false);
-    const [confirmedDate, setConfirmedDate] = useState("Select date"); // Track displayed date
+    const [confirmedDate, setConfirmedDate] = useState("Select date");
+    const [withdrawHistoryData, setWithdrawHistoryData] = useState(null)
+    const [isOrderidCopied, setIsOrderidCopied] = useState(false)
     const modalRef = useRef(null);
     const modalSecondRef = useRef(null);
     const today = new Date();
     const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth() + 1; // Months are 0-indexed
+    const currentMonth = today.getMonth() + 1;
     const currentDay = today.getDate();
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId");
 
-    // State to track selected date
     const [selectedDate, setSelectedDate] = useState({
         year: currentYear,
         month: currentMonth,
         day: currentDay,
     });
+    const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
+    const months = Array.from({ length: 12 }, (_, i) => i + 1);
+    const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
-    // Generate dynamic year list
-    const years = Array.from({ length: 10 }, (_, i) => currentYear + i); // Current year + next 9 years
-    const months = Array.from({ length: 12 }, (_, i) => i + 1); // 1 to 12
-    const days = Array.from({ length: 31 }, (_, i) => i + 1); // 1 to 31
-
-    // Event handlers
     const handleSelectYear = (year) => {
         setSelectedDate((prev) => ({ ...prev, year }));
     };
@@ -47,7 +52,6 @@ function WithdrawalHistory() {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
 
-    // Close modal when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -83,6 +87,59 @@ function WithdrawalHistory() {
         };
     }, [modalSecond]);
 
+    const withdrawHistory = async (t) => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        try {
+            let res
+            if (t === 0) {
+                res = await axios.get(`${apis?.withdrawHistory}?user_id=${userId}`)
+            } else {
+                res = await axios.get(`${apis?.withdrawHistory}?user_id=${userId}&type=${t - 1}`)
+            }
+            console.log("res", res)
+            if (res?.data?.status === 200) {
+                setWithdrawHistoryData(res?.data?.data)
+            } else {
+                setWithdrawHistoryData(null)
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        if (userId) {
+            withdrawHistory(activeModal);
+        }
+    }, [userId, activeModal]);
+
+    const handleCopyOrderId = (orderid) => {
+        if (orderid) {
+            navigator.clipboard
+                .writeText(orderid)
+                .then(() => {
+                    setIsOrderidCopied(true)
+                })
+                .catch(() => {
+                    toast.error('Failed to copy UID.');
+                });
+        } else {
+            toast.error('UID is not available.');
+        }
+    };
+    useEffect(() => {
+        if (isOrderidCopied) {
+            const timer = setTimeout(() => {
+                setIsOrderidCopied(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [isOrderidCopied, setIsOrderidCopied]);
     return (
         <>
             <div>
@@ -116,32 +173,83 @@ function WithdrawalHistory() {
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 mt-3 mx-3">
-                    <div
+                    <button
                         onClick={() => handleModalFirst(!modalFirst)}
-                        className="bg-white text-black rounded-md text-xsm font-bold py-4 px-2 flex justify-between items-center shadow-md"
+                        className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-between items-center shadow-md"
                     >
-                        <p>{modalFirstValue}</p>
+                        <p>{modalFirstValue === 0 ? "All" : modalFirstValue === 1 ? "To be paid" : modalFirstValue === 2 ? "Paid" : modalFirstValue === 3 ? "Rejected" : ""}</p>
                         <p>
                             <IoIosArrowDown size={18} />
                         </p>
-                    </div>
-                    <div
-                        // onClick={() => handleModalSecond(!modalSecond)}
-                        className="bg-white text-black rounded-md text-xsm font-bold py-4 px-2 flex justify-center items-center shadow-md"
-                    >
-                        <input type="date" />
-
-                        {/* <p className="text-gray">
-                            {confirmedDate}
-                        </p>
-                        <p>
-                            <IoIosArrowDown size={18} />
-                        </p> */}
-                    </div>
+                    </button>
+                    <button className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-center items-center shadow-md">
+                        <input
+                            className='outline-none'
+                            onChange={(e) => setConfirmedDate(e.target.value)}
+                            type="date"
+                        />
+                    </button>
                 </div>
-                <div className="flex flex-col items-center mt-10">
-                    <img src={no_data_available} alt="No data" />
-                    <p className="mt-10">No data</p>
+                <div className="px-3 mt-3">
+                    {withdrawHistoryData && withdrawHistoryData?.length > 0 ? (
+                        withdrawHistoryData
+                            ?.filter((item) => {
+                                if (modalFirstValue !== 0 && modalFirstValue !== item.status) {
+                                    return false;
+                                }
+                                if (confirmedDate !== "Select date" && !item?.created_at.startsWith(confirmedDate)) {
+                                    return false;
+                                }
+                                return true;
+                            })
+                            ?.map((item, i) => (
+                                <div className="bg-white rounded-lg p-2" key={i}>
+                                    <div className="flex text-gray justify-between items-center">
+                                        <p className="bg-green text-white rounded-lg px-3 py-0.5">Withdraw</p>
+                                        <p className="text-xsm text-black font-semibold">
+                                            {item.status === 1
+                                                ? "To be paid"
+                                                : item?.status === 2
+                                                    ? "Paid"
+                                                    : item?.status === 3
+                                                        ? "Rejected"
+                                                        : ""}
+                                        </p>
+                                    </div>
+                                    <div className="bg-border1 mt-3 w-full h-[1px]"></div>
+                                    <div className="flex mt-3 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Balance</p>
+                                        <p className="text-xsm font-semibold text-red">₹{item?.amount}.00</p>
+                                    </div>
+                                    <div className="flex mt-3 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Request Status</p>
+                                        <p className="text-xsm font-semibold text-red">₹{item?.status === 1 ? "Pending" : item?.status === 2 ? "Successfull" : item?.status === 3 ? "Rejected" : ""}</p>
+                                    </div>
+                                    <div className="flex mt-4 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Type</p>
+                                        <p className="text-xsm text-gray font-semibold">{item?.type === 0 ? "Indian Pay" : "USDT"}</p>
+                                    </div>
+                                    <div className="flex mt-4 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Time</p>
+                                        <p className="text-xsm text-gray font-semibold">
+                                            {moment(item?.created_at).format("DD-MM-YYYY HH:mm:ss")}
+                                        </p>
+                                    </div>
+                                    <div className="flex my-4 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Order Number</p>
+                                        <p className="text-xsm flex items-center text-gray font-semibold">
+                                            {item?.order_id} &nbsp;
+                                            <PiCopyLight onClick={() => handleCopyOrderId(item?.order_id)} size={15} />
+                                        </p>
+                                    </div>
+                                </div>
+                            ))
+                    ) : (
+                        <div className="flex flex-col items-center mt-10">
+                            <img src={no_data_available} alt="No data" />
+                            <p className="mt-10 text-black">No data</p>
+                        </div>
+                    )}
                 </div>
 
                 {modalFirst && (
@@ -159,43 +267,43 @@ function WithdrawalHistory() {
                             <div className="flex flex-col gap-2">
                                 <button
                                     onClick={() => {
-                                        handleModalFirstValue("All");
+                                        handleModalFirstValue(0);
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "All" ? "text-bg3" : "text-gray"
+                                    className={`${modalFirstValue === 0 ? "text-black" : "text-white"
                                         }`}
                                 >
                                     All
                                 </button>
                                 <button
                                     onClick={() => {
-                                        handleModalFirstValue("Processing");
+                                        handleModalFirstValue(1);
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Processing" ? "text-bg3" : "text-gray"
+                                    className={`${modalFirstValue === 1 ? "text-black" : "text-white"
                                         }`}
                                 >
-                                    Processing
+                                    To be Paid
                                 </button>
                                 <button
                                     onClick={() => {
-                                        handleModalFirstValue("Completed");
+                                        handleModalFirstValue(2);
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Completed" ? "text-bg3" : "text-gray"
+                                    className={`${modalFirstValue === 2 ? "text-black" : "text-white"
                                         }`}
                                 >
-                                    Completed
+                                    Paid
                                 </button>
                                 <button
                                     onClick={() => {
-                                        handleModalFirstValue('Reject');
+                                        handleModalFirstValue(3);
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Reject" ? "text-bg3" : "text-gray"
+                                    className={`${modalFirstValue === 3 ? "text-black" : "text-white"
                                         }`}
                                 >
-                                    Reject
+                                    Rejected
                                 </button>
                             </div>
                         </div>
@@ -275,6 +383,13 @@ function WithdrawalHistory() {
                                         ))}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                )}
+                {isOrderidCopied && (
+                    <div className="fixed inset-0 flex items-center justify-center ">
+                        <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
+                            <p className='text-center'>Order number copied to  <br />clipboard!</p>
                         </div>
                     </div>
                 )}

@@ -56,6 +56,7 @@ import SubordinateData from "./pages/Promotion/SubordinateData";
 import CommissionDetails from "./pages/Promotion/CommissionDetails";
 import InvitationRules from "./pages/Promotion/InvitationRules";
 import RebateRatio from "./pages/Promotion/RebateRatio";
+import FundTransfer from "./pages/Wallet/FundTransfer";
 
 export const Router = createBrowserRouter([
   {
@@ -193,6 +194,10 @@ export const Router = createBrowserRouter([
         element: <Wallet />,
       },
       {
+        path: "/wallet/transfer",
+        element: <FundTransfer />,
+      },
+      {
         path: "/wallet/deposit",
         element: <Deposit />,
       },
@@ -280,7 +285,6 @@ export const Router = createBrowserRouter([
         path: "/aboutus/confidential",
         element: <ConfidentialAgreement />,
       },
-      
       {
         path: "/aboutus/tc",
         element: <TermsCondition />,

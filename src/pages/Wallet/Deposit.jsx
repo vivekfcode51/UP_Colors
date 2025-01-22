@@ -1,13 +1,18 @@
 import { HiArrowPathRoundedSquare } from 'react-icons/hi2'
 import usdt_icon from '../../assets/images/usdt_icon.png'
 import depo_wallet from '../../assets/icons/depo_wallet.png'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RxCrossCircled } from 'react-icons/rx';
 import depositbg from "../../assets/usaAsset/wallet/depositbg.png"
 import upi from "../../assets/usaAsset/wallet/upi.png"
 import paytm from "../../assets/usaAsset/wallet/paytm.png"
 import rechargeIns from "../../assets/usaAsset/wallet/rechargeIns.png"
 import save_wallet from "../../assets/usaAsset/wallet/save_wallet.png"
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import apis from '../../utils/apis'
+const profileApi = apis.profile
 function Deposit() {
     const [activeModal, setActiveModal] = useState(0);
     const [selectedAmount, setSelectedAmount] = useState(200);
@@ -17,6 +22,59 @@ function Deposit() {
     const depositArray = ["200", "300", "500", "1000", "5000", "10000"]
     const USDTDepositArray = ["10", "20", "50", "100", "200", "500"]
     // const [channelName, setChannelName] = useState(0);
+    const [myDetails, setMyDetails] = useState(null)
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId");
+
+    const profileDetails = async (userId) => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        try {
+            const res = await axios.get(`${profileApi}${userId}`);
+            if (res?.data?.success === 200) {
+                setMyDetails(res?.data)
+                console.log("res", res)
+            }
+        } catch (err) {
+            toast.error(err);
+        }
+    };
+
+    // payin api
+    const payin_deposit = async () => {
+        // console.log("userIduserId",userId)
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        const payload = {
+            userid: userId,
+            amount: activeModal === 3 ? usdtAmount : upiAmount,
+            type: activeModal === 3 ? 1 : 0
+        }
+        try {
+            const res = await axios.post(apis.payin_deposit, payload)
+            console.log("res", res)
+            if (res?.data?.status === "SUCCESS") {
+                window.location.href = res?.data?.payment_link;
+            } else {
+                toast.error(res?.data?.message)
+            }
+        } catch (er) {
+            toast.error(er)
+        }
+    }
+    useEffect(() => {
+        if (userId) {
+            profileDetails(userId);
+        }
+    }, [userId]);
+
+
 
     const handleSelectAmount = (amount) => {
         setSelectedAmount(amount);
@@ -47,8 +105,8 @@ function Deposit() {
                     <p>Balance</p>
                 </p>
                 <p className='mt-2 text-2xl flex items-center gap-4 ml-5 font-bold'>
-                    <p>₹ 400.00</p>
-                    <HiArrowPathRoundedSquare className=' text-base sm:text-xl md:text-base' />
+                    <p>₹ {myDetails?.data?.wallet + myDetails?.data?.third_party_wallet}</p>
+                    <HiArrowPathRoundedSquare onClick={() => profileDetails(userId)} className=' text-xl' />
                 </p>
             </div>
             <div className="w-full grid grid-cols-3 gap-3 mt-2">
@@ -113,7 +171,7 @@ function Deposit() {
                             </button>
                         </div>
                         {upiAmount && <p className='text-black mt-3 font-bold text-xsm'>Total amount in rupees: {upiAmount}.00</p>}
-                        <button className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
+                        <button onClick={payin_deposit} className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
                             Deposit
                         </button>
                     </div>
@@ -187,7 +245,7 @@ function Deposit() {
                         </div>
                         {usdtAmount && <p className='text-black font-bold text-xsm mt-3'>Total amount in rupess : {usdtAmount}.00</p>
                         }
-                        <button className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
+                        <button onClick={payin_deposit} className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
                             Deposit
                         </button>
                     </div>

@@ -1,24 +1,32 @@
 import usdt_icon from '../../assets/images/usdt_icon.png';
-import fastpay_image from '../../assets/images/fastpay_image.png';
+import moment from "moment";
 import no_data_available from '../../assets/images/no_data_available.png';
 import { useState, useEffect, useRef } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { RxDashboard } from 'react-icons/rx';
 import upi from "../../assets/usaAsset/wallet/upi.png"
 import { PiCopyLight } from 'react-icons/pi';
-
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import apis from '../../utils/apis'
+import { useNavigate } from 'react-router-dom';
 function DepositHistory() {
     const [activeModal, setActiveModal] = useState(0);
     const [modalFirst, handleModalFirst] = useState(false);
-    const [modalFirstValue, handleModalFirstValue] = useState("All");
+    const [modalFirstValue, handleModalFirstValue] = useState(0);
     const [modalSecond, handleModalSecond] = useState(false);
     const [confirmedDate, setConfirmedDate] = useState("Select date"); // Track displayed date
+    const [depositHistoryData, setDepositHistoryData] = useState(null)
+    const [isOrderidCopied, setIsOrderidCopied] = useState(false)
+    const navigate = useNavigate();
+
     const modalRef = useRef(null);
     const modalSecondRef = useRef(null);
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth() + 1; // Months are 0-indexed
     const currentDay = today.getDate();
+    const userId = localStorage.getItem("userId");
 
     // State to track selected date
     const [selectedDate, setSelectedDate] = useState({
@@ -85,7 +93,59 @@ function DepositHistory() {
         };
     }, [modalSecond]);
 
-    const array = [{ status: "To Be Paid", balance: 200, type: "WOW Pay", time: "2025-01-15 05:19:29 PM", orderNumber: 2025011526522256 }]
+    const depositHistory = async (t) => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        try {
+            let res
+            if (t === 0) {
+                res = await axios.get(`${apis?.depositHistory}?user_id=${userId}`)
+            } else {
+                const type = t === 3 ? 1 : 0
+                res = await axios.get(`${apis?.depositHistory}?user_id=${userId}&type=${type}`)
+            }
+            if (res?.data?.status === 200) {
+                setDepositHistoryData(res?.data?.data)
+            } else {
+                setDepositHistoryData(null)
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const handleCopyOrderId = (orderid) => {
+        if (orderid) {
+            navigator.clipboard
+                .writeText(orderid)
+                .then(() => {
+                    setIsOrderidCopied(true)
+                })
+                .catch(() => {
+                    toast.error('Failed to copy UID.');
+                });
+        } else {
+            toast.error('UID is not available.');
+        }
+    };
+    useEffect(() => {
+        if (isOrderidCopied) {
+            const timer = setTimeout(() => {
+                setIsOrderidCopied(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [isOrderidCopied, setIsOrderidCopied]);
+    useEffect(() => {
+        if (userId) {
+            depositHistory(activeModal);
+        }
+    }, [userId, activeModal]);
+
     return (
         <>
             <div className='w-full'>
@@ -131,50 +191,70 @@ function DepositHistory() {
                         onClick={() => handleModalFirst(!modalFirst)}
                         className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-between items-center shadow-md"
                     >
-                        <p>{modalFirstValue}</p>
+                        <p>{modalFirstValue === 0 ? "All" : modalFirstValue === 1 ? "To be paid" : modalFirstValue === 2 ? "Paid" : modalFirstValue === 3 ? "Rejected" : ""}</p>
                         <p>
                             <IoIosArrowDown size={18} />
                         </p>
                     </button>
-                    <button
-                        // onClick={() => handleModalSecond(!modalSecond)}
-                        className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-center items-center shadow-md"
-                    >
-                        {/* <p className="text-gray">
-                            {confirmedDate}
-                        </p> */}
-                        <input type="date" />
-                        {/* <p>
-                            <IoIosArrowDown size={18} />
-                        </p> */}
+                    <button className="bg-white text-black rounded-md text-xs font-bold py-4 px-2 flex justify-center items-center shadow-md">
+                        <input
+                            className='outline-none'
+                            onChange={(e) => setConfirmedDate(e.target.value)}
+                            type="date"
+                        />
                     </button>
                 </div>
-                <div className='px-3 mt-3'>
-                    {array && array.length > 0 ? (
-                        array.map((item, i) => (
-                            <div className='bg-white rounded-lg p-2' key={i}>
-                                <div className='flex text-gray justify-between items-center'>
-                                    <p className='bg-green text-white rounded-lg px-3 py-0.5'>Deposit</p>
-                                    <p className='text-xsm text-black font-semibold'>{item.status}</p>
+
+                <div className="px-3 mt-3">
+                    {depositHistoryData && depositHistoryData?.length > 0 ? (
+                        depositHistoryData
+                            ?.filter((item) => {
+                                if (modalFirstValue !== 0 && modalFirstValue !== item.status) {
+                                    return false;
+                                }
+                                if (confirmedDate !== "Select date" && !item?.created_at.startsWith(confirmedDate)) {
+                                    return false;
+                                }
+                                return true;
+                            })
+                            ?.map((item, i) => (
+                                <div className="bg-white rounded-lg p-2" key={i}>
+                                    <div className="flex text-gray justify-between items-center">
+                                        <p className="bg-green text-white rounded-lg px-3 py-0.5">Deposit</p>
+                                        <p className="text-xsm text-black font-semibold">
+                                            {item.status === 1
+                                                ? "To be paid"
+                                                : item?.status === 2
+                                                    ? "Paid"
+                                                    : item?.status === 3
+                                                        ? "Rejected"
+                                                        : ""}
+                                        </p>
+                                    </div>
+                                    <div className="bg-border1 mt-3 w-full h-[1px]"></div>
+                                    <div className="flex mt-3 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Balance</p>
+                                        <p className="text-xsm font-semibold text-red">₹{item?.cash}.00</p>
+                                    </div>
+                                    <div className="flex mt-4 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Type</p>
+                                        <p className="text-xsm text-gray font-semibold">{item?.type === 0 ? "Indian Pay" : "USDT"}</p>
+                                    </div>
+                                    <div className="flex mt-4 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Time</p>
+                                        <p className="text-xsm text-gray font-semibold">
+                                            {moment(item?.created_at).format("DD-MM-YYYY HH:mm:ss")}
+                                        </p>
+                                    </div>
+                                    <div className="flex my-4 text-gray justify-between items-center">
+                                        <p className="text-xsm font-bold">Order Number</p>
+                                        <p className="text-xsm flex items-center text-gray font-semibold">
+                                            {item?.order_id} &nbsp;
+                                            <PiCopyLight onClick={() => handleCopyOrderId(item?.order_id)} size={15} />
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className='bg-border1 mt-3 w-full h-[1px]'></div>
-                                <div className='flex mt-3 text-gray justify-between items-center'>
-                                    <p className='text-xsm font-bold'>Balance</p>
-                                    <p className='text-xsm font-semibold text-red'>₹{item.balance}.00</p>
-                                </div> <div className='flex mt-4 text-gray justify-between items-center'>
-                                    <p className='text-xsm font-bold'>Type</p>
-                                    <p className='text-xsm text-gray font-semibold'>{item.type}</p>
-                                </div> <div className='flex mt-4 text-gray justify-between items-center'>
-                                    <p className='text-xsm font-bold'>Time</p>
-                                    <p className='text-xsm text-gray font-semibold'>{item.time}</p>
-                                </div> <div className='flex my-4 text-gray justify-between items-center'>
-                                    <p className='text-xsm font-bold'>Order Number</p>
-                                    <p className='text-xsm flex items-center text-gray font-semibold'>{item.orderNumber} &nbsp; <PiCopyLight size={15} />
-                                    </p>
-                                </div>
-                            </div>
-                            
-                        ))
+                            ))
                     ) : (
                         <div className="flex flex-col items-center mt-10">
                             <img src={no_data_available} alt="No data" />
@@ -182,7 +262,9 @@ function DepositHistory() {
                         </div>
                     )}
                 </div>
-                {/* {modalFirst && (
+
+
+                {modalFirst && (
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
                         <div
                             ref={modalRef}
@@ -197,48 +279,48 @@ function DepositHistory() {
                             <div className="flex flex-col gap-2">
                                 <button
                                     onClick={() => {
-                                        handleModalFirstValue("All");
+                                        handleModalFirstValue(0);
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "All" ? "text-black" : "text-white"
+                                    className={`${modalFirstValue === 0 ? "text-black" : "text-white"
                                         }`}
                                 >
                                     All
                                 </button>
                                 <button
                                     onClick={() => {
-                                        handleModalFirstValue("Processing");
+                                        handleModalFirstValue(1);
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Processing" ? "text-black" : "text-white"
+                                    className={`${modalFirstValue === 1 ? "text-black" : "text-white"
                                         }`}
                                 >
-                                    Processing
+                                    To be Paid
                                 </button>
                                 <button
                                     onClick={() => {
-                                        handleModalFirstValue("Completed");
+                                        handleModalFirstValue(2);
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Completed" ? "text-black" : "text-white"
+                                    className={`${modalFirstValue === 2 ? "text-black" : "text-white"
                                         }`}
                                 >
-                                    Completed
+                                    Paid
                                 </button>
                                 <button
                                     onClick={() => {
-                                        handleModalFirstValue('Reject');
+                                        handleModalFirstValue(3);
                                         handleModalFirst(false);
                                     }}
-                                    className={`${modalFirstValue === "Reject" ? "text-black" : "text-white"
+                                    className={`${modalFirstValue === 3 ? "text-black" : "text-white"
                                         }`}
                                 >
-                                    Reject
+                                    Rejected
                                 </button>
                             </div>
                         </div>
                     </div>
-                )} */}
+                )}
 
                 {modalSecond && (
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
@@ -313,6 +395,13 @@ function DepositHistory() {
                                         ))}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                )}
+                {isOrderidCopied && (
+                    <div className="fixed inset-0 flex items-center justify-center ">
+                        <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
+                            <p className='text-center'>Order number copied to  <br />clipboard!</p>
                         </div>
                     </div>
                 )}

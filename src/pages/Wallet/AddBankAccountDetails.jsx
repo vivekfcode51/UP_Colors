@@ -3,10 +3,48 @@ import account_yellow from "../../assets/usaAsset/wallet/person.png"
 import bank from "../../assets/usaAsset/wallet/bank.png"
 import ifsc_code from "../../assets/usaAsset/wallet/ifsc.png"
 import acc_number from "../../assets/usaAsset/wallet/card.png"
-import { PiGreaterThan } from "react-icons/pi";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import apis from '../../utils/apis'
+import { useState } from "react";
 const AddBankAccountDetails = () => {
+    const navigate = useNavigate();
+    const [details, setDetails] = useState(
+        {
+            userid: "",
+            name: "",
+            account_number: "",
+            bank_name: "",
+            ifsc_code: ""
+        }
+    )
+    const userId = localStorage.getItem("userId");
+    const addAccountdetailsHandler = async () => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        const payload = {
+            userid: userId,
+            bank_name: details?.bank_name,
+            name: details?.name,
+            account_number: details?.account_number,
+            ifsc_code: details?.ifsc_code
+        }
+        try {
+            const res = await axios.post(apis?.addAccount, payload)
+            if (res.data?.status === "200") {
+                toast.success(res?.data?.message)
+            }else{
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            toast.error(err)
+        }
+    }
     return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-start pb-10 pt-2 px-3">
             {/* Alert */}
@@ -21,7 +59,7 @@ const AddBankAccountDetails = () => {
             {/* Form */}
             <div className="w-full max-w-md text-black rounded-lg mt-5">
                 {/* Bank name */}
-                <div className="mb-8">
+                {/* <div className="mb-8">
                     <label className=" text-xsm font-medium flex items-center">
                         <img src={bank} alt="sfd" className="w-7 h-7 mr-2" />
                         Choose a bank
@@ -30,6 +68,19 @@ const AddBankAccountDetails = () => {
                         className="w-full text-xsm flex items-center justify-between text-white font-bold mt-2 px-4 py-2 bg-gradient-to-l from-[#f95959] to-[#ff9a8e] rounded-lg "
                     > <p>Please select a bank </p> <MdKeyboardArrowRight size={25} />
                     </Link>
+                </div> */}
+                {/* Full recipient's name */}
+                <div className="mb-8">
+                    <label className=" text-xsm font-medium flex items-center">
+                        <img src={bank} alt="sfd" className="w-7 h-7 mr-2" />
+                        Bank name
+                    </label>
+                    <input
+                        onChange={(e) => setDetails({ ...details, bank_name: e.target.value })}
+                        type="text"
+                        placeholder="Please enter the bank name"
+                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
+                    />
                 </div>
                 {/* Full recipient's name */}
                 <div className="mb-8">
@@ -38,6 +89,7 @@ const AddBankAccountDetails = () => {
                         Full recipient&apos;s name
                     </label>
                     <input
+                        onChange={(e) => setDetails({ ...details, name: e.target.value })}
                         type="text"
                         placeholder="Please enter the recipient's name"
                         className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
@@ -51,14 +103,15 @@ const AddBankAccountDetails = () => {
                         Bank account number
                     </label>
                     <input
-                        type="text"
+                        onChange={(e) => setDetails({ ...details, account_number: e.target.value })}
+                        type="number"
                         placeholder="Please enter your bank account number"
                         className="w-full placeholder:text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
                     />
                 </div>
 
                 {/* phone number */}
-                <div className="mb-8">
+                {/* <div className="mb-8">
                     <label className=" text-xsm font-medium flex items-center">
                         <img src={acc_number} alt="sfd" className="w-7 h-7 mr-2" />
                         Phone number
@@ -68,7 +121,7 @@ const AddBankAccountDetails = () => {
                         placeholder="Please enter your phone number"
                         className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
                     />
-                </div>
+                </div> */}
 
                 {/* IFSC code */}
                 <div className="mb-28">
@@ -77,6 +130,7 @@ const AddBankAccountDetails = () => {
                         IFSC code
                     </label>
                     <input
+                        onChange={(e) => setDetails({ ...details, ifsc_code: e.target.value })}
                         type="text"
                         placeholder="Please enter IFSC code"
                         className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
@@ -84,7 +138,7 @@ const AddBankAccountDetails = () => {
                 </div>
 
                 {/* Save button */}
-                <button className="w-full tracking-[2.5px] bg-[#CBCDDB] text-white text-sm font-semibold py-2 rounded-full shadow-md">
+                <button onClick={addAccountdetailsHandler} className="w-full tracking-[2.5px] bg-[#CBCDDB] text-white text-sm font-semibold py-2 rounded-full shadow-md">
                     Save
                 </button>
             </div>

@@ -156,7 +156,7 @@ function Header() {
                                             <Link to="/wallet" >
                                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                             </Link>
-                                            <p className='text-sm'>Withdrawal</p>
+                                            <p className='text-sm'>Withdraw</p>
                                             <Link to="wallet/withdrawalhistory" className='text-xs'>Withdrawal History</Link>
                                           </div>
                                             : location?.pathname === "/wallet/deposithistory" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
@@ -361,19 +361,30 @@ function Header() {
                                                                                                     <Link to="/login" >
                                                                                                       <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                     </Link>
-
                                                                                                   </div>
-                                                                                                    : <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] px-3 pt-2 h-[3.22rem] pb-2 flex justify-between items-center'>
-                                                                                                      <Link to="/" >
-                                                                                                        <img src={backButton} alt="drf"
-                                                                                                          className="w-6 h-6" />
+                                                                                                    : location?.pathname === "/wallet/transfer" ? <div className='text-white bg-gradient-to-r from-[#A8ECF3] to-[#C8F1F4] px-3 pt-2 sm:pt-2 md:pt-2 pb-2 sm:pb-1 md:pb-2 flex justify-between items-center'>
+                                                                                                      <Link to="/wallet" >
+                                                                                                        <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                       </Link>
-                                                                                                      <img className='w-28 h-7 ' src={usawinlogo} alt="logo not found" />
-                                                                                                      <div className="flex items-center gap-2">
+                                                                                                      <p>Fund Transfer</p>
+                                                                                                      <Link to="/customerservices" >
                                                                                                         <img className='w-7 h-7' src={kefu} alt="logo not found" />
-                                                                                                        <img className='w-7 h-7' src={musichead} alt="logo not found" />
-                                                                                                      </div>
-                                                                                                    </div>}
+                                                                                                      </Link>
+                                                                                                    </div>
+                                                                                                      : <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] px-3 pt-2 h-[3.22rem] pb-2 flex justify-between items-center'>
+                                                                                                        <Link to="/" >
+                                                                                                          <img src={backButton} alt="drf"
+                                                                                                            className="w-6 h-6" />
+                                                                                                        </Link>
+                                                                                                        <img className='w-28 h-7 ' src={usawinlogo} alt="logo not found" />
+                                                                                                        <div className="flex items-center gap-2">
+                                                                                                          <Link to="/customerservices" >
+                                                                                                            <img className='w-7 h-7' src={kefu} alt="logo not found" />
+                                                                                                          </Link>
+                                                                                                          <img
+                                                                                                            className='w-7 h-7' src={musichead} alt="logo not found" />
+                                                                                                        </div>
+                                                                                                      </div>}
     </div>
   )
 }

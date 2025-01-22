@@ -42,6 +42,7 @@ const Layout = () => {
                 location?.pathname === "/promotion/invitationrules" ||
                 location?.pathname === "/promotion/rebateratio" ||
                 location?.pathname === "/wallet" ||
+                location?.pathname === "/wallet/transfer" ||
                 location?.pathname === "/wallet/deposit" ||
                 location?.pathname === "/wallet/withdrawal" ||
                 location?.pathname === "/wallet/deposithistory" ||
