@@ -199,11 +199,14 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
+      // console.log("res?.data?.data",res?.data?.data)
       if (res?.data?.data) {
+        console.log("one one noe ",`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no }`)
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no }`)
+          // console.log("resooooooooo",resp)
           if (resp?.data?.status === 200) {
-            console.log("res 1", resp)
+            // console.log("res 1", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
             const data = resp?.data?.data;
             setModalData(data);
@@ -420,7 +423,7 @@ const WinGo = () => {
       const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % 60;
       const remainingTime = Math.max(60 - secondsInCycle, 0);
       profileDetails()
-      myHistory()
+      
       for (let i = 1; i <= 4; i++) {
         let betstats1
         let betstats2
@@ -461,8 +464,7 @@ const WinGo = () => {
         //   localStorage.setItem(`betStatus${i}`, "0")
         // }
       }
-
-
+      myHistory()
       gameHistory()
       // setIsBetDone(false)
     }
@@ -485,7 +487,7 @@ const WinGo = () => {
         .play()
     }
   }, [timeLeft]);
-  // console.log("gameHistoryDatagameHistoryData", userId)
+  // console.log("gameHistoryDatagameHistoryData", myHistoryData?.data[0])
   return (
     <>
       {isModalVisible && modalData && (

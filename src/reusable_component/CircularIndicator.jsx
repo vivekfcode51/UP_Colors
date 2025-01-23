@@ -37,7 +37,7 @@ const CircularIndicator = ({ percentage=0, color }) => {
       </svg>
       {/* Percentage Text */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <p className="text-sm text-black font-semibold">{percentage}%</p>
+        <p className="text-xsm text-black font-semibold">{percentage.toFixed(2)}%</p>
       </div>
     </div>
   );

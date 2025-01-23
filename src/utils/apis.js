@@ -28,6 +28,10 @@ const apis = {
   accountView: `${configModalUsaWin}accountView`,
   payout_withdraw: `${configModalUsaWin}withdraw`,
   withdrawHistory: `${configModalUsaWin}withdraw-history`,
+  promotionData: `${configModalUsaWin}agency-promotion-data-`,
+  subordinateData: `${configModalUsaWin}subordinate-data`,
+  commisionDetails: `${configModalUsaWin}commission_details?user_id=`,
+  tier: `${configModalUsaWin}tier`,
 };
 
 export default apis

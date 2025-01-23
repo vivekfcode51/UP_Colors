@@ -72,7 +72,8 @@ const Wallet = () => {
     }
   };
   
-  // console.log("myDetailsmyDetails", myDetails)
+const mainWalletPercentage = myDetails?.data?.wallet*100/(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet)
+const thirdPartyWalletPercentage = myDetails?.data?.third_party_wallet*100/(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet)
   const array = [{ game: "Lottery", amount: 0.04 }, { game: "JILI", amount: 0.04 }, { game: "EVO_Video", amount: 0.04 }, { game: "TV_Chess", amount: 0.04 }, { game: "Wickets9", amount: 0.04 }, { game: "JDB", amount: 0.04 }, { game: "DG", amount: 0.04 }, { game: "CMD", amount: 0.04 }, { game: "CQ9", amount: 0.04 }, { game: "MG", amount: 0.04 }, { game: "SaBa", amount: 0.04 }, { game: "TB", amount: 0.04 }, { game: "PG", amount: 0.04 }, { game: "AG_Video", amount: 0.04 }, { game: "Card365", amount: 0.04 }, { game: "V8Card", amount: 0.04 }]
   return (
     <div className="min-h-screen text-lightGray bg-inputBg flex font-inter flex-col items-center">
@@ -84,15 +85,15 @@ const Wallet = () => {
       <div className="bg-white shadow-md rounded-lg px-2 pt-5 pb-20 mt-2 w-11/12 max-w-md">
         <div className="flex text-black">
           <div className="flex w-[50%] flex-col justify-center items-center">
-            <CircularIndicator percentage={0} />
+            <CircularIndicator percentage={mainWalletPercentage} />
 
             <p className="mt-2 ">₹ {myDetails?.data?.wallet}</p>
-            <p className="text-gray-500 text-xsm">Total withdraw amount</p>
+            <p className="text-gray-500 text-xsm">Main wallet</p>
           </div>
           <div className="flex w-[50%] flex-col justify-center items-center">
-            <CircularIndicator percentage={0} />
+            <CircularIndicator percentage={thirdPartyWalletPercentage} />
             <p className="mt-2 ">₹ {myDetails?.data?.third_party_wallet}</p>
-            <p className="text-gray-500 text-xsm">Total deposit amount</p>
+            <p className="text-gray-500 text-xsm">Third party wallet</p>
           </div>
         </div>
         {/* <Link to="/wallet/transfer" > */}

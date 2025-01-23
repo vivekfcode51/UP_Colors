@@ -34,12 +34,14 @@ function Login() {
     try {
       const payload = { mobile: formData.mobile, password: formData.password };
       const response = await axios.post(loginEndpoint, payload);
-      console.log("responseresponseresponse login",response)
-      if (response?.status === 200) {
+      if (response?.data?.status === 200) {
         localStorage.setItem("userId", response?.data?.data?.userId)
         setLoading(false)
         toast.success("Login successful!");
         navigate("/")
+      }else{
+        toast.error(response?.data?.message);
+        setLoading(false)
       }
     } catch (err) {
       toast.error(err?.response?.data?.data?.message);

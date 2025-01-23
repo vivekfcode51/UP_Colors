@@ -256,7 +256,7 @@ function WithdrawalHistory() {
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
                         <div
                             ref={modalRef}
-                            className="bg-bg2 p-3 rounded-t-xl h-48 w-full sm:w-[540px] md:w-[400px]"
+                            className="bg-bg2 p-3 rounded-t-xl h-48 w-full xsm:w-[400px]"
                         >
                             <button
                                 onClick={() => handleModalFirst(false)}
@@ -314,7 +314,7 @@ function WithdrawalHistory() {
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
                         <div
                             ref={modalSecondRef}
-                            className="bg-bg2 p-3 rounded-t-xl h-72 w-full sm:w-[540px] md:w-[400px]"
+                            className="bg-bg2 p-3 rounded-t-xl h-72 w-full xsm:w-[400px]"
                         >
                             <div className='flex items-center justify-between' >
                                 <button

@@ -201,7 +201,7 @@ function Header() {
                                                         <p className='text-sm'>Notification</p>
                                                         <p className='text-xs'></p>
                                                       </div>
-                                                        : location?.pathname === "/vip" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                        : location?.pathname === "/vip" ? <div className='flex px-2 items-center justify-between bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
                                                           <Link to="/profile" >
                                                             <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                           </Link>

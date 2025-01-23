@@ -117,7 +117,12 @@ function DepositHistory() {
             console.log(err)
         }
     }
-
+    useEffect(() => {
+        if (userId) {
+            depositHistory(activeModal);
+        }
+    }, [userId, activeModal]);
+    
     const handleCopyOrderId = (orderid) => {
         if (orderid) {
             navigator.clipboard
@@ -140,11 +145,7 @@ function DepositHistory() {
             return () => clearTimeout(timer);
         }
     }, [isOrderidCopied, setIsOrderidCopied]);
-    useEffect(() => {
-        if (userId) {
-            depositHistory(activeModal);
-        }
-    }, [userId, activeModal]);
+   
 
     return (
         <>
@@ -268,7 +269,7 @@ function DepositHistory() {
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
                         <div
                             ref={modalRef}
-                            className="bg-bg2 p-3 rounded-t-xl h-48 w-full sm:w-[540px] md:w-[400px]"
+                            className="bg-bg2 p-3 rounded-t-xl h-48 w-full xsm:w-[400px]"
                         >
                             <button
                                 onClick={() => handleModalFirst(false)}
@@ -326,7 +327,7 @@ function DepositHistory() {
                     <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
                         <div
                             ref={modalSecondRef}
-                            className="bg-bg2 p-3 rounded-t-xl h-72 w-full sm:w-[540px] md:w-[400px]"
+                            className="bg-bg2 p-3 rounded-t-xl h-72 w-full xsm:w-[400px]"
                         >
                             <div className='flex items-center justify-between' >
                                 <button

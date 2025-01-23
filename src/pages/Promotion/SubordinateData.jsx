@@ -1,13 +1,87 @@
-import React, { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { IoSearchOutline } from 'react-icons/io5'
-
+import { toast } from 'react-toastify'
+import axios from 'axios'
+import apis from "../../utils/apis"
+import { useNavigate } from 'react-router-dom'
 function SubordinateData() {
   const [modalFirstValue, handleModalFirstValue] = useState(0);
   const [confirmedDate, setConfirmedDate] = useState("Select date");
   const [modalFirst, handleModalFirst] = useState(false);
+  const [tier, setTier] = useState(null);
+  const [suboridnateData, setSuborinateData] = useState(null);
   const modalRef = useRef(null);
 
+  // const [myDetails, setMyDetails] = useState(null)
+  const userId = localStorage.getItem("userId")
+  const navigate = useNavigate()
+  // const profileDetails = async () => {
+  //   if (!userId) {
+  //     toast.error("User not logged in");
+  //     navigate("/login");
+  //     return;
+  //   }
+  //   try {
+  //     const res = await axios.get(`${apis?.profile}${userId}`);
+  //     if (res?.data?.success === 200) {
+  //       setMyDetails(res?.data)
+  //     }
+  //   } catch (err) {
+  //     toast.error(err);
+  //   }
+  // };
+  const tierHandler = async () => {
+    if (!userId) {
+      toast.error("User not logged in");
+      navigate("/login");
+      return;
+    }
+    try {
+      const res = await axios.get(`${apis.tier}`);
+            // console.log("res1",res)
+      if (res?.data?.status === 200) {
+        setTier(res?.data?.data)
+      } else {
+        toast.error(res?.data?.message)
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
+  const subOrdinateDataHandler = async () => {
+    if (!userId) {
+      toast.error("User not logged in");
+      navigate("/login");
+      return;
+    }
+    const payload = {
+      id: userId,
+      tier: modalFirstValue
+    }
+    // console.log("payload",payload)
+    try {
+      const res = await axios.post(`${apis?.subordinateData}`, payload);
+      console.log("res1",res)
+      if (res?.data?.status === 200) {
+        setSuborinateData(res?.data?.data)
+      } else {
+        toast.error(res?.data?.message)
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
+  useEffect(() => {
+    if (userId) {
+      subOrdinateDataHandler();
+    }
+  }, [userId, modalFirstValue]);
+
+  useEffect(()=>{
+    tierHandler()
+  },[])
+  // console.log(tier)
   return (
     <div className='p-2 h-full w-full'>
       <div className='w-full flex items-center justify-between bg-white rounded-md p-2'>
@@ -27,37 +101,37 @@ function SubordinateData() {
         <button
           className="bg-white text-black rounded-md text-xsm  py-4 px-2 flex justify-center items-center shadow-md"
         >
-          <input onChange={(e) => setConfirmedDate(e.target.value)} className='outline-none' type="date" />
+          <input value={confirmedDate} onChange={(e) => setConfirmedDate(e.target.value)} className='outline-none' type="date" />
         </button>
       </div>
       <div className='bg-[#f7f7f7]'>
         <div className='grid grid-cols-2 w-full p-2  mt-3 text-xsm'>
           <div className='col-span-1 flex flex-col items-center border-r-[1px] border-lightGray'>
-            <p className='text-black text-sm font-bold'>0</p>
+            <p className='text-black text-sm font-bold'>{suboridnateData?.number_of_deposit}</p>
             <p className='text-lightGray'>Deposit number</p>
           </div>
           <div className='col-span-1 flex flex-col items-center'>
-            <p className='text-black text-sm font-bold'>0</p>
+            <p className='text-black text-sm font-bold'>{suboridnateData?.payin_amount ? Number(suboridnateData.payin_amount).toFixed(2) : "0"}</p>
             <p className='text-lightGray'>Deposit amount</p>
           </div>
         </div>
         <div className='grid grid-cols-2 w-full p-2  mt-3 text-xsm'>
           <div className='col-span-1 flex flex-col items-center border-r-[1px] border-lightGray'>
-            <p className='text-black text-sm font-bold'>0</p>
+            <p className='text-black text-sm font-bold'>{suboridnateData?.number_of_bettor ? Number(suboridnateData.number_of_bettor).toFixed(2) : "0"}</p>
             <p className='text-lightGray'>Number of bettors</p>
           </div>
           <div className='col-span-1 flex flex-col items-center'>
-            <p className='text-black text-sm font-bold'>0</p>
+            <p className='text-black text-sm font-bold'>{suboridnateData?.bet_amount ? Number(suboridnateData.bet_amount).toFixed(2) : "0"}</p>
             <p className='text-lightGray'>Total bet</p>
           </div>
         </div>
         <div className='grid grid-cols-2 w-full p-2  mt-3 text-xsm'>
           <div className='col-span-1 flex flex-col items-center border-r-[1px] border-lightGray'>
-            <p className='text-black text-sm font-bold'>0</p>
+            <p className='text-black text-sm font-bold'>{suboridnateData?.first_deposit ? Number(suboridnateData.first_deposit).toFixed(2) : "0"}</p>
             <p className='text-lightGray text-center'>Number of people making first deposit</p>
           </div>
           <div className='col-span-1 flex flex-col items-center'>
-            <p className='text-black text-sm font-bold'>0</p>
+            <p className='text-black text-sm font-bold'>{suboridnateData?.first_deposit_amount ? Number(suboridnateData.first_deposit_amount).toFixed(2) : "0"}</p>
             <p className='text-lightGray'>First deposit amount</p>
           </div>
         </div>
@@ -81,31 +155,28 @@ function SubordinateData() {
                   handleModalFirstValue(0);
                   handleModalFirst(false);
                 }}
-                className={`border-b-[1px] border-border1 py-2 ${modalFirstValue === "All" ? "text-gray" : "text-lightGray"
+                className={`border-b-[1px] border-border1 py-2 ${modalFirstValue === 0 ? "text-black" : "text-lightGray"
                   }`}
               >
                 All
               </button>
-              <button
-                onClick={() => {
-                  handleModalFirstValue(1);
-                  handleModalFirst(false);
-                }}
-                className={`border-b-[1px] border-border1 py-2 ${modalFirstValue === "Processing" ? "text-gray" : "text-lightGray"
-                  }`}
-              >
-                Tier 1
-              </button>
-              <button
-                onClick={() => {
-                  handleModalFirstValue(2);
-                  handleModalFirst(false);
-                }}
-                className={`border-b-[1px] border-border1 py-2 ${modalFirstValue === "Completed" ? "text-gray" : "text-lightGray"
-                  }`}
-              >
-                Tier 2
-              </button>
+              {tier?.length > 0 ? (tier?.map((item) => {
+                // console.log("item",item)
+                return (
+                  <button
+                    key={item?.id}
+                    onClick={() => {
+                      handleModalFirstValue(item?.id);
+                      handleModalFirst(false);
+                    }}
+                    className={`border-b-[1px] border-border1 py-2 ${modalFirstValue === item?.id ? "text-black" : "text-lightGray"
+                      }`}
+                  >
+                    {item?.name}
+                  </button>
+                )
+              })) : <p>No data found</p>}
+
             </div>
           </div>
         </div>

@@ -68,10 +68,10 @@ const InvitationRules = () => {
             </div>
           ))}
         </div>
-        <div className="p-4">
+        <div className="">
           <table className="w-full border-collapse border border-redLight">
             <thead>
-              <tr className="text-xsm  text-white bg-redLight">
+              <tr className="text-xs font-bold  text-white bg-redLight">
                 <th className=" text-nowrap px-1 py-3">Rebate Level</th>
                 <th className=" text-nowrap px-1 py-3">Team Number</th>
                 <th className=" text-nowrap px-1 py-3">Team Betting</th>
@@ -82,19 +82,19 @@ const InvitationRules = () => {
               {tableData.map((row, index) => (
                 <tr
                   key={index}
-                  className={`text-xsm
+                  className={`text-xs
                     }`}
                 >
-                  <td className="border border-redLight text-[#fff670] p-2 text-center">
+                  <td className="border border-redLight text-[#fff670] py-1  text-center">
                     {row.level}
                   </td>
-                  <td className="border border-redLight text-gray p-2 text-center">
+                  <td className="border border-redLight text-gray  text-center">
                     {row.teamNumber}
                   </td>
-                  <td className="border border-redLight text-gray p-2 text-center">
+                  <td className="border border-redLight text-gray  text-center">
                     {row.teamBetting}
                   </td>
-                  <td className="border border-redLight text-gray p-2 text-center">
+                  <td className="border border-redLight text-gray  text-center">
                     {row.teamDeposit}
                   </td>
                 </tr>

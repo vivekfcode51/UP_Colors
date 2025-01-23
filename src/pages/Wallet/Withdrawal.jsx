@@ -168,7 +168,7 @@ function Withdrawal() {
                         </button>
 
                         <div className='mt-10' >
-                            <ul className="px-2 py-4 my-2 bg-inputBg  rounded-lg text-xsm text-blackLight">
+                            <ul className="px-2 py-4 my-2 bg-inputBg  rounded-lg text-xs  text-blackLight">
                                 <li className="flex items-start">
                                     <span className="text-redLight  mr-2">◆</span>
                                     Need to bet <p className='text-redLight'> &nbsp; ₹0.00&nbsp;</p> to be able to withdraw.
@@ -240,7 +240,7 @@ function Withdrawal() {
                                 Withdraw
                             </button>
                             <div className='mt-10' >
-                                <ul className="px-2 py-4 my-2 bg-inputBg  rounded-lg text-xsm text-blackLight">
+                                <ul className="px-2 py-4 my-2 bg-inputBg  rounded-lg text-xs text-blackLight">
                                     <li className="flex items-start">
                                         <span className="text-redLight  mr-2">◆</span>
                                         Need to bet <p className='text-redLight'> &nbsp; ₹0.00&nbsp;</p> to be able to withdraw.

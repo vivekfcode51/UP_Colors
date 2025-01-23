@@ -81,14 +81,7 @@ function Profile() {
         }
     };
 
-    useEffect(() => {
-        if (langModal) {
-            const timer = setTimeout(() => {
-                setLangModal(false);
-            }, 2000);
-            return () => clearTimeout(timer);
-        }
-    }, [langModal, setLangModal]);
+   
     useEffect(() => {
         if (isUidCopied) {
             const timer = setTimeout(() => {
@@ -97,6 +90,15 @@ function Profile() {
             return () => clearTimeout(timer);
         }
     }, [isUidCopied, setIsUidCopied]);
+
+    useEffect(() => {
+        if (langModal) {
+            const timer = setTimeout(() => {
+                setLangModal(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [langModal, setLangModal]);
     // console.log("myDetailsmyDetails",myDetails)
     return (
         <div className='h-full w-full mb-80'>
@@ -104,7 +106,7 @@ function Profile() {
             <div className='bg-bg2 relative h-[35%] 3xl:h-[30%] px-3 flex justify-center rounded-b-[2rem]'>
                 <div className='grid grid-cols-4 px-3'>
                     <div className='col-span-1 flex items-center -mt-20 justify-center'>
-                        <img src={myDetails?.data?.image ? myDetails?.data?.image : avatar} className='rounded-full' alt="not found" />
+                        <img src={myDetails?.data?.image ? myDetails?.data?.image : avatar} className='w-20 h-20 rounded-full' alt="not found" />
                     </div>
                     <div className='col-span-3 flex flex-col justify-center -mt-20 px-2'>
                         <div className=' flex items-center justify-start gap-2'>
