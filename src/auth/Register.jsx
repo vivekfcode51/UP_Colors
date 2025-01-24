@@ -34,8 +34,8 @@ function Register() {
       .email('Invalid email format'),
     password: Yup.string()
       .required('Password is required')
-      .min(6, 'Password must be at least 6 characters')
-      .max(8, 'Password cannot exceed 8 characters'),
+      .min(8, 'Password must be at least 8 characters'),
+      // .max(8, 'Password cannot exceed 8 characters'),
     password_confirmation: Yup.string()
       .required('Confirm your password')
       .oneOf([Yup.ref('password')], 'Passwords must match')

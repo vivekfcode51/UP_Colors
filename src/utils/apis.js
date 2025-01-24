@@ -14,6 +14,7 @@ const apis = {
   register: `${configModalUsaWin}register`,
   login: `${configModalUsaWin}login`,
   profile: `${configModalUsaWin}profile/`,
+  changePassword: `${configModalUsaWin}changepassword`,
   fundTransfer: `${configModalUsaWin}main_wallet_transfers`,
   wingo_bet: `${configModalUsaWin}bets`,
   wingo_my_history: `${configModalUsaWin}bet_history`,
@@ -32,6 +33,9 @@ const apis = {
   subordinateData: `${configModalUsaWin}subordinate-data`,
   commisionDetails: `${configModalUsaWin}commission_details?user_id=`,
   tier: `${configModalUsaWin}tier`,
+  vipLevel: `${configModalUsaWin}vip_level?userid=`,
+  vipLevelHistory: `${configModalUsaWin}vip_level_history?userid=`,
+  vipLevelAddMoney: `${configModalUsaWin}add_money`,
 };
 
 export default apis

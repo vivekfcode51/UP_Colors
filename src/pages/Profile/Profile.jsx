@@ -224,7 +224,7 @@ function Profile() {
                     </div>
                 </Link>
 
-                <Link to="/activity/gifts" className='px-2 border-b border-border1 py-4  flex justify-between items-center' >
+                <Link to="/gamehistory" className='px-2 border-b border-border1 py-4  flex justify-between items-center' >
                     <div className='flex items-center'>
                         <img src={statistics} className='rounded-full h-7 w-7' alt="not found" />&nbsp;Game Statistics
                     </div>

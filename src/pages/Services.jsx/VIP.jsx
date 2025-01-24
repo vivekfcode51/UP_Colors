@@ -25,7 +25,6 @@ import vipcrown from "../../assets/icons/vipcrown.png"
 import vipwelfare1 from "../../assets/icons/vipwelfare1.png"
 import vipwelfare2 from "../../assets/icons/vipwelfare2.png"
 import vipwelfare5 from "../../assets/icons/vipwelfare5.png"
-import viprulehead from "../../assets/icons/viprulehead.png"
 import vipununlocked from "../../assets/icons/vipununlocked.png"
 import vipbg1 from "../../assets/icons/vipbg1.png"
 import vipbg2 from "../../assets/icons/vipbg2.png"
@@ -48,10 +47,12 @@ import { RiVipDiamondFill } from "react-icons/ri";
 const profileApi = apis.profile
 function VIP() {
   const [myDetails, setMyDetails] = useState(null)
+  const [vipLevelData, setVipLevel] = useState([])
+  const [vipLevelHistoryData, setVipLevelHistory] = useState([])
   const [modal, setModal] = useState("history")
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+
   const profileDetails = async (userId) => {
     if (!userId) {
       toast.error("User not logged in");
@@ -60,155 +61,98 @@ function VIP() {
     }
     try {
       const res = await axios.get(`${profileApi}${userId}`);
-      console.log("response", res)
+      // console.log("response", res)
       if (res?.status === 200) {
         setMyDetails(res?.data)
-        // dispatch(setProfileDetails({ total_wallet: res.data.total_wallet }))
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
+  const vipLevelHandler = async () => {
+    if (!userId) {
+      toast.error("User not logged in");
+      navigate("/login");
+      return;
+    }
+    try {
+      const res = await axios.get(`${apis.vipLevel}${userId}`);
+      console.log("response", res)
+      if (res?.data?.status === 200) {
+        setVipLevel(res?.data)
+      } else {
+        toast.error(res?.data?.message)
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
+  const vipLevelHistoryHandler = async () => {
+    if (!userId) {
+      toast.error("User not logged in");
+      navigate("/login");
+      return;
+    }
+    try {
+      const res = await axios.get(`${apis.vipLevelHistory}${userId}`);
+      console.log("response", res)
+      if (res?.data?.status === 200) {
+        setVipLevelHistory(res?.data?.data)
+      } else {
+        toast.error(res?.data?.message)
       }
     } catch (err) {
       toast.error(err);
     }
   };
 
+  // add money
+  const addMoneyLevelUpHandler = async (id, reward) => {
+    const payload = {
+      userid: userId,
+      level_id: id,
+      level_up_rewards: reward
+    }
+    console.log(":level payload", payload)
+    try {
+      const res = await axios.post(apis.vipLevelAddMoney, payload)
+      console.log("level", res)
+      if (res?.data?.status === 200) {
+        toast.success(res?.data?.message)
+      } else {
+        toast.error(res?.data?.message)
+      }
+    } catch (err) {
+      toast.error(err)
+    }
+  }
+  const addMoneyMonthlyHandler = async (id, reward) => {
+    const payload = {
+      userid: userId,
+      level_id: id,
+      monthly_rewards: reward
+    }
+    console.log(":monthly payload", payload)
+    try {
+      const res = await axios.post(apis.vipLevelAddMoney, payload)
+      console.log("monthly", res)
+      if (res?.data?.status === 200) {
+        toast.success(res?.data?.message)
+      } else {
+        toast.error(res?.data?.message)
+      }
+    } catch (err) {
+      toast.error(err)
+    }
+  }
+  console.log("vipLevelvipLevel", vipLevelHistoryData)
   useEffect(() => {
     if (userId) {
       profileDetails(userId);
+      vipLevelHandler();
+      vipLevelHistoryHandler();
     }
   }, [userId]);
-
-  const data = [
-    {
-      bgColor1: "[#A3B5CF]",
-      bg: vipbg1,
-      tag: "1",
-      img: viptop1,
-      img1: vip1,
-      img2: viptick,
-      status: "Opened",
-      total: 1000,
-      benefitLevel1: "60",
-      benefitMonthly1: "60",
-      benefitRebate1: "0.05"
-    },
-    {
-      bgColor1: "[#E8A460]",
-      bg: vipbg2,
-      tag: "2",
-      img: viptop2,
-      img1: vip2,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 10000,
-      benefitLevel1: "180",
-      benefitMonthly1: "90",
-      benefitRebate1: "0.1"
-    },
-    {
-      bgColor1: "[#FF8781]",
-      bg: vipbg3,
-      tag: "3",
-      img: viptop2,
-      img1: vip3,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 100000,
-      benefitLevel1: "690",
-      benefitMonthly1: "290",
-      benefitRebate1: "0.15"
-    },
-    {
-      bgColor1: "[#5AD1F3]",
-      bg: vipbg4,
-      tag: "4",
-      img: viptop2,
-      img1: vip4,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 4000000,
-      benefitLevel1: "1690",
-      benefitMonthly1: "690",
-      benefitRebate1: "0.02"
-    },
-    {
-      bgColor1: "[#F18DDF]",
-      bg: vipbg5,
-      tag: "5",
-      img: viptop2,
-      img1: vip5,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 20000000,
-      benefitLevel1: "6900",
-      benefitMonthly1: "1690",
-      benefitRebate1: "0.25"
-    },
-    {
-      bgColor1: "[#33B57E]",
-      bg: vipbg6,
-      tag: "6",
-      img: viptop2,
-      img1: vip6,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 80000000,
-      benefitLevel1: "16900",
-      benefitMonthly1: "6900",
-      benefitRebate1: "0.3"
-    },
-    {
-      bgColor1: "[#37A959]",
-      bg: vipbg7,
-      tag: "7",
-      img: viptop2,
-      img1: vip7,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 300000000,
-      benefitLevel1: "69000",
-      benefitMonthly1: "16900",
-      benefitRebate1: "0.35"
-    },
-    {
-      bgColor1: "[#458BED]",
-      bg: vipbg8,
-      tag: "8",
-      img: viptop2,
-      img1: vip8,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 1000000000,
-      benefitLevel1: "60",
-      benefitMonthly1: "30",
-      benefitRebate1: "0.05"
-    },
-    {
-      bgColor1: "[#A05AFD]",
-      bg: vipbg9,
-      tag: "9",
-      img: viptop2,
-      img1: vip9,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 5000000000,
-      benefitLevel1: "690000",
-      benefitMonthly1: "169000",
-      benefitRebate1: "0.45"
-    },
-    {
-      bgColor1: "[#FB9C3D]",
-      bg: vipbg10,
-      tag: "10",
-      img: viptop2,
-      img1: vip10,
-      img2: vipununlocked,
-      status: "Not open yet",
-      total: 9999999999,
-      benefitLevel1: "1690000",
-      benefitMonthly1: "690000",
-      benefitRebate1: "0.5"
-    },
-
-  ]
 
   const rules = [
     {
@@ -267,11 +211,11 @@ function VIP() {
       </div>
       <div className=" text-gray text-xs flex items-center justify-evenly px-3 gap-3 -mt-5">
         <div className="bg-white text-center py-3 shadow-md rounded-lg w-full">
-          <p className="text-redLight text-sm"> <span className="text-black ">1</span> EXP</p>
+          <p className="text-redLight text-sm"> <span className="text-black ">{vipLevelData?.my_experience}</span> EXP</p>
           <p className="text-lightGray">My Experience</p>
         </div>
         <div className="bg-white py-3 text-center shadow-md rounded-lg w-full">
-          <p className="text-lightGray text-sm"> <span className="text-black ">25</span> Days</p>
+          <p className="text-lightGray text-sm"> <span className="text-black ">{vipLevelData?.days_count}</span> Days</p>
           <p className="text-lightGray">Payout time</p>
         </div>
       </div>
@@ -282,15 +226,14 @@ function VIP() {
       </div>
       <div className="px-3 pb-5">
         <div className=" flex gap-2 overflow-x-auto snap-x snap-mandatory hide-scrollbar ">
-          {data?.map((item, i) => {
-            // console.log("tiemrer", item)
+          {vipLevelData?.data?.length > 0 && vipLevelData?.data?.map((item, i) => {
             return (
               <div key={i} className="flex-none w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-                <div className={`rounded-md`}
-                  style={{ backgroundColor: item.bgColor1.replace("[", "").replace("]", "") }} >
+                <div className={`rounded-md ${item?.name === "vip 1" ? "bg-[#A3B5CF]" : item?.name === "vip 2" ? "bg-[#E8A460]" : item?.name === "vip 3" ? "bg-[#FF8781]" : item?.name === "vip 4" ? "bg-[#5AD1F3]" : item?.name === "vip 5" ? "bg-[#F18DDF]" : item?.name === "vip 6" ? "bg-[#33B57E]" : item?.name === "vip 7" ? "bg-[#37A959]" : item?.name === "vip 8" ? "bg-[#458BED]" : item?.name === "vip 9" ? "bg-[#A05AFD]" : item?.name === "vip 10" ? "bg-[#FB9C3D]" : ""} `}
+                >
                   <div
                     style={{
-                      backgroundImage: `url(${item?.bg})`,
+                      backgroundImage: `url(${item?.name === "vip 1" ? vipbg1 : item?.name === "vip 2" ? vipbg2 : item?.name === "vip 3" ? vipbg3 : item?.name === "vip 4" ? vipbg4 : item?.name === "vip 5" ? vipbg5 : item?.name === "vip 6" ? vipbg6 : item?.name === "vip 7" ? vipbg7 : item?.name === "vip 8" ? vipbg8 : item?.name === "vip 9" ? vipbg9 : item?.name === "vip 10" ? vipbg10 : ""})`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}
@@ -299,29 +242,41 @@ function VIP() {
                       <div className="flex flex-col items-start w-full justify-start">
                         <div className="flex text-nowrap items-start w-full  gap-2">
                           <div>
-                            <img src={item?.img} className="w-6 h-6" alt="fdd" />
+                            <img src={item?.status === 1 ? viptop1 : viptop2} className="w-6 h-6" alt="fdd" />
                           </div>
-                          <div className="">VIP{item?.tag}</div>
+                          <div className="capitalize">{item?.name}</div>
                           <div className="flex items-center gap-2">
-                            <img src={item?.img2} className="w-4 h-4" alt="fdd" />
-                            <p>{item?.status}</p>
+                            <img src={item?.status === 1 ? viptick : vipununlocked} className="w-4 h-4" alt="fdd" />
+                            <p>{item?.status === 1 ? "Opened" : "Not open yet"}</p>
                           </div>
                         </div>
                         <div className="border-white py-1 text-xs rounded mt-2 px-4">
-                          Dear vip 1 customer
+                          Dear {item?.name} customer
+                        </div>
+                        <div className="border-white py-1 text-xs rounded mt-2 px-4">
+                          Bet ₹1=1EXP
                         </div>
                       </div>
                       <div className="flex items-center w-full justify-end">
-                        <img src={item?.img1} className="w-[5.5rem] h-20" alt="sd" />
+                        <img src={item?.name === "vip 1" ? vip1 : item?.name === "vip 2" ? vip2 : item?.name === "vip 3" ? vip3 : item?.name === "vip 4" ? vip4 : item?.name === "vip 5" ? vip5 : item?.name === "vip 6" ? vip6 : item?.name === "vip 7" ? vip7 : item?.name === "vip 8" ? vip8 : item?.name === "vip 9" ? vip9 : item?.name === "vip 10" ? vip10 : ""} className="w-[5.5rem] h-20" alt="sd" />
                       </div>
                     </div>
                     <div className="text-xs mt-2 w-full px-2">
                       <div className="flex items-center justify-between">
-                        <p className="bg-bg2 rounded p-1">0/{item.total}</p>
-                        <p>0% Completed</p>
+                        <p className={`${item?.name === "vip 1" ? "bg-[#8AA0C0]" : item?.name === "vip 2" ? "bg-[#E3994F]" : item?.name === "vip 3" ? "bg-[#FF7979]" : item?.name === "vip 4" ? "bg-[#4AC9F2]" : item?.name === "vip 5" ? "bg-[#b73d9d]" : item?.name === "vip 6" ? "bg-[#54D8A3]" : item?.name === "vip 7" ? "bg-[#49B13E]" : item?.name === "vip 8" ? "bg-[#4FAEF1]" : item?.name === "vip 9" ? "bg-[#C378E9]" : item?.name === "vip 10" ? "bg-[#F2A83A]" : ""} rounded p-1`}>{item?.bet_amount} / {item?.range_amount}</p>
+                        <p>{Math.min(((item?.bet_amount / item?.range_amount) * 100), 100).toFixed(2)}% Completed</p>
                       </div>
-                      <div className="w-full mx-1 bg-red h-2 mt-2"></div>
-                      <div className="w-full mx-1">Incomplete will be deducted by the system</div>
+                      <div className="w-full bg-gray h-2 mt-2 rounded">
+                        <div
+                          className={`${item?.name === "vip 1" ? "bg-[#8AA0C0]" : item?.name === "vip 2" ? "bg-[#E3994F]" : item?.name === "vip 3" ? "bg-[#FF7979]" : item?.name === "vip 4" ? "bg-[#4AC9F2]" : item?.name === "vip 5" ? "bg-[#b73d9d]" : item?.name === "vip 6" ? "bg-[#54D8A3]" : item?.name === "vip 7" ? "bg-[#49B13E]" : item?.name === "vip 8" ? "bg-[#4FAEF1]" : item?.name === "vip 9" ? "bg-[#C378E9]" : item?.name === "vip 10" ? "bg-[#F2A83A]" : ""} h-2 rounded`}
+                          style={{
+                            width: `${Math.min((item?.bet_amount / item?.range_amount) * 100, 100)}%`,
+                          }}
+                        ></div>
+                      </div>
+                      <div className="w-full mx-1 mt-1 text-white text-center">
+                        Incomplete will be deducted by the system
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -341,11 +296,11 @@ function VIP() {
                     <div className="w-[50%] flex flex-col gap-1 text-red text-xs">
                       <div className="border-red border-2 flex justify-between items-center  rounded-md p-1">
                         <img src={depo_wallet} className="w-4" alt="sd" />
-                        <p className="">{item?.benefitLevel1}</p>
+                        <p className="">{item?.level_up_rewards}</p>
                       </div>
                       <div className="border-redLight flex justify-between items-center  p-1 rounded-md border-2">
                         <div className="bg-red w-4 rounded-full flex items-center justify-center h-4" > <RiVipDiamondFill className="text-white" /></div>
-                        <p>0</p>
+                        <p>{item?.level_up_status}</p>
                       </div>
                     </div>
                   </div>
@@ -360,11 +315,11 @@ function VIP() {
                     <div className="w-[50%] text-red text-xs flex flex-col gap-1 ">
                       <div className="border-red flex justify-between items-center  rounded-md border-2 p-1">
                         <img src={depo_wallet} className="w-4" alt="sd" />
-                        <p className="">{item?.benefitMonthly1}</p>
+                        <p className="">{item?.monthly_rewards}</p>
                       </div>
                       <div className="border-redLight flex justify-between items-center  p-1 rounded-md border-2">
                         <div className="bg-red w-4 rounded-full flex items-center justify-center h-4" > <RiVipDiamondFill className="text-white" /></div>
-                        <p>0</p>
+                        <p>{item?.monthly_rewards_status}</p>
                       </div>
                     </div>
                   </div>
@@ -379,7 +334,7 @@ function VIP() {
                     <div className="w-[50%] text-redLight text-xs flex flex-col">
                       <div className="border-redLitext-redLight flex justify-between items-center  rounded-md border-2 p-1">
                         <img src={vipweal} className="w-4" alt="sd" />
-                        <p className="">{item?.benefitRebate1}%</p>
+                        <p className="">{item?.rebate_rate}%</p>
                       </div>
 
                     </div>
@@ -404,11 +359,11 @@ function VIP() {
                           <div className="shadow-2xl bg-black opacity-35 text-xs font-bold flex justify-between items-center w-full px-1 pt-1 mt-3">
                             <div className=" flex justify-between items-center  rounded-md  px-1">
                               <img src={depo_wallet} className="w-4" alt="sd" />
-                              <p className="">{item?.benefitLevel1}</p>
+                              <p className="">{item?.level_up_rewards}</p>
                             </div>
                             <div className=" flex justify-between items-center  p-1 rounded-md ">
                               <img src={yellowheart} className="w-4" alt="sd" />
-                              <p className="">0</p>
+                              <p className="">{item?.level_up_status}</p>
                             </div>
                           </div>
                         </div>
@@ -416,7 +371,7 @@ function VIP() {
                       </div>
                       < p className="text-black text-sm mx-1">Level up rewards</p>
                       <p className="text-xs text-black mt-2 mx-1">Each account can only receive 1 time</p>
-                      <button className="mt-5 bg-[#CCCEDC] text-lightGray font-bold text-xsm w-full py-1.5 rounded-full mx-1">Received</button>
+                      <button onClick={() => addMoneyLevelUpHandler(item?.id, item?.level_up_rewards)} className="mt-5 bg-[#CCCEDC] text-lightGray font-bold text-xsm w-full py-1.5 rounded-full mx-1">Received</button>
                     </div>
                     <div className="w-full col-span-1">
                       <div className="bg-gradient-to-r from-[#f95959] to-[#ff9a8e] rounded-t-lg w-full flex flex-col items-end justify-center">
@@ -431,11 +386,11 @@ function VIP() {
                           <div className="text-xs bg-black opacity-35 font-bold flex justify-between items-center w-full px-1 pt-1 mt-">
                             <div className=" flex justify-between items-center  rounded-md p-1">
                               <img src={depo_wallet} className="w-4" alt="sd" />
-                              <p className="">{item?.benefitMonthly1}</p>
+                              <p className="">{item?.monthly_rewards}</p>
                             </div>
                             <div className=" flex justify-between items-center  p-1 rounded-md ">
                               <img src={yellowheart} className="w-4" alt="sd" />
-                              <p>0</p>
+                              <p>{item?.monthly_rewards_status}</p>
                             </div>
                           </div>
                         </div>
@@ -443,7 +398,7 @@ function VIP() {
                       </div>
                       <p className="text-black text-sm mx-1" >Monthly rewards</p>
                       <p className="text-xs text-black mt-2 mx-1">Each account can only receive 1 time per monthly received</p>
-                      <button className="mt-5 bg-[#CCCEDC] text-lightGray font-bold text-xsm w-full py-1.5 rounded-full mx-1">Received</button>
+                      <button onClick={() => addMoneyMonthlyHandler(item?.id, item?.monthly_rewards)} className="mt-5 bg-[#CCCEDC] text-lightGray font-bold text-xsm w-full py-1.5 rounded-full mx-1">Received</button>
                     </div>
                     <div className="w-full col-span-1">
                       <div className="bg-gradient-to-l from-[#f95959] to-[#ff9a8e] rounded-t-lg w-full flex flex-col items-center justify-center">
@@ -458,11 +413,11 @@ function VIP() {
                           <div className="text-xs bg-black opacity-35 font-bold flex justify-between items-center w-full px-1 pt-1 mt-3">
                             <div className=" flex justify-between items-center  rounded-md p-1">
                               <img src={vipweal} className="w-4" alt="sd" />
-                              <p className="">{item?.benefitRebate1}</p>
+                              <p className="">{item?.rebate_rate}</p>
                             </div>
                             <div className=" flex justify-between items-center  p-1 rounded-md ">
                               <img src={yellowheart} className="w-4" alt="sd" />
-                              <p>0</p>
+                              <p>{item?.rebate_rate_status}</p>
                             </div>
                           </div>
                         </div>
@@ -478,12 +433,27 @@ function VIP() {
             )
           })}
         </div>
+
+
         <div className="bg-white grid grid-cols-2  mt-3">
           <button onClick={() => setModal("history")} className={`col-span-1  w-full ${modal === "history" ? "border-redLight text-redLight border-b-[2px]" : "text-gray"} p-3`}>History</button>
           <button onClick={() => setModal("rules")} className={`col-span-1  w-full p-3 ${modal === "rules" ? "border-redLight text-redLight border-b-[2px]" : "text-gray"}`}>Rules</button>
         </div>
-        {modal === "history" && <div className="bg-white mt-3 pt-3 px-3">
-          <img className="" src={no_data_available} alt="sd" />
+        {modal === "history" && <div className="bg-white text-gray mt-3 pt-3 px-3">
+          {vipLevelHistoryData.length > 0 ? vipLevelHistoryData.map((item, i) => (
+            <div className="flex items-center justify-between pb-20" key={i}>
+              <p>
+                <p className="text-black font-bold text-center" >Experience</p>
+                <p className="text-xsm text-center">{item?.exp}</p>
+              </p>
+              <p>
+                <p className="text-black font-bold text-center" >Date</p>
+                <p className="text-xsm text-center">{item?.created_at}</p>
+              </p>
+              {/* <p>{item?.created_at}</p> */}
+            </div>
+          )) : <> <img className="" src={no_data_available} alt="sd" />
+            <p>no data</p></>}
         </div>}
         {modal === "rules" && <div className=" rounded-lg mt-3 p-2">
           <h1 className="text-redLight text-lg font-bold text-center mt-2">VIP privileges</h1>
@@ -492,12 +462,12 @@ function VIP() {
             <div key={item} className="bg-white rounded-xl border-[1px] mt-3 px-4 pt-0.5 pb-3">
               <p className="w-3 h-[2px] bg-redLight"></p>
               <div className="-mt-5 text-xs h-14 flex justify-center pt-3 bg-no-repeat"
-                // style={{
-                //   backgroundImage: `url(${viprulehead})`,
-                //   backgroundPosition: "center",
-                //   backgroundSize: "contain",
+              // style={{
+              //   backgroundImage: `url(${viprulehead})`,
+              //   backgroundPosition: "center",
+              //   backgroundSize: "contain",
 
-                // }}
+              // }}
               >{item?.heading}</div>
               <div className="mt-2 text-gray">{item?.content}</div>
             </div>))}
