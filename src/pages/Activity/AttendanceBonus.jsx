@@ -6,22 +6,74 @@ import activityGift from '../../assets/usaAsset/activity/activityGift.png'
 import bg_gifts from '../../assets/usaAsset/activity/bg_gifts.png'
 import { Link } from 'react-router-dom'
 import { HiArrowPathRoundedSquare } from 'react-icons/hi2'
-
+import no_data_available from "../../assets/images/no_data_available.png"
+import apis from '../../utils/apis';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 function AttendanceBonus() {
+    const [attendanceHistoryData, setAttenddanceHistory] = useState([])
+    const userId = localStorage.getItem("userId");
+    const navigate = useNavigate()
+    const attendanceHistory = async () => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        try {
+            const res = await axios.get(`${apis.attendanceList}${userId}`)
+            // console.log(res)
+            if (res?.data?.status === 200) {
+                setAttenddanceHistory(res?.data)
+            } else {
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            toast.error(err)
+        }
+    }
+    useEffect(() => {
+        if (userId) {
+            attendanceHistory()
+        }
+    }, [userId])
 
-    const data = [
-        { price: "₹4.00", duration: "1 Day " },
-        { price: "₹20.00", duration: "1 Day" },
-        { price: "₹50.00", duration: "3 Days" },
-        { price: "₹100.00", duration: "7 Days" },
-        { price: "₹200.00", duration: "15 Days" },
-        { price: "₹400.00", duration: "30 Days" },
-        { price: "₹800.00", duration: "60 Days" },
-        { price: "₹1,600.00", duration: "120 Days" },
-        { price: "₹3,200.00", duration: "240 Days" },
-        { price: "₹6,400.00", duration: "1 Year" },
-    ];
+    const ClaimAttendance = async (userId) => {
+        const payload = {
+            userid: userId
+        }
+        console.log("payload",payload)
+        try {
+            const res = await axios.post(apis.attendanceClaim, payload)
+            console.log("res",res)
+            if (res?.data?.status === 200) {
+                toast.success(res?.data?.message)
+            } else if(res?.data?.status===400){
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            console.error("Error:", err?.response?.data || err.message);
+            toast.error(err?.response?.data?.message || "Something went wrong");
+          }
+          
+    }
 
+    // const data = [
+    //     { price: "₹4.00", duration: "1 Day " },
+    //     { price: "₹20.00", duration: "1 Day" },
+    //     { price: "₹50.00", duration: "3 Days" },
+    //     { price: "₹100.00", duration: "7 Days" },
+    //     { price: "₹200.00", duration: "15 Days" },
+    //     { price: "₹400.00", duration: "30 Days" },
+    //     { price: "₹800.00", duration: "60 Days" },
+    //     { price: "₹1,600.00", duration: "120 Days" },
+    //     { price: "₹3,200.00", duration: "240 Days" },
+    //     { price: "₹6,400.00", duration: "1 Year" },
+    // ];
+    // console.log("attendanceHistoryData", attendanceHistoryData)
     return (
         <div className='font-roboto'>
             <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] pl-1'>
@@ -31,26 +83,26 @@ function AttendanceBonus() {
                         <div className='flex flex-col justify-between'>
                             <h1 className='font-bold text-lg'>Attendance Bonus</h1>
                             <h1 className='text-xsm font-bold'>Get rewards based on consecutive login days</h1>
-                            <h1 className=' text-xsm text-nowrap  xsm:text-center z-50 font-bold pt-2'>Attendance Consecutively 0 Days</h1>
+                            <h1 className=' text-xsm text-nowrap  xsm:text-center z-50 font-bold pt-2'>Attendance Consecutively {attendanceHistoryData?.attendances_consecutively} Days</h1>
                             <h1 className='mt-3 text-lg font-bold'>Accumulated </h1>
-                            <h1 className='flex items-center gap-2 text-[#ffbd40]'>₹0.00
-                                <HiArrowPathRoundedSquare className=' text-base sm:text-xl md:text-base' />
+                            <h1 className='flex items-center gap-2 text-[#ffbd40]'>₹{attendanceHistoryData?.accumulated}
+                                <HiArrowPathRoundedSquare onClick={attendanceHistory} className=' text-base sm:text-xl md:text-base' />
                             </h1>
                         </div>
                         <Link className='flex justify-center mt-2' to="/activity/gamerule" ><button className='bg-gradient-to-b from-[#ffbd40] to-[#ff7f3d] rounded-full px-10 text-xsm font-bold py-2 '>Game rule</button></Link>
                     </div>
                     <div className='col-span-1 flex flex-col  px-2'>
                         <img className='z-40 -mt-2 w-56 h-[13.8rem] object-fill' src={bg_gifts} alt="ds" />
-                        <Link className='z-50 -mt-12 flex justify-center' to="/activity/attendacehistory" > <button className='bg-gradient-to-b from-[#ffbd40] to-[#ff7f3d] rounded-full  text-xsm font-bold p-2'> Attendance History</button></Link>
+                        <Link className='z-50 -mt-11 flex justify-center' to="/activity/attendacehistory" > <button className='bg-gradient-to-b from-[#ffbd40] to-[#ff7f3d] rounded-full  text-xsm font-bold p-2'> Attendance History</button></Link>
                     </div>
                 </div>
             </div>
             <div className="mt-5 p-2 bg-inputBg">
                 <div className=' grid grid-cols-2 gap-2'>
-                    {data.map((item, index) => (
+                    {attendanceHistoryData?.data?.map((item, index) => (
                         <div
                             key={index}
-                            className="bg-white rounded-b-lg flex flex-col justify-center items-center"
+                            className={`${item?.status === "0" ? "bg-lightGray" : "bg-white"} rounded-b-lg flex flex-col justify-center items-center`}
                         >
                             <div
                                 className="w-full bg-no-repeat text-sm flex items-center justify-center h-10 -mt-0.5"
@@ -60,10 +112,10 @@ function AttendanceBonus() {
                                     backgroundPosition: "center",
                                 }}
                             >
-                                {item.price}
+                                ₹ {item?.attendance_bonus}
                             </div>
                             <img src={coingifts} className="w-16 h-16 mt-4" alt="icon" />
-                            <p className="mt-2 text-xsm text-lightGray mb-7">{item.duration}</p>
+                            <p className={`mt-2 text-xsm ${item?.status === "0" ? "text-white" : "text-lightGray"} mb-7`}>{item.id} Day</p>
                         </div>
                     ))}
                 </div>
@@ -81,7 +133,7 @@ function AttendanceBonus() {
                 </div>
             </div>
             <div className='px-2 mb-5'>
-                <button className='bg-gradient-to-b from-[#f95959] to-[#ff9a8e] rounded-full w-full text-sm py-1 my-10'>Attendance</button>
+                <button onClick={()=>ClaimAttendance(userId)} className='bg-gradient-to-b from-[#f95959] to-[#ff9a8e] rounded-full w-full text-sm py-1 my-10'>Attendance</button>
             </div>
         </div>
     )

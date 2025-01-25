@@ -112,29 +112,6 @@ function Home() {
         { onClick: handlePokerContainer, key: "poker", bg: bgActiveCategory, icon: gamecategorypoker, label: "Poker" },
     ];
 
-    const winningData = [
-        { id: 1, avatar: person1, gameImage: gamecategorycasino, name: "Mem***CQF", amount: "₹600.00" },
-        { id: 2, avatar: person2, gameImage: lotterycategorywingo, name: "Mem***CDM", amount: "₹95.00" },
-        { id: 3, avatar: person3, gameImage: lotterycategorytrx, name: "Mem***JVW", amount: "₹540.00" },
-        { id: 4, avatar: person4, gameImage: gamecategorycasino, name: "Mem***QGS", amount: "₹170.00" },
-        { id: 5, avatar: person5, gameImage: gamecategorycasino, name: "Mem***UUQ", amount: "₹600.00" },
-        { id: 6, avatar: person6, gameImage: gamecategorycasino, name: "Mem***GTR", amount: "₹85.00" },
-        { id: 7, avatar: person7, gameImage: lotterycategorywingo, name: "Mem***WTY", amount: "₹430.00" },
-        { id: 8, avatar: person8, gameImage: gamecategorycasino, name: "Mem***HSD", amount: "₹190.00" },
-        { id: 9, avatar: person9, gameImage: lotterycategorytrx, name: "Mem***JKL", amount: "₹310.00" },
-        { id: 10, avatar: person10, gameImage: gamecategorycasino, name: "Mem***PQR", amount: "₹725.00" },
-        { id: 11, avatar: person11, gameImage: gamecategorycasino, name: "Mem***XYZ", amount: "₹245.00" },
-        { id: 12, avatar: person12, gameImage: lotterycategorywingo, name: "Mem***AAA", amount: "₹560.00" },
-        { id: 13, avatar: person13, gameImage: lotterycategorytrx, name: "Mem***BBB", amount: "₹670.00" },
-        { id: 14, avatar: person14, gameImage: gamecategorycasino, name: "Mem***CCC", amount: "₹380.00" },
-        { id: 15, avatar: person15, gameImage: lotterycategorywingo, name: "Mem***DDD", amount: "₹290.00" },
-        { id: 16, avatar: person16, gameImage: lotterycategorytrx, name: "Mem***EEE", amount: "₹820.00" },
-        { id: 17, avatar: person17, gameImage: lotterycategorytrx, name: "Mem***FFF", amount: "₹430.00" },
-        { id: 18, avatar: person18, gameImage: lotterycategorytrx, name: "Mem***GGG", amount: "₹600.00" },
-        { id: 19, avatar: person19, gameImage: gamecategorycasino, name: "Mem***HHH", amount: "₹950.00" },
-        { id: 20, avatar: person20, gameImage: gamecategorycasino, name: "Mem***III", amount: "₹110.00" },
-    ];
-
     useEffect(() => {
         if (gameName && buttonRef.current) {
             const buttonPosition = buttonRef.current.getBoundingClientRect().top + window.scrollY;
@@ -158,24 +135,44 @@ function Home() {
 
         return () => clearInterval(intervalId);
     }, [currentIndex, notes]);
-
+    const winningData = [
+        { id: 1, avatar: person1, gameImage: gamecategorycasino, name: "Mem***CQF", amount: "₹600.00" },
+        { id: 2, avatar: person2, gameImage: lotterycategorywingo, name: "Mem***CDM", amount: "₹95.00" },
+        { id: 3, avatar: person3, gameImage: lotterycategorytrx, name: "Mem***JVW", amount: "₹540.00" },
+        { id: 4, avatar: person4, gameImage: gamecategorycasino, name: "Mem***QGS", amount: "₹170.00" },
+        { id: 5, avatar: person5, gameImage: gamecategorycasino, name: "Mem***UUQ", amount: "₹600.00" },
+        { id: 6, avatar: person6, gameImage: gamecategorycasino, name: "Mem***GTR", amount: "₹85.00" },
+        { id: 7, avatar: person7, gameImage: lotterycategorywingo, name: "Mem***WTY", amount: "₹430.00" },
+        { id: 8, avatar: person8, gameImage: gamecategorycasino, name: "Mem***HSD", amount: "₹190.00" },
+        { id: 9, avatar: person9, gameImage: lotterycategorytrx, name: "Mem***JKL", amount: "₹310.00" },
+        { id: 10, avatar: person10, gameImage: gamecategorycasino, name: "Mem***PQR", amount: "₹725.00" },
+        { id: 11, avatar: person11, gameImage: gamecategorycasino, name: "Mem***XYZ", amount: "₹245.00" },
+        { id: 12, avatar: person12, gameImage: lotterycategorywingo, name: "Mem***AAA", amount: "₹560.00" },
+        { id: 13, avatar: person13, gameImage: lotterycategorytrx, name: "Mem***BBB", amount: "₹670.00" },
+        { id: 14, avatar: person14, gameImage: gamecategorycasino, name: "Mem***CCC", amount: "₹380.00" },
+        { id: 15, avatar: person15, gameImage: lotterycategorywingo, name: "Mem***DDD", amount: "₹290.00" },
+        { id: 16, avatar: person16, gameImage: lotterycategorytrx, name: "Mem***EEE", amount: "₹820.00" },
+        { id: 17, avatar: person17, gameImage: lotterycategorytrx, name: "Mem***FFF", amount: "₹430.00" },
+        { id: 18, avatar: person18, gameImage: lotterycategorytrx, name: "Mem***GGG", amount: "₹600.00" },
+        { id: 19, avatar: person19, gameImage: gamecategorycasino, name: "Mem***HHH", amount: "₹950.00" },
+        { id: 20, avatar: person20, gameImage: gamecategorycasino, name: "Mem***III", amount: "₹110.00" },
+    ];
     useEffect(() => {
         const intervalId = setInterval(() => {
-            setCurrentIndexWin((prevIndex) => (prevIndex + 1) % winningData.length);
+            setCurrentIndexWin((prevIndex) =>
+                prevIndex + 1 >= winningData.length ? 0 : prevIndex + 1
+            );
         }, 2000);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [winningData.length]);
 
-    // Dynamically show 5 items
-    const visibleData = winningData.slice(
-        currentIndexWin,
-        currentIndexWin + 5
-    ).concat(
-        currentIndexWin + 5 > winningData.length
+    const visibleData = [
+        ...winningData.slice(currentIndexWin, currentIndexWin + 5),
+        ...(currentIndexWin + 5 > winningData.length
             ? winningData.slice(0, (currentIndexWin + 5) % winningData.length)
-            : []
-    );
+            : []),
+    ].slice(0, 5);
 
     return (
         <div className="mb-28 font-roboto">
@@ -226,38 +223,45 @@ function Home() {
             {/* winnng info div */}
             <div className="p-3 text-black max-w-md mx-auto">
                 <h2 className="text-lg font-semibold mb-4">Winning information</h2>
-                <div className="space-y-2">
-                    {visibleData.map((data) => (
-                        <div
-                            key={data.id}
-                            className="flex items-center justify-start gap-6 p-3 rounded-lg shadow-md"
-                        >
-                            <div className="flex items-center space-x-2 w-[35%]">
-                                <img
-                                    src={data.avatar}
-                                    alt="Avatar"
-                                    className="w-10 h-10 rounded-full object-cover"
-                                />
-                                <p className="text-xsm font-semibold">{data.name}</p>
-                            </div>
-                            <div className="flex w-[65%] gap-6">
-                                <div className="bg-redLight flex justify-center items-center rounded-lg  w-[4.2rem] h-12">
+                <div className="space-y-2 overflow-hidden">
+                    {visibleData
+                        .slice()
+                        .reverse() // Reverse to add new data at the top
+                        .map((data) => (
+                            <div
+                                key={data.id}
+                                className="flex items-center justify-start gap-6 p-3 rounded-lg shadow-md transform transition-transform duration-500 ease-in-out"
+                                style={{
+                                    animation: `fadeInFromTop 300ms ease-in-out`,
+                                }}
+                            >
+                                <div className="flex items-center space-x-2 w-[35%]">
                                     <img
-                                        src={data.gameImage}
-                                        alt="Game"
-                                        className="w-12 h-9 rounded-md object-fill"
+                                        src={data.avatar}
+                                        alt="Avatar"
+                                        className="w-10 h-10 rounded-full object-cover"
                                     />
+                                    <p className="text-xsm font-semibold">{data.name}</p>
                                 </div>
-
-                                <div className="flex flex-col justify-start items-start">
-                                    <p className="text-xsm text-nowrap text-black font-bold">
-                                        Receive {data.amount}
-                                    </p>
-                                    <p className="text-xsm text-nowrap text-slate-300 font-semibold">Winning amount</p>
+                                <div className="flex w-[65%] gap-6">
+                                    <div className="bg-redLight flex justify-center items-center rounded-lg w-[4.2rem] h-12">
+                                        <img
+                                            src={data.gameImage}
+                                            alt="Game"
+                                            className="w-12 h-9 rounded-md object-fill"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col justify-start items-start">
+                                        <p className="text-xsm text-nowrap text-black font-bold">
+                                            Receive {data.amount}
+                                        </p>
+                                        <p className="text-xsm text-nowrap text-slate-300 font-semibold">
+                                            Winning amount
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
             <div className="px-2">
@@ -351,7 +355,7 @@ function Home() {
                         </div>
                         <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹940,928.00</p>
                     </div>
-                    
+
                 </div>
             </div>
         </div >

@@ -25,6 +25,7 @@ import mainWallet from "../../assets/usaAsset/wingo/mainWallet.png"
 import cutBg1 from "../../assets/usaAsset/wingo/cutBg1.png"
 import grayWatch from "../../assets/usaAsset/wingo/grayWatch.png"
 import redWatch from "../../assets/usaAsset/wingo/redWatch.png"
+import { Link } from 'react-router-dom';
 const profileApi = apis.profile
 const wingo_bet_api = apis.wingo_bet
 const wingo_my_history = apis.wingo_my_history
@@ -65,6 +66,7 @@ const WinGo = () => {
   const [modalData, setModalData] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isBetDone, setIsBetDone] = useState(false);
+  const [playRule, setPlayRule] = useState(false);
   const [selectedBtnIndex, setSelectedBtnIndex] = useState(1)
   const audioRef = useRef(null);
   const userId = localStorage.getItem("userId");
@@ -201,9 +203,9 @@ const WinGo = () => {
       );
       // console.log("res?.data?.data",res?.data?.data)
       if (res?.data?.data) {
-        console.log("one one noe ",`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no }`)
+        console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
         try {
-          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no }`)
+          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           // console.log("resooooooooo",resp)
           if (resp?.data?.status === 200) {
             // console.log("res 1", resp)
@@ -227,10 +229,10 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      console.log("resres hai hai",res)
-      if (res?.data?.status===200) {
+      console.log("resres hai hai", res)
+      if (res?.data?.status === 200) {
         try {
-          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no }`)
+          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
             console.log("res 2", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -254,9 +256,9 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      if (res?.data?.status===200) {
+      if (res?.data?.status === 200) {
         try {
-          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no }`)
+          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
             console.log("res 3", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -279,9 +281,9 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      if (res?.data?.status===200) {
+      if (res?.data?.status === 200) {
         try {
-          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no }`)
+          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
             console.log("res 4", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -381,7 +383,7 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${gameDetails?.gameId}&limit=${limit}&offset=${offset}`
       );
-      if (res?.data?.status===200) {
+      if (res?.data?.status === 200) {
         setGameHistoryData(res?.data?.data);
         if (res?.data?.data?.length < limit) {
           setHasMore(true);
@@ -423,7 +425,7 @@ const WinGo = () => {
       const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % 60;
       const remainingTime = Math.max(60 - secondsInCycle, 0);
       profileDetails()
-      
+
       for (let i = 1; i <= 4; i++) {
         let betstats1
         let betstats2
@@ -517,8 +519,12 @@ const WinGo = () => {
               <p className='text-xsm '>Main Wallet </p>
             </div>
             <div className='mt-4 text-white flex justify-between items-center'>
-              <button className='bg-red text-base font-semibold w-32 h-9 rounded-full'>Withdraw</button>
-              <button className='bg-green text-base font-semibold w-32 h-9 rounded-full'>Deposit</button>
+              <Link to="/wallet/withdrawal" >
+                <button className='bg-red text-base font-semibold w-32 h-9 rounded-full'>Withdraw</button>
+              </Link>
+              <Link to="/wallet/deposit" >
+                <button className='bg-green text-base font-semibold w-32 h-9 rounded-full'>Deposit</button>
+              </Link>
             </div>
           </div>
 
@@ -583,8 +589,7 @@ const WinGo = () => {
             width: "100%",
           }} >
             <div className='w-[50%] pr-3'>
-              <button className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '>
-                {/* <img src={howtoplay} className='w-6 mr-1' alt="sad" /> */}
+              <button onClick={()=>setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '>
                 How to play</button>
               <p className='text-xs mt-4'>Win Go {selectedIMgIndex}</p>
               <div className='flex text-black items-center justify-between mt-3'>
@@ -605,7 +610,7 @@ const WinGo = () => {
           </div>
         </div>
         {/* betting buttons 5th divv */}
-        <div ref={fifthDivRef} className=' bg-white mt-[12rem] xsm:mt-[13.5rem] md:mt-[12rem]  p-3 mx-4 rounded-2xl'>
+        <div ref={fifthDivRef} className=' bg-white mt-[13rem] xsm:mt-[13.5rem] md:mt-[12rem]  p-3 mx-4 rounded-2xl'>
           <div className='flex items-center bg-white justify-center mr-1'>
             <TimerModal duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
           </div>
@@ -711,6 +716,14 @@ const WinGo = () => {
       {betModal && !false && (
         <div className="relative z-50">
           <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
+        </div>
+      )}
+       {playRule && (
+        <div className="fixed inset-0 flex items-center justify-center ">
+          <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
+            <button className='text-red ' onClick={()=>setPlayRule(false)} >Close</button>
+            <p className='text-center'>How to play</p>
+          </div>
         </div>
       )}
     </>

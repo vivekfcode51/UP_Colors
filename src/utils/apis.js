@@ -36,6 +36,15 @@ const apis = {
   vipLevel: `${configModalUsaWin}vip_level?userid=`,
   vipLevelHistory: `${configModalUsaWin}vip_level_history?userid=`,
   vipLevelAddMoney: `${configModalUsaWin}add_money`,
+  redeemGift: `${configModalUsaWin}gift_cart_apply`,
+  redeemGiftList: `${configModalUsaWin}gift_redeem_list?userid=`,
+  gameStatsHistory: `${configModalUsaWin}total_bet_details?userid=`,
+  activityRewards: `${configModalUsaWin}activity_rewards?userid=`,
+  activityRewardsClaim: `${configModalUsaWin}activity_rewards_claim`,
+  activityRewardsHistory: `${configModalUsaWin}activity_rewards_history?user_id=`,
+  attendanceList: `${configModalUsaWin}attendance_List?userid=`,
+  attendanceHistory: `${configModalUsaWin}attendance_history?userid=`,
+  attendanceClaim: `${configModalUsaWin}attendance_claim`,
 };
 
 export default apis

@@ -1,21 +1,92 @@
-import teamport from '../../assets/icons/teamport.png'
-
+import apis from '../../utils/apis';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import giftRedeemList from "../../assets/usaAsset/activity/giftRedeemList.png"
+import moment from 'moment';
 function ActivityGifts() {
+    const [giftCode, setGiftCode] = useState("")
+    const [redeemedGiftList, setRedeemedGiftList] = useState([])
+    const userId = localStorage.getItem("userId");
+    const navigate = useNavigate()
+    const redeemGift = async () => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        const payload = {
+            userid: userId,
+            code: giftCode
+        }
+        try {
+            const res = await axios.post(apis.redeemGift, payload)
+            if (res?.data?.status === 200) {
+                toast.success(res?.data?.message)
+            } else {
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            toast.error(err)
+        }
+    }
+
+    const redeemGiftListHandler = async () => {
+        try {
+            const res = await axios.get(`${apis.redeemGiftList}${userId}`)
+            console.log("res", res)
+            if (res?.data?.status === 200) {
+                setRedeemedGiftList(res?.data?.data)
+            } else {
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            toast.error(err)
+        }
+    }
+    useEffect(() => {
+        if (userId) {
+            redeemGiftListHandler()
+        }
+    }, [userId])
     return (
         <div className='mx-3 font-roboto'>
             <div className='bg-inputBg text-sm text-lightGray rounded p-2 mt-60 pb-10'>
                 <p className='text-gray'>Hi</p>
                 <p className='text-gray'>We have a gift for you</p>
                 <p className='text-black mt-5'>Please enter the gift code below</p>
-                <input className='w-full bg-[#EBEBEB] rounded p-2 mt-3' type="text" placeholder='Please enter gift code' />
-                <button className='bg-gradient-to-b from-[#f95959] to-[#ff9a8e] text-white rounded-full w-full text-sm py-3 mt-5'>Receive</button>
+                <input onChange={(e) => setGiftCode(e.target.value)} className='w-full outline-none bg-[#EBEBEB] rounded p-1 mt-3' type="text" placeholder='Please enter gift code' />
+                <button onClick={redeemGift} className='bg-gradient-to-b from-[#f95959] to-[#ff9a8e] text-white rounded-full w-full text-sm py-1.5 mt-5'>Receive</button>
             </div>
-            {/* <div className='mt-3'>
-                <div className='flex items-center gap-5 w-10 h-10'>
-                    <img src={teamport} alt="sa" />
-                    <h1 className=''>History</h1>
+            <div className='mt-3'>
+                <div className='flex mt-10 items-center gap-3  text-black '>
+                    <img className='w-10 h-10' src={giftRedeemList} alt="sa" />
+                    <h1 className='text-nowrap text-lg font-bold'>Gift Redeemed List</h1>
                 </div>
-            </div> */}
+                <table className='w-full mt-10'>
+                    <thead>
+                        <tr className='text-black font-bold'>
+                            <th>Gift Code</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {redeemedGiftList?.length > 0 ? redeemedGiftList?.map((item, i) => (
+                            <tr key={i} className='text-lightGray text-xsm bg-inputBg'>
+                                <td className='text-center py-2'>{item?.gift_code}</td>
+                                <td className='text-center' >{item?.amount}</td>
+                                <td className='text-center'>{item?.status === 1 ? "Redeem" : "Yet to redeem"}</td>
+                                <td className='text-center'>{moment(item?.created_at).format("DD-MM-YYYY HH:mm:ss")}</td>
+                            </tr>
+                        )) : <p >no data</p>}
+
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     )
 }
