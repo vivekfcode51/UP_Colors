@@ -37,10 +37,12 @@ function ChangePassword() {
                     password_confirmation: "",
                 })
             } else {
+                console.log("4000", res)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
-            toast.error(err)
+            console.log("errr", err)
+            toast.error("Internal server error")
         }
     }
 

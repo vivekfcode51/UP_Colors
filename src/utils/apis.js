@@ -45,6 +45,16 @@ const apis = {
   attendanceList: `${configModalUsaWin}attendance_List?userid=`,
   attendanceHistory: `${configModalUsaWin}attendance_history?userid=`,
   attendanceClaim: `${configModalUsaWin}attendance_claim`,
+  slider: `${configModalUsaWin}slider`,
+  invitation_bonus_list: `${configModalUsaWin}invitation_bonus_list?userid=`,
+  invitation_bonus_claim: `${configModalUsaWin}invitation_bonus_claim`,
+  transaction_history_list: `${configModalUsaWin}transaction_history_list`,
+  transaction_history: `${configModalUsaWin}transaction_history?userid=`,
+  Invitation_records: `${configModalUsaWin}Invitation_records?userid=`,
+  update_profile: `${configModalUsaWin}update_profile`,
+  allAvatar: `${configModalUsaWin}image_all`,
+  customer_service: `${configModalUsaWin}customer_service`,
+  about_us: `${configModalUsaWin}about_us?type=`,
 };
 
 export default apis

@@ -40,6 +40,13 @@ function Header() {
             <p className='text-sm'>Invitation bonus</p>
             <div></div>
           </div>
+          : location?.pathname === "/activity/details" ? <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem] flex items-center justify-between'>
+            <Link to="/activity" >
+              <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+            </Link>
+            <p className='text-sm'>Activity Details</p>
+            <div></div>
+          </div>
             : location?.pathname === "/activity/award" ? <header className='h-[3.22rem] bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3'>
               <div className='flex items-center justify-between'>
                 <Link to="/activity" >

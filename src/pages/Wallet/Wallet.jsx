@@ -6,13 +6,15 @@ import withdraw from "../../assets/usaAsset/wallet/widthdrawBlue.png"
 import withdrawHistory from "../../assets/usaAsset/wallet/withdrawHistory.png"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import apis from '../../utils/apis'
 const profileApi = apis.profile
 
 const Wallet = () => {
   const [myDetails, setMyDetails] = useState(null)
+  const [showModal, setShowModal] = useState(false);
+  const [timer, setTimer] = useState(5);
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
@@ -37,70 +39,94 @@ const Wallet = () => {
       profileDetails(userId);
     }
   }, [userId]);
+  const isFundTransferRunningRef = useRef(false);
 
-  // fund transfer 
-  const fundTransferHandler = async () => {
-    console.log("userIduserId", userId);
+  const fundTransferHandler = useCallback(() => {
+    if (isFundTransferRunningRef.current) return;
+    isFundTransferRunningRef.current = true;
     if (!userId) {
       toast.error("User not logged in");
       navigate("/login");
+      isFundTransferRunningRef.current = false;
       return;
     }
+
+    setShowModal(true);
+    setTimer(5);
+    const countdown = setInterval(() => {
+      setTimer((prev) => {
+        if (prev === 1) {
+          clearInterval(countdown);
+          triggerFundTransfer();
+          isFundTransferRunningRef.current = false;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }, [userId, navigate]);
+
+
+  const triggerFundTransfer = useCallback(async () => {
+    if (isFundTransferRunningRef.current) return;
+    isFundTransferRunningRef.current = true;
     const payload = { id: userId };
     try {
-      const res = await axios.post(
-        apis.fundTransfer, 
-        payload, 
-        {
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8'
-          },
-        }
-      );
-  
-      console.log("wallet", res);
-  
+      const res = await axios.post(apis.fundTransfer, payload, {
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+      });
       if (res?.data?.status === 200) {
-        profileDetails(userId)
+        profileDetails(userId);
         toast.success(res?.data?.message);
       } else {
         toast.error(res?.data?.message);
       }
     } catch (er) {
-      console.log("er", er);
+      console.error("Error:", er);
       toast.error(er);
+    } finally {
+      setShowModal(false);
+      isFundTransferRunningRef.current = false; // Allow re-execution
     }
-  };
-  
-const mainWalletPercentage = myDetails?.data?.wallet*100/(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet)
-const thirdPartyWalletPercentage = myDetails?.data?.third_party_wallet*100/(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet)
+  }, [userId, profileDetails]);
+
+
+  const mainWalletPercentage = useMemo(() => {
+    if (!myDetails?.data) return 0;
+    return (myDetails.data.wallet * 100) /
+      (myDetails.data.wallet + myDetails.data.third_party_wallet);
+  }, [myDetails]);
+
+  const thirdPartyWalletPercentage = useMemo(() => {
+    if (!myDetails?.data) return 0;
+    return (myDetails.data.third_party_wallet * 100) /
+      (myDetails.data.wallet + myDetails.data.third_party_wallet);
+  }, [myDetails]);
+
   const array = [{ game: "Lottery", amount: 0.04 }, { game: "JILI", amount: 0.04 }, { game: "EVO_Video", amount: 0.04 }, { game: "TV_Chess", amount: 0.04 }, { game: "Wickets9", amount: 0.04 }, { game: "JDB", amount: 0.04 }, { game: "DG", amount: 0.04 }, { game: "CMD", amount: 0.04 }, { game: "CQ9", amount: 0.04 }, { game: "MG", amount: 0.04 }, { game: "SaBa", amount: 0.04 }, { game: "TB", amount: 0.04 }, { game: "PG", amount: 0.04 }, { game: "AG_Video", amount: 0.04 }, { game: "Card365", amount: 0.04 }, { game: "V8Card", amount: 0.04 }]
   return (
     <div className="min-h-screen text-lightGray bg-inputBg flex font-inter flex-col items-center">
       <div className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] flex flex-col justify-center items-center  text-white w-full px-6 pb-4 text-center shadow-md">
         <img className="h-12 w-12" src={wallets} alt="cx" />
-        <p className="text-2xl font- mt-2">₹ {myDetails?.data?.wallet + myDetails?.data?.third_party_wallet}</p>
+        <p className="text-2xl font- mt-2">₹ {myDetails ? Number(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"}</p>
         <p className="text-xsm mt-1">Total Balance</p>
       </div>
-      <div className="bg-white shadow-md rounded-lg px-2 pt-5 pb-20 mt-2 w-11/12 max-w-md">
-        <div className="flex text-black">
+      <div className="bg-white shadow-md rounded-lg px-2 pt-5 pb-20 mt-2 w-full">
+        <div className="flex w-full text-black">
           <div className="flex w-[50%] flex-col justify-center items-center">
             <CircularIndicator percentage={mainWalletPercentage} />
 
-            <p className="mt-2 ">₹ {myDetails?.data?.wallet}</p>
-            <p className="text-gray-500 text-xsm">Main wallet</p>
+            <p className="mt-2 ">₹ {myDetails ? Number(myDetails?.data?.wallet).toFixed(2) : "0.00"}</p>
+            <p className="text-gray text-xsm">Main wallet</p>
           </div>
           <div className="flex w-[50%] flex-col justify-center items-center">
             <CircularIndicator percentage={thirdPartyWalletPercentage} />
-            <p className="mt-2 ">₹ {myDetails?.data?.third_party_wallet}</p>
-            <p className="text-gray-500 text-xsm">Third party wallet</p>
+            <p className="mt-2 ">₹ {myDetails ? Number(myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"}</p>
+            <p className="text-gray text-xsm">Third party wallet</p>
           </div>
         </div>
-        {/* <Link to="/wallet/transfer" > */}
-          <button onClick={fundTransferHandler} className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-sm text-white w-full py-2 mt-4 rounded-full outline-none font-semibold">
-            Main wallet transfer
-          </button>
-        {/* </Link> */}
+        <button onClick={fundTransferHandler} className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-sm text-white w-full py-2 mt-4 rounded-full outline-none font-semibold">
+          {showModal ? `Recalling ${timer}...` : "Main wallet transfer"}
+        </button>
         <div className="grid grid-cols-4 gap-4 mt-6 max-w-md">
           <button className="">
             <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/deposit"  >
@@ -157,8 +183,6 @@ const thirdPartyWalletPercentage = myDetails?.data?.third_party_wallet*100/(myDe
           </div>
         ))}
       </div>
-
-
     </div>
   );
 };

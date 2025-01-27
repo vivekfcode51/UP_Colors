@@ -1,16 +1,38 @@
+import { useEffect, useState } from "react";
 import rulehead from "../../assets/icons/rulehead.png"
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+import apis from "../../utils/apis";
 
 function GameRule() {
-
-    const attendanceData = [
-        { day: 1, accumulatedAmount: "₹200.00", bonus: "₹5.00" },
-        { day: 2, accumulatedAmount: "₹1,000.00", bonus: "₹18.00" },
-        { day: 3, accumulatedAmount: "₹3,000.00", bonus: "₹100.00" },
-        { day: 4, accumulatedAmount: "₹10,000.00", bonus: "₹200.00" },
-        { day: 5, accumulatedAmount: "₹20,000.00", bonus: "₹400.00" },
-        { day: 6, accumulatedAmount: "₹100,000.00", bonus: "₹3,000.00" },
-        { day: 7, accumulatedAmount: "₹200,000.00", bonus: "₹7,000.00" },
-    ];
+     const [invitationListData, setInvitationListData] = useState([])
+        const navigate = useNavigate();
+        const userId = localStorage.getItem("userId");
+    const attendanceList = async () => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        try {
+            const res = await axios.get(`${apis.attendanceList}${userId}`)
+            // console.log(res)
+            if (res?.data?.status === 200) {
+                setInvitationListData(res?.data?.data)
+            } else {
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            toast.error(err)
+        }
+    }
+    useEffect(() => {
+        if (userId) {
+            attendanceList()
+        }
+    }, [userId])
+    console.log("invitationListData",invitationListData)
     return (
         <div className="pb-10 font-roboto">
             <div className="px-3 mt-3">
@@ -23,15 +45,15 @@ function GameRule() {
                         </tr>
                     </thead>
                     <tbody className="">
-                        {attendanceData.map((item, index) => (
+                        {invitationListData?.map((item, index) => (
                             <tr
                                 key={index}
                                 className={`${index%2==0?"bg-white":"bg-bg1"} text-lightGray text-sm border-b border-redLight ${index === 0 ? "first:rounded-t-lg" : ""
-                                    } ${index === attendanceData.length - 1 ? "last:rounded-b-lg" : ""}`}
+                                    } ${index === invitationListData?.length - 1 ? "last:rounded-b-lg" : ""}`}
                             >
-                                <td className="text-center py-2">{item.day}</td>
-                                <td className="text-center">{item.accumulatedAmount}</td>
-                                <td className="text-center">{item.bonus}</td>
+                                <td className="text-center py-2">{item.id}</td>
+                                <td className="text-center">{item.accumulated_amount}</td>
+                                <td className="text-center">{item.attendance_bonus}</td>
                             </tr>
                         ))}
                     </tbody>

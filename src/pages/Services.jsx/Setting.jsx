@@ -1,17 +1,86 @@
+/* eslint-disable no-unused-vars */
 import { PiCopySimpleFill } from 'react-icons/pi'
-import editPswIcon from "../../assets/icons/editPswIcon.png"
-import EmailIcon from "../../assets/icons/EmailIcon.png"
-import { Link } from 'react-router-dom'
-import email from "../../assets/usaAsset/account/email.png"
-import password from "../../assets/usaAsset/account/password.png"
+import { Link, useNavigate } from 'react-router-dom'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { IoMdLock } from 'react-icons/io'
 import { TfiEmail } from 'react-icons/tfi'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CgProfile } from 'react-icons/cg'
 import { RxCross2 } from 'react-icons/rx'
+import axios from 'axios'
+import apis from '../../utils/apis'
+import { toast } from 'react-toastify'
 function Setting() {
   const [nickNameModal, setNicknameModal] = useState(false)
+  const [myDetails, setMyDetails] = useState(null)
+  const [isUidCopied, setIsUidCopied] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState("");
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
+  const profileDetails = async (userId) => {
+    try {
+      const res = await axios.get(`${apis.profile}${userId}`);
+      if (res?.data?.success === 200) {
+        setMyDetails(res?.data?.data)
+      }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
+
+ 
+
+  const changeNameHandler = async () => {
+    const payload={
+      id:userId,
+      name: editedName,
+    }
+    try {
+      const res = await axios.post(`${apis.update_profile}`, payload);
+      if (res?.data?.status === 200) {
+        toast.success("Nickname updated successfully!");
+        setIsEditing(false);
+        setNicknameModal(false)
+        profileDetails(userId)
+      }
+    } catch (err) {
+      toast.error("Failed to update nickname.");
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      profileDetails(userId);
+    }
+  }, [userId]);
+  const handleCopyUID = () => {
+    if (myDetails?.u_id) {
+      navigator.clipboard
+        .writeText(myDetails?.u_id)
+        .then(() => {
+          setIsUidCopied(true)
+        })
+        .catch(() => {
+          toast.error('Failed to copy UID.');
+        });
+    } else {
+      toast.error('UID is not available.');
+    }
+  };
+  useEffect(() => {
+    if (isUidCopied) {
+      const timer = setTimeout(() => {
+        setIsUidCopied(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isUidCopied, setIsUidCopied]);
+  const cancelModal = () => {
+    setNicknameModal(false)
+    setIsEditing(false)
+  }
+  // console.log("isEditing",myDetails)
   return (
     <div className='bg-white'>
       <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] rounded-b-3xl h-40
@@ -19,19 +88,19 @@ function Setting() {
       </div>
       <div className='bg-bg1 rounded-lg -mt-36 text-black mx-3 p-3'>
         <div className='flex items-center justify-between'>
-          <div className='bg-gray w-20 h-20 rounded-full '></div>
+          <img src={myDetails?.image} className='h-20 w-20 rounded-full' alt="ds" />
           <Link to="/changeavatar">  <p className='text-lightGray flex items-center'>Change Avatar <MdKeyboardArrowRight
             className='text-lightGray' size={28} /></p></Link>
         </div>
         <button onClick={() => setNicknameModal(true)} className='w-full flex mt-5 border-border1 border-b-[1px] pb-5 items-center justify-between text-xsm'>
           <p className='text-lightGray'>Nickname</p>
-          <p className='flex items-center'>DBWLEV <MdKeyboardArrowRight className='text-lightGray' size={28} /></p>
+          <p className='flex items-center'>{myDetails?.name} <MdKeyboardArrowRight className='text-lightGray' size={28} /></p>
         </button>
         <div className='flex mt-5 pb-5 items-center justify-between text-xsm'>
           <p className='text-lightGray'>UID</p>
           <p className='flex items-center gap-2'>
-            ITVO3228
-            <PiCopySimpleFill size={20} className='text-redLight' />
+            {myDetails?.u_id}
+            <PiCopySimpleFill onClick={handleCopyUID} size={20} className='text-redLight' />
           </p>
         </div>
       </div>
@@ -86,22 +155,13 @@ function Setting() {
                 <p>Updated version</p>
               </div>
               <p className='flex text-lightGray items-center gap-2'>
-                1.0.9
+                1.0.0
                 <MdKeyboardArrowRight
                   size={28} className='' />
               </p>
             </Link>
           </button>
-          {/* <button className='w-full mt-5'>
-          <Link className='px-5 py-2 rounded-lg  w-full flex items-center justify-between gap-2 text-gray bg-white'>
-            <div> <img className='w-14 h-14' src={versionUpdate} alt="sd" /> </div>
-            <p>Updated version</p>
-            <p className='flex items-center gap-2'>
-              1.0.0
-              <MdKeyboardArrowRight size={28} className='' />
-            </p>
-          </Link>
-        </button> */}
+
         </div>
       </div>
       {nickNameModal && (
@@ -118,9 +178,25 @@ function Setting() {
                   <CgProfile size={20} className='text-red' />
                   <p className='text-black'>Nickname</p>
                 </div>
-                <div className='text-black bg-inputBg rounded-full pl-6 mt-5 p-3 w-full'>Member44207</div>
+                <div className='text-black bg-inputBg rounded-full pl-6 mt-5 p-3 w-full'>
+                  {!isEditing ? (
+                    <div onClick={() => setIsEditing(true)} className="flex items-center gap-2">
+                      <p>{myDetails?.name}</p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <input
+                      autoFocus
+                        type="text"
+                        value={editedName}
+                        onChange={(e) => setEditedName(e.target.value)}
+                        className="bg-inputBg outline-none rounded px-2"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-              <button
+              <button onClick={changeNameHandler}
                 type="submit"
                 className="mt-5 w-full font-bold py-2 rounded-full border-none bg-gradient-to-b from-[#f95959] to-[#ff9a8e] shadow-lg flex items-center justify-center"
               >
@@ -129,7 +205,14 @@ function Setting() {
             </div>
           </div>
           <div className=' text-black mt-2 border-[1px] h-7 w-7 border-lightGray rounded-full ' >
-            <button className='p-0.5' onClick={() => setNicknameModal(false)}><RxCross2 className='text-lightGray' size={20} />    </button>
+            <button className='p-0.5' onClick={cancelModal}><RxCross2 className='text-gray font-bold' size={20} />    </button>
+          </div>
+        </div>
+      )}
+      {isUidCopied && (
+        <div className="fixed inset-0 flex items-center justify-center ">
+          <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
+            <p className='text-center'>UID copied to  <br />clipboard!</p>
           </div>
         </div>
       )}

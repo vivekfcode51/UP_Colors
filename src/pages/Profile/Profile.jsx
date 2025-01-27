@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { setProfileDetails } from "../../features/ProfileDetailsSlice"
 import walletnew from "../../assets/icons/walletnew.png"
 import profilevip1 from "../../assets/icons/profilevip1.png"
-// import notification from "../../assets/icons/notification.png"
 import bet_history from "../../assets/icons/bet_history.png"
 import trans_history from "../../assets/icons/trans_history.png"
 import { FaRegCopy } from 'react-icons/fa'
@@ -24,15 +23,16 @@ import setting from "../../assets/usaAsset/account/setting.png"
 import guide from "../../assets/usaAsset/account/guide.png"
 import service from "../../assets/usaAsset/account/service.png"
 import aboutus from "../../assets/usaAsset/account/aboutus.png"
+import languageIcon from "../../assets/usaAsset/account/languageIcon.png"
 import apis from '../../utils/apis'
 const profileApi = apis.profile
 
 function Profile() {
-    const [myDetails, setMyDetails] = useState(null)
     const [langModal, setLangModal] = useState(false)
+    const [myDetails, setMyDetails] = useState(null)
     const [isUidCopied, setIsUidCopied] = useState(false)
-    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
     const avatar = "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg";
 
@@ -71,7 +71,6 @@ function Profile() {
                 .writeText(myDetails?.data?.u_id)
                 .then(() => {
                     setIsUidCopied(true)
-                    // toast.success('UID copied to clipboard!');
                 })
                 .catch(() => {
                     toast.error('Failed to copy UID.');
@@ -80,8 +79,6 @@ function Profile() {
             toast.error('UID is not available.');
         }
     };
-
-   
     useEffect(() => {
         if (isUidCopied) {
             const timer = setTimeout(() => {
@@ -121,7 +118,7 @@ function Profile() {
                 </div>
                 <div className="absolute bg-white shadow-lg left-3 right-3 top-40 px-3 pt-3 pb-6 rounded-md text-sm ">
                     <h1 className='text-lightGray '>Total balance</h1>
-                    <p className='flex items-center text-black'> <b className='text-xl'>₹</b>  {myDetails?.data?.wallet + myDetails?.data?.third_party_wallet} &nbsp; <span><HiMiniArrowPathRoundedSquare onClick={() => profileDetails(userId)} className='text-gray text-xl' />
+                    <p className='flex items-center text-black'> <b className='text-xl'>₹</b>  {myDetails ? Number(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"} &nbsp; <span><HiMiniArrowPathRoundedSquare onClick={() => profileDetails(userId)} className='text-gray text-xl' />
                     </span></p>
                     <div className='w-full bg-border1 mt-3 h-[1px]'></div>
                     <div className='grid grid-cols-4 mt-5 text-black'>
@@ -144,26 +141,6 @@ function Profile() {
                     </div>
                 </div>
             </div>
-            {/* 2dn div */}
-            {/* <div className='grid grid-cols-6 bg-bg2 rounded-md  p-2 mt-24 sm:mt-32 md:mt-24 mx-3 '>
-                <div className='col-span-1 flex items-center  justify-center'>
-                    <img src={vault} className='rounded-full h-12 w-12' alt="not found" />
-                </div>
-                <div className='col-span-5 flex flex-col justify-center  pl-2'>
-                    <div className=' flex items-center justify-between'>
-                        <p className='font-bold text-sm sm:text-xl md:text-sm'>Safe</p>
-                        <div className='flex items-center justify-center '>
-
-                            <div className=' bg-yellow text-sm sm:text-lg md:text-sm rounded-full w-16 sm:w-16 md:w-16 flex items-center justify-center '>
-                                ₹ &nbsp;  0.00
-                            </div>
-                            &nbsp; <MdKeyboardArrowRight size={25} className="text-gray" />
-                        </div>
-                    </div>
-
-                    <div className=' text-xs sm:text-sm md:text-xs'>The daily interest rate is 0.1%,and the income is calculated once every 1 minutes</div>
-                </div>
-            </div> */}
             {/* 3rd div */}
             <div className='grid grid-cols-2 mx-3 gap-2 mt-24 xsm:mt-28'>
                 <button >
@@ -234,7 +211,7 @@ function Profile() {
                 </Link>
                 <button onClick={() => setLangModal(true)} className='px-2 w-full border-b border-border1 py-4  flex justify-between items-center' >
                     <div className='flex items-center'>
-                        <img src={statistics} className='rounded-full h-7 w-7' alt="not found" />&nbsp;Language
+                        <img src={languageIcon} className='rounded-full h-7 w-7' alt="not found" />&nbsp;Language
                     </div>
                     <div className='flex items-end'>
                         <p className='flex text-gray text-sm items-center justify-center'>English</p>&nbsp;

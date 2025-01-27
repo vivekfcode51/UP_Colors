@@ -25,7 +25,6 @@ function AttendanceBonus() {
         }
         try {
             const res = await axios.get(`${apis.attendanceList}${userId}`)
-            // console.log(res)
             if (res?.data?.status === 200) {
                 setAttenddanceHistory(res?.data)
             } else {
@@ -45,35 +44,24 @@ function AttendanceBonus() {
         const payload = {
             userid: userId
         }
-        console.log("payload",payload)
+        // console.log("payload",payload)
         try {
             const res = await axios.post(apis.attendanceClaim, payload)
-            console.log("res",res)
+            // console.log("res",res)
             if (res?.data?.status === 200) {
+                attendanceHistory()
                 toast.success(res?.data?.message)
-            } else if(res?.data?.status===400){
+            } else if (res?.data?.status === 400) {
                 toast.error(res?.data?.message)
             }
         } catch (err) {
             console.error("Error:", err?.response?.data || err.message);
             toast.error(err?.response?.data?.message || "Something went wrong");
-          }
-          
-    }
+        }
 
-    // const data = [
-    //     { price: "₹4.00", duration: "1 Day " },
-    //     { price: "₹20.00", duration: "1 Day" },
-    //     { price: "₹50.00", duration: "3 Days" },
-    //     { price: "₹100.00", duration: "7 Days" },
-    //     { price: "₹200.00", duration: "15 Days" },
-    //     { price: "₹400.00", duration: "30 Days" },
-    //     { price: "₹800.00", duration: "60 Days" },
-    //     { price: "₹1,600.00", duration: "120 Days" },
-    //     { price: "₹3,200.00", duration: "240 Days" },
-    //     { price: "₹6,400.00", duration: "1 Year" },
+    }
     // ];
-    // console.log("attendanceHistoryData", attendanceHistoryData)
+    console.log("attendanceHistoryData", attendanceHistoryData)
     return (
         <div className='font-roboto'>
             <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] pl-1'>
@@ -125,15 +113,15 @@ function AttendanceBonus() {
                     <div className=' flex flex-col justify-center text-black items-center text-xsm'>
                         <p className=' flex items-center justify-center'>
                             <span className="left-0 w-5 h-px bg-white"></span>
-                            <span className='px-2'> ₹7000.00</span>
+                            <span className='px-2'> ₹{attendanceHistoryData?.data?.length > 0 && attendanceHistoryData?.data[6]?.attendance_bonus}</span>
                             <span className="right-0 w-5 h-px bg-white"></span>
                         </p>
-                        <p className='text-xs'>7 Day</p>
+                        <p className='text-xs'>{attendanceHistoryData?.data?.length > 0 && attendanceHistoryData?.data[6]?.id} Day</p>
                     </div>
                 </div>
             </div>
             <div className='px-2 mb-5'>
-                <button onClick={()=>ClaimAttendance(userId)} className='bg-gradient-to-b from-[#f95959] to-[#ff9a8e] rounded-full w-full text-sm py-1 my-10'>Attendance</button>
+                <button onClick={() => ClaimAttendance(userId)} className='bg-gradient-to-b from-[#f95959] to-[#ff9a8e] rounded-full w-full text-sm py-1 my-10'>Attendance</button>
             </div>
         </div>
     )

@@ -1,10 +1,64 @@
-import { Link } from 'react-router-dom'
-import reward from "../../assets/usaAsset/activity/reward.png"
-import bonus from "../../assets/usaAsset/activity/bonus.png"
+/* eslint-disable no-unused-vars */
+import { Link, useNavigate } from 'react-router-dom'
 import inviterule from "../../assets/usaAsset/activity/inviterule.svg"
 import inviterecord from "../../assets/usaAsset/activity/inviterecord.svg"
 import invitationBonus from "../../assets/usaAsset/activity/invitationBonus.png"
+import axios from 'axios'
+import apis from '../../utils/apis'
+import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 function InvitationBonus() {
+    const [invitationListData, setInvitationListData] = useState([])
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId");
+    const InvitationListHandler = async () => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        try {
+            const res = await axios.get(`${apis.invitation_bonus_list}${userId}`)
+            if (res?.data?.status === 200) {
+                // console.log(res)
+                setInvitationListData(res?.data?.data)
+            } else {
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            console.log("Internal server error")
+        }
+    }
+    const bonusClaimHandler = async (amount, bonusId) => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+    
+        const payload = {
+            userid: userId,
+            amount,
+            invite_id: bonusId,
+        };
+        try {
+            const res = await axios.post(apis.invitation_bonus_claim, payload);    
+            if (res?.status === 200) {
+                toast.success(res?.data?.message || "Bonus claimed successfully");
+                InvitationListHandler()
+            } else if (res?.response?.data?.status === 400) {
+                toast.error(res?.response?.data?.message || "Something went wrong");
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error(err?.response?.data?.message || "An error occurred while claiming the bonus");
+        }
+    };
+    
+    useEffect(() => {
+        InvitationListHandler()
+    }, [])
+    // console.log("invitationListData", invitationListData)
     const array = [{ amount1: 199, noOfIn: 3, rechargePerPeople: 555, value1: 2, value2: 0 }, { amount1: 299, noOfIn: 5, rechargePerPeople: 555, value1: 2, value2: 0 }, { amount1: 599, noOfIn: 10, rechargePerPeople: "1,111", value1: 2, value2: 0 }]
     return (
         <div className='bg-white font-roboto' >
@@ -38,7 +92,7 @@ function InvitationBonus() {
             </div>
 
             <div className='max-h-[500px] overflow-y-auto hide-scrollbar'>
-                {array?.map((item, i) => (
+                {invitationListData?.map((item, i) => (
                     <div key={{ i }} className="relative w-96 h-72 bg-bg1 rounded-2xl overflow-hidden mx-2 mt-2">
                         <div className='flex justify-between pr-2 text-xsm'>
 
@@ -50,34 +104,34 @@ function InvitationBonus() {
                             >
                                 <p>Bonus</p>
                                 <p className="h-5 w-5 text-[#BABFE0] bg-white flex items-center rounded-full justify-center">
-                                    {i + 1}
+                                    {item?.bonus_id}
                                 </p>
                             </div>
 
-                            <p className="flex items-center text-[#ff8310] text-xsm font-bold">₹{item.amount1}.00</p>
+                            <p className="flex items-center text-[#ff8310] text-xsm font-bold">₹{item?.claim_amount}</p>
 
                         </div>
                         <div className='border-border1 border-[1px]'></div>
                         <div className='bg-inputBg text-xsm text-gray flex items-center justify-between px-2 mx-2 mt-2 py-1 rounded-md'>
                             <p>Number of Invitees</p>
-                            <p className='text-black'>{item.noOfIn}</p>
+                            <p className='text-black'>{item?.no_of_invitees}</p>
                         </div>
                         <div className='bg-inputBg text-xsm text-gray flex items-center justify-between px-2 mx-2 mt-2 py-1 rounded-md'>
                             <p>Recharge per people</p>
-                            <p className='text-redLight'>₹{item.rechargePerPeople}.00</p>
+                            <p className='text-redLight'>₹{item?.amount}</p>
                         </div>
                         <div className='grid grid-cols-2 mt-10 px-2'>
                             <div className='col-span-1 flex flex-col items-center '>
-                                <p className='text-gold'>{item.value1}/{item.noOfIn}</p>
+                                <p className='text-gold'>{item?.no_of_invitees < item?.no_of_user ? item?.no_of_invitees : item?.no_of_user}/{item.no_of_user}</p>
                                 <p className='text-xsm text-gray'>Number of invitees</p>
                             </div>
                             <div className='col-span-1 flex flex-col items-center '>
-                                <p className='text-redLight'>{item.value2}/{item.noOfIn}</p>
+                                <p className='text-redLight'>{item?.no_of_invitees < item?.no_of_user ? item?.no_of_invitees : item?.refer_invitees}/{item.no_of_user}</p>
                                 <p className='text-xsm text-gray'>Deposit number</p>
                             </div>
                         </div>
                         <div className='px-2'>
-                            <button className='bg-[#CBCDDC] rounded-full w-full font-bold text-sm py-2 mt-5'>Unfinished</button>
+                            <button onClick={() => bonusClaimHandler(item?.claim_amount, item?.bonus_id)} className='bg-[#CBCDDC] rounded-full w-full font-bold text-sm py-2 mt-5'>{item?.status == 1 ? "Unfinished" : "Finished"}</button>
                         </div>
                         <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-6 h-6 bg-bg1 opacity-70 rounded-full"></div>
                         <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-6 h-6 bg-bg1 opacity-70 rounded-full"></div>

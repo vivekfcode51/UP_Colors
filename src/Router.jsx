@@ -57,6 +57,7 @@ import CommissionDetails from "./pages/Promotion/CommissionDetails";
 import InvitationRules from "./pages/Promotion/InvitationRules";
 import RebateRatio from "./pages/Promotion/RebateRatio";
 import FundTransfer from "./pages/Wallet/FundTransfer";
+import ActivityDetails from "./pages/Activity/ActivityDetails";
 
 export const Router = createBrowserRouter([
   {
@@ -128,6 +129,10 @@ export const Router = createBrowserRouter([
       {
         path: "/activity",
         element: <Activity />,
+      },
+      {
+        path: "/activity/details/:id",
+        element: <ActivityDetails />,
       },
       {
         path: "/activity/award",

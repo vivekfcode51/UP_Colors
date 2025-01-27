@@ -7,7 +7,28 @@ import sign_in_banner from "../../assets/images/sign_in_banner.png"
 import reward from "../../assets/usaAsset/activity/reward.png"
 import bonus from "../../assets/usaAsset/activity/bonus.png"
 import { Link } from "react-router-dom";
+import axios from "axios"
+import apis from "../../utils/apis"
+import { toast } from "react-toastify"
+import { useEffect, useState } from "react"
 function Activity() {
+  const [bannerData, setBannerData] = useState([])
+  const bannerDataHandler = async () => {
+    try {
+      const res = await axios.get(apis.slider)
+      if (res?.data?.success === 200) {
+        setBannerData(res?.data?.data)
+      } else {
+        toast.error(res?.data?.message)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    bannerDataHandler()
+  }, [])
+  // console.log("bannerData", bannerData)
   return (
     <div className="font-roboto w-full pb-20">
       <div className=" px-3 pb-2 bg-gradient-to-r from-[#f95959] to-[#ff9a8e]">
@@ -61,33 +82,20 @@ function Activity() {
         </div>
 
         {/* Promotion Banner */}
-        <div className="rounded-lg shadow-md bg-bg2 mt-2">
-          <img
-            src={banner1}
+        {bannerData?.map((item, i) => (
+          <Link key={i} to={`/activity/details/${item?.id}`}>
+            <div className="rounded-lg shadow-md bg-bg2 mt-2">
+              <img
+                src={item?.image}
 
-            alt="Gifts"
-            className="w-full h-40 object-fill rounded-lg"
-          />
-         
-        </div>
-        <div className="rounded-lg shadow-md bg-bg2 mt-2">
-          <img
-            src={banner2}
+                alt="Gifts"
+                className="w-full h-40 object-fill rounded-lg"
+              />
 
-            alt="Gifts"
-            className="w-full h-40 object-fill rounded-lg"
-          />
-         
-        </div>
-        <div className="rounded-lg shadow-md bg-bg2 mt-2">
-          <img
-            src={banner3}
+            </div>
+          </Link>
+        ))}
 
-            alt="Gifts"
-            className="w-full h-40 object-fill rounded-lg"
-          />
-         
-        </div>
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 
 const CircularIndicator = ({ percentage=0, color }) => {
-  const circleRadius = 40; // Radius of the circle
+  const circleRadius = 45; // Radius of the circle
   const circleCircumference = 2 * Math.PI * circleRadius; // Circumference of the circle
   const strokeDashoffset = circleCircumference * (1 - percentage / 100); // Dynamic offset
 
   return (
-    <div className="relative w-24 h-24">
+    <div className="relative w-32 h-32">
       <svg
         width="100%"
         height="100%"
@@ -20,7 +20,7 @@ const CircularIndicator = ({ percentage=0, color }) => {
           r={circleRadius}
           fill="none"
           stroke="#e5e7eb" /* Tailwind gray-200 */
-          strokeWidth="10"
+          strokeWidth="7"
         />
         {/* Progress circle */}
         <circle
@@ -29,7 +29,7 @@ const CircularIndicator = ({ percentage=0, color }) => {
           r={circleRadius}
           fill="none"
           stroke={color || "#ff9a8e"} /* Default to Tailwind blue-500 */
-          strokeWidth="10"
+          strokeWidth="7"
           strokeDasharray={circleCircumference}
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"

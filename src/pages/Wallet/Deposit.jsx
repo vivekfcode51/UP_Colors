@@ -21,7 +21,6 @@ function Deposit() {
     const [upiAmount, setUpiAmount] = useState(selectedAmount);
     const depositArray = ["200", "300", "500", "1000", "5000", "10000"]
     const USDTDepositArray = ["10", "20", "50", "100", "200", "500"]
-    // const [channelName, setChannelName] = useState(0);
     const [myDetails, setMyDetails] = useState(null)
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
@@ -45,7 +44,6 @@ function Deposit() {
 
     // payin api
     const payin_deposit = async () => {
-        // console.log("userIduserId",userId)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -58,9 +56,8 @@ function Deposit() {
         }
         try {
             const res = await axios.post(apis.payin_deposit, payload)
-            console.log("res", res)
             if (res?.data?.status === "SUCCESS") {
-                window.location.href = res?.data?.payment_link;
+                window.open(res?.data?.payment_link, "_blank");
             } else {
                 toast.error(res?.data?.message)
             }
@@ -78,11 +75,11 @@ function Deposit() {
 
     const handleSelectAmount = (amount) => {
         setSelectedAmount(amount);
-        setUpiAmount(amount); // Update the input value as well
+        setUpiAmount(amount); 
     };
     const handleUSDTSelectAmount = (amount) => {
         setUSDTSelectAmount(amount);
-        setUsdtAmount(amount); // Update the input value as well
+        setUsdtAmount(amount);
     };
 
     const toggleModal = (modalType) => {
@@ -90,7 +87,7 @@ function Deposit() {
     };
 
     const array = [{ name: "Innate UPI-QR", image: upi }, { name: "Expert UPI-QR", image: upi }, { name: "Manual Pay", image: paytm }, { name: "USDT", image: usdt_icon },]
-    // const channel = [{ name: "Icepay", balance: "100 - 50K" }, { name: "7 Days", balance: "100 - 50K" }, { name: "Pailepay", balance: "110 - 50K" }, { name: "Rspay", balance: "100 - 50K" },]
+    
     return (
         <div className='mx-3'>
             <div className='h-40 w-full object-fill bg-no-repeat  rounded-lg p-2'
@@ -105,7 +102,7 @@ function Deposit() {
                     <p>Balance</p>
                 </p>
                 <p className='mt-2 text-2xl flex items-center gap-4 ml-5 font-bold'>
-                    <p>₹ {myDetails?.data?.wallet + myDetails?.data?.third_party_wallet}</p>
+                    <p>₹ {myDetails ? Number(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"}</p>
                     <HiArrowPathRoundedSquare onClick={() => profileDetails(userId)} className=' text-xl' />
                 </p>
             </div>
@@ -122,23 +119,6 @@ function Deposit() {
                     </div>
                 ))}
             </div>
-            {/* select channel */}
-            {/* <div className=''>
-                <div className='bg-white rounded-lg p-2 mt-3'>
-                    <div className='flex items-center'>
-                        <img src="sd" alt="ds" />
-                        <p className='text-lg font-bold text-black'>Select channel</p>
-                    </div>
-                    <div className='grid grid-cols-2'>
-                        {channel.map((item, i) => (
-                            <div onClick={() => setChannelName(i)} key={i} className={`rounded-lg p-2 ${channelName === i ? "bg-red text-white" : "bg-white text-gray"}`}>
-                                <p>App:{item.name}</p>
-                                <p>Balance:{item.balance}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div> */}
             {/* Modals */}
             {(activeModal === 0 || activeModal === 1 || activeModal === 2) && (
                 <div className="mt-5 ">

@@ -1,19 +1,37 @@
-import rulehead from "../../assets/icons/rulehead.png"
+/* eslint-disable no-unused-vars */
+import { toast } from "react-toastify";
+// import rulehead from "../../assets/icons/rulehead.png"
+import axios from "axios";
+import apis from "../../utils/apis";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 function InvitationRewardRule() {
+    const [invitationListData, setInvitationListData] = useState([])
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId");
+    const InvitationListHandler = async () => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        try {
+            const res = await axios.get(`${apis.invitation_bonus_list}${userId}`)
+            if (res?.data?.status === 200) {
+                // console.log(res)
+                setInvitationListData(res?.data?.data)
+            } else {
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            console.log("Internal server error")
+        }
+    }
 
-    const inviteData = [
-        { people: "10000 People", depositAmount: "₹500", bonus: "₹755555" },
-        { people: "5000 People", depositAmount: "₹500", bonus: "₹355555" },
-        { people: "1000 People", depositAmount: "₹500", bonus: "₹48555" },
-        { people: "500 People", depositAmount: "₹500", bonus: "₹25555" },
-        { people: "200 People", depositAmount: "₹500", bonus: "₹10955" },
-        { people: "70 People", depositAmount: "₹500", bonus: "₹3355" },
-        { people: "30 People", depositAmount: "₹500", bonus: "₹1555" },
-        { people: "10 People", depositAmount: "₹1,111", bonus: "₹599" },
-        { people: "5 People", depositAmount: "₹500", bonus: "₹299" },
-        { people: "3 People", depositAmount: "₹500", bonus: "₹199" },
-        
-    ];
+    useEffect(() => {
+        InvitationListHandler()
+    }, [])
+   
     return (
         <div>
             <div className='px-3 mt-3 text-xsm font-roboto text-lightGray'>
@@ -30,15 +48,15 @@ function InvitationRewardRule() {
                         </tr>
                     </thead>
                     <tbody className="">
-                        {inviteData.map((item, index) => (
+                        {invitationListData?.map((item, index) => (
                             <tr
                                 key={index}
-                                className={`${index%2==0?"bg-white":"bg-bg1"} text-lightGray text-sm border-b border-redLight ${index === 0 ? "first:rounded-t-lg" : ""
-                                    } ${index === inviteData.length - 1 ? "last:rounded-b-lg" : ""}`}
+                                className={`${index % 2 == 0 ? "bg-white" : "bg-bg1"} text-lightGray text-sm border-b border-redLight ${index === 0 ? "first:rounded-t-lg" : ""
+                                    } ${index === invitationListData?.length - 1 ? "last:rounded-b-lg" : ""}`}
                             >
-                                <td className="text-center py-2">{item.people}</td>
-                                <td className="text-center">{item.depositAmount}</td>
-                                <td className="text-center">{item.bonus}</td>
+                                <td className="text-center py-2">{item?.no_of_user}</td>
+                                <td className="text-center">₹{item.amount}</td>
+                                <td className="text-center">₹{item.claim_amount}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -46,12 +64,12 @@ function InvitationRewardRule() {
             </div>
             <div className='px-3 pb-5 rounded-lg bg-white  text-lightGray mx-3'>
                 <div className='mt-5 bg-no-repeat'
-                    // style={{
-                    //     backgroundImage: `url(${rulehead})`,
-                    //     backgroundPosition: "center",
-                    //     backgroundSize: "contain",
+                // style={{
+                //     backgroundImage: `url(${rulehead})`,
+                //     backgroundPosition: "center",
+                //     backgroundSize: "contain",
 
-                    // }}
+                // }}
                 >
                     <div className=" text-center font-bold text-lg rounded-t-2xl py-2">
                         Rules

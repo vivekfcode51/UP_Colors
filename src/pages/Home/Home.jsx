@@ -46,6 +46,9 @@ import no3badge from "../../assets/usaAsset/homeScreen/no3badge.png"
 import crownno1 from "../../assets/usaAsset/homeScreen/crownno1.png"
 import crownno2 from "../../assets/usaAsset/homeScreen/crownno2.png"
 import crownno3 from "../../assets/usaAsset/homeScreen/crownno3.png"
+import apis from "../../utils/apis";
+import axios from "axios";
+import { toast } from "react-toastify";
 const notes = [
     "Welcome to the Tiranga Games! Greetings, Gamers and Enthusiasts! the Tiranga",
     "Please be sure to always use our official website for playing the games with the fol",
@@ -56,7 +59,7 @@ function Home() {
     const [noteValue, setNoteValue] = useState(notes[0]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animate, setAnimate] = useState(false);
-
+    const [bannerData, setBannerData] = useState([])
     const { gameName } = useSelector((state) => state.AllGamesContainer);
     const dispatch = useDispatch();
     const buttonRef = useRef(null);
@@ -111,7 +114,21 @@ function Home() {
         { onClick: handleLobbyContainer, key: "lobby", bg: bgActiveCategory, icon: gamecategoryloby, label: "Lobby" },
         { onClick: handlePokerContainer, key: "poker", bg: bgActiveCategory, icon: gamecategorypoker, label: "Poker" },
     ];
-
+    const bannerDataHandler = async () => {
+        try {
+            const res = await axios.get(apis.slider)
+            if (res?.data?.success === 200) {
+                setBannerData(res?.data?.data)
+            } else {
+                toast.error(res?.data?.message)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    useEffect(() => {
+        bannerDataHandler()
+    }, [])
     useEffect(() => {
         if (gameName && buttonRef.current) {
             const buttonPosition = buttonRef.current.getBoundingClientRect().top + window.scrollY;
@@ -173,11 +190,11 @@ function Home() {
             ? winningData.slice(0, (currentIndexWin + 5) % winningData.length)
             : []),
     ].slice(0, 5);
-
+console.log("bannerData",bannerData)
     return (
         <div className="mb-28 font-roboto">
             <div className="rounded-xl px-3">
-                <ImageCarousel />
+                <ImageCarousel  imagesData={bannerData} />
             </div>
             <div className='px-3 flex shadow-lg justify-between w-full gap-1 items-center bg-white text-gray p-1 rounded-full '>
                 <div className='shrink-0'><HiMiniSpeakerWave size={20} className="text-red" />                </div>
