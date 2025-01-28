@@ -39,6 +39,7 @@ const Layout = () => {
                 location?.pathname === "/activity/attendacehistory" ||
                 location?.pathname === "/activity/gamerule" ||
                 location?.pathname === "/promotion" ||
+                location?.pathname === "/promotion/newSuboridnate" ||
                 location?.pathname === "/promotion/subordinatedata" ||
                 location?.pathname === "/promotion/commissiondetail" ||
                 location?.pathname === "/promotion/invitationrules" ||
@@ -50,6 +51,7 @@ const Layout = () => {
                 location?.pathname === "/wallet/deposithistory" ||
                 location?.pathname === "/wallet/withdrawalhistory" ||
                 location?.pathname === "/wallet/withdrawal/addbankaccount" ||
+                location?.pathname === "/wallet/withdrawal/editbankaccount" ||
                 location?.pathname === "/wallet/withdrawal/addbankaccount/selectbank" ||
                 location?.pathname === "/wallet/withdrawal/addusdtwalletaddress" ||
                 location?.pathname === "/notifications" ||

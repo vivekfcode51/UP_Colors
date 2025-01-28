@@ -1,6 +1,6 @@
 import { MdKeyboardArrowDown, MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate,useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import apis from '../utils/apis';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -16,6 +16,8 @@ import * as Yup from 'yup';
 const register = apis?.register
 
 function Register() {
+  const [searchParams] = useSearchParams();
+  const [referralCode, setReferralCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [checkAgreement, setCheckAgreement] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -50,7 +52,7 @@ function Register() {
       email: '',
       password: '',
       password_confirmation: '',
-      referral_code: '',
+      referral_code: referralCode,
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -69,7 +71,6 @@ function Register() {
           navigate('/login');
         } else {
           toast.error(res?.data?.message)
-          // throw new Error('Registration failed');
         }
       } catch (err) {
         toast.error(err.response?.data?.message || err.message || 'Something went wrong');
@@ -78,7 +79,14 @@ function Register() {
       }
     },
   });
-
+  useEffect(() => {
+    const code = searchParams.get("referral"); 
+    if (code) {
+      setReferralCode(code); 
+      formik.setFieldValue('referral_code', code); 
+    }
+  }, [searchParams]);
+  
   return (
     <>
       {loading && <Loader setLoading={setLoading} loading={loading} />}

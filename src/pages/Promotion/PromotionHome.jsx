@@ -60,11 +60,13 @@ function PromotionHome() {
             promotionDataHandler()
         }
     }, [userId])
-
     const handleCopyInvitationLink = () => {
         if (myDetails?.data?.u_id) {
+            const baseUrl = `http://localhost:5173/register`
+            const invitationCode = myDetails?.data?.u_id
+            const referralLink = `${baseUrl}?referral=${invitationCode}`;
             navigator.clipboard
-                .writeText(myDetails?.referral_code_url)
+                .writeText(referralLink)
                 .then(() => {
                     setCopyInvitation(true)
                 })
@@ -82,7 +84,6 @@ function PromotionHome() {
                 .writeText(myDetails?.data?.referral_code)
                 .then(() => {
                     setCopyInvitationCode(true)
-                    // toast.success('UID copied to clipboard!');
                 })
                 .catch(() => {
                     toast.error('Failed to copy UID.');

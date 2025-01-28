@@ -299,48 +299,6 @@ const WinGo = () => {
       console.log(err);
     }
   }
-  // const winAmountAnnouncement2 = async (i) => {
-  //   try {
-  //     const res = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${gameHistoryData[0]?.games_no + 1}`)
-  //     if (res?.data?.status === 200) {
-  //       console.log("res 2", res)
-  //       toast.success(`You ${res?.data?.data?.result} ${res?.data?.data?.win}`)
-  //       const data = res?.data?.data;
-  //       setModalData(data);
-  //       setIsModalVisible(true);
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
-  // const winAmountAnnouncement3 = async (i) => {
-  //   try {
-  //     const res = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${gameHistoryData[0]?.games_no + 1}`)
-  //     if (res?.data?.status === 200) {
-  //       console.log("res 3", res)
-  //       toast.success(`You ${res?.data?.data?.result} ${res?.data?.data?.win}`)
-  //       const data = res?.data?.data;
-  //       setModalData(data);
-  //       setIsModalVisible(true);
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
-  // const winAmountAnnouncement4 = async (i) => {
-  //   try {
-  //     const res = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${gameHistoryData[0]?.games_no + 1}`)
-  //     if (res?.data?.status === 200) {
-  //       console.log("res 4", res)
-  //       toast.success(`You ${res?.data?.data?.result} ${res?.data?.data?.win}`)
-  //       const data = res?.data?.data;
-  //       setModalData(data);
-  //       setIsModalVisible(true);
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
 
   const myHistory = async () => {
     if (!userId) {
@@ -509,10 +467,7 @@ const WinGo = () => {
             className='p-5 h-[9rem] text-black bg-inputBg rounded-3xl'
           >
             <div className='flex justify-center items-center'>
-              <p className='font-semibold text-xl'><b className='text-xl'>₹</b> &nbsp;{myDetails?.wallet}</p>
-              {/* <button onClick={profileDetails}>
-                <HiArrowPathRoundedSquare size={20}  className='text-gray ' />
-              </button> */}
+              <p className='font-semibold text-xl'><b className='text-xl'>₹</b> &nbsp;{myDetails?.wallet.toFixed(2)}</p>
             </div>
             <div className='flex justify-center gap-2 items-center'>
               <img className='h-5 w-5 ' src={mainWallet} alt="not found" />
@@ -530,7 +485,6 @@ const WinGo = () => {
 
           {/* 2nd div */}
           <div className='flex justify-between w-full bg-white p-2 rounded-full text-blackLight mt-6 items-center'>
-            {/* <div className='shrink-0'><img src={micphone} className='w-7 h-7 ' alt="not found" /></div> */}
             <div className="h-7 flex items-center overflow-hidden">
               <div
                 className={`flex-1 xsm:flex-0 font-bold w-full  text-[10px] xsm:text-xs overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
@@ -542,20 +496,13 @@ const WinGo = () => {
             </div>
             <div
               className='shrink-0 py-0.5 text-xsm px-4 bg-red text-white  flex gap-1 justify-center items-center  rounded-3xl'
-            // style={{
-            //   backgroundImage: `url(${detailbutttonbg})`,
-            //   backgroundSize: 'cover',
-            //   backgroundPosition: 'center',
-
-            // }}
             >
-              {/* <RiFireFill className='text-white' /> */}
               Detail
             </div>
           </div>
 
           {/* game id 3rd div */}
-          <div className='bg-inputBg text-xsm grid grid-cols-4 w-full rounded-xl mt-5'>
+          <div className='bg-inputBg text-xs grid grid-cols-4 w-full rounded-xl mt-5'>
             {[
               { label: 'Win go', time: '30 Seconds', duration: 30, gameid: 1 },
               { label: 'Win go', time: '1 min', duration: 60, gameid: 2 },
@@ -564,7 +511,7 @@ const WinGo = () => {
             ].map((item) => (
               <div
                 key={item.time}
-                className={`flex flex-col col-span-1 rounded-xl items-center px-2 py-1 cursor-pointer ${selectedIMgIndex === item.time ? 'bg-gradient-to-b from-[#f95959] to-[#ff9a8e]' : ''}`}
+                className={`flex flex-col col-span-1 rounded-xl items-center px-2 py-2 cursor-pointer ${selectedIMgIndex === item.time ? 'bg-gradient-to-b from-[#f95959] to-[#ff9a8e]' : ''}`}
                 onClick={() => {
                   gameDetailsHandler(item)
                   handleTimerClick(item.time, item.duration)
@@ -572,10 +519,10 @@ const WinGo = () => {
               >
                 <img
                   src={selectedIMgIndex === item.time ? redWatch : grayWatch}
-                  className='h-12 sm:h-16 md:h-12 w-12 sm:w-16 md:w-12'
+                  className='h-12  w-12'
                   alt="timer"
                 />
-                <p className={` ${selectedIMgIndex === item.time ? '' : 'text-lightGray'}`}>{item.label}</p>
+                <p className={`text-nowrap ${selectedIMgIndex === item.time ? '' : 'text-lightGray'}`}>{item.label}</p>
                 <p className={`  ${selectedIMgIndex === item.time ? '' : 'text-lightGray'}`}>{item.time}</p>
               </div>
             ))}
@@ -589,7 +536,7 @@ const WinGo = () => {
             width: "100%",
           }} >
             <div className='w-[50%] pr-3'>
-              <button onClick={()=>setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '>
+              <button onClick={() => setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '>
                 How to play</button>
               <p className='text-xs mt-4'>Win Go {selectedIMgIndex}</p>
               <div className='flex text-black items-center justify-between mt-3'>
@@ -718,10 +665,10 @@ const WinGo = () => {
           <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
         </div>
       )}
-       {playRule && (
+      {playRule && (
         <div className="fixed inset-0 flex items-center justify-center ">
           <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
-            <button className='text-red ' onClick={()=>setPlayRule(false)} >Close</button>
+            <button className='text-red ' onClick={() => setPlayRule(false)} >Close</button>
             <p className='text-center'>How to play</p>
           </div>
         </div>

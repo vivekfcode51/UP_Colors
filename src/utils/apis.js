@@ -55,6 +55,9 @@ const apis = {
   allAvatar: `${configModalUsaWin}image_all`,
   customer_service: `${configModalUsaWin}customer_service`,
   about_us: `${configModalUsaWin}about_us?type=`,
+  newSubordinate: `${configModalUsaWin}new-subordinate?id=`,
+  payModes: `${configModalUsaWin}pay_modes`,
+  account_update: `${configModalUsaWin}account_update/`,
 };
 
 export default apis

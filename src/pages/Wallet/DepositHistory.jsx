@@ -4,59 +4,42 @@ import no_data_available from '../../assets/images/no_data_available.png';
 import { useState, useEffect, useRef } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { RxDashboard } from 'react-icons/rx';
-import upi from "../../assets/usaAsset/wallet/upi.png"
 import { PiCopyLight } from 'react-icons/pi';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import apis from '../../utils/apis'
 import { useNavigate } from 'react-router-dom';
+// import ipRemovedbg from "../../assets/usaAsset/ipRemovedbg.png"
+// import kuberPayLogo from "../../assets/usaAsset/kuberPayLogo.png"
 function DepositHistory() {
-    const [activeModal, setActiveModal] = useState(0);
+    const [activeModal, setActiveModal] = useState(-1);
+    const [payModesList, setPayModesList] = useState(0);
     const [modalFirst, handleModalFirst] = useState(false);
     const [modalFirstValue, handleModalFirstValue] = useState(0);
     const [modalSecond, handleModalSecond] = useState(false);
-    const [confirmedDate, setConfirmedDate] = useState("Select date"); // Track displayed date
+    const [confirmedDate, setConfirmedDate] = useState("Select date");
     const [depositHistoryData, setDepositHistoryData] = useState(null)
     const [isOrderidCopied, setIsOrderidCopied] = useState(false)
     const navigate = useNavigate();
 
     const modalRef = useRef(null);
     const modalSecondRef = useRef(null);
-    const today = new Date();
-    const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth() + 1; // Months are 0-indexed
-    const currentDay = today.getDate();
     const userId = localStorage.getItem("userId");
-
-    // State to track selected date
-    const [selectedDate, setSelectedDate] = useState({
-        year: currentYear,
-        month: currentMonth,
-        day: currentDay,
-    });
-
-    // Generate dynamic year list
-    const years = Array.from({ length: 10 }, (_, i) => currentYear + i); // Current year + next 9 years
-    const months = Array.from({ length: 12 }, (_, i) => i + 1); // 1 to 12
-    const days = Array.from({ length: 31 }, (_, i) => i + 1); // 1 to 31
-
-    // Event handlers
-    const handleSelectYear = (year) => {
-        setSelectedDate((prev) => ({ ...prev, year }));
-    };
-
-    const handleSelectMonth = (month) => {
-        setSelectedDate((prev) => ({ ...prev, month }));
-    };
-
-    const handleSelectDay = (day) => {
-        setSelectedDate((prev) => ({ ...prev, day }));
-    };
 
     const toggleModal = (modalType) => {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
-
+    const getPayModes = async () => {
+        try {
+            const res = await axios.get(apis.payModes)
+            if (res?.data?.status == 200) {
+                setPayModesList(res?.data?.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // console.log("depositHistoryData", depositHistoryData)
     // Close modal when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -92,7 +75,9 @@ function DepositHistory() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [modalSecond]);
-
+    useEffect(() => {
+        getPayModes()
+    }, [])
     const depositHistory = async (t) => {
         if (!userId) {
             toast.error("User not logged in");
@@ -101,11 +86,11 @@ function DepositHistory() {
         }
         try {
             let res
-            if (t === 0) {
+            if (t === -1) {
                 res = await axios.get(`${apis?.depositHistory}?user_id=${userId}`)
             } else {
-                const type = t === 3 ? 1 : 0
-                res = await axios.get(`${apis?.depositHistory}?user_id=${userId}&type=${type}`)
+                
+                res = await axios.get(`${apis?.depositHistory}?user_id=${userId}&type=${t}`)
             }
             if (res?.data?.status === 200) {
                 setDepositHistoryData(res?.data?.data)
@@ -122,7 +107,7 @@ function DepositHistory() {
             depositHistory(activeModal);
         }
     }, [userId, activeModal]);
-    
+
     const handleCopyOrderId = (orderid) => {
         if (orderid) {
             navigator.clipboard
@@ -145,45 +130,29 @@ function DepositHistory() {
             return () => clearTimeout(timer);
         }
     }, [isOrderidCopied, setIsOrderidCopied]);
-   
-
     return (
         <>
             <div className='w-full'>
                 <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
                     <div className="flex gap-2 text-xsm font-bold">
                         <div
-                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 0 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === -1 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
                                 }  px-7 cursor-pointer`}
-                            onClick={() => toggleModal(0)}
+                            onClick={() => toggleModal(-1)}
                         >
                             <RxDashboard className={``} size={20} />
                             <p className="font-bold text-nowrap">All</p>
                         </div>
-                        <div
-                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 1 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
-                                }  px-5 cursor-pointer`}
-                            onClick={() => toggleModal(1)}
-                        >
-                            <img className='w-5 h-5' src={upi} alt="UPI Payment" />
-                            <p className=" font-bold text-nowrap">UPI-APP</p>
-                        </div>
-                        <div
-                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 2 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
-                                }  px-3 cursor-pointer`}
-                            onClick={() => toggleModal(2)}
-                        >
-                            <img className='w-5 h-5' src={upi} alt="UPI Payment" />
-                            <p className=" font-bold text-nowrap">UPI-Manual</p>
-                        </div>
-                        <div
-                            className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 3 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
-                                }  px-5 cursor-pointer`}
-                            onClick={() => toggleModal(3)}
-                        >
-                            <img className="w-6 h-6" src={usdt_icon} alt="USDT TRC 20" />
-                            <p className=" text-nowrap">USDT</p>
-                        </div>
+                        {payModesList && payModesList?.map((item, i) => (
+                            <div key={i}
+                                className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal == item?.type ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                                    }  px-3 cursor-pointer`}
+                                onClick={() => toggleModal(item?.type)}
+                            >
+                                <img className='w-5 h-5' src={item?.image} alt="UPI Payment" />
+                                <p className=" font-bold text-nowrap">{item?.name}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
@@ -239,7 +208,7 @@ function DepositHistory() {
                                     </div>
                                     <div className="flex mt-4 text-gray justify-between items-center">
                                         <p className="text-xsm font-bold">Type</p>
-                                        <p className="text-xsm text-gray font-semibold">{item?.type === 0 ? "Indian Pay" : "USDT"}</p>
+                                        <p className="text-xsm text-gray font-semibold">{item?.type == 0 ? "Indian Pay" : item?.type == 1 ? "Kuber Pay" : item?.type === 2 ? "USDT" : ""}</p>
                                     </div>
                                     <div className="flex mt-4 text-gray justify-between items-center">
                                         <p className="text-xsm font-bold">Time</p>
@@ -323,82 +292,7 @@ function DepositHistory() {
                     </div>
                 )}
 
-                {modalSecond && (
-                    <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
-                        <div
-                            ref={modalSecondRef}
-                            className="bg-bg2 p-3 rounded-t-xl h-72 w-full xsm:w-[400px]"
-                        >
-                            <div className='flex items-center justify-between' >
-                                <button
-                                    onClick={() => handleModalSecond(false)}
-                                    className="text-white"
-                                >
-                                    Cancel
-                                </button>
-                                <p className="text-white">
-                                    Select a date
-                                </p>
-                                <button
-                                    onClick={() => {
-                                        setConfirmedDate(
-                                            `${selectedDate.day}/${selectedDate.month}/${selectedDate.year}`
-                                        );
-                                        handleModalSecond(false);
-                                    }}
-                                    className="text-white"
-                                >
-                                    Confirm
-                                </button>
-                            </div>
-                            <div className="flex items-start justify-between space-x-6 py-10">
-                                {/* Years */}
-                                <div className="flex flex-col items-center overflow-y-auto h-40 hide-scrollbar">
-                                    {years.map((year) => (
-                                        <div
-                                            key={year}
-                                            onClick={() => handleSelectYear(year)}
-                                            className={`cursor-pointer py-2 px-4 ${selectedDate.year === year ? 'text-bg3' : 'text-gray'
-                                                }`}
-                                        >
-                                            {year}
-                                        </div>
-                                    ))}
-                                </div>
 
-                                {/* Months */}
-                                <div className="flex flex-col items-center overflow-y-auto h-40 hide-scrollbar">
-                                    {months
-                                        .map((month) => (
-                                            <div
-                                                key={month}
-                                                onClick={() => handleSelectMonth(month)}
-                                                className={`cursor-pointer py-2 px-4 ${selectedDate.month === month ? 'text-bg3' : 'text-gray'
-                                                    }`}
-                                            >
-                                                {month}
-                                            </div>
-                                        ))}
-                                </div>
-
-                                {/* Days */}
-                                <div className="flex flex-col items-center overflow-y-auto h-40 hide-scrollbar">
-                                    {days
-                                        .map((day) => (
-                                            <div
-                                                key={day}
-                                                onClick={() => handleSelectDay(day)}
-                                                className={`cursor-pointer py-2 px-4 ${selectedDate.day === day ? 'text-bg3' : 'text-gray'
-                                                    }`}
-                                            >
-                                                {day}
-                                            </div>
-                                        ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
                 {isOrderidCopied && (
                     <div className="fixed inset-0 flex items-center justify-center ">
                         <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">

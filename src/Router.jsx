@@ -58,6 +58,8 @@ import InvitationRules from "./pages/Promotion/InvitationRules";
 import RebateRatio from "./pages/Promotion/RebateRatio";
 import FundTransfer from "./pages/Wallet/FundTransfer";
 import ActivityDetails from "./pages/Activity/ActivityDetails";
+import NewSubordinate from "./pages/Promotion/NewSubordinate";
+import EditBankAccountDetails from "./pages/Wallet/EditBankAccountDetails";
 
 export const Router = createBrowserRouter([
   {
@@ -179,6 +181,10 @@ export const Router = createBrowserRouter([
         element: <PromotionHome />,
       },
       {
+        path: "/promotion/newSuboridnate",
+        element: <NewSubordinate />,
+      },
+      {
         path: "/promotion/subordinatedata",
         element: <SubordinateData />,
       },
@@ -213,6 +219,10 @@ export const Router = createBrowserRouter([
       {
         path: "/wallet/withdrawal/addbankaccount",
         element: <AddBankAccountDetails />,
+      },
+      {
+        path: "/wallet/withdrawal/editbankaccount",
+        element: <EditBankAccountDetails />,
       },
       {
         path: "/wallet/withdrawal/addbankaccount/selectbank",

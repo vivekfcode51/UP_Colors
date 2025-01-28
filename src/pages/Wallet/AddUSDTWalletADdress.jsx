@@ -25,11 +25,7 @@ const AddUSDTWalletADdress = () => {
                     <select className="w-full placeholder:text-xsm text-gray placeholder:font-bold outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg" name="" id="">
                         <option value="TRC">TRC</option>
                     </select>
-                    {/* <input
-                        type="text"
-                        placeholder="Please enter the recipient's name"
-                        className="w-full text-xs text-gray font-bold mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50"
-                    /> */}
+                 
                 </div>
 
                 <div className="mb-8">
@@ -43,7 +39,7 @@ const AddUSDTWalletADdress = () => {
                         className="w-full placeholder:text-xsm text-gray placeholder:font-bold outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
                     />
                 </div>
-                <div className="mb-8">
+                {/* <div className="mb-8">
                     <label className="text-gray-600 text-sm  flex items-center">
                         <img src={alias} alt="sfd" className="w-7 h-7 mr-2" />
                         Address Alias
@@ -53,7 +49,7 @@ const AddUSDTWalletADdress = () => {
                         placeholder="Please enter a remark of the withdrawal address"
                         className="w-full placeholder:text-xsm text-gray placeholder:font- outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
                     />
-                </div>
+                </div> */}
                 {/* Save button */}
                 <button className="w-full tracking-[2.5px] bg-[#CBCDDB] text-white text-sm font-semibold py-2 rounded-full shadow-md">
                     Save

@@ -15,6 +15,7 @@ import apis from '../../utils/apis'
 const profileApi = apis.profile
 function Deposit() {
     const [activeModal, setActiveModal] = useState(0);
+    const [payModesList, setPayModesList] = useState(0);
     const [selectedAmount, setSelectedAmount] = useState(200);
     const [USDTselectedAmount, setUSDTSelectAmount] = useState(10);
     const [usdtAmount, setUsdtAmount] = useState(USDTselectedAmount)
@@ -35,13 +36,25 @@ function Deposit() {
             const res = await axios.get(`${profileApi}${userId}`);
             if (res?.data?.success === 200) {
                 setMyDetails(res?.data)
-                console.log("res", res)
             }
         } catch (err) {
             toast.error(err);
         }
     };
-
+    const getPayModes = async () => {
+        try {
+            const res = await axios.get(apis.payModes)
+            if (res?.data?.status == 200) {
+                setPayModesList(res?.data?.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    useEffect(()=>{
+        getPayModes()
+    },[])
+    // console.log("myDetails",myDetails)
     // payin api
     const payin_deposit = async () => {
         if (!userId) {
@@ -51,9 +64,10 @@ function Deposit() {
         }
         const payload = {
             userid: userId,
-            amount: activeModal === 3 ? usdtAmount : upiAmount,
-            type: activeModal === 3 ? 1 : 0
+            amount: activeModal === 2 ? usdtAmount : upiAmount,
+            type: activeModal
         }
+        // console.log("pay;opad",payload)
         try {
             const res = await axios.post(apis.payin_deposit, payload)
             if (res?.data?.status === "SUCCESS") {
@@ -85,8 +99,6 @@ function Deposit() {
     const toggleModal = (modalType) => {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
-
-    const array = [{ name: "Innate UPI-QR", image: upi }, { name: "Expert UPI-QR", image: upi }, { name: "Manual Pay", image: paytm }, { name: "USDT", image: usdt_icon },]
     
     return (
         <div className='mx-3'>
@@ -107,11 +119,11 @@ function Deposit() {
                 </p>
             </div>
             <div className="w-full grid grid-cols-3 gap-3 mt-2">
-                {array?.map((item, i) => (
+                {payModesList&& payModesList?.map((item, i) => (
                     <div
-                        onClick={() => toggleModal(i)}
+                        onClick={() => toggleModal(item?.type)}
                         key={i}
-                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${i === activeModal ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
                             } shadow-md text-lightGray`}
                     >
                         <img className='w-10 h-10' src={item.image} alt="UPI Payment" />
@@ -120,7 +132,7 @@ function Deposit() {
                 ))}
             </div>
             {/* Modals */}
-            {(activeModal === 0 || activeModal === 1 || activeModal === 2) && (
+            {(activeModal == 0 || activeModal == 1 ) && (
                 <div className="mt-5 ">
                     <div className='bg-white shadow-lg rounded-lg p-2'>
                         <h3 className="text-lg font-semibold text-bg2 flex items-center ">
@@ -190,7 +202,7 @@ function Deposit() {
                 </div>
             )}
 
-            {activeModal === 3 && (
+            {activeModal == 2 && (
                 <div className="mt-5 ">
                     <div className='bg-white shadow-lg rounded-lg p-2'>
                         <h3 className="text-lg font-semibold text-bg2 flex items-center ">
@@ -223,7 +235,7 @@ function Deposit() {
                             </button>
 
                         </div>
-                        {usdtAmount && <p className='text-black font-bold text-xsm mt-3'>Total amount in rupess : {usdtAmount}.00</p>
+                        {usdtAmount && <p className='text-black font-bold text-xsm mt-3'>Total amount in rupees : {usdtAmount*myDetails?.usdt_payin_amount}.00</p>
                         }
                         <button onClick={payin_deposit} className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
                             Deposit
