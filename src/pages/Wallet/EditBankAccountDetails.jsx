@@ -31,6 +31,7 @@ const EditBankAccountDetails = () => {
     }
     try {
       const res = await axios.get(`${apis.accountView}?userid=${userId}`);
+      console.log("res",res)
       if (res?.data?.status === "200") {
         setViewAccountDetails(res?.data?.data[0]);
         setDetails(res?.data?.data[0]);
@@ -104,7 +105,7 @@ const EditBankAccountDetails = () => {
       <div className="w-full max-w-md text-black rounded-lg mt-5">
         {renderField("Bank name", "bank_name", bank)}
         {renderField("Full recipient's name", "name", account_yellow)}
-        {renderField("Bank account number", "account_number", acc_number, "number")}
+        {renderField("Bank account number", "account_num", acc_number, "number")}
         {renderField("IFSC code", "ifsc_code", ifsc_code)}
 
         <button

@@ -89,7 +89,7 @@ const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
                                     </div>
                                     <div>
                                         <p>{item?.games_no}</p>
-                                        <p className="text-gray">{item?.created_at}</p>
+                                        <p className="text-gray text-xs text-nowrap">{item?.created_at}</p>
                                     </div>
                                 </div>
                                 <div className="col-span-1 flex justify-end">

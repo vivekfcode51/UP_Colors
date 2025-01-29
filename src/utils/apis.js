@@ -58,6 +58,8 @@ const apis = {
   newSubordinate: `${configModalUsaWin}new-subordinate?id=`,
   payModes: `${configModalUsaWin}pay_modes`,
   account_update: `${configModalUsaWin}account_update/`,
+  country: `${configModalUsaWin}country`,
+  betting_rebate_history: `${configModalUsaWin}betting_rebate_history?userid=`,
 };
 
 export default apis

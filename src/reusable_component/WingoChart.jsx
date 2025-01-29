@@ -105,8 +105,8 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
             y1={y1}
             x2={x}
             y2={y}
-            stroke="black"
-            strokeWidth="1.5"
+            stroke="red"
+            strokeWidth="0.5"
           />
         );
       }
@@ -122,7 +122,7 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
       <svg className="absolute top-12 left-[37%] mr-4 h-full pointer-events-none">
         {renderLines()}
       </svg>
-      <div className="flex w-full bg-redLight rounded-t-lg py-2 font-semibold">
+      <div className="flex w-full bg-[#F95959] rounded-t-lg py-2 font-semibold">
         <p className="text-xsm w-[35%] flex justify-center items-center">Period</p>
         <p className="text-xsm w-[65%] flex justify-center items-center">Number</p>
       </div>

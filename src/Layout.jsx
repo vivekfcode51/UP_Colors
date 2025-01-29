@@ -25,7 +25,7 @@ const Layout = () => {
         location?.pathname === "/forgotPassword" ||
             location?.pathname === "/register"||
              location?.pathname === "/" ||
-                location?.pathname === "/lottery/wingo" ||
+                // location?.pathname === "/lottery/wingo" ||
                 location?.pathname === "/lottery/trxwingo" ||
                 location?.pathname === "/activity" ||
                 location?.pathname === "/activity/details" ||
@@ -34,6 +34,7 @@ const Layout = () => {
                 location?.pathname === "/activity/invitationbonus/invitationrewardrule" ||
                 location?.pathname === "/activity/invitationbonus/invitationrecord" ||
                 location?.pathname === "/activity/rebate" ||
+                location?.pathname === "/activity/superJackpot" ||
                 location?.pathname === "/activity/gifts" ||
                 location?.pathname === "/activity/attendance" ||
                 location?.pathname === "/activity/attendacehistory" ||

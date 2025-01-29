@@ -37,7 +37,7 @@ function Withdrawal() {
             toast.error(err)
         }
     }
-
+console.log("myDetails",myDetails)
     const profileDetails = async (userId) => {
         if (!userId) {
             toast.error("User not logged in");
@@ -143,7 +143,7 @@ function Withdrawal() {
                                     <p> <b>Account Number:</b> &nbsp; <span className='text-lightGray'>{viewAccountDetails[0]?.account_num}</span>  </p>
                                     <p> <b>IFSC:</b> &nbsp; <span className='text-lightGray'>{viewAccountDetails[0]?.ifsc_code}</span>  </p>
                                 </div>
-                                <Link to="/wallet/withdrawal/editbankaccount" className='text-xsm w-full flex items-end justify-end text-redLight'>Change bank card information</Link>
+                                <Link to="/customerservices" className='text-xsm w-full flex items-end justify-end text-redLight'>Change bank card information</Link>
                             </div>
                             : <button className='w-full'>
                                 <Link to="/wallet/withdrawal/addbankaccount" className="flex flex-col items-center rounded-l-full text-sm p-1" >
@@ -189,7 +189,7 @@ function Withdrawal() {
                                 </li>
                                 <li className="flex items-start mt-2">
                                     <span className="text-redLight  mr-2">◆</span>
-                                    Withdrawal amount range  <p className='text-redLight'>&nbsp;₹220.00 - ₹100,000.00&nbsp;</p>
+                                    Withdrawal amount range  <p className='text-redLight'>&nbsp;₹{myDetails?.india_pay?.min_amount.toFixed(2)} - ₹{myDetails?.india_pay?.max_amount.toFixed(2)}&nbsp;</p>
                                 </li>
                                 <li className="flex items-start mt-2">
                                     <span className="text-redLight  mr-2">◆</span>
@@ -249,7 +249,7 @@ function Withdrawal() {
                                 <ul className="px-2 py-4 my-2 bg-inputBg  rounded-lg text-xs text-blackLight">
                                     <li className="flex items-start">
                                         <span className="text-redLight  mr-2">◆</span>
-                                        Need to bet <p className='text-redLight'> &nbsp; ₹0.00&nbsp;</p> to be able to withdraw.
+                                        Need to bet <p className='text-redLight'> &nbsp; $0.00&nbsp;</p> to be able to withdraw.
                                     </li>
                                     <li className="flex items-start mt-2">
                                         <span className="text-redLight  mr-2">◆</span>
@@ -261,7 +261,7 @@ function Withdrawal() {
                                     </li>
                                     <li className="flex items-start mt-2">
                                         <span className="text-redLight  mr-2">◆</span>
-                                        Withdrawal amount range  <p className='text-redLight'>&nbsp;₹220.00 - ₹100,000.00&nbsp;</p>
+                                        Withdrawal amount range <p className='text-redLight'>&nbsp;${myDetails?.usdt?.min_amount.toFixed(2)} - ${myDetails?.usdt?.max_amount.toFixed(2)}&nbsp;</p>
                                     </li>
                                     <li className="flex items-start mt-2">
                                         <span className="text-redLight  mr-2">◆</span>

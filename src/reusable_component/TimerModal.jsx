@@ -48,7 +48,7 @@ const TimerModal = ({ duration, isOpen, onClose, parentRef }) => {
       >
       </div>
       <div className="modal-content relative flex items-center justify-center h-full mt-2">
-        <div className={`flex items-center justify-center space-x-8 xsm:space-x-9 ${isWarning ? 'text-redLight' : ''}`}>
+        <div className={`flex items-center justify-center space-x-8 xsm:space-x-9 ${isWarning ? 'text-red' : ''}`}>
           <div className='bg-white  h-[10rem] w-[6.5rem] xsm:h-[11rem] xsm:w-[7.5rem] rounded-2xl flex items-center justify-center font-semibold text-[9rem] '>
             {formatTime(seconds)[0]}
           </div>

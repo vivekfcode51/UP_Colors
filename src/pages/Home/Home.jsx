@@ -190,7 +190,6 @@ function Home() {
             ? winningData.slice(0, (currentIndexWin + 5) % winningData.length)
             : []),
     ].slice(0, 5);
-console.log("bannerData",bannerData)
     return (
         <div className="mb-28 font-roboto">
             <div className="rounded-xl px-3">

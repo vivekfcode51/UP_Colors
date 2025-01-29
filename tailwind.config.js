@@ -37,7 +37,7 @@ export default {
       },
       fontSize: {
         xs: '11px',
-        xsm: '14px',
+        xsm: '13.86px',
         sm: '16px',
         lg: '18px',
       },
@@ -58,6 +58,7 @@ export default {
         chocolate: "#B1835A",
         border1: "#eaeaea",
         inputBg: "#F0F0F5",
+        gray2: "#CDCFDD",
       }
     },
   },

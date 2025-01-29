@@ -60,6 +60,7 @@ import FundTransfer from "./pages/Wallet/FundTransfer";
 import ActivityDetails from "./pages/Activity/ActivityDetails";
 import NewSubordinate from "./pages/Promotion/NewSubordinate";
 import EditBankAccountDetails from "./pages/Wallet/EditBankAccountDetails";
+import SuperJackpot from "./pages/Activity/SuperJackpot";
 
 export const Router = createBrowserRouter([
   {
@@ -159,6 +160,10 @@ export const Router = createBrowserRouter([
       {
         path: "/activity/rebate",
         element: <Rebate />,
+      },
+      {
+        path: "/activity/superJackpot",
+        element: <SuperJackpot />,
       },
       {
         path: "/activity/gifts",

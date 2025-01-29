@@ -1,11 +1,9 @@
 
 import gift_redeem from "../../assets/images/gift_redeem.png"
-import banner1 from "../../assets/Banner_1.png"
-import banner2 from "../../assets/Banner_2.png"
-import banner3 from "../../assets/Banner_3.png"
 import sign_in_banner from "../../assets/images/sign_in_banner.png"
 import reward from "../../assets/usaAsset/activity/reward.png"
 import bonus from "../../assets/usaAsset/activity/bonus.png"
+import bettingRebate from "../../assets/usaAsset/activity/bettingRebate.png"
 import { Link } from "react-router-dom";
 import axios from "axios"
 import apis from "../../utils/apis"
@@ -40,15 +38,27 @@ function Activity() {
       </div>
       {/* Content Section */}
       <div className="p-3">
-        <div className="flex items-center text-lightGray  gap-8 mb-6">
+        <div className="flex items-center text-lightGray  justify-between mb-6">
           <Link to="/activity/award" className="flex flex-col items-center justify-center">
-            <img src={reward} className="h-8 w-8" alt="sd" />
-            <p className="font-bold text-[10px] mt-1">Activity Award</p>
+            <img src={reward} className="h-10 w-10" alt="sd" />
+            <p className="text-xs text-center  mt-1">Activity Award</p>
           </Link>
           <Link to="/activity/invitationbonus" className="flex flex-col items-center justify-center">
-            <img src={bonus} className="h-8 w-8" alt="sd" />
-            <p className="font-bold text-[10px] mt-1">Invitation Bonus</p>
+            <img src={bonus} className="h-10 w-10" alt="sd" />
+            <p className="text-xs text-center mt-1">Invitation Bonus</p>
           </Link>
+          <Link to="/activity/rebate" className="flex flex-col items-center justify-center">
+            <img src={bettingRebate} className="h-10 w-10" alt="sd" />
+            <p className="text-xs text-center  mt-1">Betting rebate</p>
+          </Link>
+          <Link to="/activity/superJackpot" className="flex flex-col items-center justify-center">
+            <img src={bonus} className="h-10 w-10" alt="sd" />
+            <p className="text-xs text-center  mt-1">Super Jackpot</p>
+          </Link>
+          {/* <Link to="/activity/invitationbonus" className="flex flex-col items-center justify-center">
+            <img src={bonus} className="h-8 w-8" alt="sd" />
+            <p className="text-xs text-center  mt-1">First deposit bonus</p>
+          </Link> */}
         </div>
 
         {/* Gift and Attendance Bonus Section */}

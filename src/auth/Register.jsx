@@ -1,5 +1,5 @@
 import { MdKeyboardArrowDown, MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { Link, useNavigate,useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import apis from '../utils/apis';
 import axios from 'axios';
@@ -18,6 +18,9 @@ const register = apis?.register
 function Register() {
   const [searchParams] = useSearchParams();
   const [referralCode, setReferralCode] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
+  const [countryCodeData, setCountryCodeData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [checkAgreement, setCheckAgreement] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -31,13 +34,13 @@ function Register() {
       .matches(/^[0-9]+$/, 'Phone number must be numeric')
       .min(10, 'Phone number must be at least 10 digits')
       .max(10, 'Phone number cannot exceed 10 digits'),
-    email: Yup.string()
-      .required('Email is required')
-      .email('Invalid email format'),
+    // email: Yup.string()
+    //   .required('Email is required')
+    //   .email('Invalid email format'),
     password: Yup.string()
       .required('Password is required')
       .min(8, 'Password must be at least 8 characters'),
-      // .max(8, 'Password cannot exceed 8 characters'),
+    // .max(8, 'Password cannot exceed 8 characters'),
     password_confirmation: Yup.string()
       .required('Confirm your password')
       .oneOf([Yup.ref('password')], 'Passwords must match')
@@ -49,7 +52,7 @@ function Register() {
   const formik = useFormik({
     initialValues: {
       mobile: '',
-      email: '',
+      country_code: selectedCountryCode,
       password: '',
       password_confirmation: '',
       referral_code: referralCode,
@@ -60,15 +63,17 @@ function Register() {
         toast.warn('Please check Privacy Agreement');
         return;
       }
+      // console.log("values",values)
       setLoading(true);
       try {
         const res = await axios.post(register, values, {
           headers: { 'Content-Type': 'application/json' },
         });
-        console.log("resresres", res)
+        // console.log("resresres", res)
         if (res?.data?.status === 200) {
+          localStorage.setItem("userId", res?.data?.data?.userId)
+          navigate('/');
           toast.success('You have been registered successfully');
-          navigate('/login');
         } else {
           toast.error(res?.data?.message)
         }
@@ -80,13 +85,33 @@ function Register() {
     },
   });
   useEffect(() => {
-    const code = searchParams.get("referral"); 
+    const code = searchParams.get("referral");
     if (code) {
-      setReferralCode(code); 
-      formik.setFieldValue('referral_code', code); 
+      setReferralCode(code);
+      formik.setFieldValue('referral_code', code);
     }
-  }, [searchParams]);
-  
+    formik.setFieldValue('country_code', selectedCountryCode); 
+  }, [searchParams, selectedCountryCode]);
+
+  const countryCodeHandler = async () => {
+    try {
+      const res = await axios.post(apis.country)
+      // console.log("res", res)
+      if (res?.data?.status === "success") {
+        setCountryCodeData(res?.data?.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const handleSelectCountry = (code) => {
+    setSelectedCountryCode(code);
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    countryCodeHandler()
+  }, [])
   return (
     <>
       {loading && <Loader setLoading={setLoading} loading={loading} />}
@@ -113,24 +138,42 @@ function Register() {
                   </div>
                   <label htmlFor="mobile" className=" text-sm text-gray font-medium">Phone number</label>
                 </div>
-                <div className='flex items-center w-full mt-2 gap-1'>
-                  <p className='bg-inputBg w-[30%] text-gray p-3 flex items-center rounded-md'>+91 <MdKeyboardArrowDown size={20} />
+                <div className="relative flex items-center gap-2 mt-2">
+                  <p
+                    className="bg-inputBg w-[30%] text-gray p-3 flex items-center justify-center rounded-md cursor-pointer"
+                    onClick={() => setIsModalOpen(!isModalOpen)}
+                  >
+                    {selectedCountryCode} <MdKeyboardArrowDown size={20} />
                   </p>
+                  {isModalOpen && (
+                    <div className="absolute left-0 top-12 h-48 overflow-auto w-full bg-white shadow-lg border rounded-md z-10">
+                      {countryCodeData
+                        ?.sort((a, b) => (a.phone_code === "+91" ? -1 : b.phone_code === "+91" ? 1 : 0))
+                        .map((item, i) => (
+                          <p
+                            key={i}
+                            className={`p-2 cursor-pointer text-blackLight ${selectedCountryCode === item?.phone_code ? "bg-red text-white" : ""
+                              }`}
+                            onClick={() => handleSelectCountry(item?.phone_code)}
+                          >
+                            {item?.phone_code} - {item?.name}
+                          </p>
+                        ))}
+                    </div>
+                  )}
                   <input
-                    {...formik.getFieldProps('mobile')}
-
+                  {...formik.getFieldProps('mobile')}
                     type="number"
                     name="mobile"
-                    id="mobile"
                     placeholder="Enter your phone number"
-                    className={`col-span-[60%] bg-inputBg text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray`}
+                    className="col-span-[60%] bg-inputBg text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
                   />
                 </div>
                 {formik.touched.mobile && formik.errors.mobile && (
                   <div className="text-red text-xs">{formik.errors.mobile}</div>
                 )}
               </div>
-              <div className="relative">
+              {/* <div className="relative">
                 <div className='flex items-center py-2 gap-2'>
                   <div>
                     <img className='w-6 h-6' src={passwordUsa} alt="sd" />
@@ -149,7 +192,7 @@ function Register() {
                 {formik.touched.email && formik.errors.email && (
                   <div className="text-red text-xs">{formik.errors.email}</div>
                 )}
-              </div>
+              </div> */}
               <div className="relative">
                 <div className='flex items-center py-2 gap-2'>
                   <div>

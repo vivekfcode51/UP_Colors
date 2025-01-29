@@ -1,5 +1,5 @@
 import { MdKeyboardArrowDown, MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
 import apis from '../utils/apis';
@@ -15,6 +15,9 @@ const loginEndpoint = apis?.login;
 
 function Login() {
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
+  const [countryCodeData, setCountryCodeData] = useState([]);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [checkAgreement, setCheckAgreement] = useState(false);
   const [formData, setFormData] = useState({ mobile: '', password: '' });
@@ -32,14 +35,15 @@ function Login() {
     e.preventDefault();
     setLoading(true)
     try {
-      const payload = { mobile: formData.mobile, password: formData.password };
+      const payload = { mobile: formData.mobile, country_code: selectedCountryCode, password: formData.password };
+      // console.log("payload",payload)
       const response = await axios.post(loginEndpoint, payload);
       if (response?.data?.status === 200) {
         localStorage.setItem("userId", response?.data?.data?.userId)
         setLoading(false)
         toast.success("Login successful!");
         navigate("/")
-      }else{
+      } else {
         toast.error(response?.data?.message);
         setLoading(false)
       }
@@ -50,6 +54,25 @@ function Login() {
     }
   };
 
+  const countryCodeHandler = async () => {
+    try {
+      const res = await axios.post(apis.country)
+      console.log("res", res)
+      if (res?.data?.status === "success") {
+        setCountryCodeData(res?.data?.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const handleSelectCountry = (code) => {
+    setSelectedCountryCode(code);
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    countryCodeHandler()
+  }, [])
   return (
     <>
       {loading && <Loader setLoading={setLoading} loading={loading} />}
@@ -75,9 +98,29 @@ function Login() {
                   </div>
                   <label htmlFor="mobile" className=" text-sm text-gray font-medium">Phone number</label>
                 </div>
-                <div className='flex items-center mt-2 gap-2'>
-                  <p className='bg-inputBg w-[30%] text-gray p-3 flex items-center rounded-md'>+91 <MdKeyboardArrowDown size={20} />
+                <div className="relative flex items-center gap-2 ju">
+                  <p
+                    className="bg-inputBg w-[30%] text-gray p-3 flex items-center justify-center rounded-md cursor-pointer"
+                    onClick={() => setIsModalOpen(!isModalOpen)}
+                  >
+                    {selectedCountryCode} <MdKeyboardArrowDown size={20} />
                   </p>
+                  {isModalOpen && (
+                    <div className="absolute left-0 top-12 h-48 overflow-auto w-full bg-white shadow-lg border rounded-md z-10">
+                      {countryCodeData
+                        ?.sort((a, b) => (a.phone_code === "+91" ? -1 : b.phone_code === "+91" ? 1 : 0))
+                        .map((item, i) => (
+                          <p
+                            key={i}
+                            className={`p-2 cursor-pointer text-blackLight ${selectedCountryCode === item?.phone_code ? "bg-red text-white" : ""
+                              }`}
+                            onClick={() => handleSelectCountry(item?.phone_code)}
+                          >
+                            {item?.phone_code} - {item?.name}
+                          </p>
+                        ))}
+                    </div>
+                  )}
                   <input
                     type="number"
                     name="mobile"
@@ -110,7 +153,7 @@ function Login() {
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute inset-y-0 right-0 top-10 pr-3 flex items-center text-gray opacity-25"
+                  className="absolute inset-y-0 right-0 top-12 pr-3 flex items-center text-gray opacity-25"
                 >
                   {passwordVisible ? <MdVisibilityOff size={20} /> : <MdVisibility className='dark:text-gray opacity-65' size={20} />}
                 </button>

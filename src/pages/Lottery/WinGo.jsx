@@ -9,6 +9,7 @@ import six from "../../assets/images/six.png"
 import seven from "../../assets/images/seven.png"
 import eight from "../../assets/images/eight.png"
 import nine from "../../assets/images/nine.png"
+import howtoplay from "../../assets/icons/howtoplay.png"
 import LotteryTimer from '../../reusable_component/LotteryTimer';
 import TimerModal from '../../reusable_component/TimerModal';
 import LotteryBetModal from '../../reusable_component/LotteryBetModal';
@@ -22,10 +23,14 @@ import GameHistoryBox from '../../reusable_component/WingoGameHistory';
 import WingoPagination from '../../reusable_component/WingoPagination';
 import countdownone from '../../assets/music/countdownone.mp3';
 import mainWallet from "../../assets/usaAsset/wingo/mainWallet.png"
-import cutBg1 from "../../assets/usaAsset/wingo/cutBg1.png"
+import voiceoff from "../../assets/usaAsset/wingo/voice-off.png"
+import cutBg1 from "../../assets/usaAsset/wingo/timerbg.png"
 import grayWatch from "../../assets/usaAsset/wingo/grayWatch.png"
 import redWatch from "../../assets/usaAsset/wingo/redWatch.png"
 import { Link } from 'react-router-dom';
+import { HiArrowPathRoundedSquare } from 'react-icons/hi2';
+import { RiFireFill } from 'react-icons/ri';
+import Header from '../../components/Header';
 const profileApi = apis.profile
 const wingo_bet_api = apis.wingo_bet
 const wingo_my_history = apis.wingo_my_history
@@ -42,7 +47,7 @@ const notes = [
 const WinGo = () => {
   const [myDetails, setMyDetails] = useState(null)
   const [betGameId, setBetGameId] = useState(null);
-  const [selectedIMgIndex, setSelectedImgIndex] = useState("30 Seconds");
+  const [selectedIMgIndex, setSelectedImgIndex] = useState("30s");
   const [selectedHistoryIndex, setSelectedHistoryIndex] = useState(0);
   const [handlehistorybox, sethandlehistorybox] = useState(0);
   const [callTimer, setCallTimer] = useState(30)
@@ -56,6 +61,7 @@ const WinGo = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animate, setAnimate] = useState(false);
   const [gameHistoryData, setGameHistoryData] = useState([])
+  const [gameHistoryDataPagination, setGameHistoryDataPagination] = useState([])
   const [myHistoryData, setMyHistoryData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [myHistoryCurrentPage, setMyHistoryCurrentPage] = useState(1);
@@ -69,13 +75,14 @@ const WinGo = () => {
   const [playRule, setPlayRule] = useState(false);
   const [selectedBtnIndex, setSelectedBtnIndex] = useState(1)
   const audioRef = useRef(null);
+  const [isAudioOn, setIsAudioOn] = useState(true)
   const userId = localStorage.getItem("userId");
   const limit = 10;
   const handleTimerClick = (item, duration) => {
     setSelectedImgIndex(item);
     setCallTimer(duration)
   };
-
+  // console.log("gameHistoryData",gameHistoryData)
   const gameDetailsHandler = (item) => {
     setGameDetails((prevDetails) => ({
       ...prevDetails,
@@ -229,7 +236,7 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      console.log("resres hai hai", res)
+      // console.log("resres hai hai", res)
       if (res?.data?.status === 200) {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
@@ -341,8 +348,10 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${gameDetails?.gameId}&limit=${limit}&offset=${offset}`
       );
+      // console.log("res", res)
       if (res?.data?.status === 200) {
         setGameHistoryData(res?.data?.data);
+        setGameHistoryDataPagination(res?.data);
         if (res?.data?.data?.length < limit) {
           setHasMore(true);
         }
@@ -441,13 +450,14 @@ const WinGo = () => {
   }, [gameDetails?.gameId, currentPage, myHistoryCurrentPage])
   // console.log("timeLefttimeLefttimeLeft",timeLeft)
   useEffect(() => {
-    if (timeLeft > 0 && timeLeft < 6) {
-      audioRef.current.muted = false;
-      audioRef.current
-        .play()
+    if (audioRef.current) {
+      if (isAudioOn && timeLeft > 0 && timeLeft < 6) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
     }
-  }, [timeLeft]);
-  // console.log("gameHistoryDatagameHistoryData", myHistoryData?.data[0])
+  }, [timeLeft, isAudioOn]); 
   return (
     <>
       {isModalVisible && modalData && (
@@ -457,23 +467,25 @@ const WinGo = () => {
             onClose={() => setIsModalVisible(false)}
           /></div>
       )}
+      <Header audioRef={audioRef} isAudioOn={isAudioOn} setIsAudioOn={setIsAudioOn} />
+      <audio ref={audioRef} src={countdownone} preload="auto"  />
       <div className='bg-bg1 h-full font-roboto'>
-        <audio ref={audioRef} className='' src={countdownone}>
-          Your browser does not support the audio element.
-        </audio>
         <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[19rem] rounded-b-[55px] px-4 pt-2'>
           {/* 1st div */}
           <div
             className='p-5 h-[9rem] text-black bg-inputBg rounded-3xl'
           >
-            <div className='flex justify-center items-center'>
+            <div className='flex justify-center gap-8 items-center'>
               <p className='font-semibold text-xl'><b className='text-xl'>₹</b> &nbsp;{myDetails?.wallet.toFixed(2)}</p>
+              <button onClick={profileDetails}>
+                <HiArrowPathRoundedSquare size={20} className='text-gray ' />
+              </button>
             </div>
             <div className='flex justify-center gap-2 items-center'>
               <img className='h-5 w-5 ' src={mainWallet} alt="not found" />
-              <p className='text-xsm '>Main Wallet </p>
+              <p className='text-xsm '>Wallet balance </p>
             </div>
-            <div className='mt-4 text-white flex justify-between items-center'>
+            <div className='mt-6 text-white flex justify-between items-center'>
               <Link to="/wallet/withdrawal" >
                 <button className='bg-red text-base font-semibold w-32 h-9 rounded-full'>Withdraw</button>
               </Link>
@@ -497,17 +509,18 @@ const WinGo = () => {
             <div
               className='shrink-0 py-0.5 text-xsm px-4 bg-red text-white  flex gap-1 justify-center items-center  rounded-3xl'
             >
+              <RiFireFill className='text-white' />
               Detail
             </div>
           </div>
 
           {/* game id 3rd div */}
-          <div className='bg-inputBg text-xs grid grid-cols-4 w-full rounded-xl mt-5'>
+          <div className='bg-inputBg text-[12.8px] grid grid-cols-4 w-full rounded-xl mt-5'>
             {[
-              { label: 'Win go', time: '30 Seconds', duration: 30, gameid: 1 },
-              { label: 'Win go', time: '1 min', duration: 60, gameid: 2 },
-              { label: 'Win go', time: '3 min', duration: 180, gameid: 3 },
-              { label: 'Win go', time: '5 min', duration: 300, gameid: 4 },
+              { label: 'Win Go', time: '30s', duration: 30, gameid: 1 },
+              { label: 'Win Go', time: '1Min', duration: 60, gameid: 2 },
+              { label: 'Win Go', time: '3Min', duration: 180, gameid: 3 },
+              { label: 'Win Go', time: '5Min', duration: 300, gameid: 4 },
             ].map((item) => (
               <div
                 key={item.time}
@@ -522,8 +535,8 @@ const WinGo = () => {
                   className='h-12  w-12'
                   alt="timer"
                 />
-                <p className={`text-nowrap ${selectedIMgIndex === item.time ? '' : 'text-lightGray'}`}>{item.label}</p>
-                <p className={`  ${selectedIMgIndex === item.time ? '' : 'text-lightGray'}`}>{item.time}</p>
+                <p className={`text-nowrap font-normal ${selectedIMgIndex === item.time ? '' : 'text-gray'}`}>{item.label}</p>
+                <p className={`font-normal  ${selectedIMgIndex === item.time ? '' : 'text-gray'}`}>{item.time}</p>
               </div>
             ))}
           </div>
@@ -536,8 +549,7 @@ const WinGo = () => {
             width: "100%",
           }} >
             <div className='w-[50%] pr-3'>
-              <button onClick={() => setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '>
-                How to play</button>
+              <button onClick={() => setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '> <svg data-v-3e4c6499="" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 36 36" fill="none"><path data-v-3e4c6499="" d="M23.67 3H12.33C6.66 3 5.25 4.515 5.25 10.56V27.45C5.25 31.44 7.44 32.385 10.095 29.535L10.11 29.52C11.34 28.215 13.215 28.32 14.28 29.745L15.795 31.77C17.01 33.375 18.975 33.375 20.19 31.77L21.705 29.745C22.785 28.305 24.66 28.2 25.89 29.52C28.56 32.37 30.735 31.425 30.735 27.435V10.56C30.75 4.515 29.34 3 23.67 3ZM11.67 18C10.845 18 10.17 17.325 10.17 16.5C10.17 15.675 10.845 15 11.67 15C12.495 15 13.17 15.675 13.17 16.5C13.17 17.325 12.495 18 11.67 18ZM11.67 12C10.845 12 10.17 11.325 10.17 10.5C10.17 9.675 10.845 9 11.67 9C12.495 9 13.17 9.675 13.17 10.5C13.17 11.325 12.495 12 11.67 12ZM24.345 17.625H16.095C15.48 17.625 14.97 17.115 14.97 16.5C14.97 15.885 15.48 15.375 16.095 15.375H24.345C24.96 15.375 25.47 15.885 25.47 16.5C25.47 17.115 24.96 17.625 24.345 17.625ZM24.345 11.625H16.095C15.48 11.625 14.97 11.115 14.97 10.5C14.97 9.885 15.48 9.375 16.095 9.375H24.345C24.96 9.375 25.47 9.885 25.47 10.5C25.47 11.115 24.96 11.625 24.345 11.625Z" fill="currentColor"></path></svg> How to play</button>
               <p className='text-xs mt-4'>Win Go {selectedIMgIndex}</p>
               <div className='flex text-black items-center justify-between mt-3'>
                 <img src={images[gameHistoryData[0]?.number]} className='w-7' alt="asdf" />
@@ -609,7 +621,7 @@ const WinGo = () => {
           <div className='w-full mt-3 flex'>
             <button
               onClick={() => handleBtnClick("yellow", 40)}
-              className={`${timerModal ? "bg-red" : "relative z-10 bg-red"} rounded-l-full w-[50%] py-2 text-center text-xsm`}>
+              className={`${timerModal ? "bg-yellow" : "relative z-10 bg-yellow"} rounded-l-full w-[50%] py-2 text-center text-xsm`}>
               Big
             </button>
             <button onClick={() => handleBtnClick("bg3", 50)} className={`${timerModal ? "bg-bg3" : "relative z-10 bg-bg3"} rounded-r-full w-[50%] py-2 text-center text-xsm `}>Small</button>
@@ -650,7 +662,7 @@ const WinGo = () => {
         ) : (
           <WingoPagination
             currentPage={currentPage}
-            totalPages={``}
+            totalPages={`/${Math.ceil(gameHistoryDataPagination?.total_result / 10)}`}
             hasMore={hasMore}
             onPrevClick={prevPage}
             onNextClick={nextPage}
