@@ -13,33 +13,33 @@ import accountLight from "../assets/usaAsset/footer/accountLight.png"
 function Footer() {
   const location = useLocation()
   return (
-    <div className="z-50 relative grid grid-cols-5 pt-4 items-center h-[5rem] xsm:h-[4rem]"
+    <div className="z-40 relative grid grid-cols-5 pt-4 items-center h-[5rem] xsm:h-[4rem]"
       style={{
         backgroundImage: `url(${footerBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <Link to="/" className="z-50 col-span-1 flex flex-col items-center">
+      <Link to="/" className="z-40 col-span-1 flex flex-col items-center">
         <img src={location.pathname === "/" ? home_color : homeLight} className="w-6 h-6 " alt="" />
         <p className="text-xs text-red">Home</p>
       </Link>
-      <Link to="/activity" className="z-50 col-span-1 flex flex-col items-center">
+      <Link to="/activity" className="z-40 col-span-1 flex flex-col items-center">
         <img src={location.pathname === "/activity" ? activity_color : activityLight} className="w-6 h-6 " alt="" />
         <p className="text-xs  text-red">Activity</p>
       </Link>
      
-      <Link to="/promotion" className="z-50 -mt-9 xsm:-mt-8 col-span-1 flex flex-col items-center ">
+      <Link to="/promotion" className="z-40 -mt-9 xsm:-mt-8 col-span-1 flex flex-col items-center ">
         <div className="flex items-center justify-center bg-red border-[2px] border-bg1 rounded-full h-16 w-16 xsm:h-14 xsm:w-14">
           <img src={diamond} className="h-6 w-7 mt-1" alt="diamond not found" />
         </div>
         <p className="text-xs  text-red  ">Promotion</p>
       </Link>
-      <Link to="/wallet" className="z-50 col-span-1 flex flex-col items-center">
+      <Link to="/wallet" className="z-40 col-span-1 flex flex-col items-center">
         <img src={location.pathname === "/wallet" ? wallet_color_bg : walletLight} className="w-6 h-6 " alt="" />
         <p className="text-xs  text-red ">Wallet</p>
       </Link>
-      <Link to="/profile" className="z-50 col-span-1 flex flex-col items-center">
+      <Link to="/profile" className="z-40 col-span-1 flex flex-col items-center">
         <img src={location.pathname === "/profile" ? account_color : accountLight} className="w-6 h-6 " alt="" />
         <p className="text-xs  text-red" >Account</p>
       </Link>

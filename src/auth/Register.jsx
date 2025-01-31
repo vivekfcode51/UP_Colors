@@ -7,9 +7,10 @@ import { toast } from 'react-toastify';
 import Loader from '../reusable_component/Loader/Loader';
 import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
 import loginPhone from "../assets/icons/loginPhone.png"
-import phoneUsa from "../assets/icons/phoneUsa.png"
-import passwordUsa from "../assets/icons/passwordUsa.png"
-import inviteCode from "../assets/icons/inviteCode.png"
+import phoneUsa from "../assets/usaAsset/phone.png"
+import passwordUsa from "../assets/usaAsset/password.png"
+import tikki from "../assets/usaAsset/tikki.png"
+import inviteCode from "../assets/usaAsset/invitationCode.png"
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -90,7 +91,7 @@ function Register() {
       setReferralCode(code);
       formik.setFieldValue('referral_code', code);
     }
-    formik.setFieldValue('country_code', selectedCountryCode); 
+    formik.setFieldValue('country_code', selectedCountryCode);
   }, [searchParams, selectedCountryCode]);
 
   const countryCodeHandler = async () => {
@@ -112,6 +113,9 @@ function Register() {
   useEffect(() => {
     countryCodeHandler()
   }, [])
+  const naivatorhandle = () => {
+    localStorage.setItem("abousType", "6")
+}
   return (
     <>
       {loading && <Loader setLoading={setLoading} loading={loading} />}
@@ -125,7 +129,7 @@ function Register() {
         <div className="bg-white px-5 flex flex-col h-full w-full  items-center justify-center mx-auto lg:py-0">
           <div className="flex  flex-col items-center justify-center w-full py-2 border-b-2 mx-5 text-redLight border-redLight" >
             <div>
-              <img className='w-6 h-6' src={loginPhone} alt="sd" />
+              <img className='w-4 h-6' src={phoneUsa} alt="sd" />
             </div>
             <div className="text-sm mt-2">Register your phone</div>
           </div>
@@ -134,7 +138,7 @@ function Register() {
               <div className="w-full">
                 <div className=' flex items-center gap-2 py-2'>
                   <div>
-                    <img className='w-6 h-6' src={phoneUsa} alt="sd" />
+                    <img className='w-4 h-6' src={phoneUsa} alt="sd" />
                   </div>
                   <label htmlFor="mobile" className=" text-sm text-gray font-medium">Phone number</label>
                 </div>
@@ -162,7 +166,7 @@ function Register() {
                     </div>
                   )}
                   <input
-                  {...formik.getFieldProps('mobile')}
+                    {...formik.getFieldProps('mobile')}
                     type="number"
                     name="mobile"
                     placeholder="Enter your phone number"
@@ -264,15 +268,15 @@ function Register() {
                 />
               </div>
               <div className="flex items-center mt-4">
-                <div onClick={() => setCheckAgreement(!checkAgreement)} className={`flex items-center cursor-pointer rounded-full ${checkAgreement ? "text-chocolate bg-white " : "text-chocolate"}`}>
+                <div onClick={() => setCheckAgreement(!checkAgreement)} className={`flex items-center cursor-pointer rounded-full ${checkAgreement ? "text-lightGray bg-white " : "text-chocolate"}`}>
                   {checkAgreement ? (
-                    <FaCheckCircle size={20} />
+                    <img className='w-5 h-5' src={tikki} alt="df" />
                   ) : (
-                    <FaRegCircle size={20} />
+                   <div className='border-[1px] border-[#c8c9cc] p-2 rounded-full'></div>
                   )}
                 </div>
                 <label htmlFor="agree" className="text-gray ml-2 text-xs sm:text-base md:text-xs">I have read and agree </label>
-                <a href="/aboutus/risk" className="ml-2 text-redLight underline text-xs sm:text-base md:text-xs">Privacy Agreement</a>
+                <a onClick={naivatorhandle}  href="/aboutus/child" className="ml-2 text-redLight underline text-xs sm:text-base md:text-xs">Privacy Agreement</a>
               </div>
               <div className='flex flex-col w-full font-bold items-center justify-center'>
                 <button type="submit" className="w-[90%] font-bold tracking-[0.20333rem] py-2.5 rounded-full border-none bg-gradient-to-b from-[#f95959] to-[#ff9a8e] shadow-lg flex items-center justify-center">Register</button>

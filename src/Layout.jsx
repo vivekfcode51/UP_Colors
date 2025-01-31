@@ -138,7 +138,7 @@ const Layout = () => {
                     <Outlet />
                 </div>
                 <div
-                    className={`fixed bottom-0 z-50  w-full xsm:w-[400px] bg-transparent ${footerDisplay}`}
+                    className={`fixed bottom-0 z-40  w-full xsm:w-[400px] bg-transparent ${footerDisplay}`}
                 >
                     <Footer />
                 </div>

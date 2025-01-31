@@ -63,6 +63,8 @@ const apis = {
   add_usdt_account: `${configModalUsaWin}add_usdt_account`,
   usdt_account_view: `${configModalUsaWin}usdt_account_view?user_id=`,
   wingo_rules: `${configModalUsaWin}wingo_rules?type=`,
+  getPaymentLimits: `${configModalUsaWin}getPaymentLimits`,
+  // wingo_rules: `${configModalUsaWin}wingo_rules`,
 };
 
 export default apis

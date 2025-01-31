@@ -200,7 +200,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                     </div>
 
                     <div className="grid grid-cols-12 mt-5">
-                        <button onClick={onClose} className={` bg-gray col-span-4 h-12`}>Cancel</button>
+                        <button onClick={onClose} className={` bg-inputBg col-span-4 h-12`}>Cancel</button>
                         <button onClick={() => wingoBetHandler()} className="bg-bg2 col-span-8 h-12" style={{ backgroundColor: colorClass }}>Total amount ₹{finalBetValue}</button>
                     </div>
                 </div>

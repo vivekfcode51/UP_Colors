@@ -15,7 +15,7 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
             const timer = setTimeout(() => {
                 onClose();
             }, 3000);
-    
+
             return () => clearTimeout(timer);
         }
     }, [autoCloseEnabled]);
@@ -30,7 +30,7 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
             setAutoCloseEnabled(false);
         }
     };
-        return (
+    return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             {/* Modal Background */}
             <div
@@ -38,57 +38,73 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
                 style={{ backgroundImage: `url(${data.win === 0 ? LooseANouncement : winnerANouncement})` }}
             >
                 {/* Modal Content */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                <div className="absolute w-full inset-0 flex flex-col items-center justify-center text-center p-6">
                     <h2 className={`text-3xl ${data?.win === 0 ? "mt-[12rem] text-gray" : "mt-[11rem] text-white"} font-bold `}>{data.win === 0 ? "Sorry" : "Congratulations!"}</h2>
-                    <p className={`text-xs ${data?.win === 0 ? "text-black mt-14" : "text-white mt-8"}`}>
-                        Lottery results:
-                        <span className="relative inline-block font-bold text-white px-2 py-1.5 rounded-md">
-                            {data?.number === 0 || data?.number === 5 ? (
-                                <div className="relative h-5 w-full inline-block">
+                    <p className={`text-xs w-full text-nowrap flex items-center justify-center ${data?.win === 0 ? "text-black mt-14" : "text-white mt-8"}`}>
+                        Lottery results:&nbsp;
+                        {(data?.number === 0 || data?.number === 5) ? (
+                            <span className="relative w-20 font-bold text-white px-2 py-1.5 rounded-md">
+                                <div className=" h-5 w-10">
                                     <div
-                                        className="absolute inset-0"
+                                        className="absolute inset-0 rounded-lg flex items-center justify-center"
                                         style={{
                                             backgroundColor: data?.number === 0 ? "red" : "green",
                                             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
                                         }}
-                                    ></div>
+                                    >{data?.number === 0 ? "Red" : "Green"} Voilet</div>
                                     <div
-                                        className="absolute inset-0 bg-voilet"
+                                        className="absolute rounded-lg inset-0 bg-voilet flex items-center justify-center"
                                         style={{
                                             clipPath: 'polygon(0% 100%, 100% 0%, 100% 100%, 0 100%)'
                                         }}
-                                    ></div>
+                                    >{data?.number === 0 ? "Red" : "Green"} Voilet</div>
                                 </div>
-                            ) : (
-                                <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} px-2 py-1.5 rounded-md`}>
-                                    {data?.number === 0
-                                        ? `Red Voilet`
-                                        : data?.number === 1
-                                            ? `Green`
-                                            : data?.number === 2
-                                                ? `Red`
-                                                : data?.number === 3
-                                                    ? `Green`
-                                                    : data?.number === 4
-                                                        ? `Red`
-                                                        : data?.number === 5
-                                                            ? `Green Voilet`
-                                                            : data?.number === 6
-                                                                ? `Red`
-                                                                : data?.number === 7
-                                                                    ? `Green`
-                                                                    : data?.number === 8
-                                                                        ? `Red`
-                                                                        : data?.number === 9
-                                                                            ? `Green`
-                                                                            : ""}
-                                </span>
-                            )}
-                        </span>
+                            </span>
+                        ) : (
+                            <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} px-2 py-1.5 text-white rounded-md`}>
+                                {data?.number === 1
+                                    ? "Green"
+                                    : data?.number === 2
+                                        ? "Red"
+                                        : data?.number === 3
+                                            ? "Green"
+                                            : data?.number === 4
+                                                ? "Red"
+                                                : data?.number === 6
+                                                    ? "Red"
+                                                    : data?.number === 7
+                                                        ? "Green"
+                                                        : data?.number === 8
+                                                            ? "Red"
+                                                            : data?.number === 9
+                                                                ? "Green"
+                                                                : ""}
+
+
+                            </span>)}
                         &nbsp;&nbsp;
-                        <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} font-bold rounded-full text-white py-1.5 px-2 text-xs`}>
-                            {data?.number}
-                        </span>
+                        {(data?.number === 0 || data?.number === 5) ? (
+                            <span className="relative w-20 font-bold text-white px-2 py-1.5 rounded-md">
+                                <div className=" h-5 w-5">
+                                    <div
+                                        className="absolute inset-0 rounded-full flex items-center justify-center"
+                                        style={{
+                                            backgroundColor: data?.number === 0 ? "red" : "green",
+                                            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
+                                        }}
+                                    >{data?.number}</div>
+                                    <div
+                                        className="absolute rounded-full inset-0 bg-voilet flex items-center justify-center"
+                                        style={{
+                                            clipPath: 'polygon(0% 100%, 100% 0%, 100% 100%, 0 100%)'
+                                        }}
+                                    >{data?.number }</div>
+                                </div>
+                            </span>
+                        ) : (
+                            <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} px-2 py-1.5 text-white rounded-md`}>
+                                {data?.number}
+                            </span>)}
                         &nbsp;&nbsp;
                         <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} font-bold text-white px-2 py-1.5 rounded-md`}>
                             {data?.number < 5 ? `Small` : `Big`}

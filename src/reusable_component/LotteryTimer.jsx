@@ -39,20 +39,20 @@ const LotteryTimer = ({ duration }) => {
 
   return (
     <div className="relative w-full">
-      <div className={`flex justify-end space-x-1 ${isWarning ? "text-red" : ""}`}>
-        <div className="bg-white text-black h-8 w-5 flex items-center justify-center font-semibold">
+      <div className={`flex text-[1.7rem] justify-end space-x-1 ${isWarning ? "text-red" : ""}`}>
+        <div className="bg-white font-extrabold text-black h-10 w-6 flex items-center justify-center ">
           {formatTime(minutes)[0]}
         </div>
-        <div className="bg-white text-black h-8 w-5 flex items-center justify-center font-semibold">
+        <div className="bg-white text-black h-10 w-6 flex items-center justify-center font-semibold">
           {formatTime(minutes)[1]}
         </div>
-        <div className="bg-white text-black h-8 w-4 flex items-center justify-center font-semibold">
+        <div className="bg-white text-black h-10 w-4 flex items-center justify-center font-semibold">
           :
         </div>
-        <div className="bg-white text-black h-8 w-5 flex items-center justify-center font-semibold">
+        <div className="bg-white text-black h-10 w-6 flex items-center justify-center font-semibold">
           {formatTime(seconds)[0]}
         </div>
-        <div className="bg-white text-black h-8 w-5 flex items-center justify-center font-semibold">
+        <div className="bg-white text-black h-10 w-6 flex items-center justify-center font-semibold">
           {formatTime(seconds)[1]}
         </div>
       </div>

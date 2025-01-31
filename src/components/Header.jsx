@@ -190,9 +190,9 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                 <p className='text-sm'>Deposit</p>
                                                 <Link to="wallet/deposithistory" className='text-xsm'>Deposit History</Link>
                                               </div>
-                                                : location?.pathname === "/wallet/withdrawal" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                : location?.pathname === "/wallet/withdrawal" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
                                                   <Link to="/wallet" >
-                                                    <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+                                                    <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                                   </Link>
                                                   <p className='text-sm'>Withdraw</p>
                                                   <Link to="wallet/withdrawalhistory" className='text-xs'>Withdrawal History</Link>
@@ -204,9 +204,9 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                     <p className='text-sm'>Deposit History</p>
                                                     <p className='text-xs'></p>
                                                   </div>
-                                                    : location?.pathname === "/wallet/withdrawalhistory" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                    : location?.pathname === "/wallet/withdrawalhistory" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
                                                       <Link to="/wallet/withdrawal" >
-                                                        <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
+                                                        <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                                       </Link>
                                                       <p className='text-sm'>Withdraw History</p>
                                                       <p className='text-xs'></p>

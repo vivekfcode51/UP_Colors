@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import risk from '../../assets/usaAsset/aboutus/risk.png'
 import confi from '../../assets/usaAsset/aboutus/confidential.png'
 import big_guide from '../../assets/usaAsset/aboutus/big_guide.png'
-import about_us from '../../assets/usaAsset/aboutus/about_us.png'
+import service_about from '../../assets/usaAsset/aboutus/service_about.png'
+import service_guide from '../../assets/usaAsset/aboutus/service_guide.png'
 import aboutus from '../../assets/images/aboutus.png'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import axios from 'axios'
@@ -21,7 +22,7 @@ function AboutUs() {
             <div className=' text-blackLight mx-3 mt-3 rounded-md'>
                 <Link onClick={() => naivatorhandle(1)} to="/aboutus/child" className='px-2 border-b border-bg1 py-4 text-xsm flex justify-between items-center'>
                     <div className='flex items-center'>
-                        <img src={about_us} className='rounded-full h-8 w-8' alt="not found" />&nbsp;About Us
+                        <img src={service_about} className='rounded-full h-8 w-8' alt="not found" />&nbsp;About Us
                     </div>
                     <div className='flex items-center'>
                         <MdKeyboardArrowRight size={25} className="text-gray" />
@@ -45,7 +46,7 @@ function AboutUs() {
                 </Link>
                 <Link onClick={() => naivatorhandle(2)} to="/aboutus/child" className='px-2 border-b border-bg1 py-4 text-sm flex justify-between items-center' >
                     <div className='flex items-center'>
-                        <img src={big_guide} className='rounded-full h-8 w-8' alt="not found" />&nbsp;Terms & Condition
+                        <img src={service_guide} className='rounded-full h-8 w-8' alt="not found" />&nbsp;Terms & Condition
                     </div>
                     <div className='flex items-end'>
                         <MdKeyboardArrowRight size={25} className="text-gray" />

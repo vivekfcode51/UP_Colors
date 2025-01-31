@@ -61,7 +61,7 @@ const WinGo = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animate, setAnimate] = useState(false);
   const [gameHistoryData, setGameHistoryData] = useState([])
-  const [gameHistoryDataPagination, setGameHistoryDataPagination] = useState([])
+  const [gameHistoryDataPagination, setGameHistoryDataPagination] = useState("")
   const [myHistoryData, setMyHistoryData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [myHistoryCurrentPage, setMyHistoryCurrentPage] = useState(1);
@@ -83,13 +83,11 @@ const WinGo = () => {
     setSelectedImgIndex(item);
     setCallTimer(duration)
   };
-  // console.log("gameHistoryData",gameHistoryData)
   const gameDetailsHandler = (item) => {
     setGameDetails((prevDetails) => ({
       ...prevDetails,
       gameId: item?.gameid
     }));
-    // setRefreshKey((prevKey) => prevKey + 1);
     handleTimerClick(item.time, item.duration);
   };
   const handleBtnClick = (color, betButtonId, numericValueFromProps = null) => {
@@ -566,8 +564,8 @@ const WinGo = () => {
               width: "100%",
             }} >
               <div className='w-[50%] pr-3'>
-                <button onClick={() => setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '> <svg data-v-3e4c6499="" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 36 36" fill="none"><path data-v-3e4c6499="" d="M23.67 3H12.33C6.66 3 5.25 4.515 5.25 10.56V27.45C5.25 31.44 7.44 32.385 10.095 29.535L10.11 29.52C11.34 28.215 13.215 28.32 14.28 29.745L15.795 31.77C17.01 33.375 18.975 33.375 20.19 31.77L21.705 29.745C22.785 28.305 24.66 28.2 25.89 29.52C28.56 32.37 30.735 31.425 30.735 27.435V10.56C30.75 4.515 29.34 3 23.67 3ZM11.67 18C10.845 18 10.17 17.325 10.17 16.5C10.17 15.675 10.845 15 11.67 15C12.495 15 13.17 15.675 13.17 16.5C13.17 17.325 12.495 18 11.67 18ZM11.67 12C10.845 12 10.17 11.325 10.17 10.5C10.17 9.675 10.845 9 11.67 9C12.495 9 13.17 9.675 13.17 10.5C13.17 11.325 12.495 12 11.67 12ZM24.345 17.625H16.095C15.48 17.625 14.97 17.115 14.97 16.5C14.97 15.885 15.48 15.375 16.095 15.375H24.345C24.96 15.375 25.47 15.885 25.47 16.5C25.47 17.115 24.96 17.625 24.345 17.625ZM24.345 11.625H16.095C15.48 11.625 14.97 11.115 14.97 10.5C14.97 9.885 15.48 9.375 16.095 9.375H24.345C24.96 9.375 25.47 9.885 25.47 10.5C25.47 11.115 24.96 11.625 24.345 11.625Z" fill="currentColor"></path></svg> How to play</button>
-                <p className='text-xs mt-4'>Win Go {selectedIMgIndex}</p>
+                <button onClick={() => setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xsm font-semibold py-0.5 rounded-2xl '> <svg data-v-3e4c6499="" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 36 36" fill="none"><path data-v-3e4c6499="" d="M23.67 3H12.33C6.66 3 5.25 4.515 5.25 10.56V27.45C5.25 31.44 7.44 32.385 10.095 29.535L10.11 29.52C11.34 28.215 13.215 28.32 14.28 29.745L15.795 31.77C17.01 33.375 18.975 33.375 20.19 31.77L21.705 29.745C22.785 28.305 24.66 28.2 25.89 29.52C28.56 32.37 30.735 31.425 30.735 27.435V10.56C30.75 4.515 29.34 3 23.67 3ZM11.67 18C10.845 18 10.17 17.325 10.17 16.5C10.17 15.675 10.845 15 11.67 15C12.495 15 13.17 15.675 13.17 16.5C13.17 17.325 12.495 18 11.67 18ZM11.67 12C10.845 12 10.17 11.325 10.17 10.5C10.17 9.675 10.845 9 11.67 9C12.495 9 13.17 9.675 13.17 10.5C13.17 11.325 12.495 12 11.67 12ZM24.345 17.625H16.095C15.48 17.625 14.97 17.115 14.97 16.5C14.97 15.885 15.48 15.375 16.095 15.375H24.345C24.96 15.375 25.47 15.885 25.47 16.5C25.47 17.115 24.96 17.625 24.345 17.625ZM24.345 11.625H16.095C15.48 11.625 14.97 11.115 14.97 10.5C14.97 9.885 15.48 9.375 16.095 9.375H24.345C24.96 9.375 25.47 9.885 25.47 10.5C25.47 11.115 24.96 11.625 24.345 11.625Z" fill="currentColor"></path></svg> How to play</button>
+                <p className='text-xsm font-semibold mt-4'>Win Go {selectedIMgIndex}</p>
                 <div className='flex text-black items-center justify-between mt-3'>
                   <img src={images[gameHistoryData[0]?.number]} className='w-7' alt="asdf" />
                   <img src={images[gameHistoryData[1]?.number]} className='w-7' alt="asdf" />
@@ -581,7 +579,7 @@ const WinGo = () => {
                 <div className='flex justify-end items-center gap-1 mt-1 w-full text-sm'>
                   <LotteryTimer duration={callTimer} />
                 </div>
-                <p className='flex justify-end text-sm font-semibold mt-5'>{gameHistoryData[0]?.games_no + 1}</p>
+                <p className='flex justify-end text-[1.2rem] font-extrabold mt-3'>{gameHistoryData[0]?.games_no + 1}</p>
               </div>
             </div>
           </div>
@@ -694,91 +692,34 @@ const WinGo = () => {
             <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
           </div>
         )}
-        {playRule && gameDetails?.gameId === 1 && (
-          <div className="fixed inset-0 flex z-50 items-center justify-center">
-            <div className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"} z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
-              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-lg">
-                How to play 1
+        {playRule  && (
+          <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity ">
+            <div
+              className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"
+                } z-50 bg-white rounded-2xl shadow-lg flex flex-col items-center`}
+            >
+              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-2xl">
+                How to play 
               </p>
-              {rulePlay?.length > 0 ? <div className='px-2 mt-12 text-xs text-blackLight'>
-                <p className=''> 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
-                <p></p>
-              </div> :
-                <div className='px-2 mt-16 text-lg text-blackLight'> No data</div>
-              }
-              <button
-                className="absolute bottom-3 bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-1 rounded-full"
-                onClick={() => setPlayRule(false)}
-              >
-                Close
-              </button>
+              {rulePlay?.length > 0 ? (
+                <div className="px-2 overflow-scroll h-full mt-12 text-xs text-blackLight">
+                  <div dangerouslySetInnerHTML={{ __html: rulePlay[0]?.list }} />
+                </div>
+              ) : (
+                <div className="px-2 mt-16 text-lg text-blackLight">No data</div>
+              )}
+              <div className='w-full rounded-b-2xl bg-white p-3 h-28 flex items-center justify-center'>
+                <button
+                  className=" bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-2.5 rounded-full"
+                  onClick={() => setPlayRule(false)}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         )}
-        {playRule && gameDetails?.gameId === 2 && (
-          <div className="fixed inset-0 flex z-50 items-center justify-center">
-            <div className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"} z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
-              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-lg">
-                How to play 1
-              </p>
-              {rulePlay?.length > 0 ? <div className='px-2 mt-12 text-xs text-blackLight'>
-                <p className=''> 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
-                <p></p>
-              </div> :
-                <div className='px-2 mt-16 text-lg text-blackLight'> No data</div>
-              }
-              <button
-                className="absolute bottom-3 bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-1 rounded-full"
-                onClick={() => setPlayRule(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-        {playRule && gameDetails?.gameId === 3 && (
-          <div className="fixed inset-0 flex z-50 items-center justify-center">
-            <div className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"} z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
-              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-lg">
-                How to play 1
-              </p>
-              {rulePlay?.length > 0 ? <div className='px-2 mt-12 text-xs text-blackLight'>
-                <p className=''> 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
-                <p></p>
-              </div> :
-                <div className='px-2 mt-16 text-lg text-blackLight'> No data</div>
-              }
-              <button
-                className="absolute bottom-3 bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-1 rounded-full"
-                onClick={() => setPlayRule(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-        {playRule && gameDetails?.gameId === 4 && (
-          <div className="fixed inset-0 flex z-50 items-center justify-center">
-            <div className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"} z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
-              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-lg">
-                How to play 1
-              </p>
-              {rulePlay?.length > 0 ? <div className='px-2 mt-12 text-xs text-blackLight'>
-                <p className=''> 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
-                <p></p>
-              </div> :
-                <div className='px-2 mt-16 text-lg text-blackLight'> No data</div>
-              }
-              <button
-                className="absolute bottom-3 bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-1 rounded-full"
-                onClick={() => setPlayRule(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-       
+     
       </div>
     </>
   );

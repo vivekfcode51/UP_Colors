@@ -7,13 +7,14 @@ import walletnew from "../../assets/icons/walletnew.png"
 import profilevip1 from "../../assets/icons/profilevip1.png"
 import bet_history from "../../assets/icons/bet_history.png"
 import trans_history from "../../assets/icons/trans_history.png"
-import { FaExclamation, FaExclamationCircle, FaRegCopy } from 'react-icons/fa'
+import {  FaRegCopy } from 'react-icons/fa'
 import { LiaSignOutAltSolid } from 'react-icons/lia'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import deposit from "../../assets/usaAsset/account/deposit.png"
 import depositHis from "../../assets/usaAsset/account/depositHis.png"
+import exclamation from "../../assets/usaAsset/account/exclamation.png"
 import vip from "../../assets/usaAsset/account/vip.png"
 import withdraw from "../../assets/usaAsset/account/withdraw.png"
 import withdrawHis from "../../assets/usaAsset/account/withdrawHis.png"
@@ -24,14 +25,16 @@ import guide from "../../assets/usaAsset/account/guide.png"
 import service from "../../assets/usaAsset/account/service.png"
 import aboutus from "../../assets/usaAsset/account/aboutus.png"
 import languageIcon from "../../assets/usaAsset/account/languageIcon.png"
+import usaserviceIcon from "../../assets/icons/usaServiceIcon.png";
 import apis from '../../utils/apis'
-import { AiOutlineExclamation } from 'react-icons/ai';
 const profileApi = apis.profile
 
 function Profile() {
     const [langModal, setLangModal] = useState(false)
     const [myDetails, setMyDetails] = useState(null)
     const [isUidCopied, setIsUidCopied] = useState(false)
+    const [isAnimating, setIsAnimating] = useState(false);
+
     const [isLogout, setIsLogout] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -98,14 +101,27 @@ function Profile() {
             return () => clearTimeout(timer);
         }
     }, [langModal, setLangModal]);
-    // console.log("myDetailsmyDetails",myDetails)
+
+    const toggleLogout = () => {
+        if (isLogout) {
+            // Start exit animation
+            setIsAnimating(true);
+            setTimeout(() => {
+                setIsLogout(false);
+                setIsAnimating(false);
+            }, 300); // Match this duration to the CSS transition
+        } else {
+            setIsLogout(true);
+        }
+    };
+
     return (
-        <div className='h-full w-full mb-80'>
+        <div className='h-full w-full font-roboto mb-80'>
             {/* balance div */}
             <div className='bg-bg2 relative h-[35%] 3xl:h-[30%] px-3 flex justify-center rounded-b-[2rem]'>
                 <div className='grid grid-cols-4 px-3'>
                     <div className='col-span-1 flex items-center -mt-20 justify-center'>
-                       <Link to="/changeavatar"> <img src={myDetails?.data?.image ? myDetails?.data?.image : avatar} className='w-20 h-20 rounded-full' alt="not found" /></Link>
+                        <Link to="/changeavatar"> <img src={myDetails?.data?.image ? myDetails?.data?.image : avatar} className='w-20 h-20 rounded-full' alt="not found" /></Link>
                     </div>
                     <div className='col-span-3 flex flex-col justify-center -mt-20 px-2'>
                         <div className=' flex items-center justify-start gap-2'>
@@ -119,8 +135,8 @@ function Profile() {
                     </div>
                 </div>
                 <div className="absolute bg-white shadow-lg left-3 right-3 top-40 px-3 pt-3 pb-6 rounded-md text-sm ">
-                    <h1 className='text-lightGray '>Total balance</h1>
-                    <p className='flex items-center text-black'> <b className='text-xl'>₹</b>  {myDetails ? Number(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"} &nbsp; <span><HiMiniArrowPathRoundedSquare onClick={() => profileDetails(userId)} className='text-gray text-xl' />
+                    <h1 className='text-black '>Total balance</h1>
+                    <p className='flex items-center font-bold text-black'> <b className='text-xl'>₹</b>  {myDetails ? Number(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"} &nbsp; <span><HiMiniArrowPathRoundedSquare onClick={() => profileDetails(userId)} className='text-gray text-xl' />
                     </span></p>
                     <div className='w-full bg-border1 mt-3 h-[1px]'></div>
                     <div className='grid grid-cols-4 mt-5 text-black'>
@@ -252,7 +268,7 @@ function Profile() {
                     </button>
                     <button >
                         <Link to="/customerservices" className='flex flex-col items-center justify-center pt-2'>
-                            <img src={service} className='h-8 w-8 ' alt="not found" />
+                            <img src={usaserviceIcon} className='h-8 w-8 ' alt="not found" />
                             <p className='text-xs text-gray mt-1'>24/7 Customer Service</p>
                         </Link>
                     </button>
@@ -268,7 +284,7 @@ function Profile() {
 
             {/* logout button */}
             <div className='mx-3 pb-28'>
-                <button onClick={()=>setIsLogout(true)} className='flex items-center justify-center border border-red mt-10  py-0.5 rounded-full w-full text-red'><LiaSignOutAltSolid className='rotate-[-90deg]' size={30} />  &nbsp;  &nbsp; Logout
+                <button onClick={toggleLogout} className='flex items-center justify-center border border-red mt-10  py-0.5 rounded-full w-full text-red'><LiaSignOutAltSolid className='rotate-[-90deg]' size={30} />  &nbsp;  &nbsp; Logout
                 </button>
             </div>
             {langModal && (
@@ -286,12 +302,16 @@ function Profile() {
                 </div>
             )}
             {isLogout && (
-                <div className="fixed inset-0  flex items-center justify-center ">
-                    <div className="py-4 px-5 w-[300px] shadow-lg bg-white rounded-lg flex flex-col items-center justify-center">
-                       <p className='flex items-center justify-center rounded-full bg-gradient-to-t from-[#ff9a8e] to-[#f95959] h-20 w-20'><AiOutlineExclamation className='' size={50} />  </p>
-                        <p className='text-center text-sm text-black font-bold mt-5'>Do you want to logout? </p>
-                        <button onClick={()=>logoutHandler()} className='text-center w-full bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white rounded-full py-2 mt-5'>Confirm </button>
-                        <button onClick={()=>setIsLogout(false)} className='text-center w-full border-[1px] text-red border-gradient-to-r from-[#f95959] to-[#ff9a8e] rounded-full py-2 mt-5'>Cancel </button>
+                <div className={`fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+                    <div className={`py-4 px-5 w-[300px] shadow-lg bg-white rounded-2xl flex flex-col items-center justify-center transform transition-transform duration-300 ${isAnimating ? 'scale-90' : 'scale-100'}`}>
+                        <img className='w-20 h-20' src={exclamation} alt="Exclamation" />
+                        <p className='text-center text-xl text-black font-bold mt-5'>Do you want to log out?</p>
+                        <button onClick={() => logoutHandler()} className='text-center w-full bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white rounded-full py-2 mt-5'>
+                            Confirm
+                        </button>
+                        <button onClick={toggleLogout} className='text-center w-full text-red border-[1px] border-red border-gradient-to-r from-[#f95959] to-[#ff9a8e] rounded-full py-2 mt-5'>
+                            Cancel
+                        </button>
                     </div>
                 </div>
             )}

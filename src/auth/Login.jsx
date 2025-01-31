@@ -6,11 +6,11 @@ import apis from '../utils/apis';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Loader from '../reusable_component/Loader/Loader';
-import loginPhone from "../assets/icons/loginPhone.png"
-import phoneUsa from "../assets/icons/phoneUsa.png"
-import passwordUsa from "../assets/icons/passwordUsa.png"
-import cutomerService from "../assets/icons/cutomerService.png"
-import forgetPassword from "../assets/icons/forgetPassword.png"
+import phoneUsa from "../assets/usaAsset/phone.png"
+import passwordUsa from "../assets/usaAsset/password.png"
+import tikki from "../assets/usaAsset/tikki.png"
+import cutomerService from "../assets/usaAsset/custoservice.png"
+import forgetPassword from "../assets/usaAsset/forget_pass.png"
 const loginEndpoint = apis?.login;
 
 function Login() {
@@ -86,7 +86,7 @@ function Login() {
           <div className="bg-bg1 w-full  text-white">
             <div className="flex  flex-col items-center justify-center w-full py-2 border-b-2 text-redLight border-redLight" >
               <div>
-                <img className='w-6 h-6' src={loginPhone} alt="sd" />
+                <img className='w-4 h-6' src={phoneUsa} alt="sd" />
               </div>
               <div className="text-sm mt-2">Log in with phone</div>
             </div>
@@ -94,7 +94,7 @@ function Login() {
               <div className="">
                 <div className=' flex items-center gap-2 py-2'>
                   <div>
-                    <img className='w-6 h-6' src={phoneUsa} alt="sd" />
+                    <img className='w-4 h-6' src={phoneUsa} alt="sd" />
                   </div>
                   <label htmlFor="mobile" className=" text-sm text-gray font-medium">Phone number</label>
                 </div>
@@ -159,11 +159,11 @@ function Login() {
                 </button>
               </div>
               <div className="flex items-center mt-4">
-                <div onClick={() => setCheckAgreement(!checkAgreement)} className={`flex items-center cursor-pointer rounded-full ${checkAgreement ? "text-chocolate bg-white " : "text-chocolate"}`}>
+                <div onClick={() => setCheckAgreement(!checkAgreement)} className={`flex items-center cursor-pointer rounded-full ${checkAgreement ? "text-lightGray bg-white " : "text-chocolate"}`}>
                   {checkAgreement ? (
-                    <FaCheckCircle size={20} />
+                    <img className='w-5 h-5' src={tikki} alt="df" />
                   ) : (
-                    <FaRegCircle size={20} />
+                    <div className='border-[1px] border-[#c8c9cc] p-2 rounded-full'></div>
                   )}
                 </div>
                 <label htmlFor="agree" className="text-gray ml-2 text-xs sm:text-base md:text-xs">Remember Password</label>
@@ -182,11 +182,11 @@ function Login() {
           </div>
           <div className='grid grid-cols-2 w-full text-gray text-xsm mt-10'>
             <Link to="/forgotPassword" className='col-span-1 flex flex-col items-center justify-center'>
-              <img className='w-10 h-10' src={forgetPassword} alt="sd" />
+              <img className='w-8 h-9' src={forgetPassword} alt="sd" />
               <p>Forgot Password</p>
             </Link>
             <Link to="/customerservices" className='col-span-1 flex flex-col items-center justify-center'>
-              <img className='w-10 h-10' src={cutomerService} alt="sd" />
+              <img className='w-11 h-10' src={cutomerService} alt="sd" />
               <p>Customer Service</p>
             </Link>
           </div>

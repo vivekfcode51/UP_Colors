@@ -67,10 +67,10 @@ function ActivityGifts() {
                 <table className='w-full mt-10'>
                     <thead>
                         <tr className='text-black font-bold'>
-                            <th>Gift Code</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Date</th>
+                            <th className='text-center'>Gift Code</th>
+                            <th className='text-center'>Amount</th>
+                            <th className='text-center'>Status</th>
+                            <th className='text-center'>Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,7 +79,7 @@ function ActivityGifts() {
                                 <td className='text-center py-2'>{item?.gift_code}</td>
                                 <td className='text-center' >{item?.amount}</td>
                                 <td className='text-center'>{item?.status === 1 ? "Redeem" : "Yet to redeem"}</td>
-                                <td className='text-center'>{moment(item?.created_at).format("DD-MM-YYYY HH:mm:ss")}</td>
+                                <td className='text-center'>{moment(item?.created_at).format("DD-MM-YYYY")}</td>
                             </tr>
                         )) : <p >no data</p>}
 

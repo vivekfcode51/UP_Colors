@@ -311,7 +311,7 @@ function Home() {
                                     backgroundImage: `url(${rankbg1})`
                                 }}
                             >
-                                <div className="object-fill z-40 bg-cover w-14 h-14 rounded-full"
+                                <div className="object-fill z-30 bg-cover w-14 h-14 rounded-full"
                                     style={{
                                         backgroundImage: `url(${person1})`
                                     }}
@@ -319,9 +319,9 @@ function Home() {
                                     <img src={crownno1} className=" -ml-5 -mt-7" alt="sd" />
                                 </div>
                             </div>
-                            <img className="z-40 w-16" src={no1badge} alt="ds" />
-                            <p className="text-xsm text-white z-40 font-bold mt-3">Mem***387</p>
-                            <p className="text-xsm mt-2 font-bold z-40 rounded-full px-3 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹2,853,503.00</p>
+                            <img className="z-30 w-16" src={no1badge} alt="ds" />
+                            <p className="text-xsm text-white z-30 font-bold mt-3">Mem***387</p>
+                            <p className="text-xsm mt-2 font-bold z-30 rounded-full px-3 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹2,853,503.00</p>
                         </div>
                         <div className="-mb-[7rem] xs:-mb-[7.2rem] xsm:-mb-[7rem] flex flex-col justify-center items-center w-[30%]">
                             <div className="object-fill -mb-2 flex items-center justify-center bg-cover w-16 h-16"
@@ -338,8 +338,8 @@ function Home() {
                                 </div>
                             </div>
                             <img className="w-16" src={no3badge} alt="ds" />
-                            <p className="text-xsm text-white z-40 font-bold mt-3">Mem***453</p>
-                            <p className="text-xsm mt-2 font-bold z-40 rounded-full w-full py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹240,438.00</p>
+                            <p className="text-xsm text-white z-30 font-bold mt-3">Mem***453</p>
+                            <p className="text-xsm mt-2 font-bold z-30 rounded-full w-full py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹240,438.00</p>
                         </div>
                     </div>
                     <img className="object-fill" src={DailyProfitRankStage} alt="sd" />

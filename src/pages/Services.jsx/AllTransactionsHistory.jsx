@@ -110,7 +110,7 @@ function AllTransactionsHistory() {
         {filteredTransactions && filteredTransactions.length > 0 ? (
           filteredTransactions.map((item, i) => (
             <div key={i}>
-              <div className='capitalize bg-gradient-to-l from-[#96D4F9] to-[#60B2FE] w-full text-white p-2 rounded-t-md mt-5'>
+              <div className='capitalize bg-gradient-to-l from-redLight to-red w-full text-white p-2 rounded-t-md mt-5'>
                 {item?.type}
               </div>
               <div className='text-xs text-black p-2 rounded-b-md'>
