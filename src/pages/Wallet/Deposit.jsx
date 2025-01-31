@@ -21,7 +21,7 @@ function Deposit() {
     const [usdtAmount, setUsdtAmount] = useState(USDTselectedAmount)
     const [upiAmount, setUpiAmount] = useState(selectedAmount);
     const depositArray = ["200", "300", "500", "1000", "5000", "10000"]
-    const USDTDepositArray = ["10", "20", "50", "100", "200", "500"]
+    const USDTDepositArray = ["10", "20", "50", "100", "200", "500", "1000", "2000", "5000"]
     const [myDetails, setMyDetails] = useState(null)
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
@@ -51,9 +51,9 @@ function Deposit() {
             console.log(err)
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         getPayModes()
-    },[])
+    }, [])
     // console.log("myDetails",myDetails)
     // payin api
     const payin_deposit = async () => {
@@ -89,7 +89,7 @@ function Deposit() {
 
     const handleSelectAmount = (amount) => {
         setSelectedAmount(amount);
-        setUpiAmount(amount); 
+        setUpiAmount(amount);
     };
     const handleUSDTSelectAmount = (amount) => {
         setUSDTSelectAmount(amount);
@@ -99,7 +99,7 @@ function Deposit() {
     const toggleModal = (modalType) => {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
-    
+
     return (
         <div className='mx-3'>
             <div className='h-40 w-full object-fill bg-no-repeat  rounded-lg p-2'
@@ -119,7 +119,7 @@ function Deposit() {
                 </p>
             </div>
             <div className="w-full grid grid-cols-3 gap-3 mt-2">
-                {payModesList&& payModesList?.map((item, i) => (
+                {payModesList && payModesList?.map((item, i) => (
                     <div
                         onClick={() => toggleModal(item?.type)}
                         key={i}
@@ -132,7 +132,7 @@ function Deposit() {
                 ))}
             </div>
             {/* Modals */}
-            {(activeModal == 0 || activeModal == 1 ) && (
+            {(activeModal == 0 || activeModal == 1) && (
                 <div className="mt-5 ">
                     <div className='bg-white shadow-lg rounded-lg p-2'>
                         <h3 className="text-lg font-semibold text-bg2 flex items-center ">
@@ -162,6 +162,7 @@ function Deposit() {
                                 <RxCrossCircled size={20} />
                             </button>
                         </div>
+
                         {upiAmount && <p className='text-black mt-3 font-bold text-xsm'>Total amount in rupees: {upiAmount}.00</p>}
                         <button onClick={payin_deposit} className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
                             Deposit
@@ -219,8 +220,9 @@ function Deposit() {
                                 </div>
                             ))}
                         </div>
-                        <div className="flex items-center bg-inputBg rounded-full text-sm mt-3  p-1">
-                            <div className="w-8 flex items-center justify-center text-redLight text-2xl font-bold">
+                        {/* <div className="flex items-center bg-inputBg rounded-full text-sm mt-3  p-1">
+                            <div></div>
+                            <div className="w-8 bg-white flex items-center justify-center text-redLight text-2xl font-bold">
                                 $
                             </div>
                             <input
@@ -228,15 +230,44 @@ function Deposit() {
                                 type="number"
                                 onChange={(e) => setUsdtAmount(e.target.value)}
                                 placeholder="please enter the amount"
-                                className="w-full p-1 bg-inputBg border-none focus:outline-none text-redLight placeholder:text-xsm"
+                                className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-xsm"
                             />
                             <button onClick={() => setUsdtAmount("0")} className="flex items-center justify-center text-lightGray p-2 rounded-full">
                                 <RxCrossCircled size={20} />
                             </button>
-
                         </div>
-                        {usdtAmount && <p className='text-black font-bold text-xsm mt-3'>Total amount in rupees : {usdtAmount*myDetails?.usdt_payin_amount}.00</p>
-                        }
+                        <div className="flex items-center bg-white w-full rounded-full text-sm mt-3 p-2">
+                            <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">₹</div>
+                            <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
+                            <p
+                                className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
+                            >{usdtAmount * myDetails?.usdt_payin_amount}</p>
+                        </div> */}
+                        <div className='bg-inputBg rounded-md p-3 flex flex-col mt-3 items-center justify-center'>
+                            <div className="flex items-center bg-white w-full rounded-full text-sm p-2">
+                                <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">$</div>
+                                <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
+                                <input
+                                    value={usdtAmount}
+                                    onChange={(e) => setUsdtAmount(e.target.value)}
+                                    type="number"
+                                    placeholder="Please enter the amount"
+                                    className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
+                                />
+                                <button onClick={() => setUsdtAmount("0")} className="flex items-center justify-center text-lightGray p-2 rounded-full">
+                                    <RxCrossCircled size={20} />
+                                </button>
+                            </div>
+                            <div className="flex items-center bg-white w-full rounded-full text-sm mt-3 p-2">
+                                <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">₹</div>
+                                <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
+                                <p
+                                    className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
+                                >{usdtAmount * myDetails?.usdt_payin_amount}</p>
+                            </div>
+                        </div>
+                        {/* { <p className='text-black font-bold text-xsm mt-3'>Total amount in rupees : {usdtAmount ? usdtAmount * myDetails?.usdt_payin_amount:"0.00"}</p>
+                        } */}
                         <button onClick={payin_deposit} className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
                             Deposit
                         </button>

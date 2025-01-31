@@ -1,60 +1,122 @@
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import account_yellow from "../../assets/images/account_yellow.png"
-import bank from "../../assets/icons/bank.png"
-import ifsc_code from "../../assets/icons/ifsc_code.png"
-import acc_number from "../../assets/icons/acc_number.png"
-import alias from "../../assets/usaAsset/wallet/alias.png"
+import { CgProfile } from "react-icons/cg";
+import axios from "axios";
+import { toast } from "react-toastify";
+import apis from "../../utils/apis";
+import { useNavigate } from "react-router-dom";
+
 const AddUSDTWalletADdress = () => {
+    const userId = localStorage.getItem("userId");
+    const navigate = useNavigate()
+    const formik = useFormik({
+        initialValues: {
+            name: "",
+            usdt_wallet_address: "",
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().required("Name is required"),
+            usdt_wallet_address: Yup.string()
+                .required("USDT address is required"),
+        }),
+        onSubmit: async (values) => {
+            const payload = {
+                user_id: userId,
+                name: values.name,
+                usdt_wallet_address: values.usdt_wallet_address,
+            };
+
+            try {
+                const res = await axios.post(apis.add_usdt_account, payload);
+                if (res?.data?.status === 200) {
+                    navigate("/wallet/withdrawal")
+                    toast.success(res?.data?.message);
+                } else {
+                    toast.error(res?.data?.message);
+                }
+            } catch (err) {
+                console.error(err);
+                toast.error("Something went wrong");
+            }
+        },
+    });
+
     return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-start pb-10 pt-3 px-3">
             {/* Alert */}
-            <div className="w-full max-w-md bg-inputBg text-redLight rounded-full  px-2 py-1 mt-1">
+            <div className="w-full max-w-md bg-inputBg text-redLight rounded-full px-2 py-1 mt-1">
                 <p className="flex items-center text-xsm">
-                    <span className="mr-2 text-[#B1835A] "><AiOutlineExclamationCircle size={20} />
+                    <span className="mr-2 text-[#B1835A]">
+                        <AiOutlineExclamationCircle size={20} />
                     </span>
                     To ensure the safety of your funds, please link your wallet
                 </p>
             </div>
+
             {/* Form */}
-            <div className="w-full max-w-md text-black">
+            <form onSubmit={formik.handleSubmit} className="w-full max-w-md text-black">
                 <div className="mb-8 mt-8">
-                    <label className="text-gray-600 text-sm  flex items-center">
+                    <label className="text-gray-600 text-sm flex items-center">
                         <img src="sd" alt="sfd" className="w-5 h-5 mr-2" />
                         Select main network
                     </label>
-                    <select className="w-full placeholder:text-xsm text-gray placeholder:font-bold outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg" name="" id="">
+                    <select
+                        className="w-full placeholder:text-xsm text-gray placeholder:font-bold outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg bg-inputBg"
+                        name="network"
+                    >
                         <option value="TRC">TRC</option>
                     </select>
-                 
                 </div>
 
                 <div className="mb-8">
-                    <label className="text-gray-600 text-sm  flex items-center">
+                    <label className="text-gray-600 text-sm flex items-center">
+                        <CgProfile className="text-red w-7 h-7 mr-2" />
+                        Name
+                    </label>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Please enter your name"
+                        className="w-full placeholder:text-xsm text-gray outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg bg-inputBg"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.name && formik.errors.name ? (
+                        <p className="text-red text-xs mt-1">{formik.errors.name}</p>
+                    ) : null}
+                </div>
+
+                <div className="mb-8">
+                    <label className="text-gray-600 text-sm flex items-center">
                         <img src="sd" alt="sfd" className="w-5 h-5 mr-2" />
                         USDT address
                     </label>
                     <input
                         type="text"
+                        name="usdt_wallet_address"
                         placeholder="Please enter the USDT address"
-                        className="w-full placeholder:text-xsm text-gray placeholder:font-bold outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
+                        className="w-full placeholder:text-xsm text-gray outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg bg-inputBg"
+                        value={formik.values.usdt_wallet_address}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                     />
+                    {formik.touched.usdt_wallet_address && formik.errors.usdt_wallet_address ? (
+                        <p className="text-red text-xs mt-1">{formik.errors.usdt_wallet_address}</p>
+                    ) : null}
                 </div>
-                {/* <div className="mb-8">
-                    <label className="text-gray-600 text-sm  flex items-center">
-                        <img src={alias} alt="sfd" className="w-7 h-7 mr-2" />
-                        Address Alias
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="Please enter a remark of the withdrawal address"
-                        className="w-full placeholder:text-xsm text-gray placeholder:font- outline-none mt-3 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
-                    />
-                </div> */}
+
                 {/* Save button */}
-                <button className="w-full tracking-[2.5px] bg-[#CBCDDB] text-white text-sm font-semibold py-2 rounded-full shadow-md">
+                <button
+                    type="submit"
+                    disabled={!(formik.isValid && formik.dirty)}
+                    className={`w-full tracking-[2.5px] text-sm font-semibold py-2 rounded-full shadow-md transition-all duration-300
+                        ${formik.isValid && formik.dirty ? "bg-red text-white" : "bg-gray text-white cursor-not-allowed"}`}
+                >
                     Save
                 </button>
-            </div>
+            </form>
         </div>
     );
 };

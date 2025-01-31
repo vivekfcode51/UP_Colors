@@ -196,7 +196,7 @@ function SubordinateData() {
         <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
           <div
             ref={modalRef}
-            className="bg-white p-3 rounded-t-xl h-80 w-full xsm:w-[400px]"
+            className="bg-white p-3 rounded-t-xl h-auto w-full xsm:w-[400px]"
           >
             <div className='flex items-center justify-between'>
 

@@ -7,7 +7,7 @@ import walletnew from "../../assets/icons/walletnew.png"
 import profilevip1 from "../../assets/icons/profilevip1.png"
 import bet_history from "../../assets/icons/bet_history.png"
 import trans_history from "../../assets/icons/trans_history.png"
-import { FaRegCopy } from 'react-icons/fa'
+import { FaExclamation, FaExclamationCircle, FaRegCopy } from 'react-icons/fa'
 import { LiaSignOutAltSolid } from 'react-icons/lia'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import axios from 'axios';
@@ -25,12 +25,14 @@ import service from "../../assets/usaAsset/account/service.png"
 import aboutus from "../../assets/usaAsset/account/aboutus.png"
 import languageIcon from "../../assets/usaAsset/account/languageIcon.png"
 import apis from '../../utils/apis'
+import { AiOutlineExclamation } from 'react-icons/ai';
 const profileApi = apis.profile
 
 function Profile() {
     const [langModal, setLangModal] = useState(false)
     const [myDetails, setMyDetails] = useState(null)
     const [isUidCopied, setIsUidCopied] = useState(false)
+    const [isLogout, setIsLogout] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
@@ -103,7 +105,7 @@ function Profile() {
             <div className='bg-bg2 relative h-[35%] 3xl:h-[30%] px-3 flex justify-center rounded-b-[2rem]'>
                 <div className='grid grid-cols-4 px-3'>
                     <div className='col-span-1 flex items-center -mt-20 justify-center'>
-                        <img src={myDetails?.data?.image ? myDetails?.data?.image : avatar} className='w-20 h-20 rounded-full' alt="not found" />
+                       <Link to="/changeavatar"> <img src={myDetails?.data?.image ? myDetails?.data?.image : avatar} className='w-20 h-20 rounded-full' alt="not found" /></Link>
                     </div>
                     <div className='col-span-3 flex flex-col justify-center -mt-20 px-2'>
                         <div className=' flex items-center justify-start gap-2'>
@@ -265,8 +267,8 @@ function Profile() {
             </div>
 
             {/* logout button */}
-            <div className='mx-3 pb-16 3xl:pb-0'>
-                <button onClick={logoutHandler} className='flex items-center justify-center border border-gray mt-10  py-0.5 rounded-full w-full text-gray'><LiaSignOutAltSolid className='rotate-[-90deg]' size={30} />  &nbsp;  &nbsp; Logout
+            <div className='mx-3 pb-28'>
+                <button onClick={()=>setIsLogout(true)} className='flex items-center justify-center border border-red mt-10  py-0.5 rounded-full w-full text-red'><LiaSignOutAltSolid className='rotate-[-90deg]' size={30} />  &nbsp;  &nbsp; Logout
                 </button>
             </div>
             {langModal && (
@@ -280,6 +282,16 @@ function Profile() {
                 <div className="fixed inset-0 flex items-center justify-center ">
                     <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
                         <p className='text-center'>UID copied to  <br />clipboard!</p>
+                    </div>
+                </div>
+            )}
+            {isLogout && (
+                <div className="fixed inset-0  flex items-center justify-center ">
+                    <div className="py-4 px-5 w-[300px] shadow-lg bg-white rounded-lg flex flex-col items-center justify-center">
+                       <p className='flex items-center justify-center rounded-full bg-gradient-to-t from-[#ff9a8e] to-[#f95959] h-20 w-20'><AiOutlineExclamation className='' size={50} />  </p>
+                        <p className='text-center text-sm text-black font-bold mt-5'>Do you want to logout? </p>
+                        <button onClick={()=>logoutHandler()} className='text-center w-full bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white rounded-full py-2 mt-5'>Confirm </button>
+                        <button onClick={()=>setIsLogout(false)} className='text-center w-full border-[1px] text-red border-gradient-to-r from-[#f95959] to-[#ff9a8e] rounded-full py-2 mt-5'>Cancel </button>
                     </div>
                 </div>
             )}

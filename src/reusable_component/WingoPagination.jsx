@@ -15,7 +15,7 @@ const WingoPagination = ({
     <div className="pagination rounded-md flex bg-white py-4 items-center justify-center gap-10 mt-5 mb-5 mx-4">
       <button
         onClick={onPrevClick}
-        className="flex items-center justify-center font-semibold w-10 text-xsm py-1 rounded-lg bg-inputBg text-lightGray"
+        className={`flex items-center justify-center font-semibold w-10 text-xsm py-1 rounded-lg ${prevDisabled?"bg-inputBg text-lightGray":"bg-red text-white"} `}
         disabled={prevDisabled}
       >
         <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
@@ -23,7 +23,7 @@ const WingoPagination = ({
       <p className="text-lightGray text-[12.8px]">{currentPage}{totalPages}</p>
       <button
         onClick={onNextClick}
-        className="flex items-center justify-center font-semibold w-10 text-sm py-1 rounded-lg bg-red text-white"
+        className={`flex items-center justify-center font-semibold w-10 text-sm py-1 rounded-lg ${!prevDisabled?"bg-inputBg text-lightGray":"bg-red text-white"}`}
         disabled={nextDisabled}
       >
         <MdKeyboardArrowRight className="font-extrabold text-3xl text-white" />

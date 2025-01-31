@@ -18,7 +18,7 @@ const GameHistoryBox = ({ isVisible, gameHistoryData }) => {
         return (
           <div key={i} className='flex w-full border-b-[1px] border-border1 text-black text-xsm bg-white py-2'>
             <p className='w-[34%] flex justify-center items-center'>{item?.games_no}</p>
-            <div className='flex text-[26.6px] justify-center items-center w-[22%] font-bold relative'>
+            <div className='flex h-[30px]  text-[26.6px] justify-center items-center w-[22%] font-bold relative'>
               {item?.number === 0 && (
                 <>
                   <span

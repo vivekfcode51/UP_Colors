@@ -76,6 +76,7 @@ const WinGo = () => {
   const [selectedBtnIndex, setSelectedBtnIndex] = useState(1)
   const audioRef = useRef(null);
   const [isAudioOn, setIsAudioOn] = useState(true)
+  const [rulePlay, setRulePlay] = useState("")
   const userId = localStorage.getItem("userId");
   const limit = 10;
   const handleTimerClick = (item, duration) => {
@@ -448,7 +449,6 @@ const WinGo = () => {
       // winAmountAnnouncement()
     }
   }, [gameDetails?.gameId, currentPage, myHistoryCurrentPage])
-  // console.log("timeLefttimeLefttimeLeft",timeLeft)
   useEffect(() => {
     if (audioRef.current) {
       if (isAudioOn && timeLeft > 0 && timeLeft < 6) {
@@ -457,7 +457,23 @@ const WinGo = () => {
         audioRef.current.pause();
       }
     }
-  }, [timeLeft, isAudioOn]); 
+  }, [timeLeft, isAudioOn]);
+
+  const rulesHandler = async (id) => {
+    try {
+      const res = await axios.get(`${apis.wingo_rules}${id}`)
+      console.log("re ruole rus", res)
+      if (res?.data?.status === 200) {
+        setRulePlay(res?.data?.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    rulesHandler(gameDetails?.gameId)
+  }, [gameDetails?.gameId])
   return (
     <>
       {isModalVisible && modalData && (
@@ -468,223 +484,302 @@ const WinGo = () => {
           /></div>
       )}
       <Header audioRef={audioRef} isAudioOn={isAudioOn} setIsAudioOn={setIsAudioOn} />
-      <audio ref={audioRef} src={countdownone} preload="auto"  />
-      <div className='bg-bg1 h-full font-roboto'>
-        <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[19rem] rounded-b-[55px] px-4 pt-2'>
-          {/* 1st div */}
-          <div
-            className='p-5 h-[9rem] text-black bg-inputBg rounded-3xl'
-          >
-            <div className='flex justify-center gap-8 items-center'>
-              <p className='font-semibold text-xl'><b className='text-xl'>₹</b> &nbsp;{myDetails?.wallet.toFixed(2)}</p>
-              <button onClick={profileDetails}>
-                <HiArrowPathRoundedSquare size={20} className='text-gray ' />
+      <div className='h-screen overflow-scroll hide-scrollbar'>
+        <audio ref={audioRef} src={countdownone} preload="auto" />
+        <div className='bg-bg1 h-full font-roboto'>
+          <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[19rem] rounded-b-[55px] px-4 pt-2'>
+            {/* 1st div */}
+            <div
+              className='p-5 h-[9rem] text-black bg-inputBg rounded-3xl'
+            >
+              <div className='flex justify-center gap-8 items-center'>
+                <p className='font-semibold text-xl'><b className='text-xl'>₹</b> &nbsp;{myDetails?.wallet.toFixed(2)}</p>
+                <button onClick={profileDetails}>
+                  <HiArrowPathRoundedSquare size={20} className='text-gray ' />
+                </button>
+              </div>
+              <div className='flex justify-center gap-2 items-center'>
+                <img className='h-5 w-5 ' src={mainWallet} alt="not found" />
+                <p className='text-xsm '>Wallet balance </p>
+              </div>
+              <div className='mt-6 text-white flex justify-between items-center'>
+                <Link to="/wallet/withdrawal" >
+                  <button className='bg-red text-base font-semibold w-32 h-9 rounded-full'>Withdraw</button>
+                </Link>
+                <Link to="/wallet/deposit" >
+                  <button className='bg-green text-base font-semibold w-32 h-9 rounded-full'>Deposit</button>
+                </Link>
+              </div>
+            </div>
+
+            {/* 2nd div */}
+            <div className='flex justify-between w-full bg-white p-2 rounded-full text-blackLight mt-6 items-center'>
+              <div className="h-7 flex items-center overflow-hidden">
+                <div
+                  className={`flex-1 xsm:flex-0 font-bold w-full  text-[10px] xsm:text-xs overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
+                    }`}
+                  style={{ transform: animate ? "translateY(-100%)" : "translateY(0)" }}
+                >
+                  {noteValue}
+                </div>
+              </div>
+              <div
+                className='shrink-0 py-0.5 text-xsm px-4 bg-red text-white  flex gap-1 justify-center items-center  rounded-3xl'
+              >
+                <RiFireFill className='text-white' />
+                Detail
+              </div>
+            </div>
+
+            {/* game id 3rd div */}
+            <div className='bg-inputBg text-[12.8px] grid grid-cols-4 w-full rounded-xl mt-5'>
+              {[
+                { label: 'Win Go', time: '30s', duration: 30, gameid: 1 },
+                { label: 'Win Go', time: '1Min', duration: 60, gameid: 2 },
+                { label: 'Win Go', time: '3Min', duration: 180, gameid: 3 },
+                { label: 'Win Go', time: '5Min', duration: 300, gameid: 4 },
+              ].map((item) => (
+                <div
+                  key={item.time}
+                  className={`flex flex-col col-span-1 rounded-xl items-center px-2 py-2 cursor-pointer ${selectedIMgIndex === item.time ? 'bg-gradient-to-b from-[#f95959] to-[#ff9a8e]' : ''}`}
+                  onClick={() => {
+                    gameDetailsHandler(item)
+                    handleTimerClick(item.time, item.duration)
+                  }}
+                >
+                  <img
+                    src={selectedIMgIndex === item.time ? redWatch : grayWatch}
+                    className='h-12  w-12'
+                    alt="timer"
+                  />
+                  <p className={`text-nowrap font-normal ${selectedIMgIndex === item.time ? '' : 'text-gray'}`}>{item.label}</p>
+                  <p className={`font-normal  ${selectedIMgIndex === item.time ? '' : 'text-gray'}`}>{item.time}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* game timer 4th div */}
+            <div className='flex  justify-between p-3 mt-5 rounded-2xl' style={{
+              backgroundImage: `url(${cutBg1})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              width: "100%",
+            }} >
+              <div className='w-[50%] pr-3'>
+                <button onClick={() => setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '> <svg data-v-3e4c6499="" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 36 36" fill="none"><path data-v-3e4c6499="" d="M23.67 3H12.33C6.66 3 5.25 4.515 5.25 10.56V27.45C5.25 31.44 7.44 32.385 10.095 29.535L10.11 29.52C11.34 28.215 13.215 28.32 14.28 29.745L15.795 31.77C17.01 33.375 18.975 33.375 20.19 31.77L21.705 29.745C22.785 28.305 24.66 28.2 25.89 29.52C28.56 32.37 30.735 31.425 30.735 27.435V10.56C30.75 4.515 29.34 3 23.67 3ZM11.67 18C10.845 18 10.17 17.325 10.17 16.5C10.17 15.675 10.845 15 11.67 15C12.495 15 13.17 15.675 13.17 16.5C13.17 17.325 12.495 18 11.67 18ZM11.67 12C10.845 12 10.17 11.325 10.17 10.5C10.17 9.675 10.845 9 11.67 9C12.495 9 13.17 9.675 13.17 10.5C13.17 11.325 12.495 12 11.67 12ZM24.345 17.625H16.095C15.48 17.625 14.97 17.115 14.97 16.5C14.97 15.885 15.48 15.375 16.095 15.375H24.345C24.96 15.375 25.47 15.885 25.47 16.5C25.47 17.115 24.96 17.625 24.345 17.625ZM24.345 11.625H16.095C15.48 11.625 14.97 11.115 14.97 10.5C14.97 9.885 15.48 9.375 16.095 9.375H24.345C24.96 9.375 25.47 9.885 25.47 10.5C25.47 11.115 24.96 11.625 24.345 11.625Z" fill="currentColor"></path></svg> How to play</button>
+                <p className='text-xs mt-4'>Win Go {selectedIMgIndex}</p>
+                <div className='flex text-black items-center justify-between mt-3'>
+                  <img src={images[gameHistoryData[0]?.number]} className='w-7' alt="asdf" />
+                  <img src={images[gameHistoryData[1]?.number]} className='w-7' alt="asdf" />
+                  <img src={images[gameHistoryData[2]?.number]} className='w-7' alt="asdf" />
+                  <img src={images[gameHistoryData[3]?.number]} className='w-7' alt="asdf" />
+                  <img src={images[gameHistoryData[4]?.number]} className='w-7' alt="asdf" />
+                </div>
+              </div>
+              <div className='w-[50%]'>
+                <p className='text-xsm  text-end font-semibold'>Time remaining</p>
+                <div className='flex justify-end items-center gap-1 mt-1 w-full text-sm'>
+                  <LotteryTimer duration={callTimer} />
+                </div>
+                <p className='flex justify-end text-sm font-semibold mt-5'>{gameHistoryData[0]?.games_no + 1}</p>
+              </div>
+            </div>
+          </div>
+          {/* betting buttons 5th divv */}
+          <div ref={fifthDivRef} className=' bg-white mt-[13rem] xsm:mt-[13.5rem] md:mt-[12rem]  p-3 mx-4 rounded-2xl'>
+            <div className='flex items-center bg-white justify-center mr-1'>
+              <TimerModal duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
+            </div>
+            <div className='flex justify-between gap-5'>
+              <button onClick={() => handleBtnClick("green", 10)} className={`${timerModal ? "" : "relative z-10"}  w-24  h-10 rounded-bl-lg rounded-tr-lg  bg-green text-xsm  `}>Green</button>
+              <button onClick={() => handleBtnClick("voilet", 20)} className={`${timerModal ? "" : "relative z-10"} w-24 h-10 rounded-lg  bg-voilet text-xsm `}>Violet</button>
+              <button onClick={() => handleBtnClick("red", 30)} className={`${timerModal ? "" : "relative z-10"} w-24 h-10  rounded-tl-lg rounded-br-lg  bg-red text-xsm `}>Red</button>
+            </div>
+            <div className='bg-bg1 mt-5 rounded-lg p-2'>
+              {[0, 1].map(row => (
+                <div key={row} className={`flex items-center gap-2 ${row === 1 ? 'mt-2' : ''}`}>
+                  {images.slice(row * 5, row * 5 + 5).map((imgSrc, index) => {
+                    const actualIndex = row * 5 + index;
+                    const ballColor =
+                      [0].includes(actualIndex) ? "rv" :
+                        [5].includes(actualIndex) ? "gv" :
+                          [2, 4, 6, 8].includes(actualIndex) ? "r" :
+                            "g";
+                    return (
+                      <button
+                        key={index}
+                        className={`image-button ${timerModal ? "" : "relative z-10"} w-[18%] xsm:w-[61.5px] h-[18%] xsm:h-[50.5px]`}
+                      >
+                        <img onClick={() => handleBtnClick(ballColor, actualIndex)} src={imgSrc} className="h-full xsm:h-14 w-full" alt="ball" />
+                      </button>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+            <div className='mt-3 flex gap-2'>
+              <button onClick={() => handleRandomClick(selectedBtnIndex)} className={`${timerModal ? "" : "relative z-10"}flex items-center justify-center text-xsm w-[26%] py-1 sm:py-2 text-red border border-red rounded-lg`}>
+                Random
+              </button>
+              {['X1', 'X5', 'X10', 'X20', 'X50', 'X100'].map((value, i) => {
+                const numericValue = parseInt(value.slice(1), 10);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => setSelectedBtnIndex(numericValue)}
+                    className={`${timerModal ? "" : "relative z-10"} flex items-center justify-center text-xs w-[11%] rounded-lg ${selectedBtnIndex === numericValue ? 'bg-green text-white' : 'bg-bg1 text-gray'
+                      }`}
+                  >
+                    {value}
+                  </button>
+                )
+              })}
+            </div>
+            <div className='w-full mt-3 flex'>
+              <button
+                onClick={() => handleBtnClick("yellow", 40)}
+                className={`${timerModal ? "bg-yellow" : "relative z-10 bg-yellow"} rounded-l-full w-[50%] py-2 text-center text-xsm`}>
+                Big
+              </button>
+              <button onClick={() => handleBtnClick("bg3", 50)} className={`${timerModal ? "bg-bg3" : "relative z-10 bg-bg3"} rounded-r-full w-[50%] py-2 text-center text-xsm `}>Small</button>
+            </div>
+          </div>
+          <div className='mt-3 px-4 flex gap-2'>
+            {['Game History', 'Chart', 'My history'].map((value, i) => (
+              <button
+                key={i}
+                onClick={() => handlehistoryClick(i)}
+                className={`flex items-center justify-center  w-[33%] text-xsm py-2 rounded-lg ${selectedHistoryIndex === i ? 'bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white font-semibold' : 'bg-white text-lightGray'
+                  }`}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+
+          {/* game history  */}
+          <GameHistoryBox isVisible={handlehistorybox === 0} gameHistoryData={gameHistoryData} />
+          {/* Chart */}
+          <WingoChart handlehistorybox={handlehistorybox} gameHistoryData={gameHistoryData} />
+          {/* my history */}
+          <WingoMyHistory myHistoryData={myHistoryData} handlehistorybox={handlehistorybox} />
+
+          {/* pagination div */}
+
+          {handlehistorybox === 2 ? (
+            <WingoPagination
+              currentPage={myHistoryCurrentPage}
+              totalPages={`/${Math.ceil(myHistoryData?.total_bets / 10)}`}
+              hasMore={myHistoryHasMore}
+              onPrevClick={myHistoryPrevPage}
+              onNextClick={myHistoryNextPage}
+              prevDisabled={myHistoryCurrentPage === 1}
+              nextDisabled={!myHistoryHasMore}
+            />
+          ) : (
+            <WingoPagination
+              currentPage={currentPage}
+              totalPages={`/${Math.ceil(gameHistoryDataPagination?.total_result / 10)}`}
+              hasMore={hasMore}
+              onPrevClick={prevPage}
+              onNextClick={nextPage}
+              prevDisabled={currentPage === 1}
+              nextDisabled={!hasMore}
+            />
+          )}
+        </div>
+        {/* bet modal */}
+        {betModal && !false && (
+          <div className="relative z-50">
+            <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
+          </div>
+        )}
+        {playRule && gameDetails?.gameId === 1 && (
+          <div className="fixed inset-0 flex z-50 items-center justify-center">
+            <div className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"} z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
+              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-lg">
+                How to play 1
+              </p>
+              {rulePlay?.length > 0 ? <div className='px-2 mt-12 text-xs text-blackLight'>
+                <p className=''> 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
+                <p></p>
+              </div> :
+                <div className='px-2 mt-16 text-lg text-blackLight'> No data</div>
+              }
+              <button
+                className="absolute bottom-3 bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-1 rounded-full"
+                onClick={() => setPlayRule(false)}
+              >
+                Close
               </button>
             </div>
-            <div className='flex justify-center gap-2 items-center'>
-              <img className='h-5 w-5 ' src={mainWallet} alt="not found" />
-              <p className='text-xsm '>Wallet balance </p>
-            </div>
-            <div className='mt-6 text-white flex justify-between items-center'>
-              <Link to="/wallet/withdrawal" >
-                <button className='bg-red text-base font-semibold w-32 h-9 rounded-full'>Withdraw</button>
-              </Link>
-              <Link to="/wallet/deposit" >
-                <button className='bg-green text-base font-semibold w-32 h-9 rounded-full'>Deposit</button>
-              </Link>
-            </div>
           </div>
-
-          {/* 2nd div */}
-          <div className='flex justify-between w-full bg-white p-2 rounded-full text-blackLight mt-6 items-center'>
-            <div className="h-7 flex items-center overflow-hidden">
-              <div
-                className={`flex-1 xsm:flex-0 font-bold w-full  text-[10px] xsm:text-xs overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
-                  }`}
-                style={{ transform: animate ? "translateY(-100%)" : "translateY(0)" }}
-              >
-                {noteValue}
-              </div>
-            </div>
-            <div
-              className='shrink-0 py-0.5 text-xsm px-4 bg-red text-white  flex gap-1 justify-center items-center  rounded-3xl'
-            >
-              <RiFireFill className='text-white' />
-              Detail
-            </div>
-          </div>
-
-          {/* game id 3rd div */}
-          <div className='bg-inputBg text-[12.8px] grid grid-cols-4 w-full rounded-xl mt-5'>
-            {[
-              { label: 'Win Go', time: '30s', duration: 30, gameid: 1 },
-              { label: 'Win Go', time: '1Min', duration: 60, gameid: 2 },
-              { label: 'Win Go', time: '3Min', duration: 180, gameid: 3 },
-              { label: 'Win Go', time: '5Min', duration: 300, gameid: 4 },
-            ].map((item) => (
-              <div
-                key={item.time}
-                className={`flex flex-col col-span-1 rounded-xl items-center px-2 py-2 cursor-pointer ${selectedIMgIndex === item.time ? 'bg-gradient-to-b from-[#f95959] to-[#ff9a8e]' : ''}`}
-                onClick={() => {
-                  gameDetailsHandler(item)
-                  handleTimerClick(item.time, item.duration)
-                }}
-              >
-                <img
-                  src={selectedIMgIndex === item.time ? redWatch : grayWatch}
-                  className='h-12  w-12'
-                  alt="timer"
-                />
-                <p className={`text-nowrap font-normal ${selectedIMgIndex === item.time ? '' : 'text-gray'}`}>{item.label}</p>
-                <p className={`font-normal  ${selectedIMgIndex === item.time ? '' : 'text-gray'}`}>{item.time}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* game timer 4th div */}
-          <div className='flex  justify-between p-3 mt-5 rounded-2xl' style={{
-            backgroundImage: `url(${cutBg1})`,
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-            width: "100%",
-          }} >
-            <div className='w-[50%] pr-3'>
-              <button onClick={() => setPlayRule(true)} className='flex items-center justify-center  border border-white w-full text-xs py-0.5 rounded-2xl '> <svg data-v-3e4c6499="" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 36 36" fill="none"><path data-v-3e4c6499="" d="M23.67 3H12.33C6.66 3 5.25 4.515 5.25 10.56V27.45C5.25 31.44 7.44 32.385 10.095 29.535L10.11 29.52C11.34 28.215 13.215 28.32 14.28 29.745L15.795 31.77C17.01 33.375 18.975 33.375 20.19 31.77L21.705 29.745C22.785 28.305 24.66 28.2 25.89 29.52C28.56 32.37 30.735 31.425 30.735 27.435V10.56C30.75 4.515 29.34 3 23.67 3ZM11.67 18C10.845 18 10.17 17.325 10.17 16.5C10.17 15.675 10.845 15 11.67 15C12.495 15 13.17 15.675 13.17 16.5C13.17 17.325 12.495 18 11.67 18ZM11.67 12C10.845 12 10.17 11.325 10.17 10.5C10.17 9.675 10.845 9 11.67 9C12.495 9 13.17 9.675 13.17 10.5C13.17 11.325 12.495 12 11.67 12ZM24.345 17.625H16.095C15.48 17.625 14.97 17.115 14.97 16.5C14.97 15.885 15.48 15.375 16.095 15.375H24.345C24.96 15.375 25.47 15.885 25.47 16.5C25.47 17.115 24.96 17.625 24.345 17.625ZM24.345 11.625H16.095C15.48 11.625 14.97 11.115 14.97 10.5C14.97 9.885 15.48 9.375 16.095 9.375H24.345C24.96 9.375 25.47 9.885 25.47 10.5C25.47 11.115 24.96 11.625 24.345 11.625Z" fill="currentColor"></path></svg> How to play</button>
-              <p className='text-xs mt-4'>Win Go {selectedIMgIndex}</p>
-              <div className='flex text-black items-center justify-between mt-3'>
-                <img src={images[gameHistoryData[0]?.number]} className='w-7' alt="asdf" />
-                <img src={images[gameHistoryData[1]?.number]} className='w-7' alt="asdf" />
-                <img src={images[gameHistoryData[2]?.number]} className='w-7' alt="asdf" />
-                <img src={images[gameHistoryData[3]?.number]} className='w-7' alt="asdf" />
-                <img src={images[gameHistoryData[4]?.number]} className='w-7' alt="asdf" />
-              </div>
-            </div>
-            <div className='w-[50%]'>
-              <p className='text-xsm  text-end font-semibold'>Time remaining</p>
-              <div className='flex justify-end items-center gap-1 mt-1 w-full text-sm'>
-                <LotteryTimer duration={callTimer} />
-              </div>
-              <p className='flex justify-end text-sm font-semibold mt-5'>{gameHistoryData[0]?.games_no + 1}</p>
-            </div>
-          </div>
-        </div>
-        {/* betting buttons 5th divv */}
-        <div ref={fifthDivRef} className=' bg-white mt-[13rem] xsm:mt-[13.5rem] md:mt-[12rem]  p-3 mx-4 rounded-2xl'>
-          <div className='flex items-center bg-white justify-center mr-1'>
-            <TimerModal duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
-          </div>
-          <div className='flex justify-between gap-5'>
-            <button onClick={() => handleBtnClick("green", 10)} className={`${timerModal ? "" : "relative z-10"}  w-24  h-10 rounded-bl-lg rounded-tr-lg  bg-green text-xsm  `}>Green</button>
-            <button onClick={() => handleBtnClick("voilet", 20)} className={`${timerModal ? "" : "relative z-10"} w-24 h-10 rounded-lg  bg-voilet text-xsm `}>Violet</button>
-            <button onClick={() => handleBtnClick("red", 30)} className={`${timerModal ? "" : "relative z-10"} w-24 h-10  rounded-tl-lg rounded-br-lg  bg-red text-xsm `}>Red</button>
-          </div>
-          <div className='bg-bg1 mt-5 rounded-lg p-2'>
-            {[0, 1].map(row => (
-              <div key={row} className={`flex items-center gap-2 ${row === 1 ? 'mt-2' : ''}`}>
-                {images.slice(row * 5, row * 5 + 5).map((imgSrc, index) => {
-                  const actualIndex = row * 5 + index;
-                  const ballColor =
-                    [0].includes(actualIndex) ? "rv" :
-                      [5].includes(actualIndex) ? "gv" :
-                        [2, 4, 6, 8].includes(actualIndex) ? "r" :
-                          "g";
-                  return (
-                    <button
-                      key={index}
-                      className={`image-button ${timerModal ? "" : "relative z-10"} w-[18%] xsm:w-[61.5px] h-[18%] xsm:h-[50.5px]`}
-                    >
-                      <img onClick={() => handleBtnClick(ballColor, actualIndex)} src={imgSrc} className="h-full xsm:h-14 w-full" alt="ball" />
-                    </button>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-          <div className='mt-3 flex gap-2'>
-            <button onClick={() => handleRandomClick(selectedBtnIndex)} className={`${timerModal ? "" : "relative z-10"}flex items-center justify-center text-xsm w-[26%] py-1 sm:py-2 text-red border border-red rounded-lg`}>
-              Random
-            </button>
-            {['X1', 'X5', 'X10', 'X20', 'X50', 'X100'].map((value, i) => {
-              const numericValue = parseInt(value.slice(1), 10);
-              return (
-                <button
-                  key={i}
-                  onClick={() => setSelectedBtnIndex(numericValue)}
-                  className={`${timerModal ? "" : "relative z-10"} flex items-center justify-center text-xs w-[11%] rounded-lg ${selectedBtnIndex === numericValue ? 'bg-green text-white' : 'bg-bg1 text-gray'
-                    }`}
-                >
-                  {value}
-                </button>
-              )
-            })}
-          </div>
-          <div className='w-full mt-3 flex'>
-            <button
-              onClick={() => handleBtnClick("yellow", 40)}
-              className={`${timerModal ? "bg-yellow" : "relative z-10 bg-yellow"} rounded-l-full w-[50%] py-2 text-center text-xsm`}>
-              Big
-            </button>
-            <button onClick={() => handleBtnClick("bg3", 50)} className={`${timerModal ? "bg-bg3" : "relative z-10 bg-bg3"} rounded-r-full w-[50%] py-2 text-center text-xsm `}>Small</button>
-          </div>
-        </div>
-        <div className='mt-3 px-4 flex gap-2'>
-          {['Game History', 'Chart', 'My history'].map((value, i) => (
-            <button
-              key={i}
-              onClick={() => handlehistoryClick(i)}
-              className={`flex items-center justify-center  w-[33%] text-xsm py-2 rounded-lg ${selectedHistoryIndex === i ? 'bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white font-semibold' : 'bg-white text-lightGray'
-                }`}
-            >
-              {value}
-            </button>
-          ))}
-        </div>
-
-        {/* game history  */}
-        <GameHistoryBox isVisible={handlehistorybox === 0} gameHistoryData={gameHistoryData} />
-        {/* Chart */}
-        <WingoChart handlehistorybox={handlehistorybox} gameHistoryData={gameHistoryData} />
-        {/* my history */}
-        <WingoMyHistory myHistoryData={myHistoryData} handlehistorybox={handlehistorybox} />
-
-        {/* pagination div */}
-
-        {handlehistorybox === 2 ? (
-          <WingoPagination
-            currentPage={myHistoryCurrentPage}
-            totalPages={`/${Math.ceil(myHistoryData?.total_bets / 10)}`}
-            hasMore={myHistoryHasMore}
-            onPrevClick={myHistoryPrevPage}
-            onNextClick={myHistoryNextPage}
-            prevDisabled={myHistoryCurrentPage === 1}
-            nextDisabled={!myHistoryHasMore}
-          />
-        ) : (
-          <WingoPagination
-            currentPage={currentPage}
-            totalPages={`/${Math.ceil(gameHistoryDataPagination?.total_result / 10)}`}
-            hasMore={hasMore}
-            onPrevClick={prevPage}
-            onNextClick={nextPage}
-            prevDisabled={currentPage === 1}
-            nextDisabled={!hasMore}
-          />
         )}
-      </div>
-      {/* bet modal */}
-      {betModal && !false && (
-        <div className="relative z-50">
-          <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
-        </div>
-      )}
-      {playRule && (
-        <div className="fixed inset-0 flex items-center justify-center ">
-          <div className="h-28 w-36 bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
-            <button className='text-red ' onClick={() => setPlayRule(false)} >Close</button>
-            <p className='text-center'>How to play</p>
+        {playRule && gameDetails?.gameId === 2 && (
+          <div className="fixed inset-0 flex z-50 items-center justify-center">
+            <div className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"} z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
+              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-lg">
+                How to play 1
+              </p>
+              {rulePlay?.length > 0 ? <div className='px-2 mt-12 text-xs text-blackLight'>
+                <p className=''> 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
+                <p></p>
+              </div> :
+                <div className='px-2 mt-16 text-lg text-blackLight'> No data</div>
+              }
+              <button
+                className="absolute bottom-3 bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-1 rounded-full"
+                onClick={() => setPlayRule(false)}
+              >
+                Close
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+        {playRule && gameDetails?.gameId === 3 && (
+          <div className="fixed inset-0 flex z-50 items-center justify-center">
+            <div className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"} z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
+              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-lg">
+                How to play 1
+              </p>
+              {rulePlay?.length > 0 ? <div className='px-2 mt-12 text-xs text-blackLight'>
+                <p className=''> 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
+                <p></p>
+              </div> :
+                <div className='px-2 mt-16 text-lg text-blackLight'> No data</div>
+              }
+              <button
+                className="absolute bottom-3 bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-1 rounded-full"
+                onClick={() => setPlayRule(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+        {playRule && gameDetails?.gameId === 4 && (
+          <div className="fixed inset-0 flex z-50 items-center justify-center">
+            <div className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"} z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
+              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-lg">
+                How to play 1
+              </p>
+              {rulePlay?.length > 0 ? <div className='px-2 mt-12 text-xs text-blackLight'>
+                <p className=''> 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
+                <p></p>
+              </div> :
+                <div className='px-2 mt-16 text-lg text-blackLight'> No data</div>
+              }
+              <button
+                className="absolute bottom-3 bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-1 rounded-full"
+                onClick={() => setPlayRule(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+       
+      </div>
     </>
   );
 };

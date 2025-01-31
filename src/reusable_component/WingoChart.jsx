@@ -43,7 +43,7 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
     return { x, y };
   };
 
-  const renderGameRow = (item, index) => {
+  const renderGameRow = (item) => {
     return (
       <div key={item?.games_no} className="w-full flex items-center justify-between relative">
         <div className="w-[35%] flex justify-start text-center">
@@ -119,7 +119,7 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
 
   return (
     <div className="bg-bg1 px-4 !w-full mt-5 relative hide-scrollbar overflow-x-hidden">
-      <svg className="absolute top-12 left-[37%] mr-4 h-full pointer-events-none">
+      <svg className="absolute mt-48 left-[37%] mr-4 h-full pointer-events-none">
         {renderLines()}
       </svg>
       <div className="flex w-full bg-[#F95959] rounded-t-lg py-2 font-semibold">
@@ -127,6 +127,84 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
         <p className="text-xsm w-[65%] flex justify-center items-center">Number</p>
       </div>
       <div className="text-xsm w-full bg-white text-black py-3 px-2">
+        <div className="h-36">
+          <p>Statistic (last 100 people)</p>
+          <div className="flex items-center justify-between mt-1">
+            <div>Winning number</div>
+            <div className="flex items-center gap-0.5">
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">0</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">1</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">2</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">3</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">4</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">5</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">6</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">7</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">8</p>
+              <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">9</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <div>Missing</div>
+            <div className="flex items-center gap-0.5 text-[#9da7b3]">
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">5</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">13</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">0</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">2</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">14</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">4</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">23</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">3</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">1</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">7</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <div>Avg missing</div>
+            <div className="flex items-center gap-0.5 text-[#9da7b3]">
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">9</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">5</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">8</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">11</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">10</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">10</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">13</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">11</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">7</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">5</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <div>Frequency</div>
+            <div className="flex items-center gap-0.5 text-[#9da7b3]">
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">9</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">19</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">11</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">7</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">10</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">9</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">8</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">8</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">13</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">6</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <div>Max consecutive</div>
+            <div className="flex items-center gap-0.5 text-[#9da7b3]">
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">1</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">3</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">1</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">1</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">2</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">2</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">2</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">2</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">3</p>
+              <p className="rounded-full w-5 h-5 flex items-center justify-center">2</p>
+            </div>
+          </div>
+        </div>
         {gameHistoryData?.map(renderGameRow)}
       </div>
     </div>

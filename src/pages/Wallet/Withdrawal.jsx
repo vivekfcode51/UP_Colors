@@ -16,6 +16,7 @@ function Withdrawal() {
     const [bankInput, setBankInput] = useState(0);
     const [usdtInput, setUSDTInput] = useState(0);
     const [viewAccountDetails, setViewAccountDetails] = useState(null)
+    const [viewAccountDetailsUSDT, setViewAccountDetailsUSDT] = useState(null)
     const [myDetails, setMyDetails] = useState(null)
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
@@ -37,7 +38,25 @@ function Withdrawal() {
             toast.error(err)
         }
     }
-console.log("myDetails",myDetails)
+    const accountViewUSDT = async () => {
+        if (!userId) {
+            toast.error("User not logged in");
+            navigate("/login");
+            return;
+        }
+        try {
+            const res = await axios.get(`${apis.usdt_account_view}${userId}`);
+            if (res?.data?.status === 200) {
+                setViewAccountDetailsUSDT(res?.data?.data);
+            } else {
+                toast.error("Error: " + res?.data?.message);
+            }
+        } catch (err) {
+            console.error("API Error:", err);
+            toast.error("Something went wrong");
+        }
+    };
+    
     const profileDetails = async (userId) => {
         if (!userId) {
             toast.error("User not logged in");
@@ -70,6 +89,7 @@ console.log("myDetails",myDetails)
         if (userId) {
             profileDetails(userId);
             accountView(userId);
+            accountViewUSDT();
         }
     }, [userId]);
 
@@ -85,8 +105,6 @@ console.log("myDetails",myDetails)
             type: activeModal,
             amount: bankInput
         }
-        // console.log("payload", payload)
-
         try {
             const res = await axios.post(apis?.payout_withdraw, payload)
             console.log(res)
@@ -99,6 +117,7 @@ console.log("myDetails",myDetails)
             toast.error(err)
         }
     }
+    // console.log("viewAccountDetailsUSDT",viewAccountDetailsUSDT)
     return (
         <div className='px-3 h-full bg-white'>
             <div className='h-40 w-full object-fill bg-no-repeat  rounded-lg p-2'
@@ -167,7 +186,6 @@ console.log("myDetails",myDetails)
                                     className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
                                 />
                             </div>
-
                         </div>
                         <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${bankInput ? "bg-gradient-to-r from-[#B5885F] to-[#D6B088]" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9]"}  text-white py-3 rounded-full border-none text-xsm `}>
                             Withdraw
@@ -203,21 +221,29 @@ console.log("myDetails",myDetails)
                         </div>
                     </div>
                 </div>
-            )
-            }
+            )}
 
             {
                 activeModal == 2 && (
                     <div className="mt-5 ">
                         <div className='bg-inputBg rounded-lg p-2'>
-                            <button className='w-full'>
-                                <Link to="/wallet/withdrawal/addusdtwalletaddress" className="flex flex-col items-center rounded-l-full text-sm mt-3 p-1" >
-                                    <img className='w-12 h-12' src={plus} alt="sd" />
-                                    <h3 className="text-xsm mt-2 text-blackLight flex items-center ">
-                                        Add address
-                                    </h3>
-                                </Link>
-                            </button>
+                            {viewAccountDetailsUSDT && viewAccountDetailsUSDT.length > 0 ?
+                                <div>
+                                    <div className='text-gray text-xs border-b-[1px] border-dotted py-2'>
+                                        <p className='text-gray'> <b>Name:</b>&nbsp;<span className='text-lightGray'>{viewAccountDetailsUSDT[0]?.name}</span>  </p>
+                                        <p> <b>USDT Address:</b> &nbsp;<span className='text-lightGray'>{viewAccountDetailsUSDT[0]?.usdt_wallet_address}</span>  </p>
+                                        <p> <b>Created at:</b> &nbsp;<span className='text-lightGray'>{viewAccountDetailsUSDT[0]?.created_at}</span>  </p>
+                                    </div>
+                                    <Link to="/customerservices" className='text-xsm w-full flex items-end justify-end text-redLight'>Change bank card information</Link>
+                                </div>
+                                : <button className='w-full'>
+                                    <Link to="/wallet/withdrawal/addusdtwalletaddress" className="flex flex-col items-center rounded-l-full text-sm mt-3 p-1" >
+                                        <img className='w-12 h-12' src={plus} alt="sd" />
+                                        <h3 className="text-xsm mt-2 text-blackLight flex items-center ">
+                                            Add address
+                                        </h3>
+                                    </Link>
+                                </button>}
                         </div>
                         <div className='bg-white rounded-lg p-2 mt- mb-10'>
                             <p className='text-xs text-redLight'>Need to add beneficiary information to be able to withdraw money</p>

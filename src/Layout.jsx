@@ -126,22 +126,19 @@ const Layout = () => {
         <div className="flex h-screen font-inter">
             <div className="flex-1 bg-[#9195A3]"></div>
             <div
-                className={`${bgColor} shrink-0 w-full xsm:w-[400px] text-white relative`}
+                className={`${bgColor} shrink-0 flex flex-col h-screen overflow-hidden  w-full xsm:w-[400px] text-white `}
             >
-                <div className={`h-[3.22rem] ${headerDisplay}`}>
+                <div className={`h-[3.22rem]  w-full xsm:w-[400px] z-50 fixed top-0  ${headerDisplay}`}>
                     <Header />
                 </div>
                 <div
-                    className={`${location?.pathname === "/dragonSplash"
-                        ? "h-[100%]"
-                        : "h-[calc(100%-3.22rem)]"
-                        } overflow-y-scroll  hide-scrollbar pb-${outletPadding}`}
+                    className={`flex-1 overflow-auto ${headerDisplay === "hidden" ? "mt-0" : "mt-[3.22rem]"} hide-scrollbar  pb-${outletPadding}`}
                         // } ${location?.pathname === "/" ? "overflow-y-scroll" : ""}  hide-scrollbar pb-${outletPadding}`}
                 >
                     <Outlet />
                 </div>
                 <div
-                    className={`absolute bottom-0 left-0 w-full bg-transparent ${footerDisplay}`}
+                    className={`fixed bottom-0 z-50  w-full xsm:w-[400px] bg-transparent ${footerDisplay}`}
                 >
                     <Footer />
                 </div>

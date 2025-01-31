@@ -1,11 +1,36 @@
 /* eslint-disable react/prop-types */
 
-import winnerANouncement from "../assets/images/winredpopup.png"
+import winnerANouncement from "../assets/usaAsset/wingo/win_go_win_bg.png"
 import LooseANouncement from "../assets/images/wingolostimage.png"
 import { ImCross } from "react-icons/im";
+import { FaCheckCircle, FaRegCircle } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 const WingoWinnerAnnoucement = ({ data, onClose }) => {
-    return (
+    const [autoCloseEnabled, setAutoCloseEnabled] = useState(
+        localStorage.getItem("wingoAnnoucementModal") === "1"
+    );
+    useEffect(() => {
+        if (autoCloseEnabled) {
+            const timer = setTimeout(() => {
+                onClose();
+            }, 3000);
+    
+            return () => clearTimeout(timer);
+        }
+    }, [autoCloseEnabled]);
+
+    const handleAutoCloseClick = () => {
+        const status = localStorage.getItem("wingoAnnoucementModal");
+        if (status === "0") {
+            localStorage.setItem("wingoAnnoucementModal", "1");
+            setAutoCloseEnabled(true);
+        } else {
+            localStorage.setItem("wingoAnnoucementModal", "0");
+            setAutoCloseEnabled(false);
+        }
+    };
+        return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             {/* Modal Background */}
             <div
@@ -14,46 +39,84 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
             >
                 {/* Modal Content */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                    <h2 className="text-2xl mt-60 font-semibold text-blackLight">{data.win === 0 ? "Sorry" : "Congratulations!"}</h2>
-                    <p className=" text-sm text-black mt-8">
-                        Lottery Result:  <span className={`${data?.number === 0 || data?.number === 2 || data?.number === 4 || data?.number === 6 || data?.number === 8 ? "bg-red" : "bg-green"} font-bold text-white p-2 rounded-lg`}>
-                            {data?.number === 0
-                                ? `Red Voilet ${data?.number} Small`
-                                : data?.number === 1
-                                    ? `Green ${data?.number} Small`
-                                    : data?.number === 2
-                                        ? `Red ${data?.number} Small`
-                                        : data?.number === 3
-                                            ? `Green ${data?.number} Small`
-                                            : data?.number === 4
-                                                ? `Red ${data?.number} Small`
-                                                : data?.number === 5
-                                                    ? `Green Voilet ${data?.number} Big`
-                                                    : data?.number === 6
-                                                        ? `Red ${data?.number} Big`
-                                                        : data?.number === 7
-                                                            ? `Green ${data?.number} Big`
-                                                            : data?.number === 8
-                                                                ? `Red ${data?.number} Big`
-                                                                : data?.number === 9
-                                                                    ? `Green ${data?.number} Big`
-                                                                    : ""}
+                    <h2 className={`text-3xl ${data?.win === 0 ? "mt-[12rem] text-gray" : "mt-[11rem] text-white"} font-bold `}>{data.win === 0 ? "Sorry" : "Congratulations!"}</h2>
+                    <p className={`text-xs ${data?.win === 0 ? "text-black mt-14" : "text-white mt-8"}`}>
+                        Lottery results:
+                        <span className="relative inline-block font-bold text-white px-2 py-1.5 rounded-md">
+                            {data?.number === 0 || data?.number === 5 ? (
+                                <div className="relative h-5 w-full inline-block">
+                                    <div
+                                        className="absolute inset-0"
+                                        style={{
+                                            backgroundColor: data?.number === 0 ? "red" : "green",
+                                            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
+                                        }}
+                                    ></div>
+                                    <div
+                                        className="absolute inset-0 bg-voilet"
+                                        style={{
+                                            clipPath: 'polygon(0% 100%, 100% 0%, 100% 100%, 0 100%)'
+                                        }}
+                                    ></div>
+                                </div>
+                            ) : (
+                                <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} px-2 py-1.5 rounded-md`}>
+                                    {data?.number === 0
+                                        ? `Red Voilet`
+                                        : data?.number === 1
+                                            ? `Green`
+                                            : data?.number === 2
+                                                ? `Red`
+                                                : data?.number === 3
+                                                    ? `Green`
+                                                    : data?.number === 4
+                                                        ? `Red`
+                                                        : data?.number === 5
+                                                            ? `Green Voilet`
+                                                            : data?.number === 6
+                                                                ? `Red`
+                                                                : data?.number === 7
+                                                                    ? `Green`
+                                                                    : data?.number === 8
+                                                                        ? `Red`
+                                                                        : data?.number === 9
+                                                                            ? `Green`
+                                                                            : ""}
+                                </span>
+                            )}
+                        </span>
+                        &nbsp;&nbsp;
+                        <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} font-bold rounded-full text-white py-1.5 px-2 text-xs`}>
+                            {data?.number}
+                        </span>
+                        &nbsp;&nbsp;
+                        <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} font-bold text-white px-2 py-1.5 rounded-md`}>
+                            {data?.number < 5 ? `Small` : `Big`}
                         </span>
                     </p>
-                    <p className=" text-2xl text-blackLight">
-                        <p className="mt-14 text-2xl text-blackLight">
-                           {data?.win === 0 ?"":"Bonus"} 
-                            <p className="font-bold text-yellow-400">{data?.win === 0 ? "Lost" : `₹ ${data?.win?.toFixed(2)}`}</p>
+
+                    <p className={` text-2xl ${data?.win === 0 ? "mt-12" : "mt-8"} text-red`}>
+                        <p className="mt- font-bold text-xsm text-red">
+                            {data?.win === 0 ? "" : "Bonus"}
+                            <p className=" text-2xl">{data?.win === 0 ? "Lost" : `₹ ${data?.win?.toFixed(2)}`}</p>
                         </p>
                     </p>
                     <p className=" text-2xl  text-blackLight">
-                        <p className="mt-8 text-sm flex text-blackLight">
+                        <p className=" text-xsm flex text-blackLight">
                             Period:{" "}
-                            <p className="font-bold text-yellow-400">{data?.gameid === 1 ? `30 Seconds , ${data?.games_no}` : data?.gameid === 2 ? `1 min ${data?.games_no}` : data?.gameid === 3 ? `3 mins ${data?.games_no}` : data?.gameid === 4 ? `5 mins ${data?.games_no}` : "null"}</p>
+                            <p className="font-bold text-xs">{data?.win === 0 ? "Lost " : "Win "}{data?.gameid === 1 ? `30 Seconds, ${data?.games_no}` : data?.gameid === 2 ? `1 min ${data?.games_no}` : data?.gameid === 3 ? `3 mins ${data?.games_no}` : data?.gameid === 4 ? `5 mins ${data?.games_no}` : "null"}</p>
                         </p>
                     </p>
+                    <div className={`flex items-center ${data?.win === 0 ? "mt-8" : "mt-12"} w-full px-2 gap-2 cursor-pointer`} onClick={handleAutoCloseClick}>
+                        {autoCloseEnabled ? (
+                            <FaCheckCircle className='text-[#B1835A]' size={26} style={{ color: `[#B1835A]` }} />
+                        ) : (
+                            <FaRegCircle className='text-[#B1835A]' size={26} style={{ color: `[#B1835A]` }} />
+                        )}
+                        <p className="text-xs">{autoCloseEnabled ? "Cancel Auto Close" : "3 Seconds auto close"}</p>
+                    </div>
                     <button
-                        className="mt-20 px-6 py-2 bg-yellow-500 font-extrabold text-white rounded-md hover:bg-yellow-600"
+                        className="mt-5 px-6 py-2 font-extrabold text-white rounded-md "
                         onClick={onClose}
                     >
                         <ImCross className="border-4 p-1 border-white rounded-full" size={32} />

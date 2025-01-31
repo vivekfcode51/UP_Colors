@@ -94,6 +94,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
             number: gameDetails?.betButtonId,
             amount: finalBetValue
         }
+        console.log("payload",payload)
         if (checkAgreement) {
             try {
                 const res = await axios.post(`${bet_api}`, payload)
@@ -161,7 +162,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                             <button onClick={decrementBet} className="w-7 h-7 rounded-md font-extrabold text-[14px] flex justify-center items-center" style={{ backgroundColor: colorClass }}>
                                 <FaMinus className="text-white text-center" />
                             </button>
-                            <div className="w-20 h-7 flex items-center justify-center bg-inputBg text-blackLight text-sm sm:text-base md:text-sm">{finalBetValue}</div>
+                            <div className="w-20 h-7 flex items-center justify-center bg-inputBg text-blackLight text-sm xsm:text-base md:text-sm">{finalBetValue}</div>
                             <button onClick={incrementBet} className="w-7 h-7 rounded-md font-extrabold text-[14px] flex justify-center items-center" style={{ backgroundColor: colorClass }}>
                                 <FaPlus className="text-white text-center" />
                             </button>
@@ -199,7 +200,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                     </div>
 
                     <div className="grid grid-cols-12 mt-5">
-                        <button onClick={onClose} className={` bg-[#25253C] col-span-4 h-12`}>Cancel</button>
+                        <button onClick={onClose} className={` bg-gray col-span-4 h-12`}>Cancel</button>
                         <button onClick={() => wingoBetHandler()} className="bg-bg2 col-span-8 h-12" style={{ backgroundColor: colorClass }}>Total amount ₹{finalBetValue}</button>
                     </div>
                 </div>
