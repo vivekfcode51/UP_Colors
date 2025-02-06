@@ -99,10 +99,10 @@ const Wallet = () => {
   const thirdPartyWalletPercentage = useMemo(() => {
     if (!myDetails?.data) return 0;
     return (myDetails.data.third_party_wallet * 100) /
-      (myDetails.data.wallet + myDetails.data.third_party_wallet);
+      (myDetails.data.wallet + myDetails?.data?.third_party_wallet);
   }, [myDetails]);
 
-  const array = [{ game: "Lottery", amount: 0.04 }, { game: "JILI", amount: 0.04 }, { game: "EVO_Video", amount: 0.04 }, { game: "TV_Chess", amount: 0.04 }, { game: "Wickets9", amount: 0.04 }, { game: "JDB", amount: 0.04 }, { game: "DG", amount: 0.04 }, { game: "CMD", amount: 0.04 }, { game: "CQ9", amount: 0.04 }, { game: "MG", amount: 0.04 }, { game: "SaBa", amount: 0.04 }, { game: "TB", amount: 0.04 }, { game: "PG", amount: 0.04 }, { game: "AG_Video", amount: 0.04 }, { game: "Card365", amount: 0.04 }, { game: "V8Card", amount: 0.04 }]
+  const array = [{ game: "Lottery", amount: myDetails?.data?.wallet }, { game: "JILI", amount: myDetails?.data?.third_party_wallet}, { game: "EVO_Video", amount: myDetails?.data?.third_party_wallet}, { game: "TV_Chess", amount: myDetails?.data?.third_party_wallet}, { game: "Wickets9", amount: myDetails?.data?.third_party_wallet}, { game: "JDB", amount: myDetails?.data?.third_party_wallet}, { game: "DG", amount: myDetails?.data?.third_party_wallet}, { game: "CMD", amount: myDetails?.data?.third_party_wallet}, { game: "CQ9", amount: myDetails?.data?.third_party_wallet}, { game: "MG", amount: myDetails?.data?.third_party_wallet}, { game: "SaBa", amount: myDetails?.data?.third_party_wallet}, { game: "TB", amount: myDetails?.data?.third_party_wallet}, { game: "PG", amount: myDetails?.data?.third_party_wallet}, { game: "AG_Video", amount: myDetails?.data?.third_party_wallet}, { game: "Card365", amount: myDetails?.data?.third_party_wallet}, { game: "V8Card", amount: myDetails?.data?.third_party_wallet}]
   return (
     <div className="min-h-screen text-lightGray bg-inputBg flex font-inter flex-col items-center">
       <div className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] flex flex-col justify-center items-center  text-white w-full px-6 pb-4 text-center shadow-md">

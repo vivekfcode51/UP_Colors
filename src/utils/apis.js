@@ -64,6 +64,10 @@ const apis = {
   usdt_account_view: `${configModalUsaWin}usdt_account_view?user_id=`,
   wingo_rules: `${configModalUsaWin}wingo_rules?type=`,
   getPaymentLimits: `${configModalUsaWin}getPaymentLimits`,
+  all_game_list: `${configModalUsaWin}all_game_list`,
+  get_game_url: `${configModalUsaWin}get_game_url`,
+  all_game_list_spribe: `${configModalUsaWin}get_reseller_info`,
+  get_game_url_spribe: `${configModalUsaWin}get_spribe_game_urls`,
   // wingo_rules: `${configModalUsaWin}wingo_rules`,
 };
 

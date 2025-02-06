@@ -1,4 +1,3 @@
-import usdt_icon from '../../assets/images/usdt_icon.png';
 import moment from "moment";
 import no_data_available from '../../assets/images/no_data_available.png';
 import { useState, useEffect, useRef } from 'react';
@@ -9,11 +8,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import apis from '../../utils/apis'
 import { useNavigate } from 'react-router-dom';
+import usdt_icon from '../../assets/images/usdt_icon.png';
+import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
 // import ipRemovedbg from "../../assets/usaAsset/ipRemovedbg.png"
 // import kuberPayLogo from "../../assets/usaAsset/kuberPayLogo.png"
 function DepositHistory() {
     const [activeModal, setActiveModal] = useState(-1);
-    const [payModesList, setPayModesList] = useState(0);
+    // const [payModesList, setPayModesList] = useState(0);
     const [modalFirst, handleModalFirst] = useState(false);
     const [modalFirstValue, handleModalFirstValue] = useState(0);
     const [modalSecond, handleModalSecond] = useState(false);
@@ -29,16 +30,16 @@ function DepositHistory() {
     const toggleModal = (modalType) => {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
-    const getPayModes = async () => {
-        try {
-            const res = await axios.get(apis.payModes)
-            if (res?.data?.status == 200) {
-                setPayModesList(res?.data?.data)
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    // const getPayModes = async () => {
+    //     try {
+    //         const res = await axios.get(apis.payModes)
+    //         if (res?.data?.status == 200) {
+    //             setPayModesList(res?.data?.data)
+    //         }
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
     // console.log("depositHistoryData", depositHistoryData)
     // Close modal when clicking outside
     useEffect(() => {
@@ -75,9 +76,9 @@ function DepositHistory() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [modalSecond]);
-    useEffect(() => {
-        getPayModes()
-    }, [])
+    // useEffect(() => {
+    //     getPayModes()
+    // }, [])
     const depositHistory = async (t) => {
         if (!userId) {
             toast.error("User not logged in");
@@ -130,6 +131,18 @@ function DepositHistory() {
             return () => clearTimeout(timer);
         }
     }, [isOrderidCopied, setIsOrderidCopied]);
+
+    const payMethod = [{
+        image: bank_card,
+        name: "Bank card",
+        type: 0
+    },
+    {
+        image: usdt_icon,
+        name: "USDT",
+        type: 2
+    }
+    ]
     return (
         <>
             <div className='w-full'>
@@ -143,7 +156,7 @@ function DepositHistory() {
                             <RxDashboard className={``} size={20} />
                             <p className="font-bold text-nowrap">All</p>
                         </div>
-                        {payModesList && payModesList?.map((item, i) => (
+                        {payMethod && payMethod?.map((item, i) => (
                             <div key={i}
                                 className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal == item?.type ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
                                     }  px-3 cursor-pointer`}

@@ -6,6 +6,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import apis from "../../utils/apis";
 import { useNavigate } from "react-router-dom";
+import person from "../../assets/usaAsset/wallet/person.png"
+import exclamation from "../../assets/usaAsset/account/exclamation.png"
 
 const AddUSDTWalletADdress = () => {
     const userId = localStorage.getItem("userId");
@@ -47,8 +49,8 @@ const AddUSDTWalletADdress = () => {
             {/* Alert */}
             <div className="w-full max-w-md bg-inputBg text-redLight rounded-full px-2 py-1 mt-1">
                 <p className="flex items-center text-xsm">
-                    <span className="mr-2 text-[#B1835A]">
-                        <AiOutlineExclamationCircle size={20} />
+                    <span className="mr-2">
+                      <img src={exclamation} alt="sd" className="w-6 h-5" />
                     </span>
                     To ensure the safety of your funds, please link your wallet
                 </p>
@@ -71,7 +73,7 @@ const AddUSDTWalletADdress = () => {
 
                 <div className="mb-8">
                     <label className="text-gray-600 text-sm flex items-center">
-                        <CgProfile className="text-red w-7 h-7 mr-2" />
+                        <img src={person} className=" w-7 h-7 mr-2" alt="fg" />
                         Name
                     </label>
                     <input

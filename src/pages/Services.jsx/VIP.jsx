@@ -189,7 +189,7 @@ function VIP() {
     },
 
   ]
-
+console.log("vipLevelData",vipLevelData)
   return (
     <>
       <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e]'>
@@ -226,7 +226,7 @@ function VIP() {
       </div>
       <div className="px-3 pb-5">
         <div className=" flex gap-2 overflow-x-auto snap-x snap-mandatory hide-scrollbar ">
-          {vipLevelData?.data?.length > 0 && vipLevelData?.data?.map((item, i) => {
+          {vipLevelData?.data?.length > 0 ? vipLevelData?.data?.map((item, i) => {
             return (
               <div key={i} className="flex-none w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide">
                 <div className={`rounded-md ${item?.name === "vip 1" ? "bg-[#A3B5CF]" : item?.name === "vip 2" ? "bg-[#E8A460]" : item?.name === "vip 3" ? "bg-[#FF8781]" : item?.name === "vip 4" ? "bg-[#5AD1F3]" : item?.name === "vip 5" ? "bg-[#F18DDF]" : item?.name === "vip 6" ? "bg-[#33B57E]" : item?.name === "vip 7" ? "bg-[#37A959]" : item?.name === "vip 8" ? "bg-[#458BED]" : item?.name === "vip 9" ? "bg-[#A05AFD]" : item?.name === "vip 10" ? "bg-[#FB9C3D]" : ""} `}
@@ -431,7 +431,12 @@ function VIP() {
                 </div>
               </div>
             )
-          })}
+          }):
+          <>
+          <img className="mt-10" src={no_data_available} alt="ds"/>
+          <p className="text-center text-black">No data</p>
+          </>
+          }
         </div>
 
 

@@ -61,6 +61,8 @@ import ActivityDetails from "./pages/Activity/ActivityDetails";
 import NewSubordinate from "./pages/Promotion/NewSubordinate";
 import EditBankAccountDetails from "./pages/Wallet/EditBankAccountDetails";
 import SuperJackpot from "./pages/Activity/SuperJackpot";
+import ComingSoon from "./reusable_component/ComingSoon";
+import AllGames from "./pages/Home/AllGames";
 
 export const Router = createBrowserRouter([
   {
@@ -87,12 +89,20 @@ export const Router = createBrowserRouter([
         path: "/aboutus/risk",
         element: <RiskDisclosureAgreement />,
       },
+      {
+        path: "/allgames",
+        element: <AllGames />,
+      },
     ],
   },
   {
     path: "/",
     element: <ProtectedRoute><Layout /></ProtectedRoute>,
     children: [
+      {
+        path: "/comingsoon",
+        element: <ComingSoon />,
+      },
       {
         path: "/dragonSplash",
         element: <DragonTigerSplashScreen />,

@@ -161,13 +161,11 @@ const WinGo = () => {
   }, []);
 
   const profileDetails = async () => {
-    // console.log("userIduserId",userId)
     if (!userId) {
       return;
     }
     try {
       const res = await axios.get(`${profileApi}${userId}`);
-      // console.log("profileDetailsprofileDetails",res)
       if (res?.data?.success === 200) {
         setMyDetails(res?.data?.data)
       }
@@ -181,18 +179,17 @@ const WinGo = () => {
       profileDetails();
     }
   }, [userId]);
-  // console.log("my details", myDetails)
   const calculateTimeLeft = () => {
     const now = new Date();
     const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % callTimer;
-    const remainingTime = Math.max(callTimer - secondsInCycle, 0); // Ensure non-negative timeLeft
+    const remainingTime = Math.max(callTimer - secondsInCycle, 0); 
     setTimeLeft(remainingTime);
   };
 
   useEffect(() => {
     const updateTimer = () => {
       calculateTimeLeft();
-      setTimeout(updateTimer, 1000); // Recursively call every 1 second
+      setTimeout(updateTimer, 1000); 
     };
 
     updateTimer();
@@ -579,7 +576,7 @@ const WinGo = () => {
                 <div className='flex justify-end items-center gap-1 mt-1 w-full text-sm'>
                   <LotteryTimer duration={callTimer} />
                 </div>
-                <p className='flex justify-end text-[1.2rem] font-extrabold mt-3'>{gameHistoryData[0]?.games_no + 1}</p>
+                <p className='flex justify-end text-lg xsm:text-[1.2rem] font-extrabold mt-3'>{gameHistoryData[0]?.games_no + 1}</p>
               </div>
             </div>
           </div>

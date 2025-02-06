@@ -10,6 +10,8 @@ import apis from '../../utils/apis'
 import { useNavigate } from 'react-router-dom';
 import moment from "moment";
 import { PiCopyLight } from 'react-icons/pi';
+import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+
 function WithdrawalHistory() {
     const [activeModal, setActiveModal] = useState(0);
     const [modalFirst, handleModalFirst] = useState(false);
@@ -140,6 +142,18 @@ function WithdrawalHistory() {
             return () => clearTimeout(timer);
         }
     }, [isOrderidCopied, setIsOrderidCopied]);
+
+    const payMethod = [{
+        image: bank_card,
+        name: "Bank card",
+        type: 0
+    },
+    {
+        image: usdt_icon,
+        name: "USDT",
+        type: 2
+    }
+    ]
     return (
         <>
             <div>

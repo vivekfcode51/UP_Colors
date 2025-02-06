@@ -251,13 +251,13 @@ function Home() {
                                     animation: `fadeInFromTop 300ms ease-in-out`,
                                 }}
                             >
-                                <div className="flex items-center space-x-2 w-[35%]">
+                                <div className="flex items-center space-x-1 xsm:space-x-2 w-[35%]">
                                     <img
                                         src={data.avatar}
                                         alt="Avatar"
                                         className="w-10 h-10 rounded-full object-cover"
                                     />
-                                    <p className="text-xsm font-semibold">{data.name}</p>
+                                    <p className="text-xs xsm:text-xsm font-semibold">{data.name}</p>
                                 </div>
                                 <div className="flex w-[65%] gap-6">
                                     <div className="bg-redLight flex justify-center items-center rounded-lg w-[4.2rem] h-12">

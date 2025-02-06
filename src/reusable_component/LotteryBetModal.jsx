@@ -100,11 +100,8 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                 const res = await axios.post(`${bet_api}`, payload)
                 if (res?.data?.status === 200) {
                     const currentValue = parseInt(localStorage.getItem(`betStatus${gameDetails?.gameId}`)) || 0;
-
-                    // Increment the value by 1
                     const updatedValue = currentValue + 1;
                     localStorage.setItem(`betStatus${gameDetails?.gameId}`, updatedValue)
-
                     // setIsBetDone(res)
                     profileDetails()
                     myHistory()
@@ -162,7 +159,8 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                             <button onClick={decrementBet} className="w-7 h-7 rounded-md font-extrabold text-[14px] flex justify-center items-center" style={{ backgroundColor: colorClass }}>
                                 <FaMinus className="text-white text-center" />
                             </button>
-                            <div className="w-20 h-7 flex items-center justify-center bg-inputBg text-blackLight text-sm xsm:text-base md:text-sm">{finalBetValue}</div>
+                            <input value={finalBetValue} onChange={(e)=>setFinalBetValue(e.target.value)} className="outline-none pl-1 w-20 h-7 flex items-center justify-center text-center bg-inputBg text-blackLight text-sm xsm:text-base" type="text"/>
+                            {/* <div className="w-20 h-7 flex items-center justify-center bg-inputBg text-blackLight text-sm xsm:text-base">{finalBetValue}</div> */}
                             <button onClick={incrementBet} className="w-7 h-7 rounded-md font-extrabold text-[14px] flex justify-center items-center" style={{ backgroundColor: colorClass }}>
                                 <FaPlus className="text-white text-center" />
                             </button>
@@ -200,7 +198,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                     </div>
 
                     <div className="grid grid-cols-12 mt-5">
-                        <button onClick={onClose} className={` bg-inputBg col-span-4 h-12`}>Cancel</button>
+                        <button onClick={onClose} className={` bg-inputBg text-gray col-span-4 h-12`}>Cancel</button>
                         <button onClick={() => wingoBetHandler()} className="bg-bg2 col-span-8 h-12" style={{ backgroundColor: colorClass }}>Total amount ₹{finalBetValue}</button>
                     </div>
                 </div>

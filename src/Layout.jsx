@@ -26,7 +26,8 @@ const Layout = () => {
             location?.pathname === "/register"||
              location?.pathname === "/" ||
                 // location?.pathname === "/lottery/wingo" ||
-                location?.pathname === "/lottery/trxwingo" ||
+                // location?.pathname === "/lottery/trxwingo" ||
+                location?.pathname === "/allgames" ||
                 location?.pathname === "/activity" ||
                 location?.pathname === "/activity/details" ||
                 location?.pathname === "/activity/invitationbonus" ||

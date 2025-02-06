@@ -1,14 +1,13 @@
-import { AiOutlineExclamationCircle } from "react-icons/ai";
 import account_yellow from "../../assets/usaAsset/wallet/person.png"
-import bank from "../../assets/usaAsset/wallet/bank.png"
+import bank from "../../assets/usaAsset/wallet/bank.svg"
 import ifsc_code from "../../assets/usaAsset/wallet/ifsc.png"
-import acc_number from "../../assets/usaAsset/wallet/card.png"
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import acc_number from "../../assets/usaAsset/wallet/acc_number.png"
+import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import apis from '../../utils/apis'
 import { useState } from "react";
+import exclamation from "../../assets/usaAsset/account/exclamation.png"
 const AddBankAccountDetails = () => {
     const navigate = useNavigate();
     const [details, setDetails] = useState(
@@ -38,7 +37,7 @@ const AddBankAccountDetails = () => {
             const res = await axios.post(apis?.addAccount, payload)
             if (res.data?.status === "200") {
                 toast.success(res?.data?.message)
-            }else{
+            } else {
                 toast.error(res?.data?.message)
             }
         } catch (err) {
@@ -50,7 +49,7 @@ const AddBankAccountDetails = () => {
             {/* Alert */}
             <div className="w-full max-w-md bg-inputBg text-redLight rounded-full  px-2 py-1 mt-1">
                 <p className="flex items-center text-xsm font-semibold ">
-                    <span className="mr-2 text-[#B1835A] "><AiOutlineExclamationCircle size={20} />
+                    <span className="mr-2 text-[#B1835A] "> <img src={exclamation} alt="sd" className="w-7 h-5" />
                     </span>
                     To ensure the safety of your funds, please bind your bank account
                 </p>
@@ -58,30 +57,9 @@ const AddBankAccountDetails = () => {
 
             {/* Form */}
             <div className="w-full max-w-md text-black rounded-lg mt-5">
-                {/* Bank name */}
-                {/* <div className="mb-8">
-                    <label className=" text-xsm font-medium flex items-center">
-                        <img src={bank} alt="sfd" className="w-7 h-7 mr-2" />
-                        Choose a bank
-                    </label>
-                    <Link to="/wallet/withdrawal/addbankaccount/selectbank"
-                        className="w-full text-xsm flex items-center justify-between text-white font-bold mt-2 px-4 py-2 bg-gradient-to-l from-[#f95959] to-[#ff9a8e] rounded-lg "
-                    > <p>Please select a bank </p> <MdKeyboardArrowRight size={25} />
-                    </Link>
-                </div> */}
+
                 {/* Full recipient's name */}
-                <div className="mb-8">
-                    <label className=" text-xsm font-medium flex items-center">
-                        <img src={bank} alt="sfd" className="w-7 h-7 mr-2" />
-                        Bank name
-                    </label>
-                    <input
-                        onChange={(e) => setDetails({ ...details, bank_name: e.target.value })}
-                        type="text"
-                        placeholder="Please enter the bank name"
-                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
-                    />
-                </div>
+
                 {/* Full recipient's name */}
                 <div className="mb-8">
                     <label className=" text-xsm font-medium flex items-center">
@@ -110,33 +88,45 @@ const AddBankAccountDetails = () => {
                     />
                 </div>
 
-                {/* phone number */}
-                {/* <div className="mb-8">
-                    <label className=" text-xsm font-medium flex items-center">
-                        <img src={acc_number} alt="sfd" className="w-7 h-7 mr-2" />
-                        Phone number
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="Please enter your phone number"
-                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
-                    />
-                </div> */}
-
                 {/* IFSC code */}
-                <div className="mb-28">
+                <div className="mb-8">
                     <label className=" text-xsm font-medium flex items-center">
                         <img src={ifsc_code} alt="sfd" className="w-7 h-7 mr-2" />
                         IFSC code
                     </label>
                     <input
-                        onChange={(e) => setDetails({ ...details, ifsc_code: e.target.value })}
+                        onChange={(e) => {
+                            let value = e.target.value.toUpperCase();
+                            if (value.length <= 11) {
+                                setDetails({ ...details, ifsc_code: value });
+                            }
+                        }}
+                        onBlur={() => {
+                            const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/; 
+                            if (!ifscRegex.test(details.ifsc_code)) {
+                                toast.error("Invalid IFSC Code");
+                                setDetails({ ...details, ifsc_code: "" });
+                            }
+                        }}
+                        value={details.ifsc_code || ""}
                         type="text"
+                        maxLength={11}
                         placeholder="Please enter IFSC code"
+                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg bg-inputBg"
+                    />
+                </div>
+                <div className="mb-28">
+                    <label className=" text-xsm font-medium flex items-center">
+                        <img src={bank} alt="sfd" className="w-7 h-7 mr-2" />
+                        Bank name
+                    </label>
+                    <input
+                        onChange={(e) => setDetails({ ...details, bank_name: e.target.value })}
+                        type="text"
+                        placeholder="Please enter the bank name"
                         className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
                     />
                 </div>
-
                 {/* Save button */}
                 <button onClick={addAccountdetailsHandler} className="w-full tracking-[2.5px] bg-[#CBCDDB] text-white text-sm font-semibold py-2 rounded-full shadow-md">
                     Save

@@ -44,7 +44,7 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
                         Lottery results:&nbsp;
                         {(data?.number === 0 || data?.number === 5) ? (
                             <span className="relative w-20 font-bold text-white px-2 py-1.5 rounded-md">
-                                <div className=" h-5 w-10">
+                                <div className=" h-5 w-12">
                                     <div
                                         className="absolute inset-0 rounded-lg flex items-center justify-center"
                                         style={{
@@ -98,21 +98,39 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
                                         style={{
                                             clipPath: 'polygon(0% 100%, 100% 0%, 100% 100%, 0 100%)'
                                         }}
-                                    >{data?.number }</div>
+                                    >{data?.number}</div>
                                 </div>
                             </span>
                         ) : (
-                            <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} px-2 py-1.5 text-white rounded-md`}>
+                            <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} px-2 h-[26px] flex items-center text-white rounded-md`}>
                                 {data?.number}
                             </span>)}
                         &nbsp;&nbsp;
-                        <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} font-bold text-white px-2 py-1.5 rounded-md`}>
-                            {data?.number < 5 ? `Small` : `Big`}
-                        </span>
+                        {(data?.number === 0 || data?.number === 5) ? (
+                            <span className="relative w-20 font-bold text-white px-2 py-1.5 rounded-md">
+                                <div className=" h-5 w-5">
+                                    <div
+                                        className="absolute inset-0 rounded-full flex items-center justify-center"
+                                        style={{
+                                            backgroundColor: data?.number === 0 ? "red" : "green",
+                                            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
+                                        }}
+                                    > {data?.number < 5 ? `Small` : `Big`}</div>
+                                    <div
+                                        className="absolute rounded-full inset-0 bg-voilet flex items-center justify-center"
+                                        style={{
+                                            clipPath: 'polygon(0% 100%, 100% 0%, 100% 100%, 0 100%)'
+                                        }}
+                                    > {data?.number < 5 ? `Small` : `Big`}</div>
+                                </div>
+                            </span>
+                        ) : (
+                            <span className={`${data?.number % 2 === 0 ? "bg-red" : "bg-green"} font-bold text-white flex items-center justify-center px-2 h-[26px] rounded-md`}>
+                                {data?.number < 5 ? `Small` : `Big`}
+                            </span>)}
                     </p>
-
                     <p className={` text-2xl ${data?.win === 0 ? "mt-12" : "mt-8"} text-red`}>
-                        <p className="mt- font-bold text-xsm text-red">
+                        <p className="font-bold text-xsm text-red">
                             {data?.win === 0 ? "" : "Bonus"}
                             <p className=" text-2xl">{data?.win === 0 ? "Lost" : `₹ ${data?.win?.toFixed(2)}`}</p>
                         </p>

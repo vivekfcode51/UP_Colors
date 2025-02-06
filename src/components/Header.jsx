@@ -183,6 +183,13 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                               <p className='text-sm'>Wallet</p>
                                               <div></div>
                                             </div>
+                                            : location?.pathname === "/allgames" ? <div className='flex items-center justify-between bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[3.22rem]'>
+                                              <Link to="/" >
+                                              <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
+                                            </Link>
+                                              <p className='text-sm'>All Games</p>
+                                              <div></div>
+                                            </div>
                                               : location?.pathname === "/wallet/deposit" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
                                                 <Link to="/wallet" >
                                                   <MdKeyboardArrowLeft className="font-extrabold text-3xl text-gray" />

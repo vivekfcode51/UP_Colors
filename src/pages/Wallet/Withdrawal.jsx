@@ -7,7 +7,8 @@ import withdrawBg from "../../assets/usaAsset/wallet/withdrawBg.png"
 import axios from 'axios';
 import apis from '../../utils/apis'
 import { toast } from 'react-toastify';
-
+import usdt_icon from '../../assets/images/usdt_icon.png';
+import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
 function Withdrawal() {
     const [amountError, setAmountError] = useState("");
     const [amountErrorUSDT, setAmountErrorUSDT] = useState("");
@@ -164,6 +165,17 @@ function Withdrawal() {
             toast.error(err)
         }
     }
+console.log("cricket match",myDetails)
+        const payMethod = [{
+            image: bank_card,
+            name: "Bank card",
+            type: 0
+        },
+        {
+            image: usdt_icon,
+            name: "USDT",
+            type: 2
+        }]
     return (
         <div className='px-3 h-full bg-white'>
             <div className='h-40 w-full object-fill bg-no-repeat  rounded-lg p-2'
@@ -184,7 +196,7 @@ function Withdrawal() {
 
             </div>
             <div className="w-full grid grid-cols-3 gap-3 mt-2">
-                {payModesList && payModesList?.map((item, i) => (
+                {payMethod && payMethod?.map((item, i) => (
                     <div
                         onClick={() => toggleModal(item?.type)}
                         key={i}
@@ -227,7 +239,7 @@ function Withdrawal() {
                                 <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">₹</div>
                                 <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
                                 <input
-                                    value={ upiAmount}
+                                    value={upiAmount == 0 ? "" : upiAmount}
                                     onChange={(e) => {
                                         const numericAmount = Number(e.target.value);
                                         setUpiAmount(numericAmount);
@@ -239,7 +251,7 @@ function Withdrawal() {
                                 />
                             </div>
                         </div>
-                        <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${upiAmount>=paymenLimts?.indin_pay_minimum_withdraw ? "bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9]"}  text-white py-3 rounded-full border-none text-xsm `}>
+                        <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${upiAmount >= paymenLimts?.indin_pay_minimum_withdraw ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
                             Withdraw
                         </button>
 
@@ -304,7 +316,7 @@ function Withdrawal() {
                                 <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">₹</div>
                                 <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
                                 <input
-                                    value={upiAmountKuber}
+                                    value={upiAmountKuber == 0 ? "" : upiAmountKuber}
                                     onChange={(e) => {
                                         const numericAmount = Number(e.target.value);
                                         setUpiAmountKuber(numericAmount);
@@ -316,7 +328,7 @@ function Withdrawal() {
                                 />
                             </div>
                         </div>
-                        <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${upiAmountKuber>=paymenLimts?.kuber_pay_minimum_withdraw ? "bg-gradient-to-r from-[#B5885F] to-[#D6B088]" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9]"}  text-white py-3 rounded-full border-none text-xsm `}>
+                        <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${upiAmountKuber >= paymenLimts?.kuber_pay_minimum_withdraw ? "bg-gradient-to-r from-red to-redLight text-white" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"} py-3 rounded-full border-none text-xsm `}>
                             Withdraw
                         </button>
 
@@ -382,13 +394,12 @@ function Withdrawal() {
                                     <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">$</div>
                                     <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
                                     <input
-                                        value={usdtAmount}
+                                        value={usdtAmount == 0 ? "" : usdtAmount}
                                         onChange={(e) => {
                                             const numericAmount = Number(e.target.value);
                                             setUsdtAmount(numericAmount);
                                             validateAmount(numericAmount);
                                         }}
-                                        // onChange={(e) => setUsdtAmount(e.target.value)}
                                         type="number"
                                         placeholder="Please enter the amount"
                                         className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
@@ -402,7 +413,7 @@ function Withdrawal() {
                                     >{usdtAmount * paymenLimts?.withdraw_conversion_rate}</p>
                                 </div>
                             </div>
-                            <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${usdtAmount>=paymenLimts?.USDT_minimum_withdraw ? "bg-gradient-to-r from-[#B5885F] to-[#D6B088]" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9]"}  text-white py-3 rounded-full border-none text-xsm `}>
+                            <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${usdtAmount >= paymenLimts?.USDT_minimum_withdraw ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
                                 Withdraw
                             </button>
                             <div className='mt-10' >

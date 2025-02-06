@@ -3,9 +3,10 @@ import usdt_icon from '../../assets/images/usdt_icon.png'
 import depo_wallet from '../../assets/icons/depo_wallet.png'
 import { useEffect, useState } from 'react';
 import { RxCrossCircled } from 'react-icons/rx';
-import depositbg from "../../assets/usaAsset/wallet/depositbg.png"
-import upi from "../../assets/usaAsset/wallet/upi.png"
-import paytm from "../../assets/usaAsset/wallet/paytm.png"
+import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+// import depositbg from "../../assets/usaAsset/wallet/depositbg.png"
+// import upi from "../../assets/usaAsset/wallet/upi.png"
+// import paytm from "../../assets/usaAsset/wallet/paytm.png"
 import rechargeIns from "../../assets/usaAsset/wallet/rechargeIns.png"
 import save_wallet from "../../assets/usaAsset/wallet/save_wallet.png"
 import { useNavigate } from 'react-router-dom';
@@ -20,15 +21,15 @@ function Deposit() {
     const [amountError, setAmountError] = useState("");
     const [amountErrorUSDT, setAmountErrorUSDT] = useState("");
     const [activeModal, setActiveModal] = useState(0);
-    const [payModesList, setPayModesList] = useState(0);
+    // const [payModesList, setPayModesList] = useState(0);
     const [selectedAmount, setSelectedAmount] = useState(200);
-    const [selectedAmountKuber, setSelectedAmountKuber] = useState(10000);
+    // const [selectedAmountKuber, setSelectedAmountKuber] = useState(10000);
     const [USDTselectedAmount, setUSDTSelectAmount] = useState(10);
     const [upiAmount, setUpiAmount] = useState(selectedAmount);
-    const [upiAmountKuber, setUpiAmountKuber] = useState(selectedAmountKuber);
+    // const [upiAmountKuber, setUpiAmountKuber] = useState(selectedAmountKuber);
     const [usdtAmount, setUsdtAmount] = useState(USDTselectedAmount)
     const depositArray = ["200", "300", "500", "1000", "5000", "10000"]
-    const depositArrayKuberPay = ["10000", "15000", "20000", "30000", "50000", "100000"]
+    // const depositArrayKuberPay = ["10000", "15000", "20000", "30000", "50000", "100000"]
     const USDTDepositArray = ["10", "20", "50", "100", "200", "500", "1000", "2000", "5000"]
     const [myDetails, setMyDetails] = useState(null)
     const navigate = useNavigate();
@@ -71,10 +72,7 @@ function Deposit() {
         if (activeModal == 2) {
             validateAmount(usdtAmount);
             // console.log("usdtAmountusdtAmount", usdtAmount)
-        } else if (activeModal == 1) {
-            validateAmount(upiAmountKuber);
-            // console.log("upiAmount", upiAmountKuber)
-        } else if (activeModal == 0) {
+        }  else if (activeModal == 0) {
             validateAmount(upiAmount);
             // console.log("upiAmount", upiAmount)
         }
@@ -95,18 +93,18 @@ function Deposit() {
         }
     };
 
-    const getPayModes = async () => {
-        try {
-            const res = await axios.get(apis.payModes)
-            if (res?.data?.status == 200) {
-                setPayModesList(res?.data?.data)
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    // const getPayModes = async () => {
+    //     try {
+    //         const res = await axios.get(apis.payModes)
+    //         if (res?.data?.status == 200) {
+    //             setPayModesList(res?.data?.data)
+    //         }
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
     useEffect(() => {
-        getPayModes()
+        // getPayModes()
         getPaymentLimits()
     }, [])
 
@@ -118,7 +116,7 @@ function Deposit() {
         }
         const payload = {
             userid: userId,
-            amount: activeModal == 2 ? usdtAmount : activeModal == 1 ? upiAmountKuber : upiAmount,
+            amount: activeModal == 2 ? usdtAmount : activeModal == 0 ? upiAmount : "",
             type: activeModal
         }
         try {
@@ -144,12 +142,12 @@ function Deposit() {
         setUpiAmount(numericAmount);
         validateAmount(numericAmount);
     };
-    const handleSelectAmountKuber = (amount) => {
-        const numericAmount = Number(amount);
-        setSelectedAmountKuber(numericAmount);
-        setUpiAmountKuber(numericAmount);
-        validateAmount(numericAmount);
-    };
+    // const handleSelectAmountKuber = (amount) => {
+    //     const numericAmount = Number(amount);
+    //     setSelectedAmountKuber(numericAmount);
+    //     setUpiAmountKuber(numericAmount);
+    //     validateAmount(numericAmount);
+    // };
 
     const handleUSDTSelectAmount = (amount) => {
         const numericAmount = Number(amount);
@@ -164,6 +162,19 @@ function Deposit() {
         setAmountError("");
         setAmountErrorUSDT("");
     };
+
+    const payMethod = [{
+        image: bank_card,
+        name: "Bank card",
+        type: 0
+    },
+    {
+        image: usdt_icon,
+        name: "USDT",
+        type: 2
+    }]
+
+    // console.log("paymenLimts", paymenLimts)
     return (
         <div className='mx-3'>
             <div className='h-40 w-full object-fill bg-no-repeat  rounded-lg p-2'
@@ -183,7 +194,7 @@ function Deposit() {
                 </p>
             </div>
             <div className="w-full grid grid-cols-3 gap-3 mt-2">
-                {payModesList && payModesList?.map((item, i) => (
+                {payMethod && payMethod?.map((item, i) => (
                     <div
                         onClick={() => toggleModal(item?.type)}
                         key={i}
@@ -217,7 +228,7 @@ function Deposit() {
                         <div className="flex items-center bg-inputBg rounded-full text-sm mt-3 p-1">
                             <div className="w-8 flex items-center justify-center text-redLight text-2xl font-bold">₹</div>
                             <input
-                                value={upiAmount}
+                                value={upiAmount == 0 ? "" : upiAmount}
                                 onChange={(e) => {
                                     const numericAmount = Number(e.target.value);
                                     setUpiAmount(numericAmount);
@@ -232,7 +243,7 @@ function Deposit() {
                                 <RxCrossCircled size={20} />
                             </button>
                         </div>
-                        <button onClick={payin_deposit} className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
+                        <button onClick={payin_deposit} className={`mt-4 w-full ${upiAmount >= paymenLimts?.indin_pay_minimum_deposit ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
                             Deposit
                         </button>
                     </div>
@@ -270,7 +281,7 @@ function Deposit() {
 
                 </div>
             )}
-            {(activeModal == 1) && (
+            {/* {(activeModal == 1) && (
                 <div className="mt-5 ">
                     <div className='bg-white shadow-lg rounded-lg p-2'>
                         <h3 className="text-lg font-semibold text-bg2 flex items-center ">
@@ -291,7 +302,7 @@ function Deposit() {
                         <div className="flex items-center bg-inputBg rounded-full text-sm mt-3 p-1">
                             <div className="w-8 flex items-center justify-center text-redLight text-2xl font-bold">₹</div>
                             <input
-                                value={upiAmountKuber}
+                                value={upiAmountKuber == 0 ? "" : upiAmountKuber}
                                 onChange={(e) => {
                                     const numericAmount = Number(e.target.value);
                                     setUpiAmountKuber(numericAmount);
@@ -306,9 +317,10 @@ function Deposit() {
                                 <RxCrossCircled size={20} />
                             </button>
                         </div>
-                        <button onClick={payin_deposit} className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
+                        <button onClick={payin_deposit} className={`mt-4 w-full ${upiAmountKuber >= paymenLimts?.kuber_pay_minimum_deposit ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
                             Deposit
                         </button>
+                      
                     </div>
 
                     <div className='bg-white shadow-lg rounded-lg p-2 my-10'>
@@ -343,7 +355,7 @@ function Deposit() {
                     </div>
 
                 </div>
-            )}
+            )} */}
 
             {activeModal == 2 && (
                 <div className="mt-5 ">
@@ -369,16 +381,13 @@ function Deposit() {
                                 <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">$</div>
                                 <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
                                 <input
-                                    value={usdtAmount}
+                                    value={usdtAmount == 0 ? "" : usdtAmount}
                                     onChange={(e) => {
                                         const numericAmount = Number(e.target.value);
                                         setUsdtAmount(numericAmount);
                                         validateAmount(numericAmount);
                                     }}
-                                    // onChange={(e) => {
-                                    //     setUsdtAmount(e.target.value);
-                                    //     validateAmount(e.target.value);
-                                    // }}
+                                   
                                     type="number"
                                     placeholder="Please enter the amount"
                                     className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
@@ -395,9 +404,7 @@ function Deposit() {
                                 >{usdtAmount * paymenLimts?.deposit_conversion_rate}</p>
                             </div>
                         </div>
-                        {/* { <p className='text-black font-bold text-xsm mt-3'>Total amount in rupees : {usdtAmount ? usdtAmount * myDetails?.usdt_payin_amount:"0.00"}</p>
-                        } */}
-                        <button onClick={payin_deposit} className="mt-4 w-full bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white py-2 rounded-full border-none text-">
+                        <button onClick={payin_deposit} className={`mt-4 w-full ${usdtAmount >= paymenLimts?.USDT_minimum_deposit ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
                             Deposit
                         </button>
                     </div>
