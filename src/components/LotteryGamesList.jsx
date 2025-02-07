@@ -7,15 +7,16 @@ import d5d from "../assets/usaAsset/homeScreen/d5d.png"
 import viewall from "../assets/usaAsset/homeScreen/viewall.png"
 import aviator from "../assets/aviator/aviator.png"
 import gamecategoryminigames from "../assets/usaAsset/homeScreen/gamecategoryminigames.png"
+import min from "../assets/usaAsset/homeScreen/min.png"
 
 function LotteryGamesList() {
     const games = [
         { id: 1, name: "Win Go", image: lotterycategorywingo, route: "/lottery/wingo", description1: "Guess Number", description2: "Green/Red/Violet to win", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
         { id: 2, name: "Trx Win", image: lotterycategorytrx, route: "/lottery/trxwingo", description1: "Guess Number", description2: "Green/Red/Violet to win", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
-        { id: 3, name: "K3", image: k3, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
-        { id: 4, name: "5D", image: d5d, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
-        { id: 5, name: "Aviator", image: gamecategoryminigames, route: "/comingsoon", description1: "Fly High", description2: "", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
-        { id: 6, name: "Mines", image: aviator, route: "/comingsoon", description1: "Choose Boxes", description2: "", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
+        { id: 3, name: "Aviator", image: gamecategoryminigames, route: "/comingsoon", description1: "Fly High", description2: "", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
+        { id: 4, name: "Mines", image: min, route: "/comingsoon", description1: "Choose Boxes", description2: "", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
+        { id: 5, name: "K3", image: k3, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
+        { id: 6, name: "5D", image: d5d, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even", bgColor: "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" },
     ];
     return (
         <>
