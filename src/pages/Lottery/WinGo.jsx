@@ -182,14 +182,14 @@ const WinGo = () => {
   const calculateTimeLeft = () => {
     const now = new Date();
     const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % callTimer;
-    const remainingTime = Math.max(callTimer - secondsInCycle, 0); 
+    const remainingTime = Math.max(callTimer - secondsInCycle, 0);
     setTimeLeft(remainingTime);
   };
 
   useEffect(() => {
     const updateTimer = () => {
       calculateTimeLeft();
-      setTimeout(updateTimer, 1000); 
+      setTimeout(updateTimer, 1000);
     };
 
     updateTimer();
@@ -671,17 +671,30 @@ const WinGo = () => {
               prevDisabled={myHistoryCurrentPage === 1}
               nextDisabled={!myHistoryHasMore}
             />
-          ) : (
-            <WingoPagination
-              currentPage={currentPage}
-              totalPages={`/${Math.ceil(gameHistoryDataPagination?.total_result / 10)}`}
-              hasMore={hasMore}
-              onPrevClick={prevPage}
-              onNextClick={nextPage}
-              prevDisabled={currentPage === 1}
-              nextDisabled={!hasMore}
-            />
-          )}
+          ) :
+            handlehistorybox === 1 ? (
+              <div className='-mt-[30px] z-50'>
+                <WingoPagination
+                  currentPage={currentPage}
+                  totalPages={`/${Math.ceil(gameHistoryDataPagination?.total_result / 10)}`}
+                  hasMore={hasMore}
+                  onPrevClick={prevPage}
+                  onNextClick={nextPage}
+                  prevDisabled={currentPage === 1}
+                  nextDisabled={!hasMore}
+                />
+              </div>
+            ) : (
+              <WingoPagination
+                currentPage={currentPage}
+                totalPages={`/${Math.ceil(gameHistoryDataPagination?.total_result / 10)}`}
+                hasMore={hasMore}
+                onPrevClick={prevPage}
+                onNextClick={nextPage}
+                prevDisabled={currentPage === 1}
+                nextDisabled={!hasMore}
+              />
+            )}
         </div>
         {/* bet modal */}
         {betModal && !false && (
@@ -689,14 +702,14 @@ const WinGo = () => {
             <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
           </div>
         )}
-        {playRule  && (
+        {playRule && (
           <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity ">
             <div
               className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"
                 } z-50 bg-white rounded-2xl shadow-lg flex flex-col items-center`}
             >
               <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-2xl">
-                How to play 
+                How to play
               </p>
               {rulePlay?.length > 0 ? (
                 <div className="px-2 overflow-scroll h-full mt-12 text-xs text-blackLight">
@@ -716,7 +729,7 @@ const WinGo = () => {
             </div>
           </div>
         )}
-     
+
       </div>
     </>
   );

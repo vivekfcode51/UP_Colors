@@ -24,6 +24,7 @@ const apis = {
   dragonBet_history: `${configModalUsaWin}bet_history`,
   dragonResults: `${configModalUsaWin}results`,
   payin_deposit: `${configModalUsaWin}payin`,
+  payin_deposit_usdt: `${configModalUsaWin}usdt_payin`,
   depositHistory: `${configModalUsaWin}deposit-history`,
   addAccount: `${configModalUsaWin}addAccount`,
   accountView: `${configModalUsaWin}accountView`,
@@ -68,6 +69,8 @@ const apis = {
   get_game_url: `${configModalUsaWin}get_game_url`,
   all_game_list_spribe: `${configModalUsaWin}get_reseller_info`,
   get_game_url_spribe: `${configModalUsaWin}get_spribe_game_urls`,
+  extra_first_deposit_bonus: `${configModalUsaWin}extra_first_deposit_bonus?userid=`,
+  getBranchnameByIfsc: `${configModalUsaWin}get-ifsc-details?ifsc=`,
   // wingo_rules: `${configModalUsaWin}wingo_rules`,
 };
 

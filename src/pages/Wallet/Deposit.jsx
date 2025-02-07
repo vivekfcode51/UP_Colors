@@ -14,9 +14,11 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import apis from '../../utils/apis'
 import withdrawBg from "../../assets/usaAsset/wallet/withdrawBg.png"
+import Loader from '../../reusable_component/Loader/Loader';
 
 const profileApi = apis.profile
 function Deposit() {
+    const [loading, setloading] = useState(false);
     const [paymenLimts, setPaymenLimts] = useState({})
     const [amountError, setAmountError] = useState("");
     const [amountErrorUSDT, setAmountErrorUSDT] = useState("");
@@ -45,19 +47,19 @@ function Deposit() {
             toast.error(err);
         }
     };
+    // console.log("amount", paymenLimts)
     const validateAmount = (amount) => {
-        // console.log("amount", amount)
         if (!paymenLimts) return;
         let minAmount, maxAmount;
         if (activeModal == 2) {
             minAmount = paymenLimts?.USDT_minimum_deposit;
             maxAmount = paymenLimts?.USDT_maximum_deposit;
-        } else if (activeModal == 1) {
-            minAmount = paymenLimts?.kuber_pay_minimum_deposit
-            maxAmount = paymenLimts?.kuber_pay_maximum_deposit
+            // } else if (activeModal == 1) {
+            //     minAmount = paymenLimts?.kuber_pay_minimum_deposit
+            //     maxAmount = paymenLimts?.kuber_pay_maximum_deposit
         } else {
-            minAmount = paymenLimts?.indin_pay_minimum_deposit;
-            maxAmount = paymenLimts?.indin_pay_maximum_deposit;
+            minAmount = paymenLimts?.INR_minimum_deposit;
+            maxAmount = paymenLimts?.INR_maximum_deposit;
         }
         amount = Number(amount);
         if (isNaN(amount) || amount < minAmount || amount > maxAmount) {
@@ -72,7 +74,7 @@ function Deposit() {
         if (activeModal == 2) {
             validateAmount(usdtAmount);
             // console.log("usdtAmountusdtAmount", usdtAmount)
-        }  else if (activeModal == 0) {
+        } else if (activeModal == 0) {
             validateAmount(upiAmount);
             // console.log("upiAmount", upiAmount)
         }
@@ -93,18 +95,7 @@ function Deposit() {
         }
     };
 
-    // const getPayModes = async () => {
-    //     try {
-    //         const res = await axios.get(apis.payModes)
-    //         if (res?.data?.status == 200) {
-    //             setPayModesList(res?.data?.data)
-    //         }
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
     useEffect(() => {
-        // getPayModes()
         getPaymentLimits()
     }, [])
 
@@ -114,15 +105,25 @@ function Deposit() {
             navigate("/login");
             return;
         }
+        setloading(true)
         const payload = {
             userid: userId,
-            amount: activeModal == 2 ? usdtAmount : activeModal == 0 ? upiAmount : "",
-            type: activeModal
+            amount: upiAmount,
         }
+        const apiIndianPay = apis.payin_deposit
+        const apiUsdtPay = apis.payin_deposit_usdt
+        const payloadUsdt = {
+            user_id: userId,
+            amount: usdtAmount,
+            type: 2
+        }
+        // console.log("payload", activeModal === 0 ? payload : payloadUsdt, activeModal)
         try {
-            const res = await axios.post(apis.payin_deposit, payload)
-            if (res?.data?.status === "SUCCESS") {
-                window.open(res?.data?.payment_link, "_blank");
+            const res = await axios.post(activeModal === 0 ? apiIndianPay : apiUsdtPay, activeModal === 0 ? payload : payloadUsdt)
+            // console.log("res", res)
+            if (res?.data?.status == 200) {
+                setloading(false)
+                window.open(activeModal === 0 ? res?.data?.response?.payment_link : res?.data?.data?.status_url, "_blank");
             } else {
                 toast.error(res?.data?.message)
             }
@@ -177,6 +178,7 @@ function Deposit() {
     // console.log("paymenLimts", paymenLimts)
     return (
         <div className='mx-3'>
+            {loading == true && <Loader setloading={setloading} loading={loading} />}
             <div className='h-40 w-full object-fill bg-no-repeat  rounded-lg p-2'
                 style={{
                     backgroundImage: `url(${withdrawBg})`,
@@ -243,7 +245,7 @@ function Deposit() {
                                 <RxCrossCircled size={20} />
                             </button>
                         </div>
-                        <button onClick={payin_deposit} className={`mt-4 w-full ${upiAmount >= paymenLimts?.indin_pay_minimum_deposit ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
+                        <button onClick={payin_deposit} className={`mt-4 w-full ${upiAmount >= paymenLimts?.INR_minimum_deposit ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
                             Deposit
                         </button>
                     </div>
@@ -387,7 +389,7 @@ function Deposit() {
                                         setUsdtAmount(numericAmount);
                                         validateAmount(numericAmount);
                                     }}
-                                   
+
                                     type="number"
                                     placeholder="Please enter the amount"
                                     className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"

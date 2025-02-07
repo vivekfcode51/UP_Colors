@@ -11,7 +11,7 @@ const Layout = () => {
     const bgColor = location?.pathname === "/" ? "bg-bg1" : "bg-bg1";
 
     const hiddenFooterPaths = new Set(["/login", "/register"]);
-    const visibleFooterPaths = new Set(["/", "/activity", "/profile","/promotion", "/wallet"]);
+    const visibleFooterPaths = new Set(["/", "/activity", "/profile", "/promotion", "/wallet"]);
 
     const footerDisplay = hiddenFooterPaths.has(location?.pathname)
         ? "hidden"
@@ -22,63 +22,64 @@ const Layout = () => {
 
     const headerDisplay =
         location?.pathname === "/login" ||
-        location?.pathname === "/forgotPassword" ||
-            location?.pathname === "/register"||
-             location?.pathname === "/" ||
-                // location?.pathname === "/lottery/wingo" ||
-                // location?.pathname === "/lottery/trxwingo" ||
-                location?.pathname === "/allgames" ||
-                location?.pathname === "/activity" ||
-                location?.pathname === "/activity/details" ||
-                location?.pathname === "/activity/invitationbonus" ||
-                location?.pathname === "/activity/award" ||
-                location?.pathname === "/activity/invitationbonus/invitationrewardrule" ||
-                location?.pathname === "/activity/invitationbonus/invitationrecord" ||
-                location?.pathname === "/activity/rebate" ||
-                location?.pathname === "/activity/superJackpot" ||
-                location?.pathname === "/activity/gifts" ||
-                location?.pathname === "/activity/attendance" ||
-                location?.pathname === "/activity/attendacehistory" ||
-                location?.pathname === "/activity/gamerule" ||
-                location?.pathname === "/promotion" ||
-                location?.pathname === "/promotion/newSuboridnate" ||
-                location?.pathname === "/promotion/subordinatedata" ||
-                location?.pathname === "/promotion/commissiondetail" ||
-                location?.pathname === "/promotion/invitationrules" ||
-                location?.pathname === "/promotion/rebateratio" ||
-                location?.pathname === "/wallet" ||
-                location?.pathname === "/wallet/transfer" ||
-                location?.pathname === "/wallet/deposit" ||
-                location?.pathname === "/wallet/withdrawal" ||
-                location?.pathname === "/wallet/deposithistory" ||
-                location?.pathname === "/wallet/withdrawalhistory" ||
-                location?.pathname === "/wallet/withdrawal/addbankaccount" ||
-                location?.pathname === "/wallet/withdrawal/editbankaccount" ||
-                location?.pathname === "/wallet/withdrawal/addbankaccount/selectbank" ||
-                location?.pathname === "/wallet/withdrawal/addusdtwalletaddress" ||
-                location?.pathname === "/notifications" ||
-                location?.pathname === "/vip" ||
-                location?.pathname === "/gamehistory" ||
-                location?.pathname === "/alltransactionhistory" ||
-                location?.pathname === "/setting" ||
-                location?.pathname === "/changepassword" ||
-                location?.pathname === "/bindmail" ||
-                location?.pathname === "/feedback" ||
-                location?.pathname === "/customerservices" ||
-                location?.pathname === "/beginnersguide" ||
-                location?.pathname === "/aboutus" ||
-                location?.pathname === "/aboutus/child" ||
-                location?.pathname === "/aboutus/confidential" ||
-                location?.pathname === "/aboutus/risk" ||
-                location?.pathname === "/aboutus/tc" ||
-                location?.pathname === "/aboutus/faqs" ||
-                location?.pathname === "/changeavatar" ||
-                location?.pathname === "/dragonTiger" ||
-                location?.pathname === "/dragonTiger/history" ||
-                location?.pathname === "/andarbahar" ||
-                location?.pathname === "/andarbahar/history"
-                ? "block"
-                : "hidden";
+            location?.pathname === "/forgotPassword" ||
+            location?.pathname === "/register" ||
+            location?.pathname === "/" ||
+            location?.pathname === "/allFirstDepositPlans" ||
+            // location?.pathname === "/lottery/wingo" ||
+            // location?.pathname === "/lottery/trxwingo" ||
+            location?.pathname === "/allgames" ||
+            location?.pathname === "/activity" ||
+            location?.pathname === "/activity/details" ||
+            location?.pathname === "/activity/invitationbonus" ||
+            location?.pathname === "/activity/award" ||
+            location?.pathname === "/activity/invitationbonus/invitationrewardrule" ||
+            location?.pathname === "/activity/invitationbonus/invitationrecord" ||
+            location?.pathname === "/activity/rebate" ||
+            location?.pathname === "/activity/superJackpot" ||
+            location?.pathname === "/activity/gifts" ||
+            location?.pathname === "/activity/attendance" ||
+            location?.pathname === "/activity/attendacehistory" ||
+            location?.pathname === "/activity/gamerule" ||
+            location?.pathname === "/promotion" ||
+            location?.pathname === "/promotion/newSuboridnate" ||
+            location?.pathname === "/promotion/subordinatedata" ||
+            location?.pathname === "/promotion/commissiondetail" ||
+            location?.pathname === "/promotion/invitationrules" ||
+            location?.pathname === "/promotion/rebateratio" ||
+            location?.pathname === "/wallet" ||
+            location?.pathname === "/wallet/transfer" ||
+            location?.pathname === "/wallet/deposit" ||
+            location?.pathname === "/wallet/withdrawal" ||
+            location?.pathname === "/wallet/deposithistory" ||
+            location?.pathname === "/wallet/withdrawalhistory" ||
+            location?.pathname === "/wallet/withdrawal/addbankaccount" ||
+            location?.pathname === "/wallet/withdrawal/editbankaccount" ||
+            location?.pathname === "/wallet/withdrawal/addbankaccount/selectbank" ||
+            location?.pathname === "/wallet/withdrawal/addusdtwalletaddress" ||
+            location?.pathname === "/notifications" ||
+            location?.pathname === "/vip" ||
+            location?.pathname === "/gamehistory" ||
+            location?.pathname === "/alltransactionhistory" ||
+            location?.pathname === "/setting" ||
+            location?.pathname === "/changepassword" ||
+            location?.pathname === "/bindmail" ||
+            location?.pathname === "/feedback" ||
+            location?.pathname === "/customerservices" ||
+            location?.pathname === "/beginnersguide" ||
+            location?.pathname === "/aboutus" ||
+            location?.pathname === "/aboutus/child" ||
+            location?.pathname === "/aboutus/confidential" ||
+            location?.pathname === "/aboutus/risk" ||
+            location?.pathname === "/aboutus/tc" ||
+            location?.pathname === "/aboutus/faqs" ||
+            location?.pathname === "/changeavatar" ||
+            location?.pathname === "/dragonTiger" ||
+            location?.pathname === "/dragonTiger/history" ||
+            location?.pathname === "/andarbahar" ||
+            location?.pathname === "/andarbahar/history"
+            ? "block"
+            : "hidden";
 
     const outletPadding = location?.pathname === "/" ? "pb-5" : "pb-0";
     const handleDrag = (e) => {
@@ -134,7 +135,6 @@ const Layout = () => {
                 </div>
                 <div
                     className={`flex-1 overflow-auto ${headerDisplay === "hidden" ? "mt-0" : "mt-[3.22rem]"} hide-scrollbar  pb-${outletPadding}`}
-                        // } ${location?.pathname === "/" ? "overflow-y-scroll" : ""}  hide-scrollbar pb-${outletPadding}`}
                 >
                     <Outlet />
                 </div>
@@ -145,7 +145,7 @@ const Layout = () => {
                 </div>
                 <div
                     className={`fixed z-50 ${location?.pathname === "/login" ||
-                        location?.pathname === "/register"?"hidden":"block"} `}
+                        location?.pathname === "/register" ? "hidden" : "block"} `}
                     style={{
                         top: `${position.y}px`,
                         left: `${position.x}px`,

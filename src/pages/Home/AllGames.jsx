@@ -6,15 +6,24 @@ import jilli3 from "../../assets/usaAsset/homeScreen/JILLI3.png"
 import jilli4 from "../../assets/usaAsset/homeScreen/JILLI4.png"
 import jilli5 from "../../assets/usaAsset/homeScreen/JILLI5.png"
 import jilli6 from "../../assets/usaAsset/homeScreen/JILLI6.png"
-import { useNavigate } from "react-router-dom";
+import wingoNew from "../../assets/usaAsset/homeScreen/wingonew.jpeg"
+import k3new from "../../assets/usaAsset/homeScreen/k3new.png"
+import new5d from "../../assets/usaAsset/homeScreen/new5d.png"
+import aviatornew from "../../assets/usaAsset/homeScreen/aviatornew.png"
+import minesnew from "../../assets/usaAsset/homeScreen/minesnew.png"
+import trx_colnew from "../../assets/usaAsset/homeScreen/trx_colnew.png"
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 function AllGames() {
-    const [activeModal, setActiveModal] = useState(1);
     const [allGamesListView, setAllGamesListView] = useState(null)
     const userId = localStorage.getItem("userId")
+    const [searchParams] = useSearchParams();
+    const activeModalValue = searchParams.get('activeModalValue');
+    const [activeModal, setActiveModal] = useState(activeModalValue);
+
     const toggleModal = (modalType) => {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     const payMethod = [{
         image: jilli6,
         image1: jilli5,
@@ -35,13 +44,20 @@ function AllGames() {
     }]
 
     useEffect(() => {
-        if (activeModal === 1) {
+        if (activeModal == 1) {
             fetchAllGames(setAllGamesListView);
-        } else if (activeModal === 2) {
+        } else if (activeModal == 2) {
             fetchAllGamesSpribe(setAllGamesListView);
         }
     }, [activeModal]);
-    console.log("allGamesListView", allGamesListView)
+    const LotteryGames = [
+        { id: 1, name: "Win Go", image: wingoNew, route: "/lottery/wingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
+        { id: 2, name: "Trx Win", image: trx_colnew, route: "/lottery/trxwingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
+        { id: 3, name: "K3", image: k3new, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even" },
+        { id: 4, name: "5D", image: new5d, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even" },
+        { id: 5, name: "Aviator", image: aviatornew, route: "/comingsoon", description1: "Fly High", description2: "" },
+        { id: 6, name: "Mines", image: minesnew, route: "/comingsoon", description1: "Choose Boxes", description2: "" },
+    ];
     return (
         <div>
             <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
@@ -52,28 +68,33 @@ function AllGames() {
                                 }  px-3 cursor-pointer`}
                             onClick={() => toggleModal(item?.type)}
                         >
-                            <img className='w-24 h-8 xsm:h-10' src={activeModal === item?.type ? item?.image : item?.image1} alt="UPI Payment" />
+                            <img className='w-24 h-8 xsm:h-10' src={activeModal == item?.type ? item?.image : item?.image1} alt="UPI Payment" />
                             <p className=" font-bold text-nowrap">{item?.name}</p>
                         </div>
                     ))}
                 </div>
             </div>
             <div className="grid grid-cols-3 w-full">
-                {allGamesListView && activeModal === 1 ? (
+                {allGamesListView && activeModal == 1 ? (
                     allGamesListView?.data?.data?.map((item, i) => (
-                        <div onClick={() => fetchGameURL(item?.id, userId,navigate)} key={i} className="flex flex-col items-center text-black p-2">
+                        <div onClick={() => fetchGameURL(item?.id, userId, navigate)} key={i} className="flex flex-col items-center text-black p-2">
                             <img src={item?.img} className="w-36 h-32 rounded-lg" alt="sd" />
                         </div>
                     ))
-                ) : allGamesListView && activeModal === 2 ? (
+                ) : allGamesListView && activeModal == 2 ? (
                     allGamesListView?.data?.message?.data?.map((item, i) => (
-                        <div onClick={() => fetchGameURLSpribe(item?.game_id_long, userId,navigate)} key={i} className="flex flex-col items-center text-black p-2">
+                        <div onClick={() => fetchGameURLSpribe(item?.game_id_long, userId, navigate)} key={i} className="flex flex-col items-center text-black p-2">
                             <img src={item?.game_image} className="w-36 h-32 rounded-lg" alt="sd" />
                         </div>
                     ))
                 ) : (
-                    <div className="flex items-center justify-center text-black text-xl w-full col-span-3">No data</div>
-                )}
+                    LotteryGames?.map((item, i) => (
+                        <Link key={i} to={item?.route} >
+                            <div className="flex flex-col items-center text-black p-2">
+                                <img src={item?.image} className="w-36 h-32 rounded-lg" alt="sd" />
+                            </div>
+                        </Link>
+                    )))}
             </div>
         </div>
     )

@@ -41,7 +41,6 @@ function ChangeAvatar() {
   }
 
   const changeavatarHandler = async (image) => {
-
     const payload = {
       id: userId,
       image
@@ -52,7 +51,7 @@ function ChangeAvatar() {
         toast.success("Avatar changes successfully")
         navigate("/setting")
       }
-      console.log("res", res)
+      // console.log("res", res)
     } catch (err) {
       console.log("er", err)
     }

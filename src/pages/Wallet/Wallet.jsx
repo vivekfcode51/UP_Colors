@@ -9,9 +9,11 @@ import { toast } from "react-toastify";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import apis from '../../utils/apis'
+import FirstDepositModal from "../../reusable_component/FirstDepositModal";
 const profileApi = apis.profile
 
 const Wallet = () => {
+  const [firstDepsoitModal, setFirstDepsoitModal] = useState(localStorage.getItem("firstDepositModalValue") === "1");
   const [myDetails, setMyDetails] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const [timer, setTimer] = useState(5);
@@ -102,88 +104,108 @@ const Wallet = () => {
       (myDetails.data.wallet + myDetails?.data?.third_party_wallet);
   }, [myDetails]);
 
-  const array = [{ game: "Lottery", amount: myDetails?.data?.wallet }, { game: "JILI", amount: myDetails?.data?.third_party_wallet}, { game: "EVO_Video", amount: myDetails?.data?.third_party_wallet}, { game: "TV_Chess", amount: myDetails?.data?.third_party_wallet}, { game: "Wickets9", amount: myDetails?.data?.third_party_wallet}, { game: "JDB", amount: myDetails?.data?.third_party_wallet}, { game: "DG", amount: myDetails?.data?.third_party_wallet}, { game: "CMD", amount: myDetails?.data?.third_party_wallet}, { game: "CQ9", amount: myDetails?.data?.third_party_wallet}, { game: "MG", amount: myDetails?.data?.third_party_wallet}, { game: "SaBa", amount: myDetails?.data?.third_party_wallet}, { game: "TB", amount: myDetails?.data?.third_party_wallet}, { game: "PG", amount: myDetails?.data?.third_party_wallet}, { game: "AG_Video", amount: myDetails?.data?.third_party_wallet}, { game: "Card365", amount: myDetails?.data?.third_party_wallet}, { game: "V8Card", amount: myDetails?.data?.third_party_wallet}]
+  const array = [{ game: "Lottery", amount: myDetails?.data?.wallet }, { game: "JILI", amount: myDetails?.data?.third_party_wallet }, { game: "EVO_Video", amount: myDetails?.data?.third_party_wallet }, { game: "TV_Chess", amount: myDetails?.data?.third_party_wallet }, { game: "Wickets9", amount: myDetails?.data?.third_party_wallet }, { game: "JDB", amount: myDetails?.data?.third_party_wallet }, { game: "DG", amount: myDetails?.data?.third_party_wallet }, { game: "CMD", amount: myDetails?.data?.third_party_wallet }, { game: "CQ9", amount: myDetails?.data?.third_party_wallet }, { game: "MG", amount: myDetails?.data?.third_party_wallet }, { game: "SaBa", amount: myDetails?.data?.third_party_wallet }, { game: "TB", amount: myDetails?.data?.third_party_wallet }, { game: "PG", amount: myDetails?.data?.third_party_wallet }, { game: "AG_Video", amount: myDetails?.data?.third_party_wallet }, { game: "Card365", amount: myDetails?.data?.third_party_wallet }, { game: "V8Card", amount: myDetails?.data?.third_party_wallet }]
+
+  useEffect(() => {
+    const status = localStorage.getItem("firstDepositModalValue");
+    if (status === "0") {
+      setFirstDepsoitModal(true);
+    } else {
+      setFirstDepsoitModal(false);
+    }
+  }, [])
   return (
-    <div className="min-h-screen text-lightGray bg-inputBg flex font-inter flex-col items-center">
-      <div className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] flex flex-col justify-center items-center  text-white w-full px-6 pb-4 text-center shadow-md">
-        <img className="h-12 w-12" src={wallets} alt="cx" />
-        <p className="text-2xl font- mt-2">₹ {myDetails ? Number(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"}</p>
-        <p className="text-xsm mt-1">Total Balance</p>
-      </div>
-      <div className="bg-white shadow-md rounded-lg px-2 pt-5 pb-20 mt-2 w-full">
-        <div className="flex w-full text-black">
-          <div className="flex w-[50%] flex-col justify-center items-center">
-            <CircularIndicator percentage={mainWalletPercentage} />
+    <>
+      {firstDepsoitModal && (
+        <div className="relative z-50 font-roboto">
+          <FirstDepositModal
+            firstDepsoitModal={firstDepsoitModal}
+            setFirstDepsoitModal={setFirstDepsoitModal}
+            onClose={() => setFirstDepsoitModal(false)}
+          /></div>
+      )}
 
-            <p className="mt-2 ">₹ {myDetails ? Number(myDetails?.data?.wallet).toFixed(2) : "0.00"}</p>
-            <p className="text-gray text-xsm">Main wallet</p>
-          </div>
-          <div className="flex w-[50%] flex-col justify-center items-center">
-            <CircularIndicator percentage={thirdPartyWalletPercentage} />
-            <p className="mt-2 ">₹ {myDetails ? Number(myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"}</p>
-            <p className="text-gray text-xsm">Third party wallet</p>
-          </div>
+      <div className="min-h-screen text-lightGray bg-inputBg flex font-inter flex-col items-center">
+        <div className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] flex flex-col justify-center items-center  text-white w-full px-6 pb-4 text-center shadow-md">
+          <img className="h-12 w-12" src={wallets} alt="cx" />
+          <p className="text-2xl font- mt-2">₹ {myDetails ? Number(myDetails?.data?.wallet + myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"}</p>
+          <p className="text-xsm mt-1">Total Balance</p>
         </div>
-        <button onClick={fundTransferHandler} className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-sm text-white w-full py-2 mt-4 rounded-full outline-none font-semibold">
-          {showModal ? `Recalling ${timer}...` : "Main wallet transfer"}
-        </button>
-        <div className="grid grid-cols-4 gap-4 mt-6 max-w-md">
-          <button className="">
-            <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/deposit"  >
-              <img
-                src={depositIcon}
-                alt="Deposit"
-                className="w-16 h-16"
-              />
-              <p className="text-xs mt-2">Deposit</p>
-            </Link>
-          </button>
-          <button className="">
-            <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/withdrawal"  >
-              <img
-                src={withdraw}
-                alt="Withdrawal"
-                className="w-16 h-16"
-              />
-              <p className="text-xs mt-2">Withdraw</p>
-            </Link>
-          </button>
-          <button className="" >
-            <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/deposithistory"  >
-              <img
-                src={rechargeHistory}
-                alt="Deposit History"
-                className="w-16 h-16"
-              />
-              <p className="text-xs mt-2">Deposit history</p>
-            </Link>
-          </button>
-          <button className="" >
-            <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/withdrawalhistory"  >
-              <img
-                src={withdrawHistory}
-                alt="Withdrawal History"
-                className="w-16 h-16"
-              />
-              <p className="text-xs mt-2">Withdrawal history</p>
-            </Link>
-          </button>
-        </div>
+        <div className="bg-white shadow-md rounded-lg px-2 pt-5 pb-20 mt-2 w-full">
+          <div className="flex w-full text-black">
+            <div className="flex w-[50%] flex-col justify-center items-center">
+              <CircularIndicator percentage={mainWalletPercentage} />
 
-      </div>
-      <div className="w-full grid grid-cols-3 pl-4 mt-2 mb-20">
-        {array?.map((item, i) => (
-          <div
-            key={i}
-            className={`col-span-1 mb-2 w-28 h-20 rounded-md flex flex-col items-center text-xsm justify-evenly ${i === 0 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white"
-              } shadow-md text-lightGray`}
-          >
-            <p>₹ {item?.amount}</p>
-            <p>{item?.game}</p>
+              <p className="mt-2 ">₹ {myDetails ? Number(myDetails?.data?.wallet).toFixed(2) : "0.00"}</p>
+              <p className="text-gray text-xsm">Main wallet</p>
+            </div>
+            <div className="flex w-[50%] flex-col justify-center items-center">
+              <CircularIndicator percentage={thirdPartyWalletPercentage} />
+              <p className="mt-2 ">₹ {myDetails ? Number(myDetails?.data?.third_party_wallet).toFixed(2) : "0.00"}</p>
+              <p className="text-gray text-xsm">Third party wallet</p>
+            </div>
           </div>
-        ))}
+          <button onClick={fundTransferHandler} className="bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-sm text-white w-full py-2 mt-4 rounded-full outline-none font-semibold">
+            {showModal ? `Recalling ${timer}...` : "Main wallet transfer"}
+          </button>
+          <div className="grid grid-cols-4 gap-4 mt-6 max-w-md">
+            <button className="">
+              <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/deposit"  >
+                <img
+                  src={depositIcon}
+                  alt="Deposit"
+                  className="w-16 h-16"
+                />
+                <p className="text-xs mt-2">Deposit</p>
+              </Link>
+            </button>
+            <button className="">
+              <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/withdrawal"  >
+                <img
+                  src={withdraw}
+                  alt="Withdrawal"
+                  className="w-16 h-16"
+                />
+                <p className="text-xs mt-2">Withdraw</p>
+              </Link>
+            </button>
+            <button className="" >
+              <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/deposithistory"  >
+                <img
+                  src={rechargeHistory}
+                  alt="Deposit History"
+                  className="w-16 h-16"
+                />
+                <p className="text-xs mt-2">Deposit history</p>
+              </Link>
+            </button>
+            <button className="" >
+              <Link className=" rounded-lg flex flex-col justify-start h-20 items-center" to="/wallet/withdrawalhistory"  >
+                <img
+                  src={withdrawHistory}
+                  alt="Withdrawal History"
+                  className="w-16 h-16"
+                />
+                <p className="text-xs mt-2">Withdrawal history</p>
+              </Link>
+            </button>
+          </div>
+
+        </div>
+        <div className="w-full grid grid-cols-3 pl-4 mt-2 mb-20">
+          {array?.map((item, i) => (
+            <div
+              key={i}
+              className={`col-span-1 mb-2 w-28 h-20 rounded-md flex flex-col items-center text-xsm justify-evenly ${i === 0 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white"
+                } shadow-md text-lightGray`}
+            >
+              <p>₹ {item?.amount}</p>
+              <p>{item?.game}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

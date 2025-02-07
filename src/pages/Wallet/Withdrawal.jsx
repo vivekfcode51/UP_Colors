@@ -9,7 +9,9 @@ import apis from '../../utils/apis'
 import { toast } from 'react-toastify';
 import usdt_icon from '../../assets/images/usdt_icon.png';
 import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+import Loader from '../../reusable_component/Loader/Loader';
 function Withdrawal() {
+    const [loading, setloading] = useState(false);
     const [amountError, setAmountError] = useState("");
     const [amountErrorUSDT, setAmountErrorUSDT] = useState("");
     const [paymenLimts, setPaymenLimts] = useState({})
@@ -17,7 +19,7 @@ function Withdrawal() {
     const [upiAmountKuber, setUpiAmountKuber] = useState(10000);
     const [usdtAmount, setUsdtAmount] = useState(10)
     const [activeModal, setActiveModal] = useState(0);
-    const [payModesList, setPayModesList] = useState(0);
+    // const [payModesList, setPayModesList] = useState(0);
     const [viewAccountDetails, setViewAccountDetails] = useState(null)
     const [viewAccountDetailsUSDT, setViewAccountDetailsUSDT] = useState(null)
     const [myDetails, setMyDetails] = useState(null)
@@ -44,12 +46,12 @@ function Withdrawal() {
         if (activeModal == 2) {
             minAmount = paymenLimts?.USDT_minimum_withdraw;
             maxAmount = paymenLimts?.USDT_maximum_withdraw;
-        } else if (activeModal == 1) {
-            minAmount = paymenLimts?.kuber_pay_minimum_withdraw
-            maxAmount = paymenLimts?.kuber_pay_maximum_withdraw
+            // } else if (activeModal == 1) {
+            //     minAmount = paymenLimts?.kuber_pay_minimum_withdraw
+            //     maxAmount = paymenLimts?.kuber_pay_maximum_withdraw
         } else {
-            minAmount = paymenLimts?.indin_pay_minimum_withdraw;
-            maxAmount = paymenLimts?.indin_pay_maximum_withdraw;
+            minAmount = paymenLimts?.INR_minimum_withdraw;
+            maxAmount = paymenLimts?.INR_maximum_withdraw;
         }
         amount = Number(amount);
         if (isNaN(amount) || amount < minAmount || amount > maxAmount) {
@@ -81,7 +83,7 @@ function Withdrawal() {
                 setViewAccountDetails(res?.data?.data)
             }
         } catch (err) {
-            toast.error(err)
+            console.log(err)
         }
     }
     const accountViewUSDT = async () => {
@@ -118,18 +120,8 @@ function Withdrawal() {
             toast.error(err);
         }
     };
-    const getPayModes = async () => {
-        try {
-            const res = await axios.get(apis.payModes)
-            if (res?.data?.status == 200) {
-                setPayModesList(res?.data?.data)
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
+
     useEffect(() => {
-        getPayModes()
         getPaymentLimits()
     }, [])
     useEffect(() => {
@@ -141,43 +133,49 @@ function Withdrawal() {
     }, [userId]);
 
     const payoutWithdrawHandler = async () => {
+        setloading(true)
         if (!userId && !viewAccountDetails[0]?.id) {
             toast.error("User not logged in");
             navigate("/login");
             return;
         }
+
         const payload = {
             user_id: userId,
             account_id: viewAccountDetails[0]?.id,
             type: activeModal,
-            amount: activeModal == 0 ? upiAmount : activeModal == 1 ? upiAmountKuber : activeModal == 2 ? usdtAmount : null
+            amount: activeModal == 0 ? upiAmount : activeModal == 2 ? usdtAmount : null
         }
-        console.log("payload", payload)
+        // console.log("payload", payload)
         try {
             const res = await axios.post(apis?.payout_withdraw, payload)
-            console.log(res)
+            // console.log(res )
             if (res?.data?.status === 200) {
+                setloading(false)
                 toast.success(res?.data?.message)
             } else {
-                toast.error(res?.data?.message)
+                toast.error(res?.response?.data?.message)
             }
         } catch (err) {
-            toast.error(err)
+            // console.log(err)
+            setloading(false)
+            toast.error(err?.response?.data?.message)
         }
     }
-console.log("cricket match",myDetails)
-        const payMethod = [{
-            image: bank_card,
-            name: "Bank card",
-            type: 0
-        },
-        {
-            image: usdt_icon,
-            name: "USDT",
-            type: 2
-        }]
+    // console.log("cricket match",myDetails)
+    const payMethod = [{
+        image: bank_card,
+        name: "Bank card",
+        type: 0
+    },
+    {
+        image: usdt_icon,
+        name: "USDT",
+        type: 2
+    }]
     return (
         <div className='px-3 h-full bg-white'>
+            {loading == true && <Loader setloading={setloading} loading={loading} />}
             <div className='h-40 w-full object-fill bg-no-repeat  rounded-lg p-2'
                 style={{
                     backgroundImage: `url(${withdrawBg})`,
@@ -216,6 +214,7 @@ console.log("cricket match",myDetails)
                             <div>
                                 <div className='text-gray text-xs border-b-[1px] border-dotted py-2'>
                                     <p className='text-gray'> <b>Bank name:</b>&nbsp;<span className='text-lightGray'>{viewAccountDetails[0]?.bank_name}</span>  </p>
+                                    <p className='text-gray'> <b>Branch name:</b>&nbsp;<span className='text-lightGray'>{viewAccountDetails[0]?.branch_name}</span>  </p>
                                     <p> <b>Recipient&apos;s Name:</b> &nbsp;<span className='text-lightGray'>{viewAccountDetails[0]?.name}</span>  </p>
                                     <p> <b>Account Number:</b> &nbsp; <span className='text-lightGray'>{viewAccountDetails[0]?.account_num}</span>  </p>
                                     <p> <b>IFSC:</b> &nbsp; <span className='text-lightGray'>{viewAccountDetails[0]?.ifsc_code}</span>  </p>
@@ -251,7 +250,7 @@ console.log("cricket match",myDetails)
                                 />
                             </div>
                         </div>
-                        <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${upiAmount >= paymenLimts?.indin_pay_minimum_withdraw ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
+                        <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${upiAmount >= paymenLimts?.INR_minimum_withdraw ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
                             Withdraw
                         </button>
 
@@ -271,7 +270,7 @@ console.log("cricket match",myDetails)
                                 </li>
                                 <li className="flex items-start mt-2">
                                     <span className="text-redLight  mr-2">◆</span>
-                                    Withdrawal amount range  <p className='text-redLight'>&nbsp;₹{paymenLimts?.indin_pay_minimum_withdraw?.toFixed(2)} - ₹{paymenLimts?.indin_pay_maximum_withdraw?.toFixed(2)}&nbsp;</p>
+                                    Withdrawal amount range  <p className='text-redLight'>&nbsp;₹{paymenLimts?.INR_minimum_withdraw?.toFixed(2)} - ₹{paymenLimts?.INR_maximum_withdraw?.toFixed(2)}&nbsp;</p>
                                 </li>
                                 <li className="flex items-start mt-2">
                                     <span className="text-redLight  mr-2">◆</span>

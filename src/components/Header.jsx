@@ -14,9 +14,7 @@ import musichead from "../assets/usaAsset/wingo/musicHead.png"
 import voiceoff from "../assets/usaAsset/wingo/voice-off.png"
 import downloadButton from "../assets/usaAsset/downloadButton.png"
 import engFlag from "../assets/usaAsset/engFlag.png"
-import { useState } from "react";
 function Header({ audioRef, isAudioOn, setIsAudioOn }) {
-  const [isMuted, setIsMuted] = useState(true);
   const location = useLocation();
   const userId = localStorage.getItem('userId');
   const toggleAudio = () => {
@@ -51,14 +49,14 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
       </div>
         : location?.pathname === "/activity" ? <div className="w-full h-[3.22rem] bg-gradient-to-r from-[#f95959] to-[#ff9a8e] flex items-center justify-center"><img className='w-24 h-9' src={usawinlogo} alt="logo not found" /></div>
           : location?.pathname === "/activity/invitationbonus" ? <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem] flex items-center justify-between'>
-            <Link to="/activity" >
+            <Link to={-1} >
               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
             </Link>
             <p className='text-sm'>Invitation bonus</p>
             <div></div>
           </div>
             : location?.pathname === "/activity/details" ? <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem] flex items-center justify-between'>
-              <Link to="/activity" >
+              <Link to={-1} >
                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
               </Link>
               <p className='text-sm'>Activity Details</p>
@@ -66,7 +64,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
             </div>
               : location?.pathname === "/activity/award" ? <header className='h-[3.22rem] bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3'>
                 <div className='flex items-center justify-between'>
-                  <Link to="/activity" >
+                  <Link to={-1} >
                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                   </Link>
                   <Link to="/activity/award/collectionrecord" className='flex items-center'>
@@ -77,28 +75,35 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
 
               </header>
                 : location?.pathname === "/activity/invitationbonus/invitationrewardrule" ? <div className='bg-white h-[3.22rem] flex items-center justify-between '>
-                  <Link to="/activity/invitationbonus" >
+                  <Link to={-1} >
                     <MdKeyboardArrowLeft className="text-3xl text-gray" />
                   </Link>
                   <p className='text-sm text-black'>Invitation reward rules</p>
                   <div></div>
                 </div>
+                : location?.pathname === "/allFirstDepositPlans" ? <div className='bg-white h-[3.22rem] flex items-center justify-between '>
+                  <Link to={-1} >
+                    <MdKeyboardArrowLeft className="text-3xl text-gray" />
+                  </Link>
+                  <p className='text-sm text-black'>First deposit bonus</p>
+                  <div></div>
+                </div>
                   : location?.pathname === "/activity/invitationbonus/invitationrecord" ? <div className='bg-white h-[3.22rem] flex items-center justify-between text-gray'>
-                    <Link to="/activity/invitationbonus" >
+                    <Link to={-1} >
                       <MdKeyboardArrowLeft className="font-extrabold text-4xl" />
                     </Link>
                     <p className='text-sm'>Invitation record</p>
                     <div></div>
                   </div>
                     : location?.pathname === "/activity/rebate" ? <div className='flex items-center justify-between text-black bg-white h-[3.22rem]'>
-                      <Link to="/activity" >
+                      <Link to={-1} >
                         <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                       </Link>
                       <p className='text-sm'>Rebate</p>
                       <div></div>
                     </div>
                       : location?.pathname === "/activity/superJackpot" ? <div className='flex items-center justify-between text-black bg-white h-[3.22rem]'>
-                        <Link to="/activity" >
+                        <Link to={-1} >
                           <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                         </Link>
                         <p className='text-sm'>Super Jackpot</p>
@@ -106,7 +111,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                       </div>
                         : location?.pathname === "/activity/gifts" ? <header className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3'>
                           <div className='flex items-center justify-between'>
-                            <Link to="/activity" >
+                            <Link to={-1} >
                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                             </Link>
                             <p className='text-sm'>Gift</p>
@@ -117,21 +122,21 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                           </div>
                         </header>
                           : location?.pathname === "/activity/attendance" ? <div className='flex  items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                            <Link to="/activity" >
+                            <Link to={-1} >
                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                             </Link>
                             <p className='text-sm'>Attendance</p>
                             <div></div>
                           </div>
                             : location?.pathname === "/activity/gamerule" ? <div className='flex  items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                              <Link to="/activity/attendance" >
+                              <Link to={-1} >
                                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                               </Link>
                               <p className='text-sm'>Game Rules</p>
                               <div></div>
                             </div>
                               : location?.pathname === "/activity/attendacehistory" ? <div className='flex  items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                <Link to="/activity/attendance" >
+                                <Link to={-1} >
                                   <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                 </Link>
                                 <p className='text-sm'>Attendance History</p>
@@ -145,35 +150,35 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                   </Link>
                                 </div>
                                   : location?.pathname === "/promotion/newSuboridnate" ? <div className='px-3 flex items-center justify-between text-black bg-white h-[3.22rem]'>
-                                    <Link to="/promotion" >
+                                    <Link to={-1} >
                                       <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                     </Link>
                                     <p className='text-sm'>New subordinates</p>
                                     <div></div>
                                   </div>
                                     : location?.pathname === "/promotion/subordinatedata" ? <div className='px-3 flex items-center justify-between text-black bg-white h-[3.22rem]'>
-                                      <Link to="/promotion" >
+                                      <Link to={-1} >
                                         <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                       </Link>
                                       <p className='text-sm'>Subordinate data</p>
                                       <div>  </div>
                                     </div>
                                       : location?.pathname === "/promotion/commissiondetail" ? <div className='px-3 flex items-center justify-between text-black bg-white h-[3.22rem]'>
-                                        <Link to="/promotion" >
+                                        <Link to={-1} >
                                           <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                         </Link>
                                         <p className='text-sm'>Commission details</p>
                                         <div>  </div>
                                       </div>
                                         : location?.pathname === "/promotion/invitationrules" ? <div className='px-3 flex items-center justify-between text-black bg-white h-[3.22rem]'>
-                                          <Link to="/promotion" >
+                                          <Link to={-1} >
                                             <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                           </Link>
                                           <p className='text-sm'>Rules</p>
                                           <div>  </div>
                                         </div>
                                           : location?.pathname === "/promotion/rebateratio" ? <div className='px-3 flex items-center justify-between text-black bg-white h-[3.22rem]'>
-                                            <Link to="/promotion" >
+                                            <Link to={-1} >
                                               <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                             </Link>
                                             <p className='text-sm'>Rebate ratio</p>
@@ -184,182 +189,182 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                               <div></div>
                                             </div>
                                             : location?.pathname === "/allgames" ? <div className='flex items-center justify-between bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[3.22rem]'>
-                                              <Link to="/" >
+                                              <Link to={-1} >
                                               <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                             </Link>
                                               <p className='text-sm'>All Games</p>
                                               <div></div>
                                             </div>
                                               : location?.pathname === "/wallet/deposit" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
-                                                <Link to="/wallet" >
+                                                <Link to={-1} >
                                                   <MdKeyboardArrowLeft className="font-extrabold text-3xl text-gray" />
                                                 </Link>
                                                 <p className='text-sm'>Deposit</p>
                                                 <Link to="wallet/deposithistory" className='text-xsm'>Deposit History</Link>
                                               </div>
                                                 : location?.pathname === "/wallet/withdrawal" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
-                                                  <Link to="/wallet" >
+                                                  <Link to={-1} >
                                                     <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                                   </Link>
                                                   <p className='text-sm'>Withdraw</p>
                                                   <Link to="wallet/withdrawalhistory" className='text-xs'>Withdrawal History</Link>
                                                 </div>
                                                   : location?.pathname === "/wallet/deposithistory" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
-                                                    <Link to="/wallet/deposit" >
+                                                    <Link to={-1} >
                                                       <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                                     </Link>
                                                     <p className='text-sm'>Deposit History</p>
                                                     <p className='text-xs'></p>
                                                   </div>
                                                     : location?.pathname === "/wallet/withdrawalhistory" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
-                                                      <Link to="/wallet/withdrawal" >
+                                                      <Link to={-1} >
                                                         <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                                       </Link>
                                                       <p className='text-sm'>Withdraw History</p>
                                                       <p className='text-xs'></p>
                                                     </div>
                                                       : location?.pathname === "/wallet/withdrawal/addbankaccount" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
-                                                        <Link to="/wallet/withdrawal" >
+                                                        <Link to={-1} >
                                                           <MdKeyboardArrowLeft className="text-3xl" />
                                                         </Link>
                                                         <p className='text-sm'>Add a bank account number</p>
                                                         <p className='text-xs'></p>
                                                       </div>
                                                         : location?.pathname === "/wallet/withdrawal/editbankaccount" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
-                                                          <Link to="/wallet/withdrawal" >
+                                                          <Link to={-1} >
                                                             <MdKeyboardArrowLeft className="text-3xl" />
                                                           </Link>
                                                           <p className='text-sm'>Edit bank account details</p>
                                                           <p className='text-xs'></p>
                                                         </div>
                                                           : location?.pathname === "/wallet/withdrawal/addbankaccount/selectbank" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
-                                                            <Link to="/wallet/withdrawal/addbankaccount" >
+                                                            <Link to={-1} >
                                                               <MdKeyboardArrowLeft className="text-3xl" />
                                                             </Link>
                                                             <p className='text-sm'>Choose a bank</p>
                                                             <p className='text-xs'></p>
                                                           </div>
                                                             : location?.pathname === "/wallet/withdrawal/addusdtwalletaddress" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
-                                                              <Link to="/wallet/withdrawal" >
+                                                              <Link to={-1} >
                                                                 <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                                               </Link>
                                                               <p className='text-sm'>Add USDT address</p>
                                                               <p className='text-xs'></p>
                                                             </div>
                                                               : location?.pathname === "/notifications" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                <Link to="/profile" >
+                                                                <Link to={-1} >
                                                                   <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                 </Link>
                                                                 <p className='text-sm'>Notification</p>
                                                                 <p className='text-xs'></p>
                                                               </div>
                                                                 : location?.pathname === "/vip" ? <div className='flex px-2 items-center justify-between bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                  <Link to="/profile" >
+                                                                  <Link to={-1} >
                                                                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                   </Link>
                                                                   <p className='text-sm'>VIP</p>
                                                                   <p className='text-xs'></p>
                                                                 </div>
                                                                   : location?.pathname === "/gamehistory" ? <div className='flex px-2 items-center justify-between bg-white text-gray h-[3.22rem]'>
-                                                                    <Link to="/profile" >
+                                                                    <Link to={-1} >
                                                                       <MdKeyboardArrowLeft className="font-extrabold text-3xl text-gray" />
                                                                     </Link>
                                                                     <p className='text-sm'>Game statistics</p>
                                                                     <p className='text-xs'></p>
                                                                   </div>
                                                                     : location?.pathname === "/alltransactionhistory" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                      <Link to="/profile" >
+                                                                      <Link to={-1} >
                                                                         <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                       </Link>
                                                                       <p className='text-sm'>Transaction History</p>
                                                                       <p className='text-xs'></p>
                                                                     </div>
                                                                       : location?.pathname === "/setting" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[3.22rem]'>
-                                                                        <Link to="/profile" >
+                                                                        <Link to={-1} >
                                                                           <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                         </Link>
                                                                         <p className='text-sm'>Settings Center</p>
                                                                         <p className='text-xs'></p>
                                                                       </div>
                                                                         : location?.pathname === "/changepassword" ? <div className='flex px-2 items-center justify-between bg-white text-black h-[3.22rem]'>
-                                                                          <Link to="/setting" >
+                                                                          <Link to={-1} >
                                                                             <MdKeyboardArrowLeft className="font-extrabold text-3xl text-gray" />
                                                                           </Link>
                                                                           <p className='text-sm'>Change login Password</p>
                                                                           <p className='text-xs'></p>
                                                                         </div>
                                                                           : location?.pathname === "/bindmail" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                            <Link to="/setting" >
+                                                                            <Link to={-1} >
                                                                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                             </Link>
                                                                             <p className='text-sm'>Bind Mailbox</p>
                                                                             <p className='text-xs'></p>
                                                                           </div>
                                                                             : location?.pathname === "/feedback" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                              <Link to="/profile" >
+                                                                              <Link to={-1} >
                                                                                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                               </Link>
                                                                               <p className='text-sm'>Feedback</p>
                                                                               <p className='text-xs'></p>
                                                                             </div>
                                                                               : location?.pathname === "/customerservices" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                <Link to="/profile" >
+                                                                                <Link to={-1} >
                                                                                   <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                 </Link>
                                                                                 <p className='text-sm'>Customer Service</p>
                                                                                 <p className='text-xs'></p>
                                                                               </div>
                                                                                 : location?.pathname === "/beginnersguide" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                  <Link to="/profile" >
+                                                                                  <Link to={-1} >
                                                                                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                   </Link>
                                                                                   <p className='text-sm'>Beginners Guide</p>
                                                                                   <p className='text-xs'></p>
                                                                                 </div>
                                                                                   : location?.pathname === "/aboutus" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                    <Link to="/profile" >
+                                                                                    <Link to={-1} >
                                                                                       <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                     </Link>
                                                                                     <p className='text-sm'>About Us</p>
                                                                                     <p className='text-xs'></p>
                                                                                   </div>
                                                                                     : location?.pathname === "/aboutus/child" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                      <Link to="/aboutus" >
+                                                                                      <Link to={-1} >
                                                                                         <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                       </Link>
                                                                                       <p className='text-sm'>About Us</p>
                                                                                       <p className='text-xs'></p>
                                                                                     </div>
                                                                                       : location?.pathname === "/aboutus/confidential" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                        <Link to="/aboutus" >
+                                                                                        <Link to={-1} >
                                                                                           <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                         </Link>
                                                                                         <p className='text-sm'>Confidentiality Agreement</p>
                                                                                         <p className='text-xs'></p>
                                                                                       </div>
                                                                                         : location?.pathname === "/aboutus/risk" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                          <Link to="/aboutus" >
+                                                                                          <Link to={-1} >
                                                                                             <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                           </Link>
                                                                                           <p className='text-sm'>Risk Disclosure Agreement</p>
                                                                                           <p className='text-xs'></p>
                                                                                         </div>
                                                                                           : location?.pathname === "/aboutus/tc" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                            <Link to="/aboutus" >
+                                                                                            <Link to={-1} >
                                                                                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                             </Link>
                                                                                             <p className='text-sm'>Terms & Condition</p>
                                                                                             <p className='text-xs'></p>
                                                                                           </div>
                                                                                             : location?.pathname === "/aboutus/faqs" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                              <Link to="/aboutus" >
+                                                                                              <Link to={-1} >
                                                                                                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                               </Link>
                                                                                               <p className='text-sm'>TirangaWin FAQs</p>
                                                                                               <p className='text-xs'></p>
                                                                                             </div>
                                                                                               : location?.pathname === "/changeavatar" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                                <Link to="/setting" >
+                                                                                                <Link to={-1} >
                                                                                                   <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                 </Link>
                                                                                                 <p className='text-sm'>Change Avatar</p>
@@ -368,7 +373,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                 </Link>
                                                                                               </div>
                                                                                                 : location?.pathname === "/dragonTiger" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                                  <Link to="/" >
+                                                                                                  <Link to={-1} >
                                                                                                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                   </Link>
                                                                                                   <p className='text-sm'>Dragon Tiger</p>
@@ -377,7 +382,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                   </Link>
                                                                                                 </div>
                                                                                                   : location?.pathname === "/dragonTiger/history" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                                    <Link to="/dragonTiger" >
+                                                                                                    <Link to={-1} >
                                                                                                       <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                     </Link>
                                                                                                     <p className='text-sm'>Dragon Tiger</p>
@@ -385,7 +390,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
 
                                                                                                   </div>
                                                                                                     : location?.pathname === "/andarbahar" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                                      <Link to="/" >
+                                                                                                      <Link to={-1} >
                                                                                                         <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                       </Link>
                                                                                                       <p className='text-sm'>Andar Bahar</p>
@@ -394,7 +399,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                       </Link>
                                                                                                     </div>
                                                                                                       : location?.pathname === "/andarbahar/history" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
-                                                                                                        <Link to="/andarbahar" >
+                                                                                                        <Link to={-1} >
                                                                                                           <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                         </Link>
                                                                                                         <p className='text-sm'>Andar Bahar</p>
@@ -402,7 +407,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
 
                                                                                                       </div>
                                                                                                         : location?.pathname === "/register" || location?.pathname === "/login" ? <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3 pt-2 sm:pt-2 md:pt-2 pb-2 sm:pb-1 md:pb-2 flex justify-between items-center'>
-                                                                                                          <Link to="/" >
+                                                                                                          <Link to={-1}>
                                                                                                             <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                           </Link>
                                                                                                           <img className='w-24 h-8' src={usawinlogo} alt="logo not found" />
@@ -410,12 +415,12 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
 
                                                                                                         </div>
                                                                                                           : location?.pathname === "/forgotPassword" ? <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3 pt-2 sm:pt-2 md:pt-2 pb-2 sm:pb-1 md:pb-2 flex justify-between items-center'>
-                                                                                                            <Link to="/login" >
+                                                                                                            <Link to={-1} >
                                                                                                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                             </Link>
                                                                                                           </div>
                                                                                                             : location?.pathname === "/wallet/transfer" ? <div className='text-white bg-gradient-to-r from-[#A8ECF3] to-[#C8F1F4] px-3 pt-2 sm:pt-2 md:pt-2 pb-2 sm:pb-1 md:pb-2 flex justify-between items-center'>
-                                                                                                              <Link to="/wallet" >
+                                                                                                              <Link to={-1} >
                                                                                                                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                               </Link>
                                                                                                               <p>Fund Transfer</p>

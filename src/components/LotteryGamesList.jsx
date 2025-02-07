@@ -38,7 +38,7 @@ function LotteryGamesList() {
                 </Link>
             ))}
             <div className="w-full mt-2 font-bold flex items-center justify-center">
-                <Link className="border-[1px] flex items-center justify-center w-full border-bg2 text-red p-2 rounded-full gap-2" to="/allgames">
+            <Link className="border-[1px] flex items-center justify-center w-full border-bg2 text-red p-2 rounded-full gap-2" to={`/allgames?activeModalValue=${0}`}>
                     <button  className="flex items-center">
                         <img className="w-7 h-7" src={viewall} alt="ds" />
                         <p className="text-xsm">View All</p>

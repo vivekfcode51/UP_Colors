@@ -1,137 +1,200 @@
-import account_yellow from "../../assets/usaAsset/wallet/person.png"
-import bank from "../../assets/usaAsset/wallet/bank.svg"
-import ifsc_code from "../../assets/usaAsset/wallet/ifsc.png"
-import acc_number from "../../assets/usaAsset/wallet/acc_number.png"
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import apis from '../../utils/apis'
-import { useState } from "react";
-import exclamation from "../../assets/usaAsset/account/exclamation.png"
+import apis from "../../utils/apis";
+import account_yellow from "../../assets/usaAsset/wallet/person.png";
+import bank from "../../assets/usaAsset/wallet/bank.svg";
+import ifsc_code from "../../assets/usaAsset/wallet/ifsc.png";
+import acc_number from "../../assets/usaAsset/wallet/acc_number.png";
+import exclamation from "../../assets/usaAsset/account/exclamation.png";
+import { useEffect, useState } from "react";
+
+const validationSchema = yup.object().shape({
+    name: yup.string().required("Full name is required"),
+    account_number: yup
+        .string()
+        .matches(/^\d{9,18}$/, "Account number must be 9-18 digits")
+        .required("Account number is required"),
+    bank_name: yup.string().required("Bank name is required"),
+    ifsc_code: yup
+        .string()
+        .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Invalid IFSC code format")
+        .required("IFSC code is required"),
+    branch_name: yup.string().required("Branch name is required"),
+});
+
 const AddBankAccountDetails = () => {
     const navigate = useNavigate();
-    const [details, setDetails] = useState(
-        {
-            userid: "",
-            name: "",
-            account_number: "",
-            bank_name: "",
-            ifsc_code: ""
-        }
-    )
     const userId = localStorage.getItem("userId");
-    const addAccountdetailsHandler = async () => {
+    const [ifsc, setIfsc] = useState("");
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        formState: { errors, isValid },
+    } = useForm({
+        resolver: yupResolver(validationSchema),
+        mode: "onChange",
+    });
+
+    const addAccountdetailsHandler = async (data) => {
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
             return;
         }
-        const payload = {
-            userid: userId,
-            bank_name: details?.bank_name,
-            name: details?.name,
-            account_number: details?.account_number,
-            ifsc_code: details?.ifsc_code
-        }
+
+        const payload = { userid: userId, ...data };
+
         try {
-            const res = await axios.post(apis?.addAccount, payload)
+            const res = await axios.post(apis?.addAccount, payload);
             if (res.data?.status === "200") {
-                toast.success(res?.data?.message)
+                toast.success(res?.data?.message);
+                navigate("/wallet/withdrawal")
             } else {
-                toast.error(res?.data?.message)
+                toast.error(res?.data?.message);
             }
         } catch (err) {
-            toast.error(err)
+            toast.error("Something went wrong");
         }
-    }
+    };
+    const getBranchnameByIfscHandler = async (ifscCode) => {
+        try {
+            const res = await axios.get(`${apis.getBranchnameByIfsc}${ifscCode}`);
+            if (res?.data?.status === "success") {
+                const { bank, branch } = res.data.data;
+                setValue("bank_name", bank, { shouldValidate: true });
+                setValue("branch_name", branch, { shouldValidate: true });
+            } else {
+                toast.error("Invalid IFSC Code");
+            }
+        } catch (err) {
+            toast.error("Error fetching branch details");
+        }
+    };
+
+    useEffect(() => {
+        const ifscCode = watch("ifsc_code");
+        if (ifscCode?.length === 11) {
+            getBranchnameByIfscHandler(ifscCode);
+        } else {
+            setValue("bank_name", "", { shouldValidate: true });
+            setValue("branch_name", "", { shouldValidate: true });
+        }
+    }, [watch("ifsc_code")]);
     return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-start pb-10 pt-2 px-3">
             {/* Alert */}
-            <div className="w-full max-w-md bg-inputBg text-redLight rounded-full  px-2 py-1 mt-1">
+            <div className="w-full max-w-md bg-inputBg text-redLight rounded-full px-2 py-1 mt-1">
                 <p className="flex items-center text-xsm font-semibold ">
-                    <span className="mr-2 text-[#B1835A] "> <img src={exclamation} alt="sd" className="w-7 h-5" />
+                    <span className="mr-2 text-[#B1835A]">
+                        <img src={exclamation} alt="alert" className="w-7 h-5" />
                     </span>
                     To ensure the safety of your funds, please bind your bank account
                 </p>
             </div>
 
             {/* Form */}
-            <div className="w-full max-w-md text-black rounded-lg mt-5">
-
+            <form
+                onSubmit={handleSubmit(addAccountdetailsHandler)}
+                className="w-full max-w-md text-black rounded-lg mt-5"
+            >
                 {/* Full recipient's name */}
-
-                {/* Full recipient's name */}
-                <div className="mb-8">
-                    <label className=" text-xsm font-medium flex items-center">
-                        <img src={account_yellow} alt="sfd" className="w-7 h-7 mr-2" />
+                <div className="mb-6">
+                    <label className="text-xsm font-medium flex items-center">
+                        <img src={account_yellow} alt="icon" className="w-7 h-7 mr-2" />
                         Full recipient&apos;s name
                     </label>
                     <input
-                        onChange={(e) => setDetails({ ...details, name: e.target.value })}
+                        {...register("name")}
                         type="text"
-                        placeholder="Please enter the recipient's name"
-                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
+                        placeholder="Enter recipient's name"
+                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 border border-redLight rounded-lg bg-inputBg"
                     />
+                    {errors.name && <p className="text-red text-xs">{errors.name.message}</p>}
                 </div>
 
                 {/* Bank account number */}
-                <div className="mb-8">
-                    <label className=" text-xsm font-medium flex items-center">
-                        <img src={acc_number} alt="sfd" className="w-7 h-7 mr-2" />
+                <div className="mb-6">
+                    <label className="text-xsm font-medium flex items-center">
+                        <img src={acc_number} alt="icon" className="w-7 h-7 mr-2" />
                         Bank account number
                     </label>
                     <input
-                        onChange={(e) => setDetails({ ...details, account_number: e.target.value })}
+                        {...register("account_number")}
                         type="number"
-                        placeholder="Please enter your bank account number"
-                        className="w-full placeholder:text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
+                        placeholder="Enter bank account number"
+                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 border border-redLight rounded-lg bg-inputBg"
                     />
+                    {errors.account_number && <p className="text-red text-xs">{errors.account_number.message}</p>}
                 </div>
 
-                {/* IFSC code */}
-                <div className="mb-8">
-                    <label className=" text-xsm font-medium flex items-center">
-                        <img src={ifsc_code} alt="sfd" className="w-7 h-7 mr-2" />
+                {/* IFSC code (Auto-Capitalized) */}
+                <div className="mb-6">
+                    <label className="text-xsm font-medium flex items-center">
+                        <img src={ifsc_code} alt="icon" className="w-7 h-7 mr-2" />
                         IFSC code
                     </label>
                     <input
-                        onChange={(e) => {
-                            let value = e.target.value.toUpperCase();
-                            if (value.length <= 11) {
-                                setDetails({ ...details, ifsc_code: value });
-                            }
-                        }}
-                        onBlur={() => {
-                            const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/; 
-                            if (!ifscRegex.test(details.ifsc_code)) {
-                                toast.error("Invalid IFSC Code");
-                                setDetails({ ...details, ifsc_code: "" });
-                            }
-                        }}
-                        value={details.ifsc_code || ""}
+                        {...register("ifsc_code")}
                         type="text"
                         maxLength={11}
-                        placeholder="Please enter IFSC code"
-                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg bg-inputBg"
+                        placeholder="Enter IFSC code"
+                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 border border-redLight rounded-lg bg-inputBg"
+                        onChange={(e) => {
+                            const upperValue = e.target.value.toUpperCase();
+                            setValue("ifsc_code", upperValue, { shouldValidate: true });
+                        }}
                     />
+                    {errors.ifsc_code && <p className="text-red text-xs">{errors.ifsc_code.message}</p>}
                 </div>
-                <div className="mb-28">
-                    <label className=" text-xsm font-medium flex items-center">
-                        <img src={bank} alt="sfd" className="w-7 h-7 mr-2" />
+
+                {/* Bank name */}
+                <div className="mb-6">
+                    <label className="text-xsm font-medium flex items-center">
+                        <img src={bank} alt="icon" className="w-7 h-7 mr-2" />
                         Bank name
                     </label>
                     <input
-                        onChange={(e) => setDetails({ ...details, bank_name: e.target.value })}
+                        {...register("bank_name")}
                         type="text"
-                        placeholder="Please enter the bank name"
-                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 focus:border-[1px] border-redLight rounded-lg  bg-inputBg"
+                        placeholder="Bank name"
+                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 border border-redLight rounded-lg bg-inputBg"
+                        readOnly
                     />
+                    {errors.bank_name && <p className="text-red text-xs">{errors.bank_name.message}</p>}
                 </div>
-                {/* Save button */}
-                <button onClick={addAccountdetailsHandler} className="w-full tracking-[2.5px] bg-[#CBCDDB] text-white text-sm font-semibold py-2 rounded-full shadow-md">
+
+                {/* Branch name */}
+                <div className="mb-6">
+                    <label className="text-xsm font-medium flex items-center">
+                        <img src={bank} alt="icon" className="w-7 h-7 mr-2" />
+                        Branch name
+                    </label>
+                    <input
+                        {...register("branch_name")}
+                        type="text"
+                        placeholder="Branch name"
+                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 border border-redLight rounded-lg bg-inputBg"
+                        readOnly
+                    />
+                    {errors.branch_name && <p className="text-red text-xs">{errors.branch_name.message}</p>}
+                </div>
+                <button
+                    type="submit"
+                    className={`w-full tracking-[2.5px] text-white text-sm font-semibold py-2 rounded-full shadow-md transition-colors duration-300
+    ${isValid ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959]" : "bg-[#CBCDDB]"}`}
+                    disabled={!isValid}
+                >
                     Save
                 </button>
-            </div>
+
+            </form>
         </div>
     );
 };

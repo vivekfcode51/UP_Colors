@@ -49,6 +49,7 @@ import crownno3 from "../../assets/usaAsset/homeScreen/crownno3.png"
 import apis from "../../utils/apis";
 import axios from "axios";
 import { toast } from "react-toastify";
+import FirstDepositModal from "../../reusable_component/FirstDepositModal";
 const notes = [
     "Welcome to the Tiranga Games! Greetings, Gamers and Enthusiasts! the Tiranga",
     "Please be sure to always use our official website for playing the games with the fol",
@@ -56,6 +57,7 @@ const notes = [
 ];
 function Home() {
     const [currentIndexWin, setCurrentIndexWin] = useState(0);
+    const [firstDepsoitModal, setFirstDepsoitModal] = useState(localStorage.getItem("firstDepositModalValue") === "1");
     const [noteValue, setNoteValue] = useState(notes[0]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animate, setAnimate] = useState(false);
@@ -190,191 +192,211 @@ function Home() {
             ? winningData.slice(0, (currentIndexWin + 5) % winningData.length)
             : []),
     ].slice(0, 5);
+
+    useEffect(() => {
+        const status = localStorage.getItem("firstDepositModalValue");
+        if (status === "0") {
+            setFirstDepsoitModal(true);
+        } else {
+            setFirstDepsoitModal(false);
+        }
+    }, [])
+
     return (
-        <div className="mb-28 font-roboto">
-            <div className="rounded-xl px-3">
-                <ImageCarousel  imagesData={bannerData} />
-            </div>
-            <div className='px-3 flex shadow-lg justify-between w-full gap-1 items-center bg-white text-gray p-1 rounded-full '>
-                <div className='shrink-0'><HiMiniSpeakerWave size={20} className="text-red" />                </div>
-                <div className="h-9 flex items-center overflow-hidden">
+        <>
+            {firstDepsoitModal && (
+                <div className="relative z-50 font-roboto">
+                    <FirstDepositModal
+                    firstDepsoitModal={firstDepsoitModal}
+                    setFirstDepsoitModal={setFirstDepsoitModal}
+                        onClose={() => setFirstDepsoitModal(false)}
+                    /></div>
+            )}
+            <div className="mb-28 font-roboto">
+                <div className="rounded-xl px-3">
+                    <ImageCarousel imagesData={bannerData} />
+                </div>
+                <div className='px-3 flex shadow-lg justify-between w-full gap-1 items-center bg-white text-gray p-1 rounded-full '>
+                    <div className='shrink-0'><HiMiniSpeakerWave size={20} className="text-red" />                </div>
+                    <div className="h-9 flex items-center overflow-hidden">
+                        <div
+                            className={`flex-1 font-bold xsm:flex-0 text-gray w-[80%] xsm:w-[19rem] text-[10px] xsm:text-xs overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
+                                }`}
+                            style={{ transform: animate ? "translateY(-100%)" : "translateY(0)" }}
+                        >
+                            {noteValue}
+                        </div>
+                    </div>
                     <div
-                        className={`flex-1 font-bold xsm:flex-0 text-gray w-[80%] xsm:w-[19rem] text-[10px] xsm:text-xs overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
-                            }`}
-                        style={{ transform: animate ? "translateY(-100%)" : "translateY(0)" }}
+                        className='shrink-0 w-[20%] font-bold xsm:w-[22%] py-1 text-white text-xs bg-red flex gap-1 justify-center items-center  rounded-3xl'
                     >
-                        {noteValue}
+                        <RiFireFill className='' />
+                        Detail
                     </div>
                 </div>
-                <div
-                    className='shrink-0 w-[20%] font-bold xsm:w-[22%] py-1 text-white text-xs bg-red flex gap-1 justify-center items-center  rounded-3xl'
-                >
-                    <RiFireFill className='' />
-                    Detail
+                <div className="overflow-y-scroll pl-3 pr-0.5 w-full mt-5 flex items-start justify-between hide-scrollbar">
+                    <div className="w-[20%]">
+                        {buttonData?.map((item, i) => {
+                            return (
+                                <button
+                                    key={i}
+                                    onClick={item.onClick}
+                                    className="flex flex-col pt-1 w-[74.5px] mb-3 h-[69.5px] bg-cover bg-no-repeat  justify-between items-center rounded-md"
+                                    style={{
+                                        backgroundImage: `url(${gameName === item.key ? item.bg : ""})`,
+                                        backgroundPosition: "center",
+                                    }}
+                                >
+                                    <img src={item.icon} className="w-12 h-10" alt="lotterycase not found" />
+                                    <p className={`text-xs pb-1 font-semibold ${gameName === item.key ? "text-white" : "text-black"} `}>{item.label}</p>
+                                </button>
+                            )
+                        })}
+                    </div>
+                    <div className=" w-[75%]">
+                        <AllGamesContainer />
+                    </div>
                 </div>
-            </div>
-            <div className="overflow-y-scroll pl-3 pr-0.5 w-full mt-5 flex items-start justify-between hide-scrollbar">
-                <div className="w-[20%]">
-                    {buttonData?.map((item, i) => {
-                        return (
-                            <button
-                                key={i}
-                                onClick={item.onClick}
-                                className="flex flex-col pt-1 w-[74.5px] mb-3 h-[69.5px] bg-cover bg-no-repeat  justify-between items-center rounded-md"
-                                style={{
-                                    backgroundImage: `url(${gameName === item.key ? item.bg : ""})`,
-                                    backgroundPosition: "center",
-                                }}
-                            >
-                                <img src={item.icon} className="w-12 h-10" alt="lotterycase not found" />
-                                <p className={`text-xs pb-1 font-semibold ${gameName === item.key ? "text-white" : "text-black"} `}>{item.label}</p>
-                            </button>
-                        )
-                    })}
+                {/* winnng info div */}
+                <div className="p-3 text-black max-w-md mx-auto">
+                    <h2 className="text-lg font-semibold mb-4">Winning information</h2>
+                    <div className="space-y-2 overflow-hidden">
+                        {visibleData
+                            .slice()
+                            .reverse() // Reverse to add new data at the top
+                            .map((data) => (
+                                <div
+                                    key={data.id}
+                                    className="flex items-center justify-start gap-6 p-3 rounded-lg shadow-md transform transition-transform duration-500 ease-in-out"
+                                    style={{
+                                        animation: `fadeInFromTop 300ms ease-in-out`,
+                                    }}
+                                >
+                                    <div className="flex items-center space-x-1 xsm:space-x-2 w-[35%]">
+                                        <img
+                                            src={data.avatar}
+                                            alt="Avatar"
+                                            className="w-10 h-10 rounded-full object-cover"
+                                        />
+                                        <p className="text-xs xsm:text-xsm font-semibold">{data.name}</p>
+                                    </div>
+                                    <div className="flex w-[65%] gap-6">
+                                        <div className="bg-redLight flex justify-center items-center rounded-lg w-[4.2rem] h-12">
+                                            <img
+                                                src={data.gameImage}
+                                                alt="Game"
+                                                className="w-12 h-9 rounded-md object-fill"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col justify-start items-start">
+                                            <p className="text-xsm text-nowrap text-black font-bold">
+                                                Receive {data.amount}
+                                            </p>
+                                            <p className="text-xsm text-nowrap text-slate-300 font-semibold">
+                                                Winning amount
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
                 </div>
-                <div className=" w-[75%]">
-                    <AllGamesContainer />
-                </div>
-            </div>
-            {/* winnng info div */}
-            <div className="p-3 text-black max-w-md mx-auto">
-                <h2 className="text-lg font-semibold mb-4">Winning information</h2>
-                <div className="space-y-2 overflow-hidden">
-                    {visibleData
-                        .slice()
-                        .reverse() // Reverse to add new data at the top
-                        .map((data) => (
-                            <div
-                                key={data.id}
-                                className="flex items-center justify-start gap-6 p-3 rounded-lg shadow-md transform transition-transform duration-500 ease-in-out"
-                                style={{
-                                    animation: `fadeInFromTop 300ms ease-in-out`,
-                                }}
-                            >
-                                <div className="flex items-center space-x-1 xsm:space-x-2 w-[35%]">
+                <div className="px-2">
+                    <div className="h-4 flex items-center gap-2">
+                        <div className="w-[3px] h-full bg-red"></div>
+                        <p className="text-black text-lg font-semibold">Today&apos;s earnings chart</p>
+                    </div>
+                    <div className="mt-10">
+                        <div className="text-black flex items-end justify-around">
+                            <div className="-mb-[7rem] xs:-mb-[7.2rem] xsm:-mb-[7rem]  flex flex-col justify-center items-center w-[30%]">
+                                <div className="object-fill -mb-2 flex items-center justify-center bg-cover w-16 h-16"
+                                    style={{
+                                        backgroundImage: `url(${rankbg2})`
+                                    }}
+                                >
+                                    <div className="object-fill bg-cover w-14 h-14 rounded-full"
+                                        style={{
+                                            backgroundImage: `url(${person2})`
+                                        }}
+                                    >
+                                        <img src={crownno2} className="-ml-5 -mt-7" alt="sd" />
+                                    </div>
+                                </div>
+                                <img className="w-16" src={no2badge} alt="ds" />
+                                <p className="text-xsm text-white font-bold z-10 mt-3">Mem***566</p>
+                                <p className="text-xsm mt-1 xs:mt-2 font-bold z-10 rounded-full w-full py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹588,900.00</p>
+                            </div>
+                            <div className="-mb-[5.6rem] xs:-mb-[6rem] xsm:-mb-[6rem] flex flex-col justify-center items-center w-[40%]">
+                                <div className=" object-fill -mb-2 flex items-center justify-center bg-cover w-16 h-16"
+                                    style={{
+                                        backgroundImage: `url(${rankbg1})`
+                                    }}
+                                >
+                                    <div className="object-fill z-30 bg-cover w-14 h-14 rounded-full"
+                                        style={{
+                                            backgroundImage: `url(${person1})`
+                                        }}
+                                    >
+                                        <img src={crownno1} className=" -ml-5 -mt-7" alt="sd" />
+                                    </div>
+                                </div>
+                                <img className="z-30 w-16" src={no1badge} alt="ds" />
+                                <p className="text-xsm text-white z-30 font-bold mt-3">Mem***387</p>
+                                <p className="text-xsm mt-2 font-bold z-30 rounded-full px-3 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹2,853,503.00</p>
+                            </div>
+                            <div className="-mb-[7rem] xs:-mb-[7.2rem] xsm:-mb-[7rem] flex flex-col justify-center items-center w-[30%]">
+                                <div className="object-fill -mb-2 flex items-center justify-center bg-cover w-16 h-16"
+                                    style={{
+                                        backgroundImage: `url(${rankbg3})`
+                                    }}
+                                >
+                                    <div className="object-fill bg-cover w-14 h-14 rounded-full"
+                                        style={{
+                                            backgroundImage: `url(${person3})`
+                                        }}
+                                    >
+                                        <img src={crownno3} className="-ml-5 -mt-7" alt="sd" />
+                                    </div>
+                                </div>
+                                <img className="w-16" src={no3badge} alt="ds" />
+                                <p className="text-xsm text-white z-30 font-bold mt-3">Mem***453</p>
+                                <p className="text-xsm mt-2 font-bold z-30 rounded-full w-full py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹240,438.00</p>
+                            </div>
+                        </div>
+                        <img className="object-fill" src={DailyProfitRankStage} alt="sd" />
+                        <div className="w-full flex items-center justify-between text-black rounded-md bg-white shadow-lg p-2">
+                            <div className="flex items-center text-gray gap-4">
+                                <p>4</p>
+                                <div className="flex items-center space-x-2 w-[35%]">
                                     <img
-                                        src={data.avatar}
+                                        src={person5}
                                         alt="Avatar"
                                         className="w-10 h-10 rounded-full object-cover"
                                     />
-                                    <p className="text-xs xsm:text-xsm font-semibold">{data.name}</p>
-                                </div>
-                                <div className="flex w-[65%] gap-6">
-                                    <div className="bg-redLight flex justify-center items-center rounded-lg w-[4.2rem] h-12">
-                                        <img
-                                            src={data.gameImage}
-                                            alt="Game"
-                                            className="w-12 h-9 rounded-md object-fill"
-                                        />
-                                    </div>
-                                    <div className="flex flex-col justify-start items-start">
-                                        <p className="text-xsm text-nowrap text-black font-bold">
-                                            Receive {data.amount}
-                                        </p>
-                                        <p className="text-xsm text-nowrap text-slate-300 font-semibold">
-                                            Winning amount
-                                        </p>
-                                    </div>
+                                    <p className="text-xsm font-semibold">Mem***879</p>
                                 </div>
                             </div>
-                        ))}
-                </div>
-            </div>
-            <div className="px-2">
-                <div className="h-4 flex items-center gap-2">
-                    <div className="w-[3px] h-full bg-red"></div>
-                    <p className="text-black text-lg font-semibold">Today&apos;s earnings chart</p>
-                </div>
-                <div className="mt-10">
-                    <div className="text-black flex items-end justify-around">
-                        <div className="-mb-[7rem] xs:-mb-[7.2rem] xsm:-mb-[7rem]  flex flex-col justify-center items-center w-[30%]">
-                            <div className="object-fill -mb-2 flex items-center justify-center bg-cover w-16 h-16"
-                                style={{
-                                    backgroundImage: `url(${rankbg2})`
-                                }}
-                            >
-                                <div className="object-fill bg-cover w-14 h-14 rounded-full"
-                                    style={{
-                                        backgroundImage: `url(${person2})`
-                                    }}
-                                >
-                                    <img src={crownno2} className="-ml-5 -mt-7" alt="sd" />
+                            <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹895,467.00</p>
+                        </div>
+                        <div className="w-full flex items-center mt-2 justify-between text-black rounded-md bg-white shadow-lg p-2">
+                            <div className="flex items-center text-gray gap-4">
+                                <p>5</p>
+                                <div className="flex items-center space-x-2 w-[35%]">
+                                    <img
+                                        src={person6}
+                                        alt="Avatar"
+                                        className="w-10 h-10 rounded-full object-cover"
+                                    />
+                                    <p className="text-xsm font-semibold">Mem***113</p>
                                 </div>
                             </div>
-                            <img className="w-16" src={no2badge} alt="ds" />
-                            <p className="text-xsm text-white font-bold z-10 mt-3">Mem***566</p>
-                            <p className="text-xsm mt-1 xs:mt-2 font-bold z-10 rounded-full w-full py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹588,900.00</p>
+                            <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹940,928.00</p>
                         </div>
-                        <div className="-mb-[5.6rem] xs:-mb-[6rem] xsm:-mb-[6rem] flex flex-col justify-center items-center w-[40%]">
-                            <div className=" object-fill -mb-2 flex items-center justify-center bg-cover w-16 h-16"
-                                style={{
-                                    backgroundImage: `url(${rankbg1})`
-                                }}
-                            >
-                                <div className="object-fill z-30 bg-cover w-14 h-14 rounded-full"
-                                    style={{
-                                        backgroundImage: `url(${person1})`
-                                    }}
-                                >
-                                    <img src={crownno1} className=" -ml-5 -mt-7" alt="sd" />
-                                </div>
-                            </div>
-                            <img className="z-30 w-16" src={no1badge} alt="ds" />
-                            <p className="text-xsm text-white z-30 font-bold mt-3">Mem***387</p>
-                            <p className="text-xsm mt-2 font-bold z-30 rounded-full px-3 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹2,853,503.00</p>
-                        </div>
-                        <div className="-mb-[7rem] xs:-mb-[7.2rem] xsm:-mb-[7rem] flex flex-col justify-center items-center w-[30%]">
-                            <div className="object-fill -mb-2 flex items-center justify-center bg-cover w-16 h-16"
-                                style={{
-                                    backgroundImage: `url(${rankbg3})`
-                                }}
-                            >
-                                <div className="object-fill bg-cover w-14 h-14 rounded-full"
-                                    style={{
-                                        backgroundImage: `url(${person3})`
-                                    }}
-                                >
-                                    <img src={crownno3} className="-ml-5 -mt-7" alt="sd" />
-                                </div>
-                            </div>
-                            <img className="w-16" src={no3badge} alt="ds" />
-                            <p className="text-xsm text-white z-30 font-bold mt-3">Mem***453</p>
-                            <p className="text-xsm mt-2 font-bold z-30 rounded-full w-full py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹240,438.00</p>
-                        </div>
-                    </div>
-                    <img className="object-fill" src={DailyProfitRankStage} alt="sd" />
-                    <div className="w-full flex items-center justify-between text-black rounded-md bg-white shadow-lg p-2">
-                        <div className="flex items-center text-gray gap-4">
-                            <p>4</p>
-                            <div className="flex items-center space-x-2 w-[35%]">
-                                <img
-                                    src={person5}
-                                    alt="Avatar"
-                                    className="w-10 h-10 rounded-full object-cover"
-                                />
-                                <p className="text-xsm font-semibold">Mem***879</p>
-                            </div>
-                        </div>
-                        <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹895,467.00</p>
-                    </div>
-                    <div className="w-full flex items-center mt-2 justify-between text-black rounded-md bg-white shadow-lg p-2">
-                        <div className="flex items-center text-gray gap-4">
-                            <p>5</p>
-                            <div className="flex items-center space-x-2 w-[35%]">
-                                <img
-                                    src={person6}
-                                    alt="Avatar"
-                                    className="w-10 h-10 rounded-full object-cover"
-                                />
-                                <p className="text-xsm font-semibold">Mem***113</p>
-                            </div>
-                        </div>
-                        <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹940,928.00</p>
-                    </div>
 
+                    </div>
                 </div>
-            </div>
-        </div >
+            </div >
+        </>
     );
 }
 

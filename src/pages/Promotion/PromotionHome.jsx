@@ -12,7 +12,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import apis from "../../utils/apis"
+import FirstDepositModal from '../../reusable_component/FirstDepositModal'
 function PromotionHome() {
+    const [firstDepsoitModal, setFirstDepsoitModal] = useState(localStorage.getItem("firstDepositModalValue") === "1");
     const [copyInvitation, setCopyInvitation] = useState(false)
     const [copyInvitationCode, setCopyInvitationCode] = useState(false)
     const [promotionData, setPromotionData] = useState(null)
@@ -112,8 +114,24 @@ function PromotionHome() {
             return () => clearTimeout(timer);
         }
     }, [copyInvitationCode, setCopyInvitationCode]);
+    useEffect(() => {
+        const status = localStorage.getItem("firstDepositModalValue");
+        if (status === "0") {
+            setFirstDepsoitModal(true);
+        } else {
+            setFirstDepsoitModal(false);
+        }
+    }, [])
     return (
         <>
+            {firstDepsoitModal && (
+                <div className="relative z-50 font-roboto">
+                    <FirstDepositModal
+                        firstDepsoitModal={firstDepsoitModal}
+                        setFirstDepsoitModal={setFirstDepsoitModal}
+                        onClose={() => setFirstDepsoitModal(false)}
+                    /></div>
+            )}
             <div className='bg-white  h-full w-full'>
                 <div className='w-full flex flex-col px-3 items-center bg-[#f95959] h-64 bg-center bg-cover'
                     style={{

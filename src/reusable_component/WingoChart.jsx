@@ -119,18 +119,18 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
 
   return (
     <div className="bg-bg1 px-4 !w-full mt-5 relative hide-scrollbar overflow-x-hidden">
-      <svg className="absolute mt-48 left-[37%] mr-4 h-full pointer-events-none">
+      <svg className="absolute mt-48 left-[42vw] xsm:left-[37%] mr-4 h-full pointer-events-none">
         {renderLines()}
       </svg>
       <div className="flex w-full bg-[#F95959] rounded-t-lg py-2 font-semibold">
         <p className="text-xsm w-[35%] flex justify-center items-center">Period</p>
         <p className="text-xsm w-[65%] flex justify-center items-center">Number</p>
       </div>
-      <div className="text-xsm w-full bg-white text-black py-3 px-2">
+      <div className="text-xs xsm:text-xsm w-full bg-white text-black py-3 px-2">
         <div className="h-36">
           <p>Statistic (last 100 people)</p>
           <div className="flex items-center justify-between mt-1">
-            <div>Winning number</div>
+            <div className="text-nowrap">Winning number</div>
             <div className="flex items-center gap-0.5">
               <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">0</p>
               <p className="text-redLight border-[1px] rounded-full w-5 h-5 flex items-center justify-center border-redLight">1</p>

@@ -1,6 +1,5 @@
 import axios from "axios";
-import apis from "../utils/apis"; // Adjust the path as needed
-import { useNavigate } from "react-router-dom";
+import apis from "../utils/apis"; 
 export const fetchAllGames = async (setAllGamesListView) => {
     try {
         const res = await axios.post(apis.all_game_list);
@@ -70,3 +69,16 @@ export const fetchGameURLSpribe = async (gameid, userId,navigate) => {
         console.error("Error fetching game URL:", err);
     }
 };
+
+export const getFirstDepositPlans = async (userId) => {
+  try {
+    const res = await axios.get(`${apis.extra_first_deposit_bonus}${userId}`);
+    if (res?.data?.status == 200) {
+      return res.data.data;
+    }
+  } catch (err) {
+    console.error("Error fetching first deposit plans:", err);
+    return [];
+  }
+};
+

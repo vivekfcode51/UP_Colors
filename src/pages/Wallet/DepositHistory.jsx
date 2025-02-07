@@ -141,8 +141,7 @@ function DepositHistory() {
         image: usdt_icon,
         name: "USDT",
         type: 2
-    }
-    ]
+    }]
     return (
         <>
             <div className='w-full'>
@@ -206,7 +205,7 @@ function DepositHistory() {
                                         <p className="bg-green text-white rounded-lg px-3 py-0.5">Deposit</p>
                                         <p className="text-xsm text-black font-semibold">
                                             {item.status === 1
-                                                ? "To be paid"
+                                                ? "Pending"
                                                 : item?.status === 2
                                                     ? "Paid"
                                                     : item?.status === 3
@@ -221,7 +220,7 @@ function DepositHistory() {
                                     </div>
                                     <div className="flex mt-4 text-gray justify-between items-center">
                                         <p className="text-xsm font-bold">Type</p>
-                                        <p className="text-xsm text-gray font-semibold">{item?.type == 0 ? "Indian Pay" : item?.type == 1 ? "Kuber Pay" : item?.type === 2 ? "USDT" : ""}</p>
+                                        <p className="text-xsm text-gray font-semibold">{item?.type == 0 ? "Bank card" : item?.type == 1 ? "Bank card" : item?.type === 2 ? "USDT" : ""}</p>
                                     </div>
                                     <div className="flex mt-4 text-gray justify-between items-center">
                                         <p className="text-xsm font-bold">Time</p>

@@ -1,14 +1,13 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import apis from "../../utils/apis";
 import { useNavigate } from "react-router-dom";
 import person from "../../assets/usaAsset/wallet/person.png"
 import exclamation from "../../assets/usaAsset/account/exclamation.png"
-
+import usdtAdress from "../../assets/usaAsset/wallet/usdtaddress.png"
+import trcusdt from "../../assets/usaAsset/wallet/trcusdt.png"
 const AddUSDTWalletADdress = () => {
     const userId = localStorage.getItem("userId");
     const navigate = useNavigate()
@@ -60,7 +59,7 @@ const AddUSDTWalletADdress = () => {
             <form onSubmit={formik.handleSubmit} className="w-full max-w-md text-black">
                 <div className="mb-8 mt-8">
                     <label className="text-gray-600 text-sm flex items-center">
-                        <img src="sd" alt="sfd" className="w-5 h-5 mr-2" />
+                        <img src={trcusdt} alt="sfd" className="w-8 h-8 mr-2" />
                         Select main network
                     </label>
                     <select
@@ -92,7 +91,7 @@ const AddUSDTWalletADdress = () => {
 
                 <div className="mb-8">
                     <label className="text-gray-600 text-sm flex items-center">
-                        <img src="sd" alt="sfd" className="w-5 h-5 mr-2" />
+                        <img src={usdtAdress} alt="sfd" className="w-8 h-8 mr-2" />
                         USDT address
                     </label>
                     <input
@@ -114,7 +113,7 @@ const AddUSDTWalletADdress = () => {
                     type="submit"
                     disabled={!(formik.isValid && formik.dirty)}
                     className={`w-full tracking-[2.5px] text-sm font-semibold py-2 rounded-full shadow-md transition-all duration-300
-                        ${formik.isValid && formik.dirty ? "bg-red text-white" : "bg-gray text-white cursor-not-allowed"}`}
+                        ${formik.isValid && formik.dirty ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-[#CBCDDB] text-white cursor-not-allowed"}`}
                 >
                     Save
                 </button>

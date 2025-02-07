@@ -63,6 +63,7 @@ import EditBankAccountDetails from "./pages/Wallet/EditBankAccountDetails";
 import SuperJackpot from "./pages/Activity/SuperJackpot";
 import ComingSoon from "./reusable_component/ComingSoon";
 import AllGames from "./pages/Home/AllGames";
+import FirstDeposit from "./reusable_component/FirstDeposit";
 
 export const Router = createBrowserRouter([
   {
@@ -92,6 +93,10 @@ export const Router = createBrowserRouter([
       {
         path: "/allgames",
         element: <AllGames />,
+      },
+      {
+        path: "/allFirstDepositPlans",
+        element: <FirstDeposit />,
       },
     ],
   },
