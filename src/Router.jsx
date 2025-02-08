@@ -64,6 +64,7 @@ import SuperJackpot from "./pages/Activity/SuperJackpot";
 import ComingSoon from "./reusable_component/ComingSoon";
 import AllGames from "./pages/Home/AllGames";
 import FirstDeposit from "./reusable_component/FirstDeposit";
+import TronscanViewer from "./pages/Lottery/TronscanViewer";
 
 export const Router = createBrowserRouter([
   {
@@ -143,6 +144,14 @@ export const Router = createBrowserRouter([
       {
         path: "/lottery/trxwingo",
         element: <TrxWingGo />,
+      },
+      {
+        path: "/lottery/trxwingo/tronscan",
+        element: <TronscanViewer />,
+      },
+      {
+        path: "/lottery/trxwingo/tronscan2",
+        element: <TronscanViewer />,
       },
       {
         path: "/activity",

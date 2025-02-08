@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import viewall from "../assets/usaAsset/homeScreen/viewall.png"
 import { useNavigate } from "react-router-dom";
 function LobbyGamesList() {
+  const [loading, setLoading] = useState(false);
   const navigate=useNavigate()
   const userId = localStorage.getItem("userId")
   const [allGamesListView, setAllGamesListView] = useState(null)
@@ -15,7 +16,7 @@ function LobbyGamesList() {
       <div className="grid grid-cols-3 w-full">
         {allGamesListView ? (
           allGamesListView?.data?.lobby?.map((item, i) => (
-            <div onClick={() => fetchGameURL(item?.id, userId,navigate)} key={i} className=" flex flex-col items-center text-black p-2 ">
+            <div onClick={() => fetchGameURL(item?.id, userId,navigate,setLoading)} key={i} className=" flex flex-col items-center text-black p-2 ">
               <img src={item?.img} className="w-36 h-24 rounded-lg" alt="sd" />
             </div>
           ))

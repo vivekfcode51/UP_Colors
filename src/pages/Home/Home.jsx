@@ -50,12 +50,14 @@ import apis from "../../utils/apis";
 import axios from "axios";
 import { toast } from "react-toastify";
 import FirstDepositModal from "../../reusable_component/FirstDepositModal";
+import Loader from "../../reusable_component/Loader/Loader";
 const notes = [
     "Welcome to the Tiranga Games! Greetings, Gamers and Enthusiasts! the Tiranga",
     "Please be sure to always use our official website for playing the games with the fol",
     "If your deposit is not received, Please send it directly to Tiranga Games Self-service Ce"
 ];
 function Home() {
+    const [loading, setLoading] = useState(false);
     const [currentIndexWin, setCurrentIndexWin] = useState(0);
     const [firstDepsoitModal, setFirstDepsoitModal] = useState(localStorage.getItem("firstDepositModalValue") === "1");
     const [noteValue, setNoteValue] = useState(notes[0]);
@@ -117,14 +119,18 @@ function Home() {
         { onClick: handlePokerContainer, key: "poker", bg: bgActiveCategory, icon: gamecategorypoker, label: "Poker" },
     ];
     const bannerDataHandler = async () => {
+        setLoading(true)
         try {
             const res = await axios.get(apis.slider)
             if (res?.data?.success === 200) {
+                setLoading(false)
                 setBannerData(res?.data?.data)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             console.log(err)
         }
     }
@@ -204,6 +210,7 @@ function Home() {
 
     return (
         <>
+        {loading && <Loader setLoading={setLoading} loading={loading} />}
             {firstDepsoitModal && (
                 <div className="relative z-50 font-roboto">
                     <FirstDepositModal
@@ -278,7 +285,7 @@ function Home() {
                                             alt="Avatar"
                                             className="w-10 h-10 rounded-full object-cover"
                                         />
-                                        <p className="text-xs xsm:text-xsm font-semibold">{data.name}</p>
+                                        <p className="text-xs 3xl:text-xsm font-semibold">{data.name}</p>
                                     </div>
                                     <div className="flex w-[65%] gap-6">
                                         <div className="bg-redLight flex justify-center items-center rounded-lg w-[4.2rem] h-12">

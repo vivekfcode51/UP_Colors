@@ -6,11 +6,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Loader from "../../reusable_component/Loader/Loader";
 function ActivityAward() {
+  const [loading, setLoading] = useState(false);
   const [awardData, setAwardData] = useState([])
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate()
   const activityAwardHandler = async () => {
+    setLoading(true)
     if (!userId) {
       toast.error("User not logged in");
       navigate("/login");
@@ -19,11 +22,14 @@ function ActivityAward() {
     try {
       const res = await axios.get(`${apis.activityRewards}${userId}`)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setAwardData(res?.data)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       toast.error(err)
     }
   }
@@ -34,6 +40,7 @@ function ActivityAward() {
   }, [userId])
 
   const ClaimBonus = async (id, amount) => {
+    setLoading(true)
     const payload = {
       userid: userId,
       amount,
@@ -44,17 +51,21 @@ function ActivityAward() {
       const res = await axios.post(apis.activityRewardsClaim, payload)
       // console.log("res", res)
       if (res?.data?.status === 200) {
+        setLoading(false)
         toast.success(res?.data?.message)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       toast.error(err)
     }
   }
   // console.log("awardData", awardData)
   return (
     <div className='pb-10 font-roboto'>
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className='grid grid-cols-3 bg-gradient-to-l from-[#f95959] to-[#ff9a8e] py-3 '>
         <div className='col-span-1'>
           <img

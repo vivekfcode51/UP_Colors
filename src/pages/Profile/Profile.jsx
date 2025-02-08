@@ -27,9 +27,11 @@ import languageIcon from "../../assets/usaAsset/account/languageIcon.png"
 import usaserviceIcon from "../../assets/icons/usaServiceIcon.png";
 import apis from '../../utils/apis'
 import FirstDepositModal from '../../reusable_component/FirstDepositModal';
+import Loader from '../../reusable_component/Loader/Loader';
 const profileApi = apis.profile
 
 function Profile() {
+    const [loading, setLoading] = useState(false);
     const [langModal, setLangModal] = useState(false)
     const [myDetails, setMyDetails] = useState(null)
     const [isUidCopied, setIsUidCopied] = useState(false)
@@ -48,6 +50,7 @@ function Profile() {
     };
 
     const profileDetails = async (userId) => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -56,11 +59,13 @@ function Profile() {
         try {
             const res = await axios.get(`${profileApi}${userId}`);
             if (res?.data?.success === 200) {
+                setLoading(false)
                 setMyDetails(res?.data)
                 const total_wallet = res?.data?.data?.wallet + res?.data?.data?.third_party_wallet
                 dispatch(setProfileDetails({ total_wallet }))
             }
         } catch (err) {
+            setLoading(false)
             toast.error(err);
         }
     };
@@ -125,6 +130,7 @@ function Profile() {
 
     return (
         <>
+        {loading && <Loader setLoading={setLoading} loading={loading} />}
             {firstDepsoitModal && (
                 <div className="relative z-50 font-roboto">
                     <FirstDepositModal

@@ -4,21 +4,27 @@ import { MdKeyboardArrowLeft } from 'react-icons/md'
 import { Link, useParams } from 'react-router-dom'
 import apis from '../../utils/apis';
 import { toast } from 'react-toastify';
+import Loader from '../../reusable_component/Loader/Loader';
 
 function ActivityDetails() {
     const { id } = useParams();
+    const [loading, setLoading] = useState(false);
     const [bannerData, setBannerData] = useState([])
     const bannerDataHandler = async () => {
+        setLoading(true)
         try {
             const res = await axios.get(apis.slider)
             if (res?.data?.success === 200) {
-                console.log(res)
+                setLoading(false)
+                // console.log(res)
                 const maindata = res?.data?.data?.filter(item => item?.id == id)
                 setBannerData(maindata)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             console.log(err)
         }
     }
@@ -29,6 +35,7 @@ function ActivityDetails() {
     // console.log("id", id)
     return (
         <div>
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem] flex items-center justify-between'>
                 <Link to="/activity" >
                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />

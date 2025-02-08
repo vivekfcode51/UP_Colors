@@ -6,15 +6,18 @@ import apis from '../../utils/apis';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import Loader from '../../reusable_component/Loader/Loader';
 
 function CollectionRecord() {
     const [selected, setSelected] = useState(12); // Default to Daily
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const userId = localStorage.getItem('userId');
     const navigate = useNavigate();
 
     // Fetch history data based on `userId` and `selected` type
     const fetchHistory = async () => {
+        setLoading(true)
         if (!userId) {
             toast.error('User not logged in');
             navigate('/login');
@@ -23,12 +26,15 @@ function CollectionRecord() {
         try {
             const response = await axios.get(`${apis.activityRewardsHistory}${userId}&type_id=${selected}`);
             if (response?.data?.status === 200) {
+                setLoading(false)
                 setData(response?.data?.data);
             } else {
+                setLoading(false)
                 setData([]); // Clear the data if the response is not successful
                 toast.error(response?.data?.message || 'Failed to fetch data');
             }
         } catch (err) {
+            setLoading(false)
             setData([]); // Clear the data in case of error
             toast.error(err?.response?.data?.message || 'Something went wrong');
         }
@@ -43,6 +49,7 @@ function CollectionRecord() {
 
     return (
         <div className="bg-bg1 font-roboto">
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <header className="py-2 bg-white flex justify-between items-center">
                 <Link to="/activity/award">
                     <MdKeyboardArrowLeft className="text-3xl text-black" />

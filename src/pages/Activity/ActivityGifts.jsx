@@ -5,12 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import giftRedeemList from "../../assets/usaAsset/activity/giftRedeemList.png"
 import moment from 'moment';
+import Loader from '../../reusable_component/Loader/Loader';
 function ActivityGifts() {
+    const [loading, setLoading] = useState(false);
     const [giftCode, setGiftCode] = useState("")
     const [redeemedGiftList, setRedeemedGiftList] = useState([])
     const userId = localStorage.getItem("userId");
     const navigate = useNavigate()
     const redeemGift = async () => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -23,25 +26,32 @@ function ActivityGifts() {
         try {
             const res = await axios.post(apis.redeemGift, payload)
             if (res?.data?.status === 200) {
+                setLoading(false)
                 toast.success(res?.data?.message)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             toast.error(err)
         }
     }
 
     const redeemGiftListHandler = async () => {
+        setLoading(true)
         try {
             const res = await axios.get(`${apis.redeemGiftList}${userId}`)
-            console.log("res", res)
+            // console.log("res", res)
             if (res?.data?.status === 200) {
+                setLoading(false)
                 setRedeemedGiftList(res?.data?.data)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             toast.error(err)
         }
     }
@@ -52,6 +62,7 @@ function ActivityGifts() {
     }, [userId])
     return (
         <div className='mx-3 font-roboto'>
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <div className='bg-inputBg text-sm text-lightGray rounded p-2 mt-60 pb-10'>
                 <p className='text-gray'>Hi</p>
                 <p className='text-gray'>We have a gift for you</p>

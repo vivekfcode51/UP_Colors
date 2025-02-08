@@ -5,11 +5,14 @@ import axios from "axios";
 import apis from "../../utils/apis";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Loader from "../../reusable_component/Loader/Loader";
 function InvitationRewardRule() {
     const [invitationListData, setInvitationListData] = useState([])
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const userId = localStorage.getItem("userId");
     const InvitationListHandler = async () => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -18,12 +21,14 @@ function InvitationRewardRule() {
         try {
             const res = await axios.get(`${apis.invitation_bonus_list}${userId}`)
             if (res?.data?.status === 200) {
-                // console.log(res)
+                setLoading(false)
                 setInvitationListData(res?.data?.data)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             console.log("Internal server error")
         }
     }
@@ -34,6 +39,7 @@ function InvitationRewardRule() {
    
     return (
         <div>
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <div className='px-3 mt-3 text-xsm font-roboto text-lightGray'>
                 <p>Invite friends and recharge to get additional platform rewards!</p>
                 <p>After being claimed, the rewards will be directly distributed to the wallet balance within 10 minutes.</p>

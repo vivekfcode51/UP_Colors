@@ -1,5 +1,4 @@
-import bggifts from '../../assets/images/bggifts.png'
-import bookmark from '../../assets/images/bookmark.png'
+
 import UnsignInTop from '../../assets/images/UnsignInTop.png'
 import coingifts from '../../assets/images/coingifts.png'
 import activityGift from '../../assets/usaAsset/activity/activityGift.png'
@@ -12,12 +11,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import moment from 'moment';
+import Loader from '../../reusable_component/Loader/Loader'
 function AttendanceBonus() {
+    const [loading, setLoading] = useState(false);
     const [attendanceHistoryData, setAttenddanceHistory] = useState([])
     const userId = localStorage.getItem("userId");
     const navigate = useNavigate()
     const attendanceHistory = async () => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -26,11 +27,14 @@ function AttendanceBonus() {
         try {
             const res = await axios.get(`${apis.attendanceList}${userId}`)
             if (res?.data?.status === 200) {
+                setLoading(false)
                 setAttenddanceHistory(res?.data)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             toast.error(err)
         }
     }
@@ -41,6 +45,7 @@ function AttendanceBonus() {
     }, [userId])
 
     const ClaimAttendance = async (userId) => {
+        setLoading(true)
         const payload = {
             userid: userId
         }
@@ -49,23 +54,26 @@ function AttendanceBonus() {
             const res = await axios.post(apis.attendanceClaim, payload)
             // console.log("res",res)
             if (res?.data?.status === 200) {
+                setLoading(false)
                 attendanceHistory()
                 toast.success(res?.data?.message)
             } else if (res?.data?.status === 400) {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             console.error("Error:", err?.response?.data || err.message);
             toast.error(err?.response?.data?.message || "Something went wrong");
         }
 
     }
     // ];
-    console.log("attendanceHistoryData", attendanceHistoryData)
+    // console.log("attendanceHistoryData", attendanceHistoryData)
     return (
         <div className='font-roboto'>
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] pl-1'>
-
                 <div className='grid grid-cols-2 pt-10'>
                     <div className='col-span-1 px-2 pb-5'>
                         <div className='flex flex-col justify-between'>

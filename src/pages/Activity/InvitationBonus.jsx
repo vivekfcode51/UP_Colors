@@ -7,11 +7,14 @@ import axios from 'axios'
 import apis from '../../utils/apis'
 import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
+import Loader from '../../reusable_component/Loader/Loader'
 function InvitationBonus() {
     const [invitationListData, setInvitationListData] = useState([])
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
     const InvitationListHandler = async () => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -20,41 +23,47 @@ function InvitationBonus() {
         try {
             const res = await axios.get(`${apis.invitation_bonus_list}${userId}`)
             if (res?.data?.status === 200) {
-                // console.log(res)
+                setLoading(false)
                 setInvitationListData(res?.data?.data)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             console.log("Internal server error")
         }
     }
     const bonusClaimHandler = async (amount, bonusId) => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
             return;
         }
-    
+
         const payload = {
             userid: userId,
             amount,
             invite_id: bonusId,
         };
         try {
-            const res = await axios.post(apis.invitation_bonus_claim, payload);    
+            const res = await axios.post(apis.invitation_bonus_claim, payload);
             if (res?.status === 200) {
+                setLoading(false)
                 toast.success(res?.data?.message || "Bonus claimed successfully");
                 InvitationListHandler()
             } else if (res?.response?.data?.status === 400) {
+                setLoading(false)
                 toast.error(res?.response?.data?.message || "Something went wrong");
             }
         } catch (err) {
+            setLoading(false)
             console.error(err);
             toast.error(err?.response?.data?.message || "An error occurred while claiming the bonus");
         }
     };
-    
+
     useEffect(() => {
         InvitationListHandler()
     }, [])
@@ -62,6 +71,7 @@ function InvitationBonus() {
     const array = [{ amount1: 199, noOfIn: 3, rechargePerPeople: 555, value1: 2, value2: 0 }, { amount1: 299, noOfIn: 5, rechargePerPeople: 555, value1: 2, value2: 0 }, { amount1: 599, noOfIn: 10, rechargePerPeople: "1,111", value1: 2, value2: 0 }]
     return (
         <div className='bg-white font-roboto' >
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <header className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] px-3 pb-5 font-inter'>
                 <div className='grid grid-cols-3 py-3 '>
                     <div className='col-span-1'>

@@ -3,8 +3,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io';
 import apis from '../../utils/apis';
 import no_data_available from '../../assets/images/no_data_available.png';
+import Loader from '../../reusable_component/Loader/Loader';
 
 function AllTransactionsHistory() {
+  const [loading, setLoading] = useState(false);
   const [modalFirst, handleModalFirst] = useState(false);
   const [modalFirstValue, handleModalFirstValue] = useState("All");
   const [modalSecond, handleModalSecond] = useState(false);
@@ -18,27 +20,35 @@ function AllTransactionsHistory() {
   const userId = localStorage.getItem("userId");
 
   const AllTransactionsHistoryListHandler = async () => {
+    setLoading(true)
     try {
       const res = await axios.get(`${apis.transaction_history_list}`)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setTransactionList(res?.data?.data)
       } else if (res?.data?.status === 400) {
+        setLoading(false)
         console.log(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       console.log(err)
     }
   }
   const AllTransactionsHistoryDataHandler = async () => {
+    setLoading(true)
     try {
       const res = await axios.get(`${apis.transaction_history}${userId}`)
-      console.log("res,res", res)
+      // console.log("res,res", res)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setTransactionHistoryData(res?.data?.data)
       } else if (res?.data?.status === 400) {
+        setLoading(false)
         console.log(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       console.log(err)
     }
   }
@@ -87,9 +97,10 @@ function AllTransactionsHistory() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [modalSecond]);
-  console.log("transactionList", transactionHistoryData)
+  // console.log("transactionList", transactionHistoryData)
   return (
     <div className='mx-3'>
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className="grid grid-cols-2 gap-3 mt-3">
         <button
           onClick={() => handleModalFirst(!modalFirst)}

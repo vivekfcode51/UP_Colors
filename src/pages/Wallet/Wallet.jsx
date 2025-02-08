@@ -10,9 +10,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import apis from '../../utils/apis'
 import FirstDepositModal from "../../reusable_component/FirstDepositModal";
+import Loader from "../../reusable_component/Loader/Loader";
 const profileApi = apis.profile
 
 const Wallet = () => {
+  const [loading, setLoading] = useState(false);
   const [firstDepsoitModal, setFirstDepsoitModal] = useState(localStorage.getItem("firstDepositModalValue") === "1");
   const [myDetails, setMyDetails] = useState(null)
   const [showModal, setShowModal] = useState(false);
@@ -72,20 +74,24 @@ const Wallet = () => {
     if (isFundTransferRunningRef.current) return;
     isFundTransferRunningRef.current = true;
     const payload = { id: userId };
+    setLoading(true)
     try {
       const res = await axios.post(apis.fundTransfer, payload, {
         headers: { "Content-Type": "application/json; charset=UTF-8" },
       });
       if (res?.data?.status === 200) {
+        setLoading(false)
         profileDetails(userId);
         toast.success(res?.data?.message);
       } else {
+        setLoading(false)
         toast.error(res?.data?.message);
       }
     } catch (er) {
       console.error("Error:", er);
       toast.error(er);
     } finally {
+      setLoading(false)
       setShowModal(false);
       isFundTransferRunningRef.current = false; // Allow re-execution
     }
@@ -116,6 +122,7 @@ const Wallet = () => {
   }, [])
   return (
     <>
+    {loading && <Loader setLoading={setLoading} loading={loading} />}
       {firstDepsoitModal && (
         <div className="relative z-50 font-roboto">
           <FirstDepositModal

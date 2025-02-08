@@ -10,6 +10,7 @@ import apis from '../../utils/apis'
 import { useNavigate } from 'react-router-dom';
 import usdt_icon from '../../assets/images/usdt_icon.png';
 import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+import Loader from "../../reusable_component/Loader/Loader";
 // import ipRemovedbg from "../../assets/usaAsset/ipRemovedbg.png"
 // import kuberPayLogo from "../../assets/usaAsset/kuberPayLogo.png"
 function DepositHistory() {
@@ -22,7 +23,7 @@ function DepositHistory() {
     const [depositHistoryData, setDepositHistoryData] = useState(null)
     const [isOrderidCopied, setIsOrderidCopied] = useState(false)
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState(false);
     const modalRef = useRef(null);
     const modalSecondRef = useRef(null);
     const userId = localStorage.getItem("userId");
@@ -30,18 +31,7 @@ function DepositHistory() {
     const toggleModal = (modalType) => {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
-    // const getPayModes = async () => {
-    //     try {
-    //         const res = await axios.get(apis.payModes)
-    //         if (res?.data?.status == 200) {
-    //             setPayModesList(res?.data?.data)
-    //         }
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
-    // console.log("depositHistoryData", depositHistoryData)
-    // Close modal when clicking outside
+   
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -76,10 +66,9 @@ function DepositHistory() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [modalSecond]);
-    // useEffect(() => {
-    //     getPayModes()
-    // }, [])
+   
     const depositHistory = async (t) => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -94,12 +83,15 @@ function DepositHistory() {
                 res = await axios.get(`${apis?.depositHistory}?user_id=${userId}&type=${t}`)
             }
             if (res?.data?.status === 200) {
+                setLoading(false)
                 setDepositHistoryData(res?.data?.data)
             } else {
+                setLoading(false)
                 setDepositHistoryData(null)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             console.log(err)
         }
     }
@@ -145,6 +137,7 @@ function DepositHistory() {
     return (
         <>
             <div className='w-full'>
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
                 <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
                     <div className="flex gap-2 text-xsm font-bold">
                         <div

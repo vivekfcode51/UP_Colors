@@ -4,12 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import apis from "../../utils/apis";
+import Loader from "../../reusable_component/Loader/Loader";
 
 function GameRule() {
      const [invitationListData, setInvitationListData] = useState([])
+     const [loading, setLoading] = useState(false);
         const navigate = useNavigate();
         const userId = localStorage.getItem("userId");
     const attendanceList = async () => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -19,11 +22,14 @@ function GameRule() {
             const res = await axios.get(`${apis.attendanceList}${userId}`)
             // console.log(res)
             if (res?.data?.status === 200) {
+                setLoading(false)
                 setInvitationListData(res?.data?.data)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             toast.error(err)
         }
     }
@@ -32,9 +38,10 @@ function GameRule() {
             attendanceList()
         }
     }, [userId])
-    console.log("invitationListData",invitationListData)
+    // console.log("invitationListData",invitationListData)
     return (
         <div className="pb-10 font-roboto">
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <div className="px-3 mt-3">
                 <table className="w-full text-sm overflow-hidden rounded-lg">
                     <thead className="bg-redLight ">

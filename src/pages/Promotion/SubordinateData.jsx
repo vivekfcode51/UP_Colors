@@ -7,8 +7,10 @@ import apis from "../../utils/apis"
 import { useNavigate } from 'react-router-dom'
 import { FaRegCopy } from 'react-icons/fa'
 import no_data_available from "../../assets/images/no_data_available.png"
+import Loader from '../../reusable_component/Loader/Loader'
 
 function SubordinateData() {
+  const [loading, setLoading] = useState(false);
   const [modalFirstValue, handleModalFirstValue] = useState(0);
   const [confirmedDate, setConfirmedDate] = useState("Select date");
   const [modalFirst, handleModalFirst] = useState(false);
@@ -35,6 +37,7 @@ function SubordinateData() {
   //   }
   // };
   const tierHandler = async () => {
+    setLoading(true)
     if (!userId) {
       toast.error("User not logged in");
       navigate("/login");
@@ -44,15 +47,19 @@ function SubordinateData() {
       const res = await axios.get(`${apis.tier}`);
       // console.log("res1",res)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setTier(res?.data?.data)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       toast.error(err);
     }
   };
   const subOrdinateDataHandler = async () => {
+    setLoading(true)
     if (!userId) {
       toast.error("User not logged in");
       navigate("/login");
@@ -65,13 +72,16 @@ function SubordinateData() {
     // console.log("payload",payload)
     try {
       const res = await axios.post(`${apis?.subordinateData}`, payload);
-      console.log("res1", res)
+      // console.log("res1", res)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setSuborinateData(res?.data?.data)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       toast.error(err);
     }
   };
@@ -85,31 +95,10 @@ function SubordinateData() {
     tierHandler()
   }, [])
 
-  const handleCopyUID = () => {
-    // if (myDetails?.data?.u_id) {
-    //     navigator.clipboard
-    //         .writeText(myDetails?.data?.u_id)
-    //         .then(() => {
-    //             setIsUidCopied(true)
-    //         })
-    //         .catch(() => {
-    //             toast.error('Failed to copy UID.');
-    //         });
-    // } else {
-    //     toast.error('UID is not available.');
-    // }
-  };
-  // useEffect(() => {
-  //     if (isUidCopied) {
-  //         const timer = setTimeout(() => {
-  //             setIsUidCopied(false);
-  //         }, 2000);
-  //         return () => clearTimeout(timer);
-  //     }
-  // }, [isUidCopied, setIsUidCopied]);
-  // console.log(tier)
+ 
   return (
     <div className='p-2 h-full w-full'>
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className='w-full flex items-center justify-between bg-white rounded-md p-2'>
         <input placeholder='search subordinate UID' className='bg-white text-[15px] text-black outline-none' type="text" name="" id="" />
         <div className='bg-red rounded-3xl px-5 py-0.5'> <IoSearchOutline className='text-white' size={30} /> </div>

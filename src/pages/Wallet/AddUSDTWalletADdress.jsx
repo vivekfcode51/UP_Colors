@@ -8,7 +8,10 @@ import person from "../../assets/usaAsset/wallet/person.png"
 import exclamation from "../../assets/usaAsset/account/exclamation.png"
 import usdtAdress from "../../assets/usaAsset/wallet/usdtaddress.png"
 import trcusdt from "../../assets/usaAsset/wallet/trcusdt.png"
+import { useState } from "react";
+import Loader from "../../reusable_component/Loader/Loader";
 const AddUSDTWalletADdress = () => {
+    const [loading, setLoading] = useState(false);
     const userId = localStorage.getItem("userId");
     const navigate = useNavigate()
     const formik = useFormik({
@@ -22,6 +25,7 @@ const AddUSDTWalletADdress = () => {
                 .required("USDT address is required"),
         }),
         onSubmit: async (values) => {
+            setLoading(true)
             const payload = {
                 user_id: userId,
                 name: values.name,
@@ -31,12 +35,15 @@ const AddUSDTWalletADdress = () => {
             try {
                 const res = await axios.post(apis.add_usdt_account, payload);
                 if (res?.data?.status === 200) {
+                    setLoading(false)
                     navigate("/wallet/withdrawal")
                     toast.success(res?.data?.message);
                 } else {
+                    setLoading(false)
                     toast.error(res?.data?.message);
                 }
             } catch (err) {
+                setLoading(false)
                 console.error(err);
                 toast.error("Something went wrong");
             }
@@ -45,6 +52,7 @@ const AddUSDTWalletADdress = () => {
 
     return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-start pb-10 pt-3 px-3">
+           {loading && <Loader setLoading={setLoading} loading={loading} />}
             {/* Alert */}
             <div className="w-full max-w-md bg-inputBg text-redLight rounded-full px-2 py-1 mt-1">
                 <p className="flex items-center text-xsm">

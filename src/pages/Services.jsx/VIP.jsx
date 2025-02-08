@@ -44,8 +44,10 @@ import { useNavigate } from "react-router-dom";
 const avatar = "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg";
 import apis from '../../utils/apis'
 import { RiVipDiamondFill } from "react-icons/ri";
+import Loader from "../../reusable_component/Loader/Loader";
 const profileApi = apis.profile
 function VIP() {
+  const [loading, setLoading] = useState(false);
   const [myDetails, setMyDetails] = useState(null)
   const [vipLevelData, setVipLevel] = useState([])
   const [vipLevelHistoryData, setVipLevelHistory] = useState([])
@@ -108,44 +110,52 @@ function VIP() {
 
   // add money
   const addMoneyLevelUpHandler = async (id, reward) => {
+    setLoading(true)
     const payload = {
       userid: userId,
       level_id: id,
       level_up_rewards: reward
     }
-    console.log(":level payload", payload)
+    // console.log(":level payload", payload)
     try {
       const res = await axios.post(apis.vipLevelAddMoney, payload)
-      console.log("level", res)
+      // console.log("level", res)
       if (res?.data?.status === 200) {
+        setLoading(false)
         toast.success(res?.data?.message)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       toast.error(err)
     }
   }
   const addMoneyMonthlyHandler = async (id, reward) => {
+    setLoading(true)
     const payload = {
       userid: userId,
       level_id: id,
       monthly_rewards: reward
     }
-    console.log(":monthly payload", payload)
+    // console.log(":monthly payload", payload)
     try {
       const res = await axios.post(apis.vipLevelAddMoney, payload)
-      console.log("monthly", res)
+      // console.log("monthly", res)
       if (res?.data?.status === 200) {
+        setLoading(false)
         toast.success(res?.data?.message)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       toast.error(err)
     }
   }
-  console.log("vipLevelvipLevel", vipLevelHistoryData)
+  // console.log("vipLevelvipLevel", vipLevelHistoryData)
   useEffect(() => {
     if (userId) {
       profileDetails(userId);
@@ -189,9 +199,10 @@ function VIP() {
     },
 
   ]
-console.log("vipLevelData",vipLevelData)
+// console.log("vipLevelData",vipLevelData)
   return (
     <>
+    {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e]'>
         <div className='grid grid-cols-4 px-3 pt-5 pb-14'>
           <div className='col-span-1 flex items-center  justify-center'>

@@ -457,7 +457,7 @@ const WinGo = () => {
   const rulesHandler = async (id) => {
     try {
       const res = await axios.get(`${apis.wingo_rules}${id}`)
-      console.log("re ruole rus", res)
+      // console.log("re ruole rus", res)
       if (res?.data?.status === 200) {
         setRulePlay(res?.data?.data)
       }
@@ -469,6 +469,7 @@ const WinGo = () => {
   useEffect(() => {
     rulesHandler(gameDetails?.gameId)
   }, [gameDetails?.gameId])
+  // console.log("gameHistoryData[0]?.games_no",typeof gameHistoryData[0]?.games_no)
   return (
     <>
       {isModalVisible && modalData && (
@@ -576,7 +577,7 @@ const WinGo = () => {
                 <div className='flex justify-end items-center gap-1 mt-1 w-full text-sm'>
                   <LotteryTimer duration={callTimer} />
                 </div>
-                <p className='flex justify-end text-lg xsm:text-[1.2rem] font-extrabold mt-3'>{gameHistoryData[0]?.games_no + 1}</p>
+                <p className='flex justify-end text-sm 3xl:text-[1.2rem] font-extrabold mt-3'>{gameHistoryData[0]?.games_no + 1}</p>
               </div>
             </div>
           </div>
@@ -702,25 +703,24 @@ const WinGo = () => {
             <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
           </div>
         )}
-        {playRule && (
+         {playRule && gameDetails?.gameId === 1 && (
           <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity ">
-            <div
-              className={`relative w-[281px] ${rulePlay?.length > 0 ? "h-[450px]" : "h-40"
-                } z-50 bg-white rounded-2xl shadow-lg flex flex-col items-center`}
-            >
-              <p className="absolute top-0 left-0 w-full text-center bg-gradient-to-r from-[#f95959] to-[#ff9a8e] py-2 rounded-t-2xl">
+            <div className={`relative w-[281px] h-[450px] z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
+              <p className="absolute text-[16px] top-0 left-0 w-full text-center bg-gradient-to-r from-red to-redLight py-2 rounded-t-lg">
                 How to play
               </p>
-              {rulePlay?.length > 0 ? (
-                <div className="px-2 overflow-scroll h-full mt-12 text-xs text-blackLight">
-                  <div dangerouslySetInnerHTML={{ __html: rulePlay[0]?.list }} />
-                </div>
-              ) : (
-                <div className="px-2 mt-16 text-lg text-blackLight">No data</div>
-              )}
+               <div className='px-2 text-[12.8px] overflow-y-scroll h-full mt-12 text-[#1e2637]'>
+                <p className=''>30 seconds 1 issue, 25 seconds to order, 5 seconds waiting for the draw. It opens all day. The total number of trade is 2880 issues.</p>
+                <p>if you spend 100 to trade, after deducting service fee 2%, contract amount : 98</p>
+                <p>1. Select green: if the result shows 1,3,7,9 you will get (98*2)=196;If the result shows 5, you will get (98*1.5) 147</p>
+                <p>2. Select red: if the result shows 2,4,6,8 you will get (98*2)=196 ;If the result shows 0, you will get (98*1.5) 147</p>
+                <p>3. Select violet: if the result shows 0 or 5, you will get (98*2)=196</p>
+                <p>4. Select number: if the result is the same as the number you selected, you will get (98*9)=882</p>
+                <p>5. Select big: if the result shows 5,6,7,8,9 you will get (98*2)=196</p>
+              </div> 
               <div className='w-full rounded-b-2xl bg-white p-3 h-28 flex items-center justify-center'>
                 <button
-                  className=" bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white px-20 py-2.5 rounded-full"
+                  className="bg-gradient-to-r from-red to-redLight text-white px-16 py-2 rounded-full"
                   onClick={() => setPlayRule(false)}
                 >
                   Close
@@ -729,7 +729,87 @@ const WinGo = () => {
             </div>
           </div>
         )}
-
+        {playRule && gameDetails?.gameId === 2 && (
+          <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity ">
+            <div className={`relative w-[281px] h-[450px] z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
+              <p className="absolute text-[16px] top-0 left-0 w-full text-center bg-gradient-to-r from-red to-redLight py-2 rounded-t-lg">
+                How to play
+              </p>
+               <div className='px-2 text-[12.8px] overflow-y-scroll h-full mt-12 text-[#1e2637]'>
+                <p className=''>1 minutes 1 issue, 45 seconds to order, 15 seconds waiting for the draw. It opens all day. The total number of trade is 1440 issues.</p>
+                <p>if you spend 100 to trade, after deducting 2 service fee, contract amount : 98</p>
+                <p>1. Select green: if the result shows 1,3,7,9 you will get (98*2)=196;If the result shows 5, you will get (98*1.5) 147</p>
+                <p>2. Select red: if the result shows 2,4,6,8 you will get (98*2)=196 ;If the result shows 0, you will get (98*1.5) 147</p>
+                <p>3. violet:if the result shows 0 or 5, you will get (98*4.5) 441</p>
+                <p>4. Select number:if the result is the same as the number you selected, you will get (98*9) 882</p>
+                <p>5. Select violet: if the result shows 0 or 5, you will get (98*2)=196</p>
+                <p>6. Select big: if the result shows 5,6,7,8,9 you will get (98*2)=196</p>
+              </div> 
+              <div className='w-full rounded-b-2xl bg-white p-3 h-28 flex items-center justify-center'>
+                <button
+                  className="bg-gradient-to-r from-red to-redLight text-white px-16 py-2 rounded-full"
+                  onClick={() => setPlayRule(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {playRule && gameDetails?.gameId === 3 && (
+          <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity ">
+            <div className={`relative w-[281px] h-[450px] z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
+              <p className="absolute text-[16px] top-0 left-0 w-full text-center bg-gradient-to-r from-red to-redLight py-2 rounded-t-lg">
+                How to play
+              </p>
+               <div className='px-2 text-[12.8px] overflow-y-scroll h-full mt-12 text-[#1e2637]'>
+                <p className=''>3 minutes 1 issue, 2 minutes 45 seconds to order, 15 seconds waiting for the draw. It opens all day. The total number of trade is 480 issues.</p>
+                <p>if you spend 100 to trade, after deducting 2 service fee, contract amount : 98</p>
+                <p>1. Select green: if the result shows 1,3,7,9 you will get (98*2)=196;If the result shows 5, you will get (98*1.5) 147</p>
+                <p>2. Select red: if the result shows 2,4,6,8 you will get (98*2)=196 ;If the result shows 0, you will get (98*1.5) 147</p>
+                <p>3. violet:if the result shows 0 or 5, you will get (98*4.5) 441</p>
+                <p>4. Select number:if the result is the same as the number you selected, you will get (98*9) 882</p>
+                <p>5. Select violet: if the result shows 0 or 5, you will get (98*2)=196</p>
+                <p>6. Select big: if the result shows 5,6,7,8,9 you will get (98*2)=196</p>
+              </div> 
+              <div className='w-full rounded-b-2xl bg-white p-3 h-28 flex items-center justify-center'>
+                <button
+                  className="bg-gradient-to-r from-red to-redLight text-white px-16 py-2 rounded-full"
+                  onClick={() => setPlayRule(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {playRule && gameDetails?.gameId === 4 && (
+          <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity ">
+            <div className={`relative w-[281px] h-[450px] z-50 bg-white rounded-lg shadow-lg flex flex-col items-center`}>
+              <p className="absolute text-[16px] top-0 left-0 w-full text-center bg-gradient-to-r from-red to-redLight py-2 rounded-t-lg">
+                How to play
+              </p>
+               <div className='px-2 text-[12.8px] overflow-y-scroll h-full mt-12 text-[#1e2637]'>
+                <p className=''>5 minutes 1 issue, 4 minutes 45 seconds to order, 15 seconds waiting for the draw. It opens all day. The total number of trade is 288 issues.</p>
+                <p>if you spend 100 to trade, after deducting 2 service fee, contract amount : 98</p>
+                <p>1. Select green: if the result shows 1,3,7,9 you will get (98*2)=196;If the result shows 5, you will get (98*1.5) 147</p>
+                <p>2. Select red: if the result shows 2,4,6,8 you will get (98*2)=196 ;If the result shows 0, you will get (98*1.5) 147</p>
+                <p>3. violet:if the result shows 0 or 5, you will get (98*4.5) 441</p>
+                <p>4. Select number:if the result is the same as the number you selected, you will get (98*9) 882</p>
+                <p>5. Select violet: if the result shows 0 or 5, you will get (98*2)=196</p>
+                <p>6. Select big: if the result shows 5,6,7,8,9 you will get (98*2)=196</p>
+              </div> 
+              <div className='w-full rounded-b-2xl bg-white p-3 h-28 flex items-center justify-center'>
+                <button
+                  className="bg-gradient-to-r from-red to-redLight text-white px-16 py-2 rounded-full"
+                  onClick={() => setPlayRule(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

@@ -10,7 +10,9 @@ import { RxCross2 } from 'react-icons/rx'
 import axios from 'axios'
 import apis from '../../utils/apis'
 import { toast } from 'react-toastify'
+import Loader from '../../reusable_component/Loader/Loader'
 function Setting() {
+  const [loading, setLoading] = useState(false);
   const [nickNameModal, setNicknameModal] = useState(false)
   const [myDetails, setMyDetails] = useState(null)
   const [isUidCopied, setIsUidCopied] = useState(false)
@@ -29,9 +31,8 @@ function Setting() {
     }
   };
 
- 
-
   const changeNameHandler = async () => {
+    setLoading(true)
     const payload={
       id:userId,
       name: editedName,
@@ -39,12 +40,14 @@ function Setting() {
     try {
       const res = await axios.post(`${apis.update_profile}`, payload);
       if (res?.data?.status === 200) {
+        setLoading(false)
         toast.success("Nickname updated successfully!");
         setIsEditing(false);
         setNicknameModal(false)
         profileDetails(userId)
       }
     } catch (err) {
+      setLoading(false)
       toast.error("Failed to update nickname.");
     }
   };
@@ -83,6 +86,7 @@ function Setting() {
   // console.log("isEditing",myDetails)
   return (
     <div className='bg-white'>
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] rounded-b-3xl h-40
        w-full'>
       </div>

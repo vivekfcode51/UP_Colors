@@ -4,8 +4,10 @@ import apis from "../../utils/apis";
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import no_data_available from '../../assets/images/no_data_available.png';
+import Loader from '../../reusable_component/Loader/Loader';
 
 const NewSubordinate = () => {
+  const [loading, setLoading] = useState(false);
   const [activeModal, setActiveModal] = useState(1);
   const [newSubordinateData, setNewSubordinateData] = useState([]);
 
@@ -16,14 +18,18 @@ const NewSubordinate = () => {
   const userId = localStorage.getItem("userId");
 
   const NewSubordinateHandler = useCallback(async () => {
+    setLoading(true)
     try {
       const res = await axios.get(`${apis.newSubordinate}${userId}&type=${activeModal}`);
       if (res?.data?.status === 200) {
+        setLoading(false)
         setNewSubordinateData(res?.data?.data);
       } else {
+        setLoading(false)
         setNewSubordinateData([]);
       }
     } catch (err) {
+      setLoading(false)
       console.error(err);
     }
   }, [userId, activeModal]);
@@ -34,6 +40,7 @@ const NewSubordinate = () => {
 
   return (
     <div>
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
         <div className="flex justify-between text-xsm">
           <div

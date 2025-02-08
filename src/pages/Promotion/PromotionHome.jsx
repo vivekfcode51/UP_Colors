@@ -13,7 +13,9 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import apis from "../../utils/apis"
 import FirstDepositModal from '../../reusable_component/FirstDepositModal'
+import Loader from '../../reusable_component/Loader/Loader'
 function PromotionHome() {
+    const [loading, setLoading] = useState(false);
     const [firstDepsoitModal, setFirstDepsoitModal] = useState(localStorage.getItem("firstDepositModalValue") === "1");
     const [copyInvitation, setCopyInvitation] = useState(false)
     const [copyInvitationCode, setCopyInvitationCode] = useState(false)
@@ -45,15 +47,19 @@ function PromotionHome() {
     }, [userId]);
     // console.log("myDetailsmyDetails",myDetails)
     const promotionDataHandler = async () => {
+        setLoading(true)
         try {
             const res = await axios.get(`${apis?.promotionData}${userId}`)
             // console.log("resooooo",res)
             if (res?.data?.status === 200) {
+                setLoading(false)
                 setPromotionData(res?.data?.data)
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (er) {
+            setLoading(false)
             toast.error(er)
         }
     }
@@ -124,6 +130,7 @@ function PromotionHome() {
     }, [])
     return (
         <>
+        {loading && <Loader setLoading={setLoading} loading={loading} />}
             {firstDepsoitModal && (
                 <div className="relative z-50 font-roboto">
                     <FirstDepositModal

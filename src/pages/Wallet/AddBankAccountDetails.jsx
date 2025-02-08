@@ -11,6 +11,7 @@ import ifsc_code from "../../assets/usaAsset/wallet/ifsc.png";
 import acc_number from "../../assets/usaAsset/wallet/acc_number.png";
 import exclamation from "../../assets/usaAsset/account/exclamation.png";
 import { useEffect, useState } from "react";
+import Loader from "../../reusable_component/Loader/Loader";
 
 const validationSchema = yup.object().shape({
     name: yup.string().required("Full name is required"),
@@ -27,9 +28,9 @@ const validationSchema = yup.object().shape({
 });
 
 const AddBankAccountDetails = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
-    const [ifsc, setIfsc] = useState("");
 
     const {
         register,
@@ -43,6 +44,7 @@ const AddBankAccountDetails = () => {
     });
 
     const addAccountdetailsHandler = async (data) => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -54,16 +56,20 @@ const AddBankAccountDetails = () => {
         try {
             const res = await axios.post(apis?.addAccount, payload);
             if (res.data?.status === "200") {
+                setLoading(false)
                 toast.success(res?.data?.message);
                 navigate("/wallet/withdrawal")
             } else {
+                setLoading(false)
                 toast.error(res?.data?.message);
             }
         } catch (err) {
+            setLoading(false)
             toast.error("Something went wrong");
         }
     };
     const getBranchnameByIfscHandler = async (ifscCode) => {
+        
         try {
             const res = await axios.get(`${apis.getBranchnameByIfsc}${ifscCode}`);
             if (res?.data?.status === "success") {
@@ -89,6 +95,7 @@ const AddBankAccountDetails = () => {
     }, [watch("ifsc_code")]);
     return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-start pb-10 pt-2 px-3">
+           {loading && <Loader setLoading={setLoading} loading={loading} />}
             {/* Alert */}
             <div className="w-full max-w-md bg-inputBg text-redLight rounded-full px-2 py-1 mt-1">
                 <p className="flex items-center text-xsm font-semibold ">

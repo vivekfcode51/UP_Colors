@@ -4,7 +4,7 @@ import noData from "../assets/images/no_data_available.png"
 
 const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
     const [activeIndex, setActiveIndex] = useState(null);
-    // console.log("wingo my history ", myHistoryData)
+    console.log("wingo my history ", myHistoryData)
     return (
         <>
             {handlehistorybox === 2 ? (
@@ -195,9 +195,8 @@ const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
                                     </div>
                                     <div className="bg-inputBg text-blackLight w-full mt-1 py-2 flex items-center justify-between px-2  rounded-md">
                                         <p>Status</p>
-                                        {item?.status !== 0 ? <p>{item?.win_amount == 0 ? (<>
-                                            <span className="text-red">Failed</span>
-                                        </>) : <span className="text-green">Succeed</span>}</p> : <p>Unpaid</p>}
+                                        {item?.status===2? <span className="text-red">Failed</span>:item?.status===1?<span className="text-green">Succeed</span>: <p>Unpaid</p>}
+                                      
                                     </div>
                                     <div className="bg-inputBg text-blackLight w-full mt-1 py-2 flex items-center justify-between px-2  rounded-md">
                                         <p>Win/Loss</p>

@@ -5,11 +5,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import Loader from "../../reusable_component/Loader/Loader";
 function AttendanceHistory() {
   const [atttendanceList, setAttenddanceList] = useState([])
+  const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate()
   const attendanceHistory = async () => {
+    setLoading(true)
     if (!userId) {
       toast.error("User not logged in");
       navigate("/login");
@@ -18,11 +21,14 @@ function AttendanceHistory() {
     try {
       const res = await axios.get(`${apis.attendanceHistory}${userId}`)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setAttenddanceList(res?.data?.data)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       toast.error(err)
     }
   }
@@ -35,6 +41,7 @@ function AttendanceHistory() {
   // console.log("atttendanceListatttendanceList", atttendanceList)
   return (
     <div className="px-3 font-roboto">
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <table className='w-full mt-10'>
         <thead>
           <tr className='text-black font-bold'>

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import TimerModal from "./TimerModal";
+import TimerModalTrx from "./TimerModalTrx";
 
 const LotteryTimerTrx = ({ duration }) => {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -24,12 +24,12 @@ const LotteryTimerTrx = ({ duration }) => {
   }, [duration]);
 
   useEffect(() => {
-    if (timeLeft <= 5 && timeLeft > 0) {
+    if (timeLeft <= 10 && timeLeft > 0) {
       setIsWarning(true);
       setIsModalOpen(true); 
     } else {
       setIsWarning(false);
-      if (timeLeft > 5) setIsModalOpen(false); 
+      if (timeLeft > 10) setIsModalOpen(false); 
     }
   }, [timeLeft]);
 
@@ -39,20 +39,20 @@ const LotteryTimerTrx = ({ duration }) => {
 
   return (
     <div className="relative w-full">
-      <div className={`flex justify-end space-x-1 ${isWarning ? "text-red" : ""}`}>
-        <div className="bg-white text-black h-8 w-5 flex items-center justify-center font-semibold">
+       <div className={`flex text-[1.7rem] justify-end space-x-1 ${isWarning ? "text-red" : ""}`}>
+        <div className="bg-white font-extrabold text-black h-10 w-6 flex items-center justify-center ">
           {formatTime(minutes)[0]}
         </div>
-        <div className="bg-white text-black h-8 w-5 flex items-center justify-center font-semibold">
+        <div className="bg-white text-black h-10 w-6 flex items-center justify-center font-semibold">
           {formatTime(minutes)[1]}
         </div>
-        <div className="bg-white text-black h-8 w-4 flex items-center justify-center font-semibold">
+        <div className="bg-white text-black h-10 w-4 flex items-center justify-center font-semibold">
           :
         </div>
-        <div className="bg-white text-black h-8 w-5 flex items-center justify-center font-semibold">
+        <div className="bg-white text-black h-10 w-6 flex items-center justify-center font-semibold">
           {formatTime(seconds)[0]}
         </div>
-        <div className="bg-white text-black h-8 w-5 flex items-center justify-center font-semibold">
+        <div className="bg-white text-black h-10 w-6 flex items-center justify-center font-semibold">
           {formatTime(seconds)[1]}
         </div>
       </div>
@@ -60,7 +60,7 @@ const LotteryTimerTrx = ({ duration }) => {
         className="absolute mt-[7rem] xsm:mt-[8.9rem] flex items-center h-[16.5rem] xsm:h-[17.7rem] left-0"
         style={{ width: "214%", transform: "translateX(-50%)" }}
       >
-        <TimerModal
+        <TimerModalTrx
           duration={duration}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}

@@ -5,18 +5,20 @@ import viewall from "../assets/usaAsset/homeScreen/viewall.png"
 import { useNavigate } from "react-router-dom";
 function MiniGamesList() {
   const navigate=useNavigate()
+  const [loading, setLoading] = useState(false);
+
  const userId = localStorage.getItem("userId")
    const [allGamesListView, setAllGamesListView] = useState(null)
    useEffect(() => {
      fetchAllGamesSpribe(setAllGamesListView);
    }, []);
-   console.log("allGamesListView",allGamesListView)
+  //  console.log("allGamesListView",allGamesListView)
    return (
      <div>
        <div className="grid grid-cols-3 w-full">
          {allGamesListView ? (
            allGamesListView?.data?.message?.data?.map((item, i) => (
-             <div onClick={() => fetchGameURLSpribe(item?.game_id_long, userId,navigate)} key={i} className=" flex flex-col items-center text-black p-2 ">
+             <div onClick={() => fetchGameURLSpribe(item?.game_id_long, userId,navigate,setLoading)} key={i} className=" flex flex-col items-center text-black p-2 ">
                <img src={item?.game_image} className="w-36 h-20 rounded-lg" alt="sd" />
              </div>
            ))

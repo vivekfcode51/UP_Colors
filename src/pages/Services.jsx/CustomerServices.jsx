@@ -7,8 +7,10 @@ import axios from 'axios'
 import apis from '../../utils/apis'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import Loader from '../../reusable_component/Loader/Loader'
 
 function CustomerServices() {
+  const [loading, setLoading] = useState(false);
   const [serviceData, setServiceData] = useState([])
   const handlerNavigator = (linkUrl) => {
     window.open(linkUrl, "_blank")
@@ -17,15 +19,19 @@ function CustomerServices() {
     window.location.href = "mailto:someone@example.com?subject=Subject&body=Body%20text";
   };
   const serviceDataHandler = async () => {
+    setLoading(true)
     try {
       const res = await axios.get(apis.customer_service)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setServiceData(res?.data?.data)
       } else if (res?.data?.status === 400) {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
 
     } catch (err) {
+      setLoading(false)
       console.log(err)
     }
   }
@@ -34,6 +40,7 @@ function CustomerServices() {
   }, [])
   return (
     <div>
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e]'><img src={customerBg} alt="ds" /></div>
       <div className='mt-5 px-5 flex items-center justify-between w-full font-bold text-black'>
         <p>Self Service</p>

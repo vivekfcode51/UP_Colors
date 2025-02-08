@@ -6,7 +6,9 @@ import apis from '../../utils/apis';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import Loader from '../../reusable_component/Loader/Loader';
 function ChangePassword() {
+    const [loading, setLoading] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState({
         login_password: false,
         new_password: false,
@@ -20,6 +22,7 @@ function ChangePassword() {
     });
 
     const passwordHandler = async () => {
+        setLoading(true)
         const payload = {
             userid: userId,
             password: allInputs?.login_password,
@@ -28,8 +31,9 @@ function ChangePassword() {
         }
         try {
             const res = await axios.post(apis.changePassword, payload)
-            console.log("res", res)
+            // console.log("res", res)
             if (res?.data?.status === "200") {
+                setLoading(false)
                 toast.success(res?.data?.message)
                 setAllInputs({
                     login_password: "",
@@ -37,10 +41,12 @@ function ChangePassword() {
                     password_confirmation: "",
                 })
             } else {
-                console.log("4000", res)
+                // console.log("4000", res)
+                setLoading(false)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             console.log("errr", err)
             toast.error("Internal server error")
         }
@@ -62,6 +68,7 @@ function ChangePassword() {
 
     return (
         <div>
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <div className="w-full text-gray rounded-lg p-6">
                 {/* Login Password */}
                 <div className="relative">

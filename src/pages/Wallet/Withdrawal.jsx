@@ -29,13 +29,16 @@ function Withdrawal() {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
 
-    const getPaymentLimits = async () => {
+    const getPaymentLimits = async () => { 
+        setloading(true)
         try {
             const res = await axios.get(`${apis.getPaymentLimits}`);
             if (res?.data?.status === 200) {
+                setloading(false)
                 setPaymenLimts(res?.data?.data)
             }
         } catch (err) {
+            setloading(false)
             toast.error(err);
         }
     };

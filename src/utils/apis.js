@@ -71,9 +71,10 @@ const apis = {
   get_game_url_spribe: `${configModalUsaWin}get_spribe_game_urls`,
   extra_first_deposit_bonus: `${configModalUsaWin}extra_first_deposit_bonus?userid=`,
   getBranchnameByIfsc: `${configModalUsaWin}get-ifsc-details?ifsc=`,
-  // wingo_rules: `${configModalUsaWin}wingo_rules`,
+  trx_game_result: `${configModalUsaWin}trx/result`,
 };
 
 export default apis
 
 
+// https://root.usawin.vip/api/trx/result?gameid=6&offset=0&limit=10

@@ -4,13 +4,15 @@ import axios from 'axios'
 import apis from "../../utils/apis"
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
+import Loader from '../../reusable_component/Loader/Loader'
 function CommissionDetails() {
-
+  const [loading, setLoading] = useState(false);
   const [confirmedDate, setConfirmedDate] = useState("Select date");
   const [commisionData, setCommisionData] = useState(null)
   const userId = localStorage.getItem("userId")
   const navigate = useNavigate()
   const comHandler = async () => {
+    setLoading(true)
     if (!userId) {
       toast.error("User not logged in");
       navigate("/login");
@@ -20,12 +22,15 @@ function CommissionDetails() {
       const res = await axios.get(`${apis.commisionDetails}${userId}&type_id=${9}`)
       // console.log("res", res)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setCommisionData(res?.data?.data)
       } else {
+        setLoading(false)
         toast?.error(res?.data?.message)
       }
       // const res1 = await axios.get(`${apis.commisionDetails}${userId}&type_id=${9}`)
     } catch (err) {
+      setLoading(false)
       toast.error(err)
     }
   }
@@ -34,6 +39,7 @@ function CommissionDetails() {
   }, [userId])
   return (
     <div className='w-full h-full p-2'>
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <button
         className="bg-white text-lightGray rounded-md text-xs  py-2.5  px-2 flex justify-center items-center shadow-md"
       >

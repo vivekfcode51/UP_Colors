@@ -7,27 +7,34 @@ import apis from "../../utils/apis"
 import axios from "axios"
 import { toast } from "react-toastify"
 import no_data_available from "../../assets/images/no_data_available.png"
+import Loader from "../../reusable_component/Loader/Loader"
 function Rebate() {
   const [dataValue, setDataValue] = useState(null)
+  const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem("userId")
   const handler = async () => {
+    setLoading(true)
     try {
       const res = await axios.get(`${apis.betting_rebate_history}${userId}&type_id=7`)
       if (res?.data?.status === 200) {
+        setLoading(false)
         setDataValue(res?.data)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       console.log(err)
     }
   }
   useEffect(() => {
     handler()
   }, [])
-  console.log("res", dataValue)
+  // console.log("res", dataValue)
   return (
     <div className='px-3 mt-3'>
+      {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className='bg-white text-lightGray p-2 rounded-lg text-xs'>
         <h1 className="text-sm text-black">All total betting rebate </h1>
         <div className="flex items-center gap-1 border-[1px] border-red text-red px-2 w-32 py-1 rounded mt-1">

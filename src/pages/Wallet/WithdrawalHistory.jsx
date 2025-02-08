@@ -11,8 +11,10 @@ import { useNavigate } from 'react-router-dom';
 import moment from "moment";
 import { PiCopyLight } from 'react-icons/pi';
 import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+import Loader from '../../reusable_component/Loader/Loader';
 
 function WithdrawalHistory() {
+    const [loading, setLoading] = useState(false);
     const [activeModal, setActiveModal] = useState(0);
     const [modalFirst, handleModalFirst] = useState(false);
     const [modalFirstValue, handleModalFirstValue] = useState(0);
@@ -90,6 +92,7 @@ function WithdrawalHistory() {
     }, [modalSecond]);
 
     const withdrawHistory = async (t) => {
+        setLoading(true)
         if (!userId) {
             toast.error("User not logged in");
             navigate("/login");
@@ -102,14 +105,17 @@ function WithdrawalHistory() {
             } else {
                 res = await axios.get(`${apis?.withdrawHistory}?user_id=${userId}&type=${t - 1}`)
             }
-            console.log("res", res)
+            // console.log("res", res)
             if (res?.data?.status === 200) {
+                setLoading(false)
                 setWithdrawHistoryData(res?.data?.data)
             } else {
+                setLoading(false)
                 setWithdrawHistoryData(null)
                 toast.error(res?.data?.message)
             }
         } catch (err) {
+            setLoading(false)
             console.log(err)
         }
     }
@@ -156,6 +162,7 @@ function WithdrawalHistory() {
     ]
     return (
         <>
+        {loading && <Loader setLoading={setLoading} loading={loading} />}
             <div>
                 <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
                     <div className="flex gap-2 text-xsm font-bold">

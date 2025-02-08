@@ -9,12 +9,15 @@ import jilli6 from "../../assets/usaAsset/homeScreen/JILLI6.png"
 import wingoNew from "../../assets/usaAsset/homeScreen/wingonew.jpeg"
 import k3new from "../../assets/usaAsset/homeScreen/k3new.png"
 import new5d from "../../assets/usaAsset/homeScreen/new5d.png"
-import aviatornew from "../../assets/usaAsset/homeScreen/aviatornew.png"
+// ssets/usaAsset/homeScreen/aviatornew.png
+import gamecategoryminigames from "../../assets/usaAsset/homeScreen/aviatornew.png"
 import minesnew from "../../assets/usaAsset/homeScreen/minesnew.png"
 import trx_colnew from "../../assets/usaAsset/homeScreen/trx_colnew.png"
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import Loader from '../../reusable_component/Loader/Loader';
 function AllGames() {
     const [allGamesListView, setAllGamesListView] = useState(null)
+    const [loading, setLoading] = useState(false);
     const userId = localStorage.getItem("userId")
     const [searchParams] = useSearchParams();
     const activeModalValue = searchParams.get('activeModalValue');
@@ -55,11 +58,13 @@ function AllGames() {
         { id: 2, name: "Trx Win", image: trx_colnew, route: "/lottery/trxwingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
         { id: 3, name: "K3", image: k3new, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even" },
         { id: 4, name: "5D", image: new5d, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even" },
-        { id: 5, name: "Aviator", image: aviatornew, route: "/comingsoon", description1: "Fly High", description2: "" },
-        { id: 6, name: "Mines", image: minesnew, route: "/comingsoon", description1: "Choose Boxes", description2: "" },
+        // { id: 5, name: "Aviator", image: aviatornew, route: "/comingsoon", description1: "Fly High", description2: "" },
+        // { id: 6, name: "Mines", image: minesnew, route: "/comingsoon", description1: "Choose Boxes", description2: "" },
     ];
+    console.log("allGamesListView",allGamesListView)
     return (
         <div>
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             <div className="hide-scrollbar overflow-x-auto py-3 mx-3">
                 <div className="flex gap-2 text-xsm font-bold">
                     {payMethod && payMethod?.map((item, i) => (
@@ -77,24 +82,35 @@ function AllGames() {
             <div className="grid grid-cols-3 w-full">
                 {allGamesListView && activeModal == 1 ? (
                     allGamesListView?.data?.data?.map((item, i) => (
-                        <div onClick={() => fetchGameURL(item?.id, userId, navigate)} key={i} className="flex flex-col items-center text-black p-2">
+                        <div onClick={() => fetchGameURL(item?.id, userId, navigate, setLoading)} key={i} className="flex flex-col items-center text-black p-2">
                             <img src={item?.img} className="w-36 h-32 rounded-lg" alt="sd" />
                         </div>
                     ))
                 ) : allGamesListView && activeModal == 2 ? (
                     allGamesListView?.data?.message?.data?.map((item, i) => (
-                        <div onClick={() => fetchGameURLSpribe(item?.game_id_long, userId, navigate)} key={i} className="flex flex-col items-center text-black p-2">
+                        <div onClick={() => fetchGameURLSpribe(item?.game_id_long, userId, navigate, setLoading)} key={i} className="flex flex-col items-center text-black p-2">
                             <img src={item?.game_image} className="w-36 h-32 rounded-lg" alt="sd" />
                         </div>
                     ))
                 ) : (
-                    LotteryGames?.map((item, i) => (
-                        <Link key={i} to={item?.route} >
-                            <div className="flex flex-col items-center text-black p-2">
-                                <img src={item?.image} className="w-36 h-32 rounded-lg" alt="sd" />
-                            </div>
-                        </Link>
-                    )))}
+                    <>
+                        {LotteryGames?.map((item, i) => (
+                            <Link key={i} to={item?.route} >
+                                <div className="flex flex-col items-center text-black p-2">
+                                    <img src={item?.image} className="w-36 h-32 rounded-lg" alt="sd" />
+                                </div>
+                            </Link>
+                        ))}
+                        {/* <Link key={i} to={item?.route} > */}
+                        <div onClick={() => fetchGameURLSpribe(allGamesListView?.data?.message?.data[0]?.game_id_long, userId, navigate, setLoading)} className="flex flex-col items-center text-black p-2">
+                            <img src={gamecategoryminigames} className="w-36 h-32 rounded-lg" alt="sd" />
+                        </div>
+                        <div onClick={() => fetchGameURLSpribe(allGamesListView?.data?.message?.data[6]?.game_id_long, userId, navigate, setLoading)} className="flex flex-col items-center text-black p-2">
+                            <img src={minesnew} className="w-36 h-32 rounded-lg" alt="sd" />
+                        </div>
+                        {/* </Link> */}
+
+                    </>)}
             </div>
         </div>
     )

@@ -10,18 +10,24 @@ import apis from "../../utils/apis"
 import { toast } from "react-toastify"
 import { useEffect, useState } from "react"
 import FirstDepositModal from "../../reusable_component/FirstDepositModal"
+import Loader from "../../reusable_component/Loader/Loader"
 function Activity() {
+  const [loading, setLoading] = useState(false);
   const [firstDepsoitModal, setFirstDepsoitModal] = useState(localStorage.getItem("firstDepositModalValue") === "1");
   const [bannerData, setBannerData] = useState([])
   const bannerDataHandler = async () => {
+    setLoading(true)
     try {
       const res = await axios.get(apis.slider)
       if (res?.data?.success === 200) {
+        setLoading(false)
         setBannerData(res?.data?.data)
       } else {
+        setLoading(false)
         toast.error(res?.data?.message)
       }
     } catch (err) {
+      setLoading(false)
       console.log(err)
     }
   }
@@ -38,6 +44,7 @@ function Activity() {
   }, [])
   return (
     <>
+    {loading && <Loader setLoading={setLoading} loading={loading} />}
       {firstDepsoitModal && (
         <div className="relative z-50 font-roboto">
           <FirstDepositModal

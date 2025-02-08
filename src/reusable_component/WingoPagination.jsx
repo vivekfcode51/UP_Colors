@@ -23,7 +23,7 @@ const WingoPagination = ({
       <p className="text-lightGray text-[12.8px]">{currentPage}{totalPages}</p>
       <button
         onClick={onNextClick}
-        className={`flex items-center justify-center font-semibold w-10 text-sm py-1 rounded-lg ${!prevDisabled?"bg-inputBg text-lightGray":"bg-red text-white"}`}
+        className={`flex items-center justify-center font-semibold w-10 text-sm py-1 rounded-lg ${nextDisabled?"bg-inputBg text-lightGray":"bg-red text-white"}`}
         disabled={nextDisabled}
       >
         <MdKeyboardArrowRight className="font-extrabold text-3xl text-white" />
