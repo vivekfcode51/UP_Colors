@@ -79,8 +79,6 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
                                                             : data?.number === 9
                                                                 ? "Green"
                                                                 : ""}
-
-
                             </span>)}
                         &nbsp;&nbsp;
                         {(data?.number === 0 || data?.number === 5) ? (

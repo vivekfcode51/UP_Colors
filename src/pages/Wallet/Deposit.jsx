@@ -30,7 +30,7 @@ function Deposit() {
     const [upiAmount, setUpiAmount] = useState(selectedAmount);
     // const [upiAmountKuber, setUpiAmountKuber] = useState(selectedAmountKuber);
     const [usdtAmount, setUsdtAmount] = useState(USDTselectedAmount)
-    const depositArray = ["200", "300", "500", "1000", "5000", "10000"]
+    const depositArray = ["200", "300", "500", "1000", "5000", "10000", "20000", "50000", "100000"]
     // const depositArrayKuberPay = ["10000", "15000", "20000", "30000", "50000", "100000"]
     const USDTDepositArray = ["10", "20", "50", "100", "200", "500", "1000", "2000", "5000"]
     const [myDetails, setMyDetails] = useState(null)
@@ -120,10 +120,10 @@ function Deposit() {
             amount: usdtAmount,
             type: 2
         }
-        // console.log("payload", activeModal === 0 ? payload : payloadUsdt, activeModal)
+        console.log("payload", activeModal === 0 ? payload : payloadUsdt, activeModal)
         try {
             const res = await axios.post(activeModal === 0 ? apiIndianPay : apiUsdtPay, activeModal === 0 ? payload : payloadUsdt)
-            // console.log("res", res)
+            console.log("res", res)
             if (res?.data?.status == 200) {
                 setloading(false)
                 window.open(activeModal === 0 ? res?.data?.response?.payment_link : res?.data?.data?.status_url, "_blank");
@@ -131,6 +131,8 @@ function Deposit() {
                 toast.error(res?.data?.message)
             }
         } catch (er) {
+            setloading(false)
+            console.log(er)
             toast.error(er)
         }
     }
@@ -225,7 +227,7 @@ function Deposit() {
                                     onClick={() => handleSelectAmount(item)}
                                     className={`col-span-1 border-[1px] flex items-center justify-center gap-3 rounded-md py-1 border-border1  
                         ${selectedAmount == item ? 'bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white' : 'text-lightGray'}`}>
-                                    ₹&nbsp;&nbsp;<p className={`${selectedAmount == item ? ' text-white' : 'text-redLight'}`}>{i === 3 ? "1K" : i === 4 ? "5K" : i === 5 ? "10K" : item}</p>
+                                    ₹&nbsp;&nbsp;<p className={`${selectedAmount == item ? ' text-white' : 'text-redLight'}`}>{i === 3 ? "1K" : i === 4 ? "5K" : i === 5 ? "10K" : i === 6 ? "20K" : i === 7 ? "50K" : i === 8 ? "100K" : item}</p>
                                 </div>
                             ))}
                         </div>
@@ -392,6 +394,39 @@ function Deposit() {
                                         setUsdtAmount(numericAmount);
                                         validateAmount(numericAmount);
                                     }}
+                                    type="number"
+                                    placeholder="Please enter the amount"
+                                    className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
+                                />
+                            </div>
+                            {/* INR Input */}
+                            <div className="flex items-center mt-3 bg-white w-full rounded-full text-sm p-2">
+                                <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">₹</div>
+                                <div className="w-[1px] mx-2 bg-lightGray h-5"></div>
+                                <input
+                                    value={usdtAmount == 0 ? "" : usdtAmount * (paymenLimts?.deposit_conversion_rate || 1)}
+                                    onChange={(e) => {
+                                        const value = Number(e.target.value);
+                                        setUsdtAmount(value / (paymenLimts?.deposit_conversion_rate || 1));
+                                        validateAmount(value / (paymenLimts?.deposit_conversion_rate || 1));
+                                    }}
+                                    type="number"
+                                    placeholder="Enter INR amount"
+                                    className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
+                                />
+                            </div>
+                        </div>
+                        {/* <div className='bg-inputBg rounded-md p-3 flex flex-col mt-3 items-center justify-center'>
+                            <div className="flex items-center bg-white w-full rounded-full text-sm p-2">
+                                <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">$</div>
+                                <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
+                                <input
+                                    value={usdtAmount == 0 ? "" : usdtAmount}
+                                    onChange={(e) => {
+                                        const numericAmount = Number(e.target.value);
+                                        setUsdtAmount(numericAmount);
+                                        validateAmount(numericAmount);
+                                    }}
 
                                     type="number"
                                     placeholder="Please enter the amount"
@@ -408,7 +443,7 @@ function Deposit() {
                                     className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
                                 >{usdtAmount * paymenLimts?.deposit_conversion_rate}</p>
                             </div>
-                        </div>
+                        </div> */}
                         <button onClick={payin_deposit} className={`mt-4 w-full ${usdtAmount >= paymenLimts?.USDT_minimum_deposit ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>
                             Deposit
                         </button>

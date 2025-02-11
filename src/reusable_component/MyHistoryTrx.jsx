@@ -4,7 +4,7 @@ import noData from "../assets/images/no_data_available.png"
 
 const MyHistoryTrx = ({ myHistoryData, handlehistorybox }) => {
     const [activeIndex, setActiveIndex] = useState(null);
-    // console.log("wingo my history ", myHistoryData)
+    // console.log(" ", myHistoryData)
     return (
         <>
             {handlehistorybox === 2 ? (
@@ -95,17 +95,17 @@ const MyHistoryTrx = ({ myHistoryData, handlehistorybox }) => {
                                 <div className="col-span-1 flex justify-end">
                                     <div>
                                         <div
-                                            className={`font-bold flex items-center justify-center ${item?.win_amount === 0 && item?.status === 0 ? "text-gray border-gray" : (item?.win_amount === 0
+                                            className={`font-bold flex items-center justify-center ${item?.status === 0 ? "text-gray border-gray" : (item?.status===2
                                                 ? "text-red border-red"
                                                 : "text-green border-green"
                                             )} border w-20 h-8 rounded-md`}
                                         >
-                                            {item?.win_amount === 0 && item?.status === 0 ? "Pending" : (item?.win_amount === 0 ? "Failed" : "Success")}
+                                            {item?.status === 0 ? "Pending" : (item?.status === 2 ? "Failed" : "Success")}
                                         </div>
                                         <div
-                                            className={`font-bold text-center ${item?.win_amount === 0 && item?.status === 0 ? "text-gray" : (item?.win_amount === 0 ? "text-red" : "text-green")}`}
+                                            className={`font-bold text-center ${item?.status === 0 ? "text-gray" : (item?.status === 2 ? "text-red" : "text-green")}`}
                                         >
-                                            {item?.win_amount === 0 && item?.status === 0 ? "--" : (item?.win_amount === 0
+                                            { item?.status === 0 ? "--" : (item?.status === 2
                                                 ? `- ₹${item?.amount}.00`
                                                 : `+ ₹${item?.win_amount}`)}
                                         </div>
@@ -195,13 +195,13 @@ const MyHistoryTrx = ({ myHistoryData, handlehistorybox }) => {
                                     </div>
                                     <div className="bg-inputBg text-blackLight w-full mt-1 py-2 flex items-center justify-between px-2  rounded-md">
                                         <p>Status</p>
-                                        {item?.status !== 0 ? <p>{item?.win_amount == 0 ? (<>
+                                        {item?.status !== 0 ? <p>{item?.status == 2 ? (<>
                                             <span className="text-red">Failed</span>
                                         </>) : <span className="text-green">Succeed</span>}</p> : <p>Unpaid</p>}
                                     </div>
                                     <div className="bg-inputBg text-blackLight w-full mt-1 py-2 flex items-center justify-between px-2  rounded-md">
                                         <p>Win/Loss</p>
-                                        {item?.status !== 0 ? <p>{item?.win_amount == 0 ? (<>
+                                        {item?.status !== 0 ? <p>{item?.status == 2 ? (<>
                                             <span className="text-red">₹0.00</span>
                                         </>) : <span className="text-green">₹{item?.win_amount}</span>}</p> : <p>--</p>}
                                     </div>

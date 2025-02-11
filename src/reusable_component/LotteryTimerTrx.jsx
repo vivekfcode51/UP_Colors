@@ -39,7 +39,7 @@ const LotteryTimerTrx = ({ duration }) => {
 
   return (
     <div className="relative w-full">
-       <div className={`flex text-[1.7rem] justify-end space-x-1 ${isWarning ? "text-red" : ""}`}>
+       <div className={`flex text-[1.3rem] justify-end space-x-1 ${isWarning ? "text-red" : ""}`}>
         <div className="bg-white font-extrabold text-black h-10 w-6 flex items-center justify-center ">
           {formatTime(minutes)[0]}
         </div>

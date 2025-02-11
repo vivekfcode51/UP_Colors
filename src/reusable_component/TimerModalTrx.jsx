@@ -43,10 +43,12 @@ const TimerModalTrx = ({ duration, isOpen, onClose, parentRef }) => {
   }, [duration]);
 
   useEffect(() => {
-    if (timeLeft === 10) {  // Only trigger modal at exactly 10 seconds
+    if (timeLeft <= 10 && timeLeft > 0) {  
       setIsWarning(true);
       onClose(true);
-    } else if (timeLeft > 10) {
+      // console.log("trueee",timeLeft)
+    } else {
+      // console.log("falseeee",timeLeft)
       setIsWarning(false);
       onClose(false);
     }
@@ -57,7 +59,7 @@ const TimerModalTrx = ({ duration, isOpen, onClose, parentRef }) => {
     <div className={` rounded-2xl h-[20rem] xs:h-[22rem] xsm:h-[19.5rem] mt-14 xs:mt-[5.5rem] xsm:-mt-3 w-full absolute modal ${isOpen ? "block" : "hidden"}`}>
       <div
         className="bg-black opacity-80 h-full w-full absolute inset-0 rounded-2xl"
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
+        style={{ backgroundColor:'rgba(0, 0, 0, 0.8)' }}
       >
       </div>
       <div className="modal-content relative flex items-center justify-center h-full mt-2">

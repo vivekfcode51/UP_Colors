@@ -131,7 +131,7 @@ const TrxWinGo = () => {
   const [selectedBtnIndex, setSelectedBtnIndex] = useState(1)
   const audioRef = useRef(null);
   const [isAudioOn, setIsAudioOn] = useState(true)
-  // const [rulePlay, setRulePlay] = useState("")
+  const [nextPeriod, setnextPeriod] = useState(Number(gameHistoryData[0]?.period))
   const userId = localStorage.getItem("userId");
   const limit = 10;
   const handleTimerClick = (item, duration) => {
@@ -153,7 +153,7 @@ const TrxWinGo = () => {
     setBetGameId(gameDetails.gameId)
     setGameDetails({ ...gameDetails, betButtonId: betButtonId, colorCode: color, numericValue });
   };
-
+// console.log("CallTimer",callTimer)
   const handleRandomClick = (numericValueFromProps = null) => {
     const totalImages = 10;
     let currentIndex = 0;
@@ -255,18 +255,18 @@ const TrxWinGo = () => {
 
 
   const winAmountAnnouncement1 = async (i) => {
-    console.log("111111")
+    console.log("111111",i)
     try {
       const offset = (currentPage - 1) * limit;
       const res = await axios.get(
         `${wingo_game_history}?gameid=${i}&limit=${limit}&offset=${offset}`
       );
-      // console.log("res?.data?.data",res?.data?.data)
+      console.log("res?.data?.data",res?.data?.data)
       if (res?.data?.data) {
-        console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
+        console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
         try {
-          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
-          // console.log("resooooooooo",resp)
+          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
+          console.log("resooooooooo",resp)
           if (resp?.data?.status === 200) {
             // console.log("res 1", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -292,7 +292,7 @@ const TrxWinGo = () => {
       // console.log("resres hai hai", res)
       if (res?.data?.status === 200) {
         try {
-          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
+          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
           if (resp?.data?.status === 200) {
             console.log("res 2", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -318,7 +318,8 @@ const TrxWinGo = () => {
       );
       if (res?.data?.status === 200) {
         try {
-          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
+          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
+          
           if (resp?.data?.status === 200) {
             console.log("res 3", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -343,7 +344,7 @@ const TrxWinGo = () => {
       );
       if (res?.data?.status === 200) {
         try {
-          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
+          const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
           if (resp?.data?.status === 200) {
             console.log("res 4", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -374,10 +375,10 @@ const TrxWinGo = () => {
       limit,
       offset
     }
-    // console.log("my history payload",payload)
+    console.log("my history payload",payload)
     try {
       const res = await axios.post(`${wingo_my_history}`, payload)
-      // console.log("my history", res)
+      console.log("my history", res)
       if (res?.status === 200) {
         setMyHistoryData(res?.data)
         // console.log("res?.data", res?.data)
@@ -400,11 +401,13 @@ const TrxWinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?gameid=${gameDetails?.gameId}&limit=${limit}&offset=${offset}`
       );
-      console.log("urls", `${wingo_game_history}?gameid=${gameDetails?.gameId}&offset=${offset}&limit=${limit}`)
-      console.log("res", res)
-      // console.log("response")
+      // console.log("urls", `${wingo_game_history}?gameid=${gameDetails?.gameId}&offset=${offset}&limit=${limit}`)
+      // console.log("res", res)
       if (res?.data?.status === "200") {
+        // console.log("Number(res?.data?.data[0]?.period)",(typeof Number(res?.data?.data[0]?.period)))
         setGameHistoryData(res?.data?.data);
+        const n=res?.data?.data[0]?.period.slice(-10)
+        setnextPeriod(n)
         setGameHistoryDataPagination(res?.data);
         if (res?.data?.data?.length < limit) {
           setHasMore(true);
@@ -416,6 +419,7 @@ const TrxWinGo = () => {
       setIsLoading(false);
     }
   };
+  // console.log("next period",nextPeriod)
   const nextPage = () => {
     if (hasMore) {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -438,67 +442,36 @@ const TrxWinGo = () => {
   };
 
   useEffect(() => {
+    // console.log("timeLeft:", timeLeft);
+    
     if (timeLeft < 12) {
-      setBetModal(false)
+      setBetModal(false);
     }
-    // if (timeLeft > 0 && timeLeft <= 1) {
-    //   console.log("useeffecttcctcttc")
-
-
-    //   // setIsBetDone(false)
-    // }
+  
     if (timeLeft === 58) {
-      const now = new Date()
-      const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % 60;
-      const remainingTime = Math.max(60 - secondsInCycle, 0);
-      profileDetails()
-
-      for (let i = 1; i <= 4; i++) {
-        let betstats1
-        let betstats2
-        let betstats3
-        let betstats4
-        if (i === 1) {
-          betstats1 = localStorage.getItem(`betStatus${i}`)
-          if (betstats1 > 0) {
-            winAmountAnnouncement1(i);
-            localStorage.setItem(`betStatus${i}`, "0")
-          }
-        } else if (i === 2 && remainingTime > 0 && remainingTime <= 1) {
-          betstats2 = localStorage.getItem(`betStatus${i}`)
-          if (betstats2 > 0) {
-            winAmountAnnouncement2(i);
-            localStorage.setItem(`betStatus${i}`, "0")
-          }
-        } else if (i === 3 && remainingTime > 0 && remainingTime <= 1) {
-          betstats3 = localStorage.getItem(`betStatus${i}`)
-          if (betstats3 > 0) {
-            winAmountAnnouncement3(i);
-            localStorage.setItem(`betStatus${i}`, "0")
-          }
-        } else if (i === 4 && remainingTime > 0 && remainingTime <= 1) {
-          betstats4 = localStorage.getItem(`betStatus${i}`)
-          if (betstats4 > 0) {
-            winAmountAnnouncement4(i);
-            localStorage.setItem(`betStatus${i}`, "0")
-          }
+      console.log("Executing loop for i values");
+      
+      profileDetails();
+  
+      for (let i = 6; i <= 9; i++) {
+        // console.log("Loop iteration:", i); // Add log here
+  
+        let betstats = localStorage.getItem(`betStatus${i}`);
+        if (betstats > 0) {
+          console.log(`Bet status found for i=${i}`);
+          if (i === 6) winAmountAnnouncement1(i);
+          if (i === 7) winAmountAnnouncement2(i);
+          if (i === 8) winAmountAnnouncement3(i);
+          if (i === 9) winAmountAnnouncement4(i);
+          localStorage.setItem(`betStatus${i}`, "0");
         }
-        // const betstats2 = localStorage.getItem(`betStatus2`)
-        // const betstats3 = localStorage.getItem(`betStatus3`)
-        // console.log(`betStatus${i}`, betstats1)
-        // if (betstats1 > 0) {
-        //   winAmountAnnouncement1();
-        //   localStorage.setItem(`betStatus${i}`, "0")
-        // } else if (betstats2 > 0) {
-        //   localStorage.setItem(`betStatus${i}`, "0")
-        // }
       }
-
-      myHistory()
-      gameHistory()
+  
+      myHistory();
+      gameHistory();
     }
-
-  }, [timeLeft])
+  }, [timeLeft]);
+  
 
   useEffect(() => {
     myHistory()
@@ -582,8 +555,9 @@ const TrxWinGo = () => {
     imageSrc4 = imagesAlphbet[charIndex];
   }
 
-console.log("gameHistoryDataPaginationgameHistoryDataPagination",gameHistoryDataPagination)
-    return (
+  // console.log("gameHistoryDataPaginationgameHistoryDataPaginati  on", BigInt(gameHistoryDataPagination?.nextPeriod)+BigInt(1))
+  // console.log("gameHistoryDataPaginationgameHistoryDataPagination", timerModal)
+  return (
     <>
       {isModalVisible && modalData && (
         <div className="relative z-50 font-roboto">
@@ -681,12 +655,12 @@ console.log("gameHistoryDataPaginationgameHistoryDataPagination",gameHistoryData
                 </div>
                 <p className='text-xs mt-4'>Trx Win Go {selectedIMgIndex}</p>
                 <p className='flex justify-start text-sm font-semibold'>
-                  {gameHistoryData[0]?.period_int+1}
+                  {gameHistoryData[0]?.period.slice(0,7)}{Number(nextPeriod)+1}
                 </p>
                 <div className='flex text-black items-center justify-center gap-4 mt-12'>
                   <img src={imageSrc} className="w-12" alt="game result" />
                   <img src={imageSrc1} className="w-12" alt="game result" />
-                
+
                 </div>
               </div>
               <div className='w-[50%] '>
@@ -698,9 +672,9 @@ console.log("gameHistoryDataPaginationgameHistoryDataPagination",gameHistoryData
                   <LotteryTimerTrx duration={callTimer} />
                 </div>
                 <div className='flex text-black items-center justify-start gap-4 -ml-5 mt-12'>
-                <img src={imageSrc2} className="w-12" alt="game result" />
-                <img src={imageSrc3} className="w-12" alt="game result" />
-                <img src={imageSrc4} className="w-12" alt="game result" />
+                  <img src={imageSrc2} className="w-12" alt="game result" />
+                  <img src={imageSrc3} className="w-12" alt="game result" />
+                  <img src={imageSrc4} className="w-12" alt="game result" />
 
                 </div>
               </div>
@@ -708,7 +682,7 @@ console.log("gameHistoryDataPaginationgameHistoryDataPagination",gameHistoryData
           </div>
           {/* betting buttons 5th divv */}
           <div ref={fifthDivRef} className=' bg-white mt-[17rem] xsm:mt-[17.5rem] md:mt-[16.5rem]  p-3 mx-4 rounded-2xl'>
-            <div className='flex items-center bg-white justify-center mr-1'>
+            <div className='flex items-center bg-white justify-center mr-1 z-50'>
               <TimerModalTrx duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
             </div>
             <div className='flex justify-between gap-5'>
@@ -828,7 +802,7 @@ console.log("gameHistoryDataPaginationgameHistoryDataPagination",gameHistoryData
             <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
           </div>
         )}
-        {playRule && gameDetails?.gameId === 1 && (
+        {playRule && gameDetails?.gameId === 6 && (
           <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity">
             <div className="relative w-[281px] h-[450px] z-50 bg-white rounded-lg shadow-lg flex flex-col items-center">
               <p className="absolute text-[16px] top-0 left-0 w-full text-center bg-gradient-to-r from-red to-redLight py-2 rounded-t-lg">
@@ -888,7 +862,7 @@ console.log("gameHistoryDataPaginationgameHistoryDataPagination",gameHistoryData
             </div>
           </div>
         )}
-        {playRule && gameDetails?.gameId === 2 && (
+        {playRule && gameDetails?.gameId === 7 && (
           <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity">
             <div className="relative w-[281px] h-[450px] z-50 bg-white rounded-lg shadow-lg flex flex-col items-center">
               <p className="absolute text-[16px] top-0 left-0 w-full text-center bg-gradient-to-r from-red to-redLight py-2 rounded-t-lg">
@@ -943,7 +917,7 @@ console.log("gameHistoryDataPaginationgameHistoryDataPagination",gameHistoryData
           </div>
         )}
 
-        {playRule && gameDetails?.gameId === 3 && (
+        {playRule && gameDetails?.gameId === 8 && (
           <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity">
             <div className="relative w-[281px] h-[450px] z-50 bg-white rounded-lg shadow-lg flex flex-col items-center">
               <p className="absolute text-[16px] top-0 left-0 w-full text-center bg-gradient-to-r from-red to-redLight py-2 rounded-t-lg">
@@ -998,7 +972,7 @@ console.log("gameHistoryDataPaginationgameHistoryDataPagination",gameHistoryData
           </div>
         )}
 
-        {playRule && gameDetails?.gameId === 4 && (
+        {playRule && gameDetails?.gameId === 9 && (
           <div className="fixed inset-0 h-screen flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity">
             <div className="relative w-[281px] h-[450px] z-50 bg-white rounded-lg shadow-lg flex flex-col items-center">
               <p className="absolute text-[16px] top-0 left-0 w-full text-center bg-gradient-to-r from-red to-redLight py-2 rounded-t-lg">

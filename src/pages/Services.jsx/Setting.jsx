@@ -127,7 +127,7 @@ function Setting() {
             </Link>
           </button>
           <button className='w-full mt-10'>
-            <Link to="/bindmail" className='pl-2 py-2 rounded-lg  w-full flex items-center justify-between gap-2 text-black bg-white'>
+            <Link to="#" className='pl-2 py-2 rounded-lg  w-full flex items-center justify-between gap-2 text-black bg-white'>
               <div className='flex items-center gap-3'>
                 <TfiEmail size={20} className='text-redLight' />
                 <p>Blind mailbox</p>
@@ -140,7 +140,7 @@ function Setting() {
             </Link>
           </button>
           <button className='w-full mt-10'>
-            <Link to="/bindmail" className='pl-2 py-2 rounded-lg  w-full flex items-center justify-between gap-2 text-black bg-white'>
+            <Link to="#" className='pl-2 py-2 rounded-lg  w-full flex items-center justify-between gap-2 text-black bg-white'>
               <div className='flex items-center gap-3'>
                 <TfiEmail size={20} className='text-redLight' />
                 <p>Google Verification</p>
@@ -153,7 +153,7 @@ function Setting() {
             </Link>
           </button>
           <button className='w-full mt-10'>
-            <Link to="/bindmail" className='pl-2 py-2 rounded-lg  w-full flex items-center justify-between gap-2 text-black bg-white'>
+            <Link to="#" className='pl-2 py-2 rounded-lg  w-full flex items-center justify-between gap-2 text-black bg-white'>
               <div className='flex items-center gap-3'>
                 <TfiEmail size={20} className='text-redLight' />
                 <p>Updated version</p>

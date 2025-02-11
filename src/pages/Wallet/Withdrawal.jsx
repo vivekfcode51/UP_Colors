@@ -29,7 +29,7 @@ function Withdrawal() {
         setActiveModal((prev) => (prev === modalType ? modalType : modalType));
     };
 
-    const getPaymentLimits = async () => { 
+    const getPaymentLimits = async () => {
         setloading(true)
         try {
             const res = await axios.get(`${apis.getPaymentLimits}`);
@@ -42,6 +42,7 @@ function Withdrawal() {
             toast.error(err);
         }
     };
+    console.log("paymenLimts",paymenLimts)
     const validateAmount = (amount) => {
         // console.log("amount", amount)
         if (!paymenLimts) return;
@@ -97,14 +98,16 @@ function Withdrawal() {
         }
         try {
             const res = await axios.get(`${apis.usdt_account_view}${userId}`);
+            console.log("res",res)
             if (res?.data?.status === 200) {
+                console.log("res?.data?.data",res?.data?.data)
                 setViewAccountDetailsUSDT(res?.data?.data);
             } else {
                 toast.error("Error: " + res?.data?.message);
             }
         } catch (err) {
             console.error("API Error:", err);
-            toast.error("Something went wrong");
+            // toast.error("Something went wrong");
         }
     };
 
@@ -135,6 +138,7 @@ function Withdrawal() {
         }
     }, [userId]);
 
+    // console.log("viewAccountDetails",viewAccountDetailsUSDT)
     const payoutWithdrawHandler = async () => {
         setloading(true)
         if (!userId && !viewAccountDetails[0]?.id) {
@@ -142,25 +146,25 @@ function Withdrawal() {
             navigate("/login");
             return;
         }
-
         const payload = {
             user_id: userId,
-            account_id: viewAccountDetails[0]?.id,
+            account_id:activeModal == 0 ? viewAccountDetails[0]?.id : activeModal == 2 ? viewAccountDetailsUSDT[0]?.id : null ,
             type: activeModal,
             amount: activeModal == 0 ? upiAmount : activeModal == 2 ? usdtAmount : null
         }
         // console.log("payload", payload)
         try {
             const res = await axios.post(apis?.payout_withdraw, payload)
-            // console.log(res )
+            console.log("sddfsfs",res )
             if (res?.data?.status === 200) {
                 setloading(false)
                 toast.success(res?.data?.message)
             } else {
+                setloading(false)
                 toast.error(res?.response?.data?.message)
             }
         } catch (err) {
-            // console.log(err)
+            console.log(err)
             setloading(false)
             toast.error(err?.response?.data?.message)
         }
@@ -288,83 +292,6 @@ function Withdrawal() {
                     </div>
                 </div>
             )}
-            {(activeModal == 1) && (
-                <div className="mt-5 ">
-                    <div className='bg-inputBg rounded-lg p-2'>
-                        {viewAccountDetails && viewAccountDetails.length > 0 ?
-                            <div>
-                                <div className='text-gray text-xs border-b-[1px] border-dotted py-2'>
-                                    <p className='text-gray'> <b>Bank name:</b>&nbsp;<span className='text-lightGray'>{viewAccountDetails[0]?.bank_name}</span>  </p>
-                                    <p> <b>Recipient&apos;s Name:</b> &nbsp;<span className='text-lightGray'>{viewAccountDetails[0]?.name}</span>  </p>
-                                    <p> <b>Account Number:</b> &nbsp; <span className='text-lightGray'>{viewAccountDetails[0]?.account_num}</span>  </p>
-                                    <p> <b>IFSC:</b> &nbsp; <span className='text-lightGray'>{viewAccountDetails[0]?.ifsc_code}</span>  </p>
-                                </div>
-                                <Link to="/customerservices" className='text-xsm w-full flex items-end justify-end text-redLight'>Change bank card information</Link>
-                            </div>
-                            : <button className='w-full'>
-                                <Link to="/wallet/withdrawal/addbankaccount" className="flex flex-col items-center rounded-l-full text-sm p-1" >
-                                    <img className='w-12 h-12' src={plus} alt="sd" />
-                                    <h3 className="text-xsm mt-2 text-blackLight flex items-center ">
-                                        Add a bank account number
-                                    </h3>
-                                </Link>
-                            </button>}
-                    </div>
-                    <div className='bg-white rounded-lg p-2 mt-3 mb-20'>
-                        <p className='text-xs text-redLight'>Need to add beneficiary information to be able to withdraw money</p>
-                        {amountError && <p className="text-red text-xs mt-2">{amountError}</p>}
-                        <div className='bg-inputBg rounded-md p-3 flex mt-3 items-center justify-center'>
-                            <div className="flex items-center bg-white w-full rounded-full text-sm p-2">
-                                <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">₹</div>
-                                <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
-                                <input
-                                    value={upiAmountKuber == 0 ? "" : upiAmountKuber}
-                                    onChange={(e) => {
-                                        const numericAmount = Number(e.target.value);
-                                        setUpiAmountKuber(numericAmount);
-                                        validateAmount(numericAmount);
-                                    }}
-                                    type="number"
-                                    placeholder="Please enter the amount"
-                                    className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
-                                />
-                            </div>
-                        </div>
-                        <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${upiAmountKuber >= paymenLimts?.kuber_pay_minimum_withdraw ? "bg-gradient-to-r from-red to-redLight text-white" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"} py-3 rounded-full border-none text-xsm `}>
-                            Withdraw
-                        </button>
-
-                        <div className='mt-10' >
-                            <ul className="px-2 py-4 my-2 bg-inputBg  rounded-lg text-xs  text-blackLight">
-                                <li className="flex items-start">
-                                    <span className="text-redLight  mr-2">◆</span>
-                                    Need to bet <p className='text-redLight'> &nbsp; ₹0.00&nbsp;</p> to be able to withdraw.
-                                </li>
-                                <li className="flex items-start mt-2">
-                                    <span className="text-redLight  mr-2">◆</span>
-                                    Withdraw time: <p className='text-redLight'>&nbsp;00:00-23:59&nbsp;</p>
-                                </li>
-                                <li className="flex items-start mt-2">
-                                    <span className="text-redLight  mr-2">◆</span>
-                                    Inday Remaining Withdrawal Times  <p className='text-redLight'>&nbsp;3&nbsp;</p>
-                                </li>
-                                <li className="flex items-start mt-2">
-                                    <span className="text-redLight  mr-2">◆</span>
-                                    Withdrawal amount range  <p className='text-redLight'>&nbsp;₹{paymenLimts?.kuber_pay_minimum_withdraw.toFixed(2)} - ₹{paymenLimts?.kuber_pay_maximum_withdraw.toFixed(2)}&nbsp;</p>
-                                </li>
-                                <li className="flex items-start mt-2">
-                                    <span className="text-redLight  mr-2">◆</span>
-                                    Please confirm your beneficial account information before withdrawing.If your information is incorrect, our company will not be liable for the amount of loss
-                                </li>
-                                <li className="flex items-start mt-2">
-                                    <span className="text-redLight  mr-2">◆</span>
-                                    If your beneficial information is incorrect, please contact to customer service.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {
                 activeModal == 2 && (
@@ -407,12 +334,21 @@ function Withdrawal() {
                                         className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
                                     />
                                 </div>
-                                <div className="flex items-center bg-white w-full rounded-full text-sm mt-3 p-2">
+                                {/* INR Input */}
+                                <div className="flex items-center mt-3 bg-white w-full rounded-full text-sm p-2">
                                     <div className="w-8 flex items-center justify-center text-xl font-bold text-bg2">₹</div>
-                                    <div className="w-[1px] mx-2 flex items-center justify-center bg-lightGray h-5"></div>
-                                    <p
+                                    <div className="w-[1px] mx-2 bg-lightGray h-5"></div>
+                                    <input
+                                        value={usdtAmount == 0 ? "" : usdtAmount * (paymenLimts?.withdraw_conversion_rate || 1)}
+                                        onChange={(e) => {
+                                            const value = Number(e.target.value);
+                                            setUsdtAmount(value / (paymenLimts?.withdraw_conversion_rate || 1));
+                                            validateAmount(value / (paymenLimts?.withdraw_conversion_rate || 1));
+                                        }}
+                                        type="number"
+                                        placeholder="Enter INR amount"
                                         className="w-full p-1 bg-white border-none focus:outline-none text-redLight placeholder:text-lightGray text-xsm"
-                                    >{usdtAmount * paymenLimts?.withdraw_conversion_rate}</p>
+                                    />
                                 </div>
                             </div>
                             <button onClick={payoutWithdrawHandler} className={`mt-4 w-full ${usdtAmount >= paymenLimts?.USDT_minimum_withdraw ? "text-white bg-gradient-to-r from-red to-redLight" : "bg-gradient-to-l from-[#cfd1de] to-[#c7c9d9] text-gray"}   py-3 rounded-full border-none text-xsm `}>

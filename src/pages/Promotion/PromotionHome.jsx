@@ -70,7 +70,7 @@ function PromotionHome() {
     }, [userId])
     const handleCopyInvitationLink = () => {
         if (myDetails?.data?.u_id) {
-            const baseUrl = `http://localhost:5173/register`
+            const baseUrl = `https://usawin.codingjourney.net/register`
             const invitationCode = myDetails?.data?.u_id
             const referralLink = `${baseUrl}?referral=${invitationCode}`;
             navigator.clipboard
