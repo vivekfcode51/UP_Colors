@@ -72,9 +72,12 @@ const apis = {
   extra_first_deposit_bonus: `${configModalUsaWin}extra_first_deposit_bonus?userid=`,
   getBranchnameByIfsc: `${configModalUsaWin}get-ifsc-details?ifsc=`,
   trx_game_result: `${configModalUsaWin}trx/result`,
+  update_jilli_wallet: `${configModalUsaWin}update_jilli_wallet`,
+  update_jilli_to_user_wallet: `${configModalUsaWin}update_jilli_to_user_wallet`,
+  update_spribe_wallet: `${configModalUsaWin}update_spribe_wallet`,
+  update_spribe_to_user_wallet: `${configModalUsaWin}update_spribe_to_user_wallet`,
 };
 
 export default apis
 
 
-// https://root.usawin.vip/api/trx/result?gameid=6&offset=0&limit=10

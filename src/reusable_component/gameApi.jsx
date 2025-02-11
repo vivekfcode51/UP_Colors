@@ -1,5 +1,5 @@
 import axios from "axios";
-import apis from "../utils/apis"; 
+import apis from "../utils/apis";
 export const fetchAllGames = async (setAllGamesListView) => {
     // setLoading(true)
     try {
@@ -17,9 +17,11 @@ export const fetchAllGames = async (setAllGamesListView) => {
     }
 };
 
-export const fetchGameURL = async (gameid, userId,navigate,setLoading) => {
+export const fetchGameURL = async (gameid, userId, navigate, setLoading) => {
+    localStorage.setItem("jilligamePlayed", 1)
+    updateJiliWallet()
     setLoading(true)
-    if (!gameid || !userId){
+    if (!gameid || !userId) {
         navigate("/login")
     };
     const payload = {
@@ -33,7 +35,7 @@ export const fetchGameURL = async (gameid, userId,navigate,setLoading) => {
             setLoading(false)
             const gameUrl = res?.data?.game_url;
             if (gameUrl) {
-                window.open(gameUrl, "_blank"); 
+                window.location.href = gameUrl
             }
         }
     } catch (err) {
@@ -41,7 +43,8 @@ export const fetchGameURL = async (gameid, userId,navigate,setLoading) => {
         console.error("Error fetching game URL:", err);
     }
 };
-export const fetchAllGamesSpribe = async (setAllGamesListView,) => {
+
+export const fetchAllGamesSpribe = async (setAllGamesListView) => {
     // setLoading(true)
     try {
         const res = await axios.get(apis.all_game_list_spribe);
@@ -58,10 +61,11 @@ export const fetchAllGamesSpribe = async (setAllGamesListView,) => {
     }
 };
 
-export const fetchGameURLSpribe = async (gameid, userId,navigate,setLoading) => {
-console.log("gameid, userId,navigate,setLoading")
+export const fetchGameURLSpribe = async (gameid, userId, navigate, setLoading) => {
+    localStorage.setItem("spribegamePlayed", 1)
+    updateSpribeWallet()
     setLoading(true)
-    if (!gameid || !userId){
+    if (!gameid || !userId) {
         // navigate("/login")
     };
 
@@ -72,11 +76,11 @@ console.log("gameid, userId,navigate,setLoading")
 
     try {
         const res = await axios.post(apis.get_game_url_spribe, payload);
-        if (res?.data?.data?.msg ==="Success") {
+        if (res?.data?.data?.msg === "Success") {
             setLoading(false)
             const gameUrl = res?.data?.data?.payload?.game_launch_url;
             if (gameUrl) {
-                window.open(gameUrl, "_blank"); 
+                window.location.href = gameUrl
             }
         }
     } catch (err) {
@@ -86,14 +90,79 @@ console.log("gameid, userId,navigate,setLoading")
 };
 
 export const getFirstDepositPlans = async (userId) => {
-  try {
-    const res = await axios.get(`${apis.extra_first_deposit_bonus}${userId}`);
-    if (res?.data?.status == 200) {
-      return res.data.data;
+    try {
+        const res = await axios.get(`${apis.extra_first_deposit_bonus}${userId}`);
+        if (res?.data?.status == 200) {
+            return res.data.data;
+        }
+    } catch (err) {
+        console.error("Error fetching first deposit plans:", err);
+        return [];
     }
-  } catch (err) {
-    console.error("Error fetching first deposit plans:", err);
-    return [];
-  }
 };
 
+
+/// update jili wallet api 
+export const updateJiliWallet = async () => {
+    const userId = localStorage.getItem("userId")
+    const payload = {
+        user_id: userId,
+    };
+    console.log("updateJiliWallet", payload)
+    try {
+        const res = await axios.post(apis.update_jilli_wallet, payload);
+        if (res?.data?.status == 200) {
+            console.log("update_jilli_wallet response", res)
+        }
+    } catch (err) {
+        console.error("Error fetching game URL:", err);
+    }
+};
+/// update jili wallet api 
+export const updateUserWalletFromJili = async () => {
+    const userId = localStorage.getItem("userId")
+    const payload = {
+        user_id: userId,
+    };
+    console.log("updateJiliWallet", payload)
+    try {
+        const res = await axios.post(apis.update_jilli_wallet, payload);
+        if (res?.data?.status == 200) {
+            console.log("update_jilli_wallet response", res)
+        }
+    } catch (err) {
+        console.error("Error fetching game URL:", err);
+    }
+};
+/// update jili wallet api 
+export const updateSpribeWallet = async () => {
+    const userId = localStorage.getItem("userId")
+    const payload = {
+        user_id: userId,
+    };
+    console.log("updateSpribeWallet", payload)
+    try {
+        const res = await axios.post(apis.update_spribe_wallet, payload);
+        if (res?.data?.status == 200) {
+            console.log("update_jilli_wallet response", res)
+        }
+    } catch (err) {
+        console.error("Error fetching game URL:", err);
+    }
+};
+/// update jili wallet api 
+export const updateUserWalletFromSpribe = async () => {
+    const userId = localStorage.getItem("userId")
+    const payload = {
+        user_id: userId,
+    };
+    console.log("updateuserWallet from spribe", payload)
+    try {
+        const res = await axios.post(apis.update_jilli_wallet, payload);
+        if (res?.data?.status == 200) {
+            console.log("update_jilli_wallet response", res)
+        }
+    } catch (err) {
+        console.error("Error fetching game URL:", err);
+    }
+};

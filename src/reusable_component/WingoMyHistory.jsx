@@ -4,7 +4,7 @@ import noData from "../assets/images/no_data_available.png"
 
 const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
     const [activeIndex, setActiveIndex] = useState(null);
-    console.log("wingo my history ", myHistoryData)
+    // console.log("wingo my history ", myHistoryData)
     return (
         <>
             {handlehistorybox === 2 ? (
@@ -23,7 +23,7 @@ const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
                                                     <div
                                                         className="absolute inset-0 bg-red"
                                                         style={{
-                                                            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', 
+                                                            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
                                                         }}
                                                     ></div>
                                                     <div
@@ -36,11 +36,11 @@ const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
                                             </>
                                         ) : item?.number == 5 ? (
                                             <>
-                                                 <div className="relative h-16 w-full">
+                                                <div className="relative h-16 w-full">
                                                     <div
                                                         className="absolute inset-0 bg-green"
                                                         style={{
-                                                            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', 
+                                                            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
                                                         }}
                                                     ></div>
                                                     <div
@@ -186,7 +186,37 @@ const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
                                                     <span className="text-green">Green</span>
                                                     <span className="text-bg3">, Big</span>
                                                 </>
-                                            ) : null}
+                                            ) : item?.win_number == 10 ? (
+                                                <>
+                                                    
+                                                    <span className="text-green">Green</span>
+                                                    {/* <span className="text-bg3">, Big</span> */}
+                                                </>
+                                            ) : item?.win_number == 20 ? (
+                                                <>
+                                                    
+                                                    <span className="text-voilet">Violet</span>
+                                                    {/* <span className="text-bg3">, Big</span> */}
+                                                </>
+                                            ) : item?.win_number == 30 ? (
+                                                <>
+                                                    
+                                                    <span className="text-red">Red</span>
+                                                    {/* <span className="text-bg3">, Big</span> */}
+                                                </>
+                                            ) : item?.win_number == 40 ? (
+                                                <>
+                                                    
+                                                    <span className="text-yellow">Big</span>
+                                                    {/* <span className="text-bg3">, Big</span> */}
+                                                </>
+                                            ) : item?.win_number == 50 ? (
+                                                <>
+                                                    
+                                                    <span className="text-bg3">Small</span>
+                                                    {/* <span className="text-bg3">, Big</span> */}
+                                                </>
+                                            ) : item?.win_number}
                                         </p> : "--"}
                                     </div>
                                     <div className="bg-inputBg text-blackLight w-full mt-1 py-2 flex items-center justify-between px-2  rounded-md">
@@ -195,8 +225,8 @@ const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
                                     </div>
                                     <div className="bg-inputBg text-blackLight w-full mt-1 py-2 flex items-center justify-between px-2  rounded-md">
                                         <p>Status</p>
-                                        {item?.status===2? <span className="text-red">Failed</span>:item?.status===1?<span className="text-green">Succeed</span>: <p>Unpaid</p>}
-                                      
+                                        {item?.status === 2 ? <span className="text-red">Failed</span> : item?.status === 1 ? <span className="text-green">Succeed</span> : <p>Unpaid</p>}
+
                                     </div>
                                     <div className="bg-inputBg text-blackLight w-full mt-1 py-2 flex items-center justify-between px-2  rounded-md">
                                         <p>Win/Loss</p>

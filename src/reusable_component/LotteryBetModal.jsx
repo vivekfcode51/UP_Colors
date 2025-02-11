@@ -94,7 +94,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
             number: gameDetails?.betButtonId,
             amount: finalBetValue
         }
-        console.log("payload",payload)
+        // console.log("payload",payload)
         if (checkAgreement) {
             try {
                 const res = await axios.post(`${bet_api}`, payload)

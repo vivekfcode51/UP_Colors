@@ -31,6 +31,7 @@ import { Link } from 'react-router-dom';
 import { HiArrowPathRoundedSquare } from 'react-icons/hi2';
 import { RiFireFill } from 'react-icons/ri';
 import Header from '../../components/Header';
+import useSocket from '../../hooks/useSocket';
 const profileApi = apis.profile
 const wingo_bet_api = apis.wingo_bet
 const wingo_my_history = apis.wingo_my_history
@@ -96,7 +97,8 @@ const WinGo = () => {
     setBetGameId(gameDetails.gameId)
     setGameDetails({ ...gameDetails, betButtonId: betButtonId, colorCode: color, numericValue });
   };
-
+  const timer = useSocket(gameDetails.gameId);
+console.log("timererererere",timer)
   const handleRandomClick = (numericValueFromProps = null) => {
     const totalImages = 10;
     let currentIndex = 0;
@@ -468,6 +470,7 @@ const WinGo = () => {
 
   useEffect(() => {
     rulesHandler(gameDetails?.gameId)
+    
   }, [gameDetails?.gameId])
   // console.log("gameHistoryData[0]?.games_no",typeof gameHistoryData[0]?.games_no)
   return (

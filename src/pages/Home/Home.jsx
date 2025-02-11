@@ -51,6 +51,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import FirstDepositModal from "../../reusable_component/FirstDepositModal";
 import Loader from "../../reusable_component/Loader/Loader";
+import { updateUserWalletFromJili, updateUserWalletFromSpribe } from "../../reusable_component/gameApi";
 const notes = [
     "Welcome to the Tiranga Games! Greetings, Gamers and Enthusiasts! the Tiranga",
     "Please be sure to always use our official website for playing the games with the fol",
@@ -207,15 +208,27 @@ function Home() {
             setFirstDepsoitModal(false);
         }
     }, [])
+    useEffect(() => {
+        const statusJili = localStorage.getItem("jilligamePlayed");
+        const statusSpribe = localStorage.getItem("spribegamePlayed");
+        if (statusJili == 1) {
+            localStorage.setItem("jilligamePlayed",0)
+            updateUserWalletFromJili()
+        }
+        if (statusSpribe == 1) {
+            localStorage.setItem("spribegamePlayed",0)
+            updateUserWalletFromSpribe()
+        }
+    }, [])
 
     return (
         <>
-        {loading && <Loader setLoading={setLoading} loading={loading} />}
+            {loading && <Loader setLoading={setLoading} loading={loading} />}
             {firstDepsoitModal && (
                 <div className="relative z-50 font-roboto">
                     <FirstDepositModal
-                    firstDepsoitModal={firstDepsoitModal}
-                    setFirstDepsoitModal={setFirstDepsoitModal}
+                        firstDepsoitModal={firstDepsoitModal}
+                        setFirstDepsoitModal={setFirstDepsoitModal}
                         onClose={() => setFirstDepsoitModal(false)}
                     /></div>
             )}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchAllGames, fetchAllGamesSpribe, fetchGameURL, fetchGameURLSpribe } from "../../reusable_component/gameApi";
+import { fetchAllGames, fetchAllGamesSpribe, fetchGameURL, fetchGameURLSpribe, updateUserWalletFromJili, updateUserWalletFromSpribe } from "../../reusable_component/gameApi";
 import jilli1 from "../../assets/usaAsset/homeScreen/JILLI1.png"
 import jilli2 from "../../assets/usaAsset/homeScreen/JILLI2.png"
 import jilli3 from "../../assets/usaAsset/homeScreen/JILLI3.png"
@@ -53,6 +53,18 @@ function AllGames() {
             fetchAllGamesSpribe(setAllGamesListView);
         }
     }, [activeModal]);
+        useEffect(() => {
+            const statusJili = localStorage.getItem("jilligamePlayed");
+            const statusSpribe = localStorage.getItem("spribegamePlayed");
+            if (statusJili == 1) {
+                localStorage.setItem("jilligamePlayed",0)
+                updateUserWalletFromJili()
+            }
+            if (statusSpribe == 1) {
+                localStorage.setItem("spribegamePlayed",0)
+                updateUserWalletFromSpribe()
+            }
+        }, [])
     const LotteryGames = [
         { id: 1, name: "Win Go", image: wingoNew, route: "/lottery/wingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
         { id: 2, name: "Trx Win", image: trx_colnew, route: "/lottery/trxwingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },

@@ -18,7 +18,7 @@ function SubordinateData() {
   const [suboridnateData, setSuborinateData] = useState(null);
   const modalRef = useRef(null);
 
-  // const [myDetails, setMyDetails] = useState(null)
+  const [copyUid, setCopyUid] = useState(null)
   const userId = localStorage.getItem("userId")
   const navigate = useNavigate()
   // const profileDetails = async () => {
@@ -95,7 +95,29 @@ function SubordinateData() {
     tierHandler()
   }, [])
 
- 
+  const handleCopyUID = () => {
+    if (suboridnateData?.subordinates_data[0]?.u_id) {
+      navigator.clipboard
+        .writeText(suboridnateData?.subordinates_data[0]?.u_id)
+        .then(() => {
+          setCopyUid(true)
+        })
+        .catch(() => {
+          toast.error('Failed to copy UID.');
+        });
+    } else {
+      toast.error('UID is not available.');
+    }
+  };
+  useEffect(() => {
+    if (copyUid) {
+      handleCopyUID()
+        const timer = setTimeout(() => {
+            setCopyUid(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }
+}, [copyUid, setCopyUid]);
   return (
     <div className='p-2 h-full w-full'>
       {loading && <Loader setLoading={setLoading} loading={loading} />}
@@ -108,7 +130,7 @@ function SubordinateData() {
           onClick={() => handleModalFirst(!modalFirst)}
           className="bg-white text-black rounded-md text-xsm  py-4 px-2 flex justify-between items-center shadow-md"
         >
-          <p>{modalFirstValue === 0 ? "All" : modalFirstValue === 1 ? "Tier 1" : modalFirstValue === 2 ? "Tier 2" : modalFirstValue === 3 ? "Tier 3" :modalFirstValue === 4 ? "Tier 4" : modalFirstValue === 5 ? "Tier 5" : modalFirstValue === 6 ? "Tier 6" :  ""}</p>
+          <p>{modalFirstValue === 0 ? "All" : modalFirstValue === 1 ? "Tier 1" : modalFirstValue === 2 ? "Tier 2" : modalFirstValue === 3 ? "Tier 3" : modalFirstValue === 4 ? "Tier 4" : modalFirstValue === 5 ? "Tier 5" : modalFirstValue === 6 ? "Tier 6" : ""}</p>
           <p>
             <IoIosArrowDown size={18} />
           </p>
@@ -155,20 +177,20 @@ function SubordinateData() {
       <div className=' mt-5  text-blackLight'>
         {suboridnateData?.subordinates_data.length > 0 ? suboridnateData?.subordinates_data?.map((item, i) => (
           <div key={i} className="bg-inputBg rounded-lg py-2 px-2">
-            <p className='py-4 border-b border1 '>UID: 51555   <button onClick={handleCopyUID}> <FaRegCopy /></button></p>
+            <p className='py-4 border-b border1 '>UID: {item?.u_id}  <button onClick={handleCopyUID}> <FaRegCopy /></button></p>
             <div className='flex text-xsm items-center justify-between'>
               <div>
-                <p className='py-1.5'>Tier</p>
+                {/* <p className='py-1.5'>Tier</p> */}
                 <p className='py-1.5'>Bet amount</p>
                 <p className='py-1.5'>Deposit amount</p>
                 <p className='py-1.5'>Commission</p>
               </div>
 
               <div >
-                <p className='py-1.5'>{ }</p>
-                <p className='py-1.5'>1</p>
-                <p className='py-1.5'>1</p>
-                <p className='py-1.5'>1</p>
+                {/* <p className='py-1.5'>{ item?.}</p> */}
+                <p className='py-1.5'>{item?.bet_amount}</p>
+                <p className='py-1.5'>{item?.payin_amount}</p>
+                <p className='py-1.5'>{item?.commission}</p>
               </div>
             </div>
           </div>
@@ -231,6 +253,13 @@ function SubordinateData() {
               })) : <p>No data found</p>}
 
             </div>
+          </div>
+        </div>
+      )}
+      {copyUid && (
+        <div className="fixed inset-0 flex items-center justify-center ">
+          <div className="h-14 w-[300px] bg-black opacity-70 rounded-lg shadow-lg flex flex-col items-center justify-center">
+            <p>Copy successfull</p>
           </div>
         </div>
       )}

@@ -120,14 +120,16 @@ function Deposit() {
             amount: usdtAmount,
             type: 2
         }
-        console.log("payload", activeModal === 0 ? payload : payloadUsdt, activeModal)
+        // console.log("payload", activeModal === 0 ? payload : payloadUsdt, activeModal)
         try {
             const res = await axios.post(activeModal === 0 ? apiIndianPay : apiUsdtPay, activeModal === 0 ? payload : payloadUsdt)
             console.log("res", res)
-            if (res?.data?.status == 200) {
-                setloading(false)
+            if (res?.data?.status === 200) {
                 window.open(activeModal === 0 ? res?.data?.response?.payment_link : res?.data?.data?.status_url, "_blank");
+                setloading(false)
             } else {
+                setloading(false)
+                console.log("res?.data?.message",res?.data?.message)
                 toast.error(res?.data?.message)
             }
         } catch (er) {

@@ -65,6 +65,7 @@ import ComingSoon from "./reusable_component/ComingSoon";
 import AllGames from "./pages/Home/AllGames";
 import FirstDeposit from "./reusable_component/FirstDeposit";
 import TronscanViewer from "./pages/Lottery/TronscanViewer";
+import TronscanViewer2 from "./pages/Lottery/Transconviewer2";
 
 export const Router = createBrowserRouter([
   {
@@ -151,7 +152,7 @@ export const Router = createBrowserRouter([
       },
       {
         path: "/lottery/trxwingo/tronscan2",
-        element: <TronscanViewer />,
+        element: <TronscanViewer2 />,
       },
       {
         path: "/activity",

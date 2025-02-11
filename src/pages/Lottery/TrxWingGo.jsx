@@ -82,6 +82,7 @@ import prize7 from "../../assets/usaAsset/trx/prize7.png";
 import prize8 from "../../assets/usaAsset/trx/prize8.png";
 import prize9 from "../../assets/usaAsset/trx/prize9.png";
 import TimerModalTrx from '../../reusable_component/TimerModalTrx';
+import WingoWinnerAnnoucementTrx from '../../reusable_component/WingoWinnerAnnoucementTrx';
 
 const profileApi = apis.profile
 const wingo_bet_api = apis.wingo_bet
@@ -255,17 +256,18 @@ const TrxWinGo = () => {
 
 
   const winAmountAnnouncement1 = async (i) => {
-    console.log("111111",i)
+    // console.log("111111",i)
     try {
       const offset = (currentPage - 1) * limit;
       const res = await axios.get(
         `${wingo_game_history}?gameid=${i}&limit=${limit}&offset=${offset}`
       );
-      console.log("res?.data?.data",res?.data?.data)
+      // console.log("res?.data?.data",res?.data?.data)
       if (res?.data?.data) {
-        console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
+        // console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
+          // alert("dcfd")
           console.log("resooooooooo",resp)
           if (resp?.data?.status === 200) {
             // console.log("res 1", resp)
@@ -375,7 +377,7 @@ const TrxWinGo = () => {
       limit,
       offset
     }
-    console.log("my history payload",payload)
+    // console.log("my history payload",payload)
     try {
       const res = await axios.post(`${wingo_my_history}`, payload)
       console.log("my history", res)
@@ -419,7 +421,7 @@ const TrxWinGo = () => {
       setIsLoading(false);
     }
   };
-  // console.log("next period",nextPeriod)
+  // console.log("next period",myHistoryData)
   const nextPage = () => {
     if (hasMore) {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -455,10 +457,9 @@ const TrxWinGo = () => {
   
       for (let i = 6; i <= 9; i++) {
         // console.log("Loop iteration:", i); // Add log here
-  
         let betstats = localStorage.getItem(`betStatus${i}`);
         if (betstats > 0) {
-          console.log(`Bet status found for i=${i}`);
+          // console.log(`Bet status found for i=${i}`);
           if (i === 6) winAmountAnnouncement1(i);
           if (i === 7) winAmountAnnouncement2(i);
           if (i === 8) winAmountAnnouncement3(i);
@@ -467,8 +468,11 @@ const TrxWinGo = () => {
         }
       }
   
-      myHistory();
       gameHistory();
+    }
+    if(timeLeft===55){
+      myHistory();
+
     }
   }, [timeLeft]);
   
@@ -556,12 +560,12 @@ const TrxWinGo = () => {
   }
 
   // console.log("gameHistoryDataPaginationgameHistoryDataPaginati  on", BigInt(gameHistoryDataPagination?.nextPeriod)+BigInt(1))
-  // console.log("gameHistoryDataPaginationgameHistoryDataPagination", timerModal)
+  // console.log("gameHistoryDataPaginationgameHistoryDataPagination", modalData)
   return (
     <>
       {isModalVisible && modalData && (
         <div className="relative z-50 font-roboto">
-          <WingoWinnerAnnoucement
+          <WingoWinnerAnnoucementTrx
             data={modalData}
             onClose={() => setIsModalVisible(false)}
           /></div>
@@ -617,10 +621,10 @@ const TrxWinGo = () => {
             {/* game id 3rd div */}
             <div className='bg-inputBg text-[12.8px] grid grid-cols-4 w-full rounded-xl mt-5'>
               {[
-                { label: 'Win Go', time: '1Min', duration: 60, gameid: 6 },
-                { label: 'Win Go', time: '3Min', duration: 180, gameid: 7 },
-                { label: 'Win Go', time: '5Min', duration: 300, gameid: 8 },
-                { label: 'Win Go', time: '10Min', duration: 600, gameid: 9 },
+                { label: 'Trx Win Go', time: '1Min', duration: 60, gameid: 6 },
+                { label: 'Trx Win Go', time: '3Min', duration: 180, gameid: 7 },
+                { label: 'Trx Win Go', time: '5Min', duration: 300, gameid: 8 },
+                { label: 'Trx Win Go', time: '10Min', duration: 600, gameid: 9 },
               ].map((item) => (
                 <div
                   key={item.time}

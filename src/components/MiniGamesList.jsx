@@ -16,7 +16,7 @@ function MiniGamesList() {
    return (
      <div>
        <div className="grid grid-cols-3 w-full">
-         {allGamesListView ? (
+         {allGamesListView?.data?.message?.data?.length>0 ? (
            allGamesListView?.data?.message?.data?.map((item, i) => (
              <div onClick={() => fetchGameURLSpribe(item?.game_id_long, userId,navigate,setLoading)} key={i} className=" flex flex-col items-center text-black p-2 ">
                <img src={item?.game_image} className="w-36 h-20 rounded-lg" alt="sd" />

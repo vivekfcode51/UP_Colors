@@ -15,7 +15,7 @@ function FishingGamesList() {
   return (
     <div>
       <div className="grid grid-cols-3 w-full">
-              {allGamesListView ? (
+              {allGamesListView?.data?.fishing?.length>0 ? (
                 allGamesListView?.data?.fishing?.map((item, i) => (
                   <div onClick={() => fetchGameURL(item?.id, userId,navigate,setLoading)} key={i} className=" flex flex-col items-center text-black p-2 ">
                     <img src={item?.img} className="w-36 h-24 rounded-lg" alt="sd" />
