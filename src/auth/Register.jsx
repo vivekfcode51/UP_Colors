@@ -5,8 +5,6 @@ import apis from '../utils/apis';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Loader from '../reusable_component/Loader/Loader';
-import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
-import loginPhone from "../assets/icons/loginPhone.png"
 import phoneUsa from "../assets/usaAsset/phone.png"
 import passwordUsa from "../assets/usaAsset/password.png"
 import tikki from "../assets/usaAsset/tikki.png"
@@ -35,18 +33,14 @@ function Register() {
       .matches(/^[0-9]+$/, 'Phone number must be numeric')
       .min(10, 'Phone number must be at least 10 digits')
       .max(10, 'Phone number cannot exceed 10 digits'),
-    // email: Yup.string()
-    //   .required('Email is required')
-    //   .email('Invalid email format'),
     password: Yup.string()
       .required('Password is required')
-      .min(8, 'Password must be at least 8 characters'),
-    // .max(8, 'Password cannot exceed 8 characters'),
-    password_confirmation: Yup.string()
-      .required('Confirm your password')
-      .oneOf([Yup.ref('password')], 'Passwords must match')
-      .min(6, 'Password confirmation must be at least 6 characters')
-      .max(8, 'Password confirmation cannot exceed 8 characters'),
+      .min(6, 'Password must be at least 8 characters')
+      .matches(/^(?=.*[A-Za-z])(?=.*\d)/, 'Password must contain at least one letter and one number'), password_confirmation: Yup.string()
+        .required('Confirm your password')
+        .oneOf([Yup.ref('password')], 'Passwords must match')
+        .min(6, 'Password confirmation must be at least 6 characters')
+        .matches(/^(?=.*[A-Za-z])(?=.*\d)/, 'Password must contain at least one letter and one number'),
     referral_code: Yup.string(),
   });
 
@@ -115,12 +109,12 @@ function Register() {
   }, [])
   const naivatorhandle = () => {
     localStorage.setItem("abousType", "6")
-}
+  }
   return (
     <>
       {loading && <Loader setLoading={setLoading} loading={loading} />}
       <section className=" w-full flex flex-col items-start dark:text-gray">
-        <div className="bg-gradient-to-l from-[#f95959] to-[#ff9a8e] w-full">
+        <div className="bg-gradient-to-l from-red to-redLight w-full">
           <div className=" text-white pb-5">
             <h1 className="text-sm px-5 font-bold mt-2">Register</h1>
             <p className="text-[10px] px-5 my-2">Please register with your phone number or email </p>
@@ -177,26 +171,7 @@ function Register() {
                   <div className="text-red text-xs">{formik.errors.mobile}</div>
                 )}
               </div>
-              {/* <div className="relative">
-                <div className='flex items-center py-2 gap-2'>
-                  <div>
-                    <img className='w-6 h-6' src={passwordUsa} alt="sd" />
-                  </div>
-                  <label htmlFor="email" className="text-sm text-gray font-medium">Email</label>
-                </div>
-                <input
-                  {...formik.getFieldProps('email')}
-
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="example@domain.com"
-                  className={`col-span-[60%] bg-inputBg text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray`}
-                />
-                {formik.touched.email && formik.errors.email && (
-                  <div className="text-red text-xs">{formik.errors.email}</div>
-                )}
-              </div> */}
+              
               <div className="relative">
                 <div className='flex items-center py-2 gap-2'>
                   <div>
@@ -272,14 +247,14 @@ function Register() {
                   {checkAgreement ? (
                     <img className='w-5 h-5' src={tikki} alt="df" />
                   ) : (
-                   <div className='border-[1px] border-[#c8c9cc] p-2 rounded-full'></div>
+                    <div className='border-[1px] border-[#c8c9cc] p-2 rounded-full'></div>
                   )}
                 </div>
                 <label htmlFor="agree" className="text-gray ml-2 text-xs sm:text-base md:text-xs">I have read and agree </label>
-                <a onClick={naivatorhandle}  href="/aboutus/child" className="ml-2 text-redLight underline text-xs sm:text-base md:text-xs">Privacy Agreement</a>
+                <a onClick={naivatorhandle} href="/aboutus/child" className="ml-2 text-redLight underline text-xs sm:text-base md:text-xs">Privacy Agreement</a>
               </div>
               <div className='flex flex-col w-full font-bold items-center justify-center'>
-                <button type="submit" className="w-[90%] font-bold tracking-[0.20333rem] py-2.5 rounded-full border-none bg-gradient-to-b from-[#f95959] to-[#ff9a8e] shadow-lg flex items-center justify-center">Register</button>
+                <button type="submit" className="w-[90%] font-bold tracking-[0.20333rem] py-2.5 rounded-full border-none bg-gradient-to-b from-red to-redLight shadow-lg flex items-center justify-center">Register</button>
                 <p className="border w-[90%] text-xs border-redLight mt-5 tracking-[2px] text-gray rounded-full p-2 flex gap-2 items-center justify-center">
                   I have an account  <Link to="/login" className="font-bold text-sm hover:underline text-redLight tracking-[0.20333rem] ">Login</Link>
                 </p>

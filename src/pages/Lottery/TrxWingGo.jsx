@@ -83,6 +83,7 @@ import prize8 from "../../assets/usaAsset/trx/prize8.png";
 import prize9 from "../../assets/usaAsset/trx/prize9.png";
 import TimerModalTrx from '../../reusable_component/TimerModalTrx';
 import WingoWinnerAnnoucementTrx from '../../reusable_component/WingoWinnerAnnoucementTrx';
+import LotteryBetModalTrx from '../../reusable_component/LotteryBetModalTrx';
 
 const profileApi = apis.profile
 const wingo_bet_api = apis.wingo_bet
@@ -450,7 +451,7 @@ const TrxWinGo = () => {
       setBetModal(false);
     }
   
-    if (timeLeft === 58) {
+    if (timeLeft === 57) {
       console.log("Executing loop for i values");
       
       profileDetails();
@@ -467,10 +468,9 @@ const TrxWinGo = () => {
           localStorage.setItem(`betStatus${i}`, "0");
         }
       }
-  
       gameHistory();
     }
-    if(timeLeft===55){
+    if(timeLeft===57){
       myHistory();
 
     }
@@ -803,7 +803,7 @@ const TrxWinGo = () => {
         {/* bet modal */}
         {betModal && !false && (
           <div className="relative z-50">
-            <LotteryBetModal setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
+            <LotteryBetModalTrx gameHistoryData={gameHistoryData} setIsBetDone={setIsBetDone} profileDetails={profileDetails} myHistory={myHistory} bet_api={wingo_bet_api} gameDetails={gameDetails} onClose={() => setBetModal(false)} />
           </div>
         )}
         {playRule && gameDetails?.gameId === 6 && (

@@ -53,7 +53,7 @@ const colorClassMap = {
     bg3: '#2A95F3',
 };
 
-function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onClose, gameDetails }) {
+function LotteryBetModal({ gameHistoryData, profileDetails, myHistory, bet_api, onClose, gameDetails }) {
     const [balanceIndex, setBalanceIndex] = useState(0);
     const [quantityIndex, setQuantityIndex] = useState(gameDetails?.numericValue !== -1 ? gameDetails?.numericValue : 1);
     const [finalBetValue, setFinalBetValue] = useState(1);
@@ -62,6 +62,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
     const [isPreSalesModalOpen, setPreSalesModalOpen] = useState(false);
     const togglePreSalesModal = () => setPreSalesModalOpen(!isPreSalesModalOpen);
     const userId = localStorage.getItem("userId")
+    // console.log("gameHistoryData",gameHistoryData[0]?.games_no+1)
     useEffect(() => {
         if (gameDetails?.numericValue !== undefined && gameDetails.numericValue !== -1) {
             setQuantityIndex(gameDetails.numericValue);
@@ -92,12 +93,14 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
             userid: userId,
             game_id: gameDetails?.gameId,
             number: gameDetails?.betButtonId,
-            amount: finalBetValue
+            amount: finalBetValue,
+            games_no:gameHistoryData[0]?.games_no+1
         }
-        // console.log("payload",payload)
+        console.log("payload",payload)
         if (checkAgreement) {
             try {
                 const res = await axios.post(`${bet_api}`, payload)
+                console.log("wingo nbet res",res)
                 if (res?.data?.status === 200) {
                     const currentValue = parseInt(localStorage.getItem(`betStatus${gameDetails?.gameId}`)) || 0;
                     const updatedValue = currentValue + 1;
@@ -159,8 +162,7 @@ function LotteryBetModal({ setIsBetDone, profileDetails, myHistory, bet_api, onC
                             <button onClick={decrementBet} className="w-7 h-7 rounded-md font-extrabold text-[14px] flex justify-center items-center" style={{ backgroundColor: colorClass }}>
                                 <FaMinus className="text-white text-center" />
                             </button>
-                            <input value={finalBetValue} onChange={(e)=>setFinalBetValue(e.target.value)} className="outline-none pl-1 w-20 h-7 flex items-center justify-center text-center bg-inputBg text-blackLight text-sm xsm:text-base" type="text"/>
-                            {/* <div className="w-20 h-7 flex items-center justify-center bg-inputBg text-blackLight text-sm xsm:text-base">{finalBetValue}</div> */}
+                            <input value={finalBetValue}  inputMode="numeric" onChange={(e)=>setFinalBetValue(e.target.value)} className="outline-none pl-1 w-20 h-7 flex items-center justify-center text-center bg-inputBg text-blackLight text-sm xsm:text-base" type="number"/>
                             <button onClick={incrementBet} className="w-7 h-7 rounded-md font-extrabold text-[14px] flex justify-center items-center" style={{ backgroundColor: colorClass }}>
                                 <FaPlus className="text-white text-center" />
                             </button>

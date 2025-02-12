@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { createContext, useContext, useRef, useState } from "react";
 
 const AudioContext = createContext();
@@ -18,7 +19,7 @@ export const AudioProvider = ({ children }) => {
   return (
     <AudioContext.Provider value={{ audioRef, isMuted, toggleAudio }}>
       {children}
-      <audio ref={audioRef} loop src="/path-to-your-audio.mp3"></audio> {/* Background audio */}
+      <audio ref={audioRef} loop src="/path-to-your-audio.mp3"></audio>
     </AudioContext.Provider>
   );
 };

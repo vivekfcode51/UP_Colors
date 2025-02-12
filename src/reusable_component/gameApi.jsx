@@ -19,7 +19,7 @@ export const fetchAllGames = async (setAllGamesListView) => {
 
 export const fetchGameURL = async (gameid, userId, navigate, setLoading) => {
     localStorage.setItem("jilligamePlayed", 1)
-    updateJiliWallet()
+    await  updateJiliWallet()
     setLoading(true)
     if (!gameid || !userId) {
         navigate("/login")
@@ -63,7 +63,7 @@ export const fetchAllGamesSpribe = async (setAllGamesListView) => {
 
 export const fetchGameURLSpribe = async (gameid, userId, navigate, setLoading) => {
     localStorage.setItem("spribegamePlayed", 1)
-    updateSpribeWallet()
+   await updateSpribeWallet()
     setLoading(true)
     if (!gameid || !userId) {
         // navigate("/login")
@@ -101,66 +101,70 @@ export const getFirstDepositPlans = async (userId) => {
     }
 };
 
-
 /// update jili wallet api 
 export const updateJiliWallet = async () => {
     const userId = localStorage.getItem("userId")
     const payload = {
         user_id: userId,
     };
-    console.log("updateJiliWallet", payload)
+    // alert("updateJiliWallet")
+    // console.log("updateJiliWallet", payload)
     try {
         const res = await axios.post(apis.update_jilli_wallet, payload);
         if (res?.data?.status == 200) {
-            console.log("update_jilli_wallet response", res)
+            // console.log("updateJiliWallet response", res)
         }
     } catch (err) {
         console.error("Error fetching game URL:", err);
     }
 };
-/// update jili wallet api 
+/// update user wallet jili
 export const updateUserWalletFromJili = async () => {
     const userId = localStorage.getItem("userId")
     const payload = {
         user_id: userId,
     };
-    console.log("updateJiliWallet", payload)
+    // alert("updateUserWalletFromJili")
+    // console.log("updateJiliWallet", payload)
     try {
-        const res = await axios.post(apis.update_jilli_wallet, payload);
+        const res = await axios.post(apis.update_jilli_to_user_wallet, payload);
         if (res?.data?.status == 200) {
-            console.log("update_jilli_wallet response", res)
+            console.log("updateUserWalletFromJili response", res)
         }
     } catch (err) {
         console.error("Error fetching game URL:", err);
     }
 };
-/// update jili wallet api 
+/// update spribe wallet api 
 export const updateSpribeWallet = async () => {
     const userId = localStorage.getItem("userId")
     const payload = {
         user_id: userId,
     };
-    console.log("updateSpribeWallet", payload)
+    // alert("updateSpribeWallet")
+    // console.log("updateSpribeWallet", payload)
     try {
         const res = await axios.post(apis.update_spribe_wallet, payload);
         if (res?.data?.status == 200) {
-            console.log("update_jilli_wallet response", res)
+            // console.log("updateSpribeWallet response", res)
         }
     } catch (err) {
         console.error("Error fetching game URL:", err);
     }
 };
-/// update jili wallet api 
+/// update user wallet from spribe 
 export const updateUserWalletFromSpribe = async () => {
     const userId = localStorage.getItem("userId")
     const payload = {
         user_id: userId,
     };
-    console.log("updateuserWallet from spribe", payload)
+    // alert("updateUserWalletFromSpribe")
+    // console.log("updateuserWallet from spribe", payload)
     try {
-        const res = await axios.post(apis.update_jilli_wallet, payload);
+        const res = await axios.post(apis.update_spribe_to_user_wallet, payload);
+        // alert("spribe return")
         if (res?.data?.status == 200) {
-            console.log("update_jilli_wallet response", res)
+            console.log("updateUserWalletFromSpribe response", res)
         }
     } catch (err) {
         console.error("Error fetching game URL:", err);

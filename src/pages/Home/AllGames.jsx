@@ -53,18 +53,55 @@ function AllGames() {
             fetchAllGamesSpribe(setAllGamesListView);
         }
     }, [activeModal]);
-        useEffect(() => {
-            const statusJili = localStorage.getItem("jilligamePlayed");
-            const statusSpribe = localStorage.getItem("spribegamePlayed");
-            if (statusJili == 1) {
-                localStorage.setItem("jilligamePlayed",0)
-                updateUserWalletFromJili()
+    window.location.reload(); 
+
+    useEffect(() => {
+        const updateWallet = async () => {
+
+            const statusJili = localStorage.getItem("jilligamePlayed") || "0";
+            const statusSpribe = localStorage.getItem("spribegamePlayed") || "0";
+
+            console.log("Status Jili:", statusJili);
+            console.log("Status Spribe:", statusSpribe);
+
+            if (statusJili === "1") {
+                await updateUserWalletFromJili();
+                localStorage.setItem("jilligamePlayed", "0");
             }
-            if (statusSpribe == 1) {
-                localStorage.setItem("spribegamePlayed",0)
-                updateUserWalletFromSpribe()
+
+            if (statusSpribe === "1") {
+                await updateUserWalletFromSpribe();
+                localStorage.setItem("spribegamePlayed", "0");
             }
-        }, [])
+        };
+
+        // Run on page load
+        updateWallet();
+
+        // Detect if user switches back to this tab/page
+        const handleVisibilityChange = () => {
+            if (!document.hidden) {
+                updateWallet();
+            }
+        };
+
+        // Detect if localStorage was changed
+        const handleStorageChange = (event) => {
+            if (event.key === "jilligamePlayed" || event.key === "spribegamePlayed") {
+                updateWallet();
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        window.addEventListener("storage", handleStorageChange);
+
+        return () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            window.removeEventListener("storage", handleStorageChange);
+        };
+    }, []);
+
+
     const LotteryGames = [
         { id: 1, name: "Win Go", image: wingoNew, route: "/lottery/wingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
         { id: 2, name: "Trx Win", image: trx_colnew, route: "/lottery/trxwingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
@@ -73,7 +110,7 @@ function AllGames() {
         // { id: 5, name: "Aviator", image: aviatornew, route: "/comingsoon", description1: "Fly High", description2: "" },
         // { id: 6, name: "Mines", image: minesnew, route: "/comingsoon", description1: "Choose Boxes", description2: "" },
     ];
-    console.log("allGamesListView",allGamesListView)
+    console.log("allGamesListView", allGamesListView)
     return (
         <div>
             {loading && <Loader setLoading={setLoading} loading={loading} />}
@@ -81,7 +118,7 @@ function AllGames() {
                 <div className="flex gap-2 text-xsm font-bold">
                     {payMethod && payMethod?.map((item, i) => (
                         <div key={i}
-                            className={`w-32  xsm:py-3 flex-shrink-0 flex flex-col items-center justify-between shadow-lg rounded-lg ${activeModal == item?.type ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                            className={`w-32  xsm:py-3 flex-shrink-0 flex flex-col items-center justify-between shadow-lg rounded-lg ${activeModal == item?.type ? "bg-gradient-to-l from-redLight to-red text-white" : "bg-white text-gray"
                                 }  px-3 cursor-pointer`}
                             onClick={() => toggleModal(item?.type)}
                         >

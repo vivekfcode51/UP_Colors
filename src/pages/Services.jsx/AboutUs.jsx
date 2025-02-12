@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import risk from '../../assets/usaAsset/aboutus/risk.png'
 import confi from '../../assets/usaAsset/aboutus/confidential.png'
-import big_guide from '../../assets/usaAsset/aboutus/big_guide.png'
 import service_about from '../../assets/usaAsset/aboutus/service_about.png'
 import service_guide from '../../assets/usaAsset/aboutus/service_guide.png'
+import invitation from '../../assets/usaAsset/aboutus/invitation.png'
+import invitationCode1 from '../../assets/usaAsset/aboutus/invitationCode.png'
 import aboutus from '../../assets/images/aboutus.png'
 import { MdKeyboardArrowRight } from 'react-icons/md'
-import axios from 'axios'
-import apis from '../../utils/apis'
+
 
 function AboutUs() {
     const naivatorhandle = (type) => {
@@ -30,7 +30,7 @@ function AboutUs() {
                 </Link>
                 <Link onClick={() => naivatorhandle(5)}  to="/aboutus/child" className='px-2 border-b border-bg1 py-4 text-sm flex justify-between items-center' >
                     <div className='flex items-center'>
-                        <img src={confi} className='rounded-full h-8 w-8' alt="not found" />&nbsp;Confidentiality Agreement
+                        <img src={invitationCode1} className='rounded-full h-8 w-8' alt="not found" />&nbsp;Confidentiality Agreement
                     </div>
                     <div className='flex items-end'>
                         <MdKeyboardArrowRight size={25} className="text-gray" />
@@ -38,7 +38,7 @@ function AboutUs() {
                 </Link>
                 <Link onClick={() => naivatorhandle(6)}  to="/aboutus/child" className='px-2 border-b border-bg1 py-4 text-sm flex justify-between items-center' >
                     <div className='flex items-center'>
-                        <img src={risk} className='rounded-full h-8 w-8' alt="not found" />&nbsp;Risk Disclosure Agreement
+                        <img src={invitation} className='rounded-full h-8 w-8' alt="not found" />&nbsp;Risk Disclosure Agreement
                     </div>
                     <div className='flex items-end'>
                         <MdKeyboardArrowRight size={25} className="text-gray" />
@@ -54,7 +54,7 @@ function AboutUs() {
                 </Link>
                 <Link onClick={() => naivatorhandle(7)}  to="/aboutus/child" className='px-2 border-b border-bg1 py-4 text-sm flex justify-between items-center' >
                     <div className='flex items-center'>
-                        <img src={risk} className='rounded-full h-8 w-8' alt="not found" />&nbsp;USAWin FAQs
+                        <img src={invitation} className='rounded-full h-8 w-8' alt="not found" />&nbsp;USAWin FAQs
                     </div>
                     <div className='flex items-end'>
                         <MdKeyboardArrowRight size={25} className="text-gray" />

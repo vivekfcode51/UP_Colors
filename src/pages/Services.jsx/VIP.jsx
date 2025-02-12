@@ -79,7 +79,7 @@ function VIP() {
     }
     try {
       const res = await axios.get(`${apis.vipLevel}${userId}`);
-      console.log("response", res)
+      // console.log("response", res)
       if (res?.data?.status === 200) {
         setVipLevel(res?.data)
       } else {
@@ -97,7 +97,7 @@ function VIP() {
     }
     try {
       const res = await axios.get(`${apis.vipLevelHistory}${userId}`);
-      console.log("response", res)
+      // console.log("response", res)
       if (res?.data?.status === 200) {
         setVipLevelHistory(res?.data?.data)
       } else {

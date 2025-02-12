@@ -68,7 +68,7 @@ function ActivityGifts() {
                 <p className='text-gray'>We have a gift for you</p>
                 <p className='text-black mt-5'>Please enter the gift code below</p>
                 <input onChange={(e) => setGiftCode(e.target.value)} className='w-full outline-none bg-[#EBEBEB] rounded p-1 mt-3' type="text" placeholder='Please enter gift code' />
-                <button onClick={redeemGift} className='bg-gradient-to-b from-[#f95959] to-[#ff9a8e] text-white rounded-full w-full text-sm py-1.5 mt-5'>Receive</button>
+                <button onClick={redeemGift} className='bg-gradient-to-b from-red to-redLight text-white rounded-full w-full text-sm py-1.5 mt-5'>Receive</button>
             </div>
             <div className='mt-3'>
                 <div className='flex mt-10 items-center gap-3  text-black '>
@@ -92,7 +92,7 @@ function ActivityGifts() {
                                 <td className='text-center'>{item?.status === 1 ? "Redeem" : "Yet to redeem"}</td>
                                 <td className='text-center'>{moment(item?.created_at).format("DD-MM-YYYY")}</td>
                             </tr>
-                        )) : <p >no data</p>}
+                        )) : <p className='' >no data</p>}
 
                     </tbody>
                 </table>

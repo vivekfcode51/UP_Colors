@@ -36,7 +36,7 @@ function ActivityDetails() {
     return (
         <div>
             {loading && <Loader setLoading={setLoading} loading={loading} />}
-            <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem] flex items-center justify-between'>
+            <div className='bg-gradient-to-r from-red to-redLight h-[3.22rem] flex items-center justify-between'>
                 <Link to="/activity" >
                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                 </Link>

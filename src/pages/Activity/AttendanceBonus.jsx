@@ -73,7 +73,7 @@ function AttendanceBonus() {
     return (
         <div className='font-roboto'>
             {loading && <Loader setLoading={setLoading} loading={loading} />}
-            <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] pl-1'>
+            <div className='bg-gradient-to-l from-red to-redLight pl-1'>
                 <div className='grid grid-cols-2 pt-10'>
                     <div className='col-span-1 px-2 pb-5'>
                         <div className='flex flex-col justify-between'>
@@ -129,7 +129,7 @@ function AttendanceBonus() {
                 </div>
             </div>
             <div className='px-2 mb-5'>
-                <button onClick={() => ClaimAttendance(userId)} className='bg-gradient-to-b from-[#f95959] to-[#ff9a8e] rounded-full w-full text-sm py-1 my-10'>Attendance</button>
+                <button onClick={() => ClaimAttendance(userId)} className='bg-gradient-to-b from-red to-redLight rounded-full w-full text-sm py-1 my-10'>Attendance</button>
             </div>
         </div>
     )

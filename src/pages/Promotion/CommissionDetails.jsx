@@ -34,6 +34,7 @@ function CommissionDetails() {
       toast.error(err)
     }
   }
+  console.log("commisionData",commisionData)
   useEffect(() => {
     comHandler()
   }, [userId])
@@ -73,7 +74,7 @@ function CommissionDetails() {
             <p className='text-black font-semibold'>{moment(item?.settlement_date).format("DD-MM-YYYY HH:mm:ss")}</p>
           </div>
         </div>
-      )) : <p>no data</p>}
+      )) : <p className='text-black'>no data</p>}
     </div>
   )
 }

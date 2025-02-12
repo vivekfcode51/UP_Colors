@@ -170,25 +170,32 @@ function AllTransactionsHistory() {
         )}
       </div>
 
-
       {/* modals */}
       {modalFirst && (
         <div className="fixed inset-0 z-50 flex justify-center items-end bg-black bg-opacity-50">
           <div
             ref={modalRef}
-            className="bg-white p-3 rounded-t-xl h-[60%] pb-10 overflow-y-auto w-full sm:w-[540px] md:w-[400px]"
+            className="bg-white p-3 rounded-t-xl h-[60%] pb-10 overflow-y-auto w-full xsm:w-[400px]"
           >
-            <button
-              onClick={() => handleModalFirst(false)}
-              className="text-white"
-            >
-              Cancel
-            </button>
+            <div className='flex items-center justify-between'>
+              <button
+                onClick={() => handleModalFirst(false)}
+                className="text-gray"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleModalFirst(false)}
+                className="text-red"
+              >
+                Confirm
+              </button>
+            </div>
             <div className="flex flex-col gap-2">
               <button
                 onClick={() => {
                   handleModalFirstValue("All");
-                  handleModalFirst(false);
+                  // handleModalFirst(false);
                 }}
                 className={`${modalFirstValue === "All" ? "text-black" : "text-gray"
                   }`}
@@ -201,7 +208,7 @@ function AllTransactionsHistory() {
                     key={(i)}
                     onClick={() => {
                       handleModalFirstValue(item?.name);
-                      handleModalFirst(false);
+                      // handleModalFirst(false);
                     }}
                     className={`capitalize ${modalFirstValue === item?.name ? "text-black" : "text-gray"
                       }`}
@@ -210,7 +217,6 @@ function AllTransactionsHistory() {
                   </button>
                 )
               })}
-
             </div>
           </div>
         </div>

@@ -209,17 +209,51 @@ function Home() {
         }
     }, [])
     useEffect(() => {
-        const statusJili = localStorage.getItem("jilligamePlayed");
-        const statusSpribe = localStorage.getItem("spribegamePlayed");
-        if (statusJili == 1) {
-            localStorage.setItem("jilligamePlayed",0)
-            updateUserWalletFromJili()
-        }
-        if (statusSpribe == 1) {
-            localStorage.setItem("spribegamePlayed",0)
-            updateUserWalletFromSpribe()
-        }
-    }, [])
+        const updateWallet = async () => {
+
+            const statusJili = localStorage.getItem("jilligamePlayed") || "0";
+            const statusSpribe = localStorage.getItem("spribegamePlayed") || "0";
+
+            console.log("Status Jili:", statusJili);
+            console.log("Status Spribe:", statusSpribe);
+
+            if (statusJili === "1") {
+                await updateUserWalletFromJili();
+                localStorage.setItem("jilligamePlayed", "0");
+            }
+
+            if (statusSpribe === "1") {
+                await updateUserWalletFromSpribe();
+                localStorage.setItem("spribegamePlayed", "0");
+            }
+        };
+
+        // Run on page load
+        updateWallet();
+
+        // Detect if user switches back to this tab/page
+        const handleVisibilityChange = () => {
+            if (!document.hidden) {
+                updateWallet();
+            }
+        };
+
+        // Detect if localStorage was changed
+        const handleStorageChange = (event) => {
+            if (event.key === "jilligamePlayed" || event.key === "spribegamePlayed") {
+                updateWallet();
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        window.addEventListener("storage", handleStorageChange);
+
+        return () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            window.removeEventListener("storage", handleStorageChange);
+        };
+    }, []);
+
 
     return (
         <>
@@ -230,7 +264,8 @@ function Home() {
                         firstDepsoitModal={firstDepsoitModal}
                         setFirstDepsoitModal={setFirstDepsoitModal}
                         onClose={() => setFirstDepsoitModal(false)}
-                    /></div>
+                    />
+                </div>
             )}
             <div className="mb-28 font-roboto">
                 <div className="rounded-xl px-3">
@@ -396,7 +431,7 @@ function Home() {
                                     <p className="text-xsm font-semibold">Mem***879</p>
                                 </div>
                             </div>
-                            <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹895,467.00</p>
+                            <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹85,467.00</p>
                         </div>
                         <div className="w-full flex items-center mt-2 justify-between text-black rounded-md bg-white shadow-lg p-2">
                             <div className="flex items-center text-gray gap-4">
@@ -410,7 +445,7 @@ function Home() {
                                     <p className="text-xsm font-semibold">Mem***113</p>
                                 </div>
                             </div>
-                            <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹940,928.00</p>
+                            <p className="text-xsm mt-2 font-bold rounded-full px-7 py-1 text-center text-white bg-gradient-to-l from-[#ff8e8a] to-[#ff9a8e] ">₹80,928.00</p>
                         </div>
 
                     </div>

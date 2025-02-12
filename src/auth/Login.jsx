@@ -1,7 +1,6 @@
 import { MdKeyboardArrowDown, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
 import apis from '../utils/apis';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -77,7 +76,7 @@ function Login() {
     <>
       {loading && <Loader setLoading={setLoading} loading={loading} />}
       <section className="h-[100vh] font-inter w-full flex  flex-col items-start dark:text-white">
-        <div className="bg-gradient-to-l from-[#f95959] to-[#ff9a8e] w-full pb-5">
+        <div className="bg-gradient-to-l from-red to-redLight w-full pb-5">
           <h1 className="text-sm font-bold font-inter px-10 mt-2">Log in</h1>
           <p className="text-[10px] px-10 mt-2">Please login with your phone number or email </p>
           <p className="text-[10px] px-10">If you forget your password,please contact customer service </p>
@@ -171,7 +170,7 @@ function Login() {
               <div className='flex flex-col font-bold items-center justify-center'>
                 <button
                   type="submit"
-                  className="w-[90%] font-bold tracking-[0.20333rem] py-2.5 rounded-full border-none bg-gradient-to-b from-[#f95959] to-[#ff9a8e] shadow-lg flex items-center justify-center"
+                  className="w-[90%] font-bold tracking-[0.20333rem] py-2.5 rounded-full border-none bg-gradient-to-b from-red to-redLight shadow-lg flex items-center justify-center"
                 >
                   Log in
                 </button>

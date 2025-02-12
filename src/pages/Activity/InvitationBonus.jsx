@@ -72,7 +72,7 @@ function InvitationBonus() {
     return (
         <div className='bg-white font-roboto' >
             {loading && <Loader setLoading={setLoading} loading={loading} />}
-            <header className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] px-3 pb-5 font-inter'>
+            <header className='bg-gradient-to-r from-red to-redLight px-3 pb-5 font-inter'>
                 <div className='grid grid-cols-3 py-3 '>
                     <div className='col-span-1'>
                         <img

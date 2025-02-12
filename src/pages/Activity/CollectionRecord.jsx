@@ -31,12 +31,12 @@ function CollectionRecord() {
             } else {
                 setLoading(false)
                 setData([]); // Clear the data if the response is not successful
-                toast.error(response?.data?.message || 'Failed to fetch data');
+                // toast.error(response?.data?.message || 'Failed to fetch data');
             }
         } catch (err) {
             setLoading(false)
             setData([]); // Clear the data in case of error
-            toast.error(err?.response?.data?.message || 'Something went wrong');
+            // toast.error(err?.response?.data?.message || 'Something went wrong');
         }
     };
 
@@ -51,7 +51,7 @@ function CollectionRecord() {
         <div className="bg-bg1 font-roboto">
             {loading && <Loader setLoading={setLoading} loading={loading} />}
             <header className="py-2 bg-white flex justify-between items-center">
-                <Link to="/activity/award">
+                <Link to={-1}>
                     <MdKeyboardArrowLeft className="text-3xl text-black" />
                 </Link>
                 <div className="text-black text-lg">Receive History</div>
@@ -62,7 +62,7 @@ function CollectionRecord() {
                     onClick={() => setSelected(12)}
                     className={`w-full px-4 py-2 rounded-md ${
                         selected === 12
-                            ? 'bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white'
+                            ? 'bg-gradient-to-r from-red to-redLight text-white'
                             : 'bg-white text-gray'
                     }`}
                 >
@@ -72,7 +72,7 @@ function CollectionRecord() {
                     onClick={() => setSelected(13)}
                     className={`w-full px-4 py-2 rounded-md ${
                         selected === 13
-                            ? 'bg-gradient-to-r from-[#f95959] to-[#ff9a8e] text-white'
+                            ? 'bg-gradient-to-r from-red to-redLight text-white'
                             : 'bg-white text-gray'
                     }`}
                 >

@@ -54,7 +54,7 @@ function Activity() {
           /></div>
       )}
       <div className="font-roboto w-full pb-20">
-        <div className=" px-3 pb-2 bg-gradient-to-r from-[#f95959] to-[#ff9a8e]">
+        <div className=" px-3 pb-2 bg-gradient-to-r from-red to-redLight">
           <h2 className="text-white font-semibold text-lg ">Activity</h2>
           <p className="text-xs pt-5">
             Please remember to follow the event page. <br /> We will launch user feedback

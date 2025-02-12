@@ -56,8 +56,8 @@ const RebateRatio = () => {
                     <div
                       className="flex items-center justify-between text-xsm gap-2"
                     >
-                      <div className="border-[1px] border-[#B1835A] rounded-full h-[14px] flex items-center justify-center w-[14px]">
-                        <p className="w-[5px] h-[5px] p-1 bg-[#B1835A] rounded-full"></p>
+                      <div className="border-[1px] border-red rounded-full h-[14px] flex items-center justify-center w-[14px]">
+                        <p className="w-[5px] h-[5px] p-1 bg-red rounded-full"></p>
                       </div>
                       <span className="text-[#7e829f] tetx-start">{detail.description}</span>
                     </div>

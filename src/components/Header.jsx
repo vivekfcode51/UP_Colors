@@ -47,22 +47,22 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
             <img className="w-6 h-6 mt-2" src={engFlag} alt="sd" />
           </div>}
       </div>
-        : location?.pathname === "/activity" ? <div className="w-full h-[3.22rem] bg-gradient-to-r from-[#f95959] to-[#ff9a8e] flex items-center justify-center"><img className='w-24 h-9' src={usawinlogo} alt="logo not found" /></div>
-          : location?.pathname === "/activity/invitationbonus" ? <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem] flex items-center justify-between'>
+        : location?.pathname === "/activity" ? <div className="w-full h-[3.22rem] bg-gradient-to-r from-red to-redLight flex items-center justify-center"><img className='w-24 h-9' src={usawinlogo} alt="logo not found" /></div>
+          : location?.pathname === "/activity/invitationbonus" ? <div className='bg-gradient-to-r from-red to-redLight h-[3.22rem] flex items-center justify-between'>
             <Link to={-1} >
               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
             </Link>
             <p className='text-sm'>Invitation bonus</p>
             <div></div>
           </div>
-            : location?.pathname === "/activity/details" ? <div className='bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem] flex items-center justify-between'>
+            : location?.pathname === "/activity/details" ? <div className='bg-gradient-to-r from-red to-redLight h-[3.22rem] flex items-center justify-between'>
               <Link to={-1} >
                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
               </Link>
               <p className='text-sm'>Activity Details</p>
               <div></div>
             </div>
-              : location?.pathname === "/activity/award" ? <header className='h-[3.22rem] bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3'>
+              : location?.pathname === "/activity/award" ? <header className='h-[3.22rem] bg-gradient-to-l from-red to-redLight px-3'>
                 <div className='flex items-center justify-between'>
                   <Link to={-1} >
                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
@@ -109,7 +109,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                         <p className='text-sm'>Super Jackpot</p>
                         <div></div>
                       </div>
-                        : location?.pathname === "/activity/gifts" ? <header className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3'>
+                        : location?.pathname === "/activity/gifts" ? <header className='bg-gradient-to-l from-red to-redLight px-3'>
                           <div className='flex items-center justify-between'>
                             <Link to={-1} >
                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
@@ -121,21 +121,21 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                             <img src={gift} alt="sd" />
                           </div>
                         </header>
-                          : location?.pathname === "/activity/attendance" ? <div className='flex  items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                          : location?.pathname === "/activity/attendance" ? <div className='flex  items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                             <Link to={-1} >
                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                             </Link>
                             <p className='text-sm'>Attendance</p>
                             <div></div>
                           </div>
-                            : location?.pathname === "/activity/gamerule" ? <div className='flex  items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                            : location?.pathname === "/activity/gamerule" ? <div className='flex  items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                               <Link to={-1} >
                                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                               </Link>
                               <p className='text-sm'>Game Rules</p>
                               <div></div>
                             </div>
-                              : location?.pathname === "/activity/attendacehistory" ? <div className='flex  items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                              : location?.pathname === "/activity/attendacehistory" ? <div className='flex  items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                 <Link to={-1} >
                                   <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                 </Link>
@@ -184,11 +184,11 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                             <p className='text-sm'>Rebate ratio</p>
                                             <div>  </div>
                                           </div>
-                                            : location?.pathname === "/wallet" ? <div className='flex items-center justify-center bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[3.22rem]'>
+                                            : location?.pathname === "/wallet" ? <div className='flex items-center justify-center bg-gradient-to-l from-redLight to-red h-[3.22rem]'>
                                               <p className='text-sm'>Wallet</p>
                                               <div></div>
                                             </div>
-                                            : location?.pathname === "/allgames" ? <div className='flex items-center justify-between bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[3.22rem]'>
+                                            : location?.pathname === "/allgames" ? <div className='flex items-center justify-between bg-gradient-to-l from-redLight to-red h-[3.22rem]'>
                                               <Link to={-1} >
                                               <MdKeyboardArrowLeft className="font-extrabold text-3xl" />
                                             </Link>
@@ -251,14 +251,14 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                               <p className='text-sm'>Add USDT address</p>
                                                               <p className='text-xs'></p>
                                                             </div>
-                                                              : location?.pathname === "/notifications" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                              : location?.pathname === "/notifications" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                 <Link to={-1} >
                                                                   <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                 </Link>
                                                                 <p className='text-sm'>Notification</p>
                                                                 <p className='text-xs'></p>
                                                               </div>
-                                                                : location?.pathname === "/vip" ? <div className='flex px-2 items-center justify-between bg-gradient-to-r from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                : location?.pathname === "/vip" ? <div className='flex px-2 items-center justify-between bg-gradient-to-r from-red to-redLight h-[3.22rem]'>
                                                                   <Link to={-1} >
                                                                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                   </Link>
@@ -272,14 +272,14 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                     <p className='text-sm'>Game statistics</p>
                                                                     <p className='text-xs'></p>
                                                                   </div>
-                                                                    : location?.pathname === "/alltransactionhistory" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                    : location?.pathname === "/alltransactionhistory" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                       <Link to={-1} >
                                                                         <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                       </Link>
                                                                       <p className='text-sm'>Transaction History</p>
                                                                       <p className='text-xs'></p>
                                                                     </div>
-                                                                      : location?.pathname === "/setting" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#ff9a8e] to-[#f95959] h-[3.22rem]'>
+                                                                      : location?.pathname === "/setting" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-redLight to-red h-[3.22rem]'>
                                                                         <Link to={-1} >
                                                                           <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                         </Link>
@@ -293,77 +293,77 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                           <p className='text-sm'>Change login Password</p>
                                                                           <p className='text-xs'></p>
                                                                         </div>
-                                                                          : location?.pathname === "/bindmail" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                          : location?.pathname === "/bindmail" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                             <Link to={-1} >
                                                                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                             </Link>
                                                                             <p className='text-sm'>Bind Mailbox</p>
                                                                             <p className='text-xs'></p>
                                                                           </div>
-                                                                            : location?.pathname === "/feedback" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                            : location?.pathname === "/feedback" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                               <Link to={-1} >
                                                                                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                               </Link>
                                                                               <p className='text-sm'>Feedback</p>
                                                                               <p className='text-xs'></p>
                                                                             </div>
-                                                                              : location?.pathname === "/customerservices" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                              : location?.pathname === "/customerservices" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                 <Link to={-1} >
                                                                                   <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                 </Link>
                                                                                 <p className='text-sm'>Customer Service</p>
                                                                                 <p className='text-xs'></p>
                                                                               </div>
-                                                                                : location?.pathname === "/beginnersguide" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                : location?.pathname === "/beginnersguide" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                   <Link to={-1} >
                                                                                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                   </Link>
                                                                                   <p className='text-sm'>Beginners Guide</p>
                                                                                   <p className='text-xs'></p>
                                                                                 </div>
-                                                                                  : location?.pathname === "/aboutus" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                  : location?.pathname === "/aboutus" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                     <Link to={-1} >
                                                                                       <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                     </Link>
                                                                                     <p className='text-sm'>About Us</p>
                                                                                     <p className='text-xs'></p>
                                                                                   </div>
-                                                                                    : location?.pathname === "/aboutus/child" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                    : location?.pathname === "/aboutus/child" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                       <Link to={-1} >
                                                                                         <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                       </Link>
                                                                                       <p className='text-sm'>About Us</p>
                                                                                       <p className='text-xs'></p>
                                                                                     </div>
-                                                                                      : location?.pathname === "/aboutus/confidential" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                      : location?.pathname === "/aboutus/confidential" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                         <Link to={-1} >
                                                                                           <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                         </Link>
                                                                                         <p className='text-sm'>Confidentiality Agreement</p>
                                                                                         <p className='text-xs'></p>
                                                                                       </div>
-                                                                                        : location?.pathname === "/aboutus/risk" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                        : location?.pathname === "/aboutus/risk" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                           <Link to={-1} >
                                                                                             <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                           </Link>
                                                                                           <p className='text-sm'>Risk Disclosure Agreement</p>
                                                                                           <p className='text-xs'></p>
                                                                                         </div>
-                                                                                          : location?.pathname === "/aboutus/tc" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                          : location?.pathname === "/aboutus/tc" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                             <Link to={-1} >
                                                                                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                             </Link>
                                                                                             <p className='text-sm'>Terms & Condition</p>
                                                                                             <p className='text-xs'></p>
                                                                                           </div>
-                                                                                            : location?.pathname === "/aboutus/faqs" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                            : location?.pathname === "/aboutus/faqs" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                               <Link to={-1} >
                                                                                                 <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                               </Link>
                                                                                               <p className='text-sm'>TirangaWin FAQs</p>
                                                                                               <p className='text-xs'></p>
                                                                                             </div>
-                                                                                              : location?.pathname === "/changeavatar" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                              : location?.pathname === "/changeavatar" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                                 <Link to={-1} >
                                                                                                   <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                 </Link>
@@ -372,7 +372,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                   <img className="h-8 w-8" src={rechargeHistory} alt="ds" />
                                                                                                 </Link>
                                                                                               </div>
-                                                                                                : location?.pathname === "/dragonTiger" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                                : location?.pathname === "/dragonTiger" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                                   <Link to={-1} >
                                                                                                     <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                   </Link>
@@ -381,7 +381,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                     <img className="h-8 w-8" src={rechargeHistory} alt="ds" />
                                                                                                   </Link>
                                                                                                 </div>
-                                                                                                  : location?.pathname === "/dragonTiger/history" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                                  : location?.pathname === "/dragonTiger/history" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                                     <Link to={-1} >
                                                                                                       <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                     </Link>
@@ -389,16 +389,16 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                     <p className='text-sm'></p>
 
                                                                                                   </div>
-                                                                                                    : location?.pathname === "/andarbahar" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                                    : location?.pathname === "/andarbahar" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                                       <Link to={-1} >
                                                                                                         <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                       </Link>
                                                                                                       <p className='text-sm'>Andar Bahar</p>
-                                                                                                      <Link to="/andarbahar/history" className="col-span-1 bg-gradient-to-l from-[#f95959] to-[#ff9a8e]" >
+                                                                                                      <Link to="/andarbahar/history" className="col-span-1 bg-gradient-to-l from-red to-redLight" >
                                                                                                         <img className="h-8 w-8" src={bethistory} alt="ds" />
                                                                                                       </Link>
                                                                                                     </div>
-                                                                                                      : location?.pathname === "/andarbahar/history" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-[#f95959] to-[#ff9a8e] h-[3.22rem]'>
+                                                                                                      : location?.pathname === "/andarbahar/history" ? <div className='flex px-2 items-center justify-between bg-gradient-to-l from-red to-redLight h-[3.22rem]'>
                                                                                                         <Link to={-1} >
                                                                                                           <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                         </Link>
@@ -406,7 +406,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                         <p className='text-sm'></p>
 
                                                                                                       </div>
-                                                                                                        : location?.pathname === "/register" || location?.pathname === "/login" ? <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3 pt-2 sm:pt-2 md:pt-2 pb-2 sm:pb-1 md:pb-2 flex justify-between items-center'>
+                                                                                                        : location?.pathname === "/register" || location?.pathname === "/login" ? <div className='bg-gradient-to-l from-red to-redLight px-3 pt-2 sm:pt-2 md:pt-2 pb-2 sm:pb-1 md:pb-2 flex justify-between items-center'>
                                                                                                           <Link to={-1}>
                                                                                                             <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                           </Link>
@@ -414,7 +414,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                           <p className='text-sm'></p>
 
                                                                                                         </div>
-                                                                                                          : location?.pathname === "/forgotPassword" ? <div className='bg-gradient-to-l from-[#f95959] to-[#ff9a8e] px-3 pt-2 sm:pt-2 md:pt-2 pb-2 sm:pb-1 md:pb-2 flex justify-between items-center'>
+                                                                                                          : location?.pathname === "/forgotPassword" ? <div className='bg-gradient-to-l from-red to-redLight px-3 pt-2 sm:pt-2 md:pt-2 pb-2 sm:pb-1 md:pb-2 flex justify-between items-center'>
                                                                                                             <Link to={-1} >
                                                                                                               <MdKeyboardArrowLeft className="font-extrabold text-4xl text-white" />
                                                                                                             </Link>
@@ -428,7 +428,7 @@ function Header({ audioRef, isAudioOn, setIsAudioOn }) {
                                                                                                                 <img className='w-7 h-7' src={kefu} alt="logo not found" />
                                                                                                               </Link>
                                                                                                             </div>
-                                                                                                              : <div className='bg-gradient-to-l from-[#ff9a8e] to-[#f95959] px-3 pt-2 h-[3.22rem] pb-2 flex justify-between items-center'>
+                                                                                                              : <div className='bg-gradient-to-l from-redLight to-red px-3 pt-2 h-[3.22rem] pb-2 flex justify-between items-center'>
                                                                                                                 <Link to="/" >
                                                                                                                   <img src={backButton} alt="drf"
                                                                                                                     className="w-6 h-6" />

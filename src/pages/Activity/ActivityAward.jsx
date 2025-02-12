@@ -52,6 +52,7 @@ function ActivityAward() {
       // console.log("res", res)
       if (res?.data?.status === 200) {
         setLoading(false)
+        activityAwardHandler()
         toast.success(res?.data?.message)
       } else {
         setLoading(false)
@@ -66,7 +67,7 @@ function ActivityAward() {
   return (
     <div className='pb-10 font-roboto'>
       {loading && <Loader setLoading={setLoading} loading={loading} />}
-      <div className='grid grid-cols-3 bg-gradient-to-l from-[#f95959] to-[#ff9a8e] py-3 '>
+      <div className='grid grid-cols-3 bg-gradient-to-l from-red to-redLight py-3 '>
         <div className='col-span-1'>
           <img
             src={Activitygift}

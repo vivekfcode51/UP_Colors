@@ -11,6 +11,7 @@ import Loader from '../../reusable_component/Loader/Loader'
 
 function SubordinateData() {
   const [loading, setLoading] = useState(false);
+  const [uid, setUid] = useState(null);
   const [modalFirstValue, handleModalFirstValue] = useState(0);
   const [confirmedDate, setConfirmedDate] = useState("Select date");
   const [modalFirst, handleModalFirst] = useState(false);
@@ -67,7 +68,9 @@ function SubordinateData() {
     }
     const payload = {
       id: userId,
-      tier: modalFirstValue
+      tier: modalFirstValue,
+      u_id:uid,
+      created_at:confirmedDate
     }
     // console.log("payload",payload)
     try {
@@ -89,7 +92,7 @@ function SubordinateData() {
     if (userId) {
       subOrdinateDataHandler();
     }
-  }, [userId, modalFirstValue]);
+  }, [userId, modalFirstValue,confirmedDate]);
 
   useEffect(() => {
     tierHandler()
@@ -118,19 +121,20 @@ function SubordinateData() {
         return () => clearTimeout(timer);
     }
 }, [copyUid, setCopyUid]);
+// console.log("suboridnateData",tier)
   return (
     <div className='p-2 h-full w-full'>
       {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className='w-full flex items-center justify-between bg-white rounded-md p-2'>
-        <input placeholder='search subordinate UID' className='bg-white text-[15px] text-black outline-none' type="text" name="" id="" />
-        <div className='bg-red rounded-3xl px-5 py-0.5'> <IoSearchOutline className='text-white' size={30} /> </div>
+        <input onChange={(e)=>setUid(e.target.value)} placeholder='search subordinate UID' className='bg-white text-[15px] text-black outline-none' type="text" name="" id="" />
+        <div onClick={subOrdinateDataHandler} className='bg-red rounded-3xl px-5 py-0.5'> <IoSearchOutline className='text-white' size={30} /> </div>
       </div>
       <div className="grid grid-cols-2 gap-3 mt-3">
         <button
           onClick={() => handleModalFirst(!modalFirst)}
           className="bg-white text-black rounded-md text-xsm  py-4 px-2 flex justify-between items-center shadow-md"
         >
-          <p>{modalFirstValue === 0 ? "All" : modalFirstValue === 1 ? "Tier 1" : modalFirstValue === 2 ? "Tier 2" : modalFirstValue === 3 ? "Tier 3" : modalFirstValue === 4 ? "Tier 4" : modalFirstValue === 5 ? "Tier 5" : modalFirstValue === 6 ? "Tier 6" : ""}</p>
+          <p>{modalFirstValue === 0 ? "All" : modalFirstValue === 1 ? "Tier 1" : modalFirstValue === 2 ? "Tier 2" : modalFirstValue === 3 ? "Tier 3" : modalFirstValue === 4 ? "Tier 4" : modalFirstValue === 5 ? "Tier 5" : modalFirstValue === 9 ? "Tier 6" : ""}</p>
           <p>
             <IoIosArrowDown size={18} />
           </p>
@@ -175,19 +179,19 @@ function SubordinateData() {
       </div>
 
       <div className=' mt-5  text-blackLight'>
-        {suboridnateData?.subordinates_data.length > 0 ? suboridnateData?.subordinates_data?.map((item, i) => (
+        {suboridnateData?.subordinates_data?.length > 0 ? suboridnateData?.subordinates_data?.map((item, i) => (
           <div key={i} className="bg-inputBg rounded-lg py-2 px-2">
             <p className='py-4 border-b border1 '>UID: {item?.u_id}  <button onClick={handleCopyUID}> <FaRegCopy /></button></p>
             <div className='flex text-xsm items-center justify-between'>
               <div>
-                {/* <p className='py-1.5'>Tier</p> */}
+                <p className='py-1.5'>Level</p>
                 <p className='py-1.5'>Bet amount</p>
                 <p className='py-1.5'>Deposit amount</p>
                 <p className='py-1.5'>Commission</p>
               </div>
 
               <div >
-                {/* <p className='py-1.5'>{ item?.}</p> */}
+                <p className='py-1.5'>{item?.level}</p>
                 <p className='py-1.5'>{item?.bet_amount}</p>
                 <p className='py-1.5'>{item?.payin_amount}</p>
                 <p className='py-1.5'>{item?.commission}</p>

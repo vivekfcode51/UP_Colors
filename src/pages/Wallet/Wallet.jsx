@@ -22,7 +22,7 @@ const Wallet = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
-  const profileDetails = async (userId) => {
+  const profileDetails = async(userId) => {
     if (!userId) {
       toast.error("User not logged in");
       navigate("/login");
@@ -46,8 +46,8 @@ const Wallet = () => {
   const isFundTransferRunningRef = useRef(false);
 
   const fundTransferHandler = useCallback(() => {
-    if (isFundTransferRunningRef.current) return;
-    isFundTransferRunningRef.current = true;
+    // if (isFundTransferRunningRef.current) return;
+    // isFundTransferRunningRef.current = true;
     if (!userId) {
       toast.error("User not logged in");
       navigate("/login");
@@ -61,6 +61,7 @@ const Wallet = () => {
       setTimer((prev) => {
         if (prev === 1) {
           clearInterval(countdown);
+          console.log("triggered is to start")
           triggerFundTransfer();
           isFundTransferRunningRef.current = false;
         }
@@ -71,8 +72,8 @@ const Wallet = () => {
 
 
   const triggerFundTransfer = useCallback(async () => {
-    if (isFundTransferRunningRef.current) return;
-    isFundTransferRunningRef.current = true;
+    // if (isFundTransferRunningRef.current) return;
+    // isFundTransferRunningRef.current = true;
     const payload = { id: userId };
     setLoading(true)
     try {
@@ -83,9 +84,6 @@ const Wallet = () => {
         setLoading(false)
         profileDetails(userId);
         toast.success(res?.data?.message);
-      } else {
-        setLoading(false)
-        toast.error(res?.data?.message);
       }
     } catch (er) {
       console.error("Error:", er);
@@ -93,7 +91,7 @@ const Wallet = () => {
     } finally {
       setLoading(false)
       setShowModal(false);
-      isFundTransferRunningRef.current = false; // Allow re-execution
+      isFundTransferRunningRef.current = false; 
     }
   }, [userId, profileDetails]);
 
@@ -120,6 +118,7 @@ const Wallet = () => {
       setFirstDepsoitModal(false);
     }
   }, [])
+  // console.log("timer",timer)
   return (
     <>
     {loading && <Loader setLoading={setLoading} loading={loading} />}

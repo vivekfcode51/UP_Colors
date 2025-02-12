@@ -1,15 +1,10 @@
 import { MdKeyboardArrowDown, MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
-import { useCallback, useState } from 'react';
-import apis from '../utils/apis';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import Loader from '../reusable_component/Loader/Loader';
 import { FaCheckCircle, FaRegCircle } from 'react-icons/fa';
 import loginPhone from "../assets/icons/loginPhone.png"
 import phoneUsa from "../assets/icons/phoneUsa.png"
 import passwordUsa from "../assets/icons/passwordUsa.png"
-import inviteCode from "../assets/icons/inviteCode.png"
+import { useState } from 'react';
 
 function ForgotPassword() {
     const [loading, setLoading] = useState(false);
@@ -31,7 +26,7 @@ function ForgotPassword() {
         <>
             {loading && <Loader setLoading={setLoading} loading={loading} />}
             <section className=" w-full flex flex-col items-start dark:text-gray">
-                <div className="bg-gradient-to-l from-[#f95959] to-[#ff9a8e] w-full">
+                <div className="bg-gradient-to-l from-red to-redLight w-full">
                     <div className=" text-white pb-5">
                         <h1 className="text-sm px-5 font-bold mt-2">Forgot password</h1>
                         <p className="text-[10px] px-5 my-2">Please retrieve/change your password through your mobile phone number or email </p>
@@ -146,7 +141,7 @@ function ForgotPassword() {
                                         onChange={(e) => setAllInputs({ ...allInputs, referral_code: e.target.value })}
                                         className="bg-slate-100 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray"
                                     />
-                                    <button type="submit" className="px-7 py-1.5 text-xsm rounded-full border-none bg-gradient-to-b from-[#f95959] to-[#ff9a8e] shadow-lg flex items-center justify-center">Send</button>
+                                    <button type="submit" className="px-7 py-1.5 text-xsm rounded-full border-none bg-gradient-to-b from-red to-redLight shadow-lg flex items-center justify-center">Send</button>
                                 </div>
                             </div>
                             <div className="flex items-center mt-4">
@@ -161,7 +156,7 @@ function ForgotPassword() {
                                 <a href="/aboutus/risk" className="ml-2 text-red underline text-xs sm:text-base md:text-xs">Privacy Agreement</a>
                             </div>
                             <div className='flex flex-col w-full font-bold items-center justify-center'>
-                                <button type="submit" className="w-[90%] font-bold tracking-[0.20333rem] py-2.5 rounded-full border-none bg-gradient-to-b from-[#f95959] to-[#ff9a8e] shadow-lg flex items-center justify-center">Reset</button>
+                                <button type="submit" className="w-[90%] font-bold tracking-[0.20333rem] py-2.5 rounded-full border-none bg-gradient-to-b from-red to-redLight shadow-lg flex items-center justify-center">Reset</button>
 
                             </div>
                         </form>
