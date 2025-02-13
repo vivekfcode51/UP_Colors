@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import risk from '../../assets/usaAsset/aboutus/risk.png'
-import confi from '../../assets/usaAsset/aboutus/confidential.png'
+// import risk from '../../assets/usaAsset/aboutus/risk.png'
+// import confi from '../../assets/usaAsset/aboutus/confidential.png'
 import service_about from '../../assets/usaAsset/aboutus/service_about.png'
 import service_guide from '../../assets/usaAsset/aboutus/service_guide.png'
 import invitation from '../../assets/usaAsset/aboutus/invitation.png'

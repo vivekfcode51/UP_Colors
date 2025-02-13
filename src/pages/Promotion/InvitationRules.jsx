@@ -85,7 +85,7 @@ const InvitationRules = () => {
                   className={`text-xs
                     }`}
                 >
-                  <td className="border border-redLight text-[#fff670] py-1  text-center">
+                  <td className="border border-redLight text-redLight py-1  text-center">
                     {row.level}
                   </td>
                   <td className="border border-redLight text-gray  text-center">
