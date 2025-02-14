@@ -211,7 +211,7 @@ const WinGo = () => {
         console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
-          // console.log("resooooooooo",resp)
+          console.log("resooooooooo",resp)
           if (resp?.data?.status === 200) {
             // console.log("res 1", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -446,7 +446,24 @@ const WinGo = () => {
       }
     }
   }, [timeLeft, isAudioOn]);
-
+  function getWebRTCPing() {
+    return new Promise((resolve) => {
+      const pc = new RTCPeerConnection({ iceServers: [] });
+      const startTime = performance.now();
+  
+      pc.createDataChannel("pingTest");
+      pc.createOffer()
+        .then((offer) => pc.setLocalDescription(offer))
+        .then(() => {
+          const endTime = performance.now();
+          resolve(Math.round(endTime - startTime) + " ms");
+          pc.close();
+        });
+    });
+  }
+  
+  getWebRTCPing().then((ping) => console.log("User WebRTC Ping:", ping));
+  
   // console.log("gameHistoryData[0]?.games_no",typeof gameHistoryData[0]?.games_no)
   return (
     <>
@@ -560,7 +577,7 @@ const WinGo = () => {
             </div>
           </div>
           {/* betting buttons 5th divv */}
-          <div ref={fifthDivRef} className=' bg-white mt-[13rem] xsm:mt-[13.5rem] md:mt-[12rem]  p-3 mx-4 rounded-2xl'>
+          <div ref={fifthDivRef} className=' bg-white mt-[13rem] xsm:mt-[12.5rem] md:mt-[12.5rem]  p-3 mx-4 rounded-2xl'>
             <div className='flex items-center bg-white justify-center mr-1'>
               <TimerModal duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
             </div>

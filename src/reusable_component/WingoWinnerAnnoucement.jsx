@@ -10,6 +10,7 @@ const WingoWinnerAnnoucement = ({ data, onClose }) => {
     const [autoCloseEnabled, setAutoCloseEnabled] = useState(
         localStorage.getItem("wingoAnnoucementModal") === "1"
     );
+    console.log("data",data)
     useEffect(() => {
         if (autoCloseEnabled) {
             const timer = setTimeout(() => {

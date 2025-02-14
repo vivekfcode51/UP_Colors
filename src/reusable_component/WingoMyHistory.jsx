@@ -4,7 +4,7 @@ import noData from "../assets/images/no_data_available.png"
 
 const WingoMyHistory = ({ myHistoryData, handlehistorybox }) => {
     const [activeIndex, setActiveIndex] = useState(null);
-    // console.log("wingo my history ", myHistoryData)
+    console.log("wingo my history ", myHistoryData)
     return (
         <>
             {handlehistorybox === 2 ? (
