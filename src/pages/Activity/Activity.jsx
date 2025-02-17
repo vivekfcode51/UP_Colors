@@ -15,6 +15,7 @@ function Activity() {
   const [loading, setLoading] = useState(false);
   const [firstDepsoitModal, setFirstDepsoitModal] = useState(localStorage.getItem("firstDepositModalValue") === "1");
   const [bannerData, setBannerData] = useState([])
+
   const bannerDataHandler = async () => {
     setLoading(true)
     try {

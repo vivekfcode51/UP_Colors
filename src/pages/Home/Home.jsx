@@ -52,6 +52,7 @@ import { toast } from "react-toastify";
 import FirstDepositModal from "../../reusable_component/FirstDepositModal";
 import Loader from "../../reusable_component/Loader/Loader";
 import { updateUserWalletFromJili, updateUserWalletFromSpribe } from "../../reusable_component/gameApi";
+import { NavLink } from "react-router-dom";
 const notes = [
     "Welcome to the Tiranga Games! Greetings, Gamers and Enthusiasts! the Tiranga",
     "Please be sure to always use our official website for playing the games with the fol",
@@ -214,8 +215,8 @@ function Home() {
             const statusJili = localStorage.getItem("jilligamePlayed") || "0";
             const statusSpribe = localStorage.getItem("spribegamePlayed") || "0";
 
-            console.log("Status Jili:", statusJili);
-            console.log("Status Spribe:", statusSpribe);
+            // console.log("Status Jili:", statusJili);
+            // console.log("Status Spribe:", statusSpribe);
 
             if (statusJili === "1") {
                 await updateUserWalletFromJili();
@@ -268,6 +269,7 @@ function Home() {
                 </div>
             )}
             <div className="mb-28 font-roboto">
+                {/* <NavLink to="/aviator">fdsfds</NavLink> */}
                 <div className="rounded-xl px-3">
                     <ImageCarousel imagesData={bannerData} />
                 </div>

@@ -96,11 +96,11 @@ function LotteryBetModal({ gameHistoryData, profileDetails, myHistory, bet_api, 
             amount: finalBetValue,
             games_no:gameHistoryData[0]?.games_no+1
         }
-        console.log("payload",payload)
+        // console.log("payload",payload)
         if (checkAgreement) {
             try {
                 const res = await axios.post(`${bet_api}`, payload)
-                console.log("wingo nbet res",res)
+                // console.log("wingo nbet res",res)
                 if (res?.data?.status === 200) {
                     const currentValue = parseInt(localStorage.getItem(`betStatus${gameDetails?.gameId}`)) || 0;
                     const updatedValue = currentValue + 1;

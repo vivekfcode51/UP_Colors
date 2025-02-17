@@ -9,7 +9,6 @@ import six from "../../assets/images/six.png"
 import seven from "../../assets/images/seven.png"
 import eight from "../../assets/images/eight.png"
 import nine from "../../assets/images/nine.png"
-import howtoplay from "../../assets/icons/howtoplay.png"
 import LotteryTimer from '../../reusable_component/LotteryTimer';
 import TimerModal from '../../reusable_component/TimerModal';
 import LotteryBetModal from '../../reusable_component/LotteryBetModal';
@@ -23,7 +22,6 @@ import GameHistoryBox from '../../reusable_component/WingoGameHistory';
 import WingoPagination from '../../reusable_component/WingoPagination';
 import countdownone from '../../assets/music/countdownone.mp3';
 import mainWallet from "../../assets/usaAsset/wingo/mainWallet.png"
-import voiceoff from "../../assets/usaAsset/wingo/voice-off.png"
 import cutBg1 from "../../assets/usaAsset/wingo/timerbg.png"
 import grayWatch from "../../assets/usaAsset/wingo/grayWatch.png"
 import redWatch from "../../assets/usaAsset/wingo/redWatch.png"
@@ -31,7 +29,7 @@ import { Link } from 'react-router-dom';
 import { HiArrowPathRoundedSquare } from 'react-icons/hi2';
 import { RiFireFill } from 'react-icons/ri';
 import Header from '../../components/Header';
-import useSocket from '../../hooks/useSocket';
+import { useSocket } from "../../shared/socket/SocketContext"
 const profileApi = apis.profile
 const wingo_bet_api = apis.wingo_bet
 const wingo_my_history = apis.wingo_my_history
@@ -42,10 +40,9 @@ const notes = [
   "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
   "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
   "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
-  // "Please be sure to always use our official website for playing the games with the fol",
-  // "If your deposit is not received, Please send it directly to Tiranga Games Self-service Ce"
 ];
 const WinGo = () => {
+  const { timers } = useSocket();
   const [myDetails, setMyDetails] = useState(null)
   const [betGameId, setBetGameId] = useState(null);
   const [selectedIMgIndex, setSelectedImgIndex] = useState("30s");
@@ -57,7 +54,6 @@ const WinGo = () => {
   const [fifthDivWidth, setFifthDivWidth] = useState(null);
   const fifthDivRef = useRef();
   const [gameDetails, setGameDetails] = useState({ gameId: 1, betButtonId: "", colorCode: "" })
-  const [timeLeft, setTimeLeft] = useState(0);
   const [noteValue, setNoteValue] = useState(notes[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animate, setAnimate] = useState(false);
@@ -75,13 +71,64 @@ const WinGo = () => {
   const [isBetDone, setIsBetDone] = useState(false);
   const [playRule, setPlayRule] = useState(false);
   const [selectedBtnIndex, setSelectedBtnIndex] = useState(1)
-  // const timer = useSocket(gameDetails.gameId);
-  // console.log("timererererere",timer)
+  const [timeLeft, setTimeLeft] = useState(0);
+
+  useEffect(() => {
+    const selectedTime =
+      gameDetails.gameId === 1 ? timers.type1 :
+        gameDetails.gameId === 2 ? timers.type2 :
+          gameDetails.gameId === 3 ? timers.type3 :
+            gameDetails.gameId === 4 ? timers.type4 :
+              timers.type1; 
+
+    setTimeLeft(selectedTime);
+  }, [timers, gameDetails.gameId]); 
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const interval = setInterval(() => {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timeLeft]);
+
   const audioRef = useRef(null);
   const [isAudioOn, setIsAudioOn] = useState(true)
-  const [rulePlay, setRulePlay] = useState("")
   const userId = localStorage.getItem("userId");
   const limit = 10;
+  
+  useEffect(() => {
+   
+    if (timers.type1 === 29) {
+      // console.log("winAmountAnnouncement1")
+      winAmountAnnouncement1(1)
+      myHistory()
+      gameHistory()
+    }
+    if (timers.type2 === 59) {
+      // console.log("winAmountAnnouncement2")
+      winAmountAnnouncement2(2)
+      myHistory()
+      gameHistory()
+    }
+    if (timers.type3 === 179) {
+      // console.log("winAmountAnnouncement2")
+      winAmountAnnouncement3(3)
+      myHistory()
+      gameHistory()
+    }
+    if (timers.type4 === 299) {
+      // console.log("winAmountAnnouncement4")
+      winAmountAnnouncement4(4)
+      myHistory()
+      gameHistory()
+    }
+    if (timers.type1 === 6) {
+      setBetModal(false)
+    }
+  }, [timeLeft])
+
   const handleTimerClick = (item, duration) => {
     setSelectedImgIndex(item);
     setCallTimer(duration)
@@ -125,7 +172,6 @@ const WinGo = () => {
             [5].includes(randomIndex) ? "gv" :
               [2, 4, 6, 8].includes(randomIndex) ? "r" :
                 "g";
-
         handleBtnClick(ballColor, randomIndex, numericValueFromProps);
       }
     };
@@ -153,6 +199,7 @@ const WinGo = () => {
   }, [currentIndex, notes]);
 
   const handleCloseModal = (v) => {
+    // console.log("vvvvvvvvvvvvvvvvvv",v)
     setTimerModal(v);
   };
 
@@ -181,23 +228,6 @@ const WinGo = () => {
       profileDetails();
     }
   }, [userId]);
-  const calculateTimeLeft = () => {
-    const now = new Date();
-    const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % callTimer;
-    const remainingTime = Math.max(callTimer - secondsInCycle, 0);
-    setTimeLeft(remainingTime);
-  };
-
-  useEffect(() => {
-    const updateTimer = () => {
-      calculateTimeLeft();
-      setTimeout(updateTimer, 1000);
-    };
-
-    updateTimer();
-    return () => clearTimeout(updateTimer);
-  }, [callTimer]);
-
 
   const winAmountAnnouncement1 = async (i) => {
     console.log("111111")
@@ -206,15 +236,15 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      // console.log("res?.data?.data",res?.data?.data)
-      if (res?.data?.data) {
+      console.log("resres hai hai 3030", res?.data?.data)
+      if (res?.data?.status === 200) {
         console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
-          console.log("resooooooooo",resp)
+          console.log("resp 3030", resp)
           if (resp?.data?.status === 200) {
-            // console.log("res 1", resp)
-            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
+            console.log("res 1", resp)
+            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 30s`)
             const data = resp?.data?.data;
             setModalData(data);
             setIsModalVisible(true);
@@ -234,13 +264,13 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      // console.log("resres hai hai", res)
+      console.log("resres hai hai", res)
       if (res?.data?.status === 200) {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
             console.log("res 2", resp)
-            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
+            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 1 min`)
             const data = resp?.data?.data;
             setModalData(data);
             setIsModalVisible(true);
@@ -261,12 +291,13 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
+      console.log('333',res)
       if (res?.data?.status === 200) {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
             console.log("res 3", resp)
-            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
+            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 3 min`)
             const data = resp?.data?.data;
             setModalData(data);
             setIsModalVisible(true);
@@ -286,12 +317,13 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
+      console.log("4444",res)
       if (res?.data?.status === 200) {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
             console.log("res 4", resp)
-            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
+            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 5 min`)
             const data = resp?.data?.data;
             setModalData(data);
             setIsModalVisible(true);
@@ -309,7 +341,6 @@ const WinGo = () => {
     if (!userId) {
       return;
     }
-    // if (isLoadingMyHistory || !myHistoryHasMore) return toast.error("failed my histro");
     if (isLoadingMyHistory || !myHistoryHasMore) return
     setIsLoadingMyHistory(true)
     const offset = (myHistoryCurrentPage - 1) * limit;
@@ -319,13 +350,10 @@ const WinGo = () => {
       limit,
       offset
     }
-    // console.log("my history payload",payload)
     try {
       const res = await axios.post(`${wingo_my_history}`, payload)
-      // console.log("my history", res)
       if (res?.status === 200) {
         setMyHistoryData(res?.data)
-        // console.log("res?.data", res?.data)
         if (res?.data?.data?.length < limit) {
           setMyHistoryHasMore(true);
         }
@@ -337,7 +365,6 @@ const WinGo = () => {
       setIsLoadingMyHistory(false);
     }
   }
-  // console.log("myHistoryDatamyHistoryData", gameHistoryData[0])
   const gameHistory = async () => {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
@@ -346,7 +373,6 @@ const WinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?game_id=${gameDetails?.gameId}&limit=${limit}&offset=${offset}`
       );
-      // console.log("res", res)
       if (res?.data?.status === 200) {
         setGameHistoryData(res?.data?.data);
         setGameHistoryDataPagination(res?.data);
@@ -380,58 +406,7 @@ const WinGo = () => {
       setMyHistoryCurrentPage((prevPage) => prevPage - 1);
     }
   };
-  // useEffect(() => {
-  //   if (timeLeft < 7 && [2, 3, 4].includes(gameDetails?.gameId)) {
-  //     setBetModal(false);
-  //   }
-  // }, [timeLeft, gameDetails?.gameId]);
-
-  useEffect(() => {
-
-    if (timeLeft > 29 && timeLeft <= 30) {
-      const now = new Date()
-      const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % 60;
-      const remainingTime = Math.max(60 - secondsInCycle, 0);
-      profileDetails()
-
-      for (let i = 1; i <= 4; i++) {
-        let betstats1
-        let betstats2
-        let betstats3
-        let betstats4
-        if (i === 1) {
-          betstats1 = localStorage.getItem(`betStatus${i}`)
-          if (betstats1 > 0) {
-            winAmountAnnouncement1(i);
-            localStorage.setItem(`betStatus${i}`, "0")
-          }
-        } else if (i === 2 && remainingTime > 0 && remainingTime <= 1) {
-          betstats2 = localStorage.getItem(`betStatus${i}`)
-          if (betstats2 > 0) {
-            winAmountAnnouncement2(i);
-            localStorage.setItem(`betStatus${i}`, "0")
-          }
-        } else if (i === 3 && remainingTime > 0 && remainingTime <= 1) {
-          betstats3 = localStorage.getItem(`betStatus${i}`)
-          if (betstats3 > 0) {
-            winAmountAnnouncement3(i);
-            localStorage.setItem(`betStatus${i}`, "0")
-          }
-        } else if (i === 4 && remainingTime > 0 && remainingTime <= 1) {
-          betstats4 = localStorage.getItem(`betStatus${i}`)
-          if (betstats4 > 0) {
-            winAmountAnnouncement4(i);
-            localStorage.setItem(`betStatus${i}`, "0")
-          }
-        }
-      }
-      myHistory()
-      gameHistory()
-    }
-    if (timeLeft < 7) {
-      setBetModal(false)
-    }
-  }, [timeLeft])
+  
 
   useEffect(() => {
     myHistory()
@@ -446,25 +421,7 @@ const WinGo = () => {
       }
     }
   }, [timeLeft, isAudioOn]);
-  function getWebRTCPing() {
-    return new Promise((resolve) => {
-      const pc = new RTCPeerConnection({ iceServers: [] });
-      const startTime = performance.now();
-  
-      pc.createDataChannel("pingTest");
-      pc.createOffer()
-        .then((offer) => pc.setLocalDescription(offer))
-        .then(() => {
-          const endTime = performance.now();
-          resolve(Math.round(endTime - startTime) + " ms");
-          pc.close();
-        });
-    });
-  }
-  
-  getWebRTCPing().then((ping) => console.log("User WebRTC Ping:", ping));
-  
-  // console.log("gameHistoryData[0]?.games_no",typeof gameHistoryData[0]?.games_no)
+
   return (
     <>
       {isModalVisible && modalData && (
@@ -570,16 +527,16 @@ const WinGo = () => {
               <div className='w-[50%]'>
                 <p className='text-xsm  text-end font-semibold'>Time remaining</p>
                 <div className='flex justify-end items-center gap-1 mt-1 w-full text-sm'>
-                  <LotteryTimer duration={callTimer} />
+                  <LotteryTimer timeLeft={timeLeft} duration={callTimer} />
                 </div>
                 <p className='flex justify-end text-sm 3xl:text-[1.2rem] font-extrabold mt-3'>{gameHistoryData[0]?.games_no + 1}</p>
               </div>
             </div>
           </div>
           {/* betting buttons 5th divv */}
-          <div ref={fifthDivRef} className=' bg-white mt-[13rem] xsm:mt-[12.5rem] md:mt-[12.5rem]  p-3 mx-4 rounded-2xl'>
+          <div ref={fifthDivRef} className=' bg-white mt-[13rem] xsm:mt-[12.5rem] md:mt-[12rem]  p-3 mx-4 rounded-2xl'>
             <div className='flex items-center bg-white justify-center mr-1'>
-              <TimerModal duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
+              <TimerModal timeLeft={timeLeft} duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
             </div>
             <div className='flex justify-between gap-5'>
               <button onClick={() => handleBtnClick("green", 10)} className={`${timerModal ? "" : "relative z-10"}  w-24  h-10 rounded-bl-lg rounded-tr-lg  bg-green text-xsm  `}>Green</button>

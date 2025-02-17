@@ -38,12 +38,6 @@ function AllGames() {
         image1: jilli2,
         name: "Jilli",
         type: 1
-    },
-    {
-        image: jilli1,
-        image1: jilli4,
-        name: "Spribe",
-        type: 2
     }]
 
     useEffect(() => {
@@ -53,7 +47,7 @@ function AllGames() {
             fetchAllGamesSpribe(setAllGamesListView);
         }
     }, [activeModal]);
-    window.location.reload(); 
+    // window.location.reload(); 
 
     useEffect(() => {
         const updateWallet = async () => {

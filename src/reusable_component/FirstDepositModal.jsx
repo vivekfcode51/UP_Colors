@@ -27,7 +27,7 @@ function FirstDepositModal({ firstDepsoitModal, setFirstDepsoitModal, onClose })
         };
         fetchData();
     }, [userId]);
-    console.log("getFirstDepositPlansData", getFirstDepositPlansData)
+    // console.log("getFirstDepositPlansData", getFirstDepositPlansData)
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className='w-full xsm:w-[400px] flex flex-col items-center justify-center'>

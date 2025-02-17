@@ -66,6 +66,8 @@ import AllGames from "./pages/Home/AllGames";
 import FirstDeposit from "./reusable_component/FirstDeposit";
 import TronscanViewer from "./pages/Lottery/TronscanViewer";
 import TronscanViewer2 from "./pages/Lottery/Transconviewer2";
+import AvitatorLayout from "./pages/AviatorGame/AvitatorLayout";
+import AviatorHome from "./pages/AviatorGame/AviatorHome";
 
 export const Router = createBrowserRouter([
   {
@@ -106,6 +108,10 @@ export const Router = createBrowserRouter([
     path: "/",
     element: <ProtectedRoute><Layout /></ProtectedRoute>,
     children: [
+      {
+        path: "/aviator",
+        element:  <AvitatorLayout /> ,
+      },
       {
         path: "/comingsoon",
         element: <ComingSoon />,

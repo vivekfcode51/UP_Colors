@@ -16,12 +16,13 @@
 import { fetchAllGames, fetchGameURL } from "../reusable_component/gameApi";
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import viewall from "../assets/usaAsset/homeScreen/viewall.png"
+  import viewall from "../assets/usaAsset/homeScreen/viewall.png"
 import { useNavigate } from "react-router-dom";
 function PopularGamesList() {
   const navigate=useNavigate()
   const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem("userId")
+  console.log("userId",userId)
   const [allGamesListView, setAllGamesListView] = useState(null)
   useEffect(() => {
     fetchAllGames(setAllGamesListView);

@@ -84,6 +84,7 @@ import prize9 from "../../assets/usaAsset/trx/prize9.png";
 import TimerModalTrx from '../../reusable_component/TimerModalTrx';
 import WingoWinnerAnnoucementTrx from '../../reusable_component/WingoWinnerAnnoucementTrx';
 import LotteryBetModalTrx from '../../reusable_component/LotteryBetModalTrx';
+import { useSocket } from '../../shared/socket/SocketContext';
 
 const profileApi = apis.profile
 const wingo_bet_api = apis.wingo_bet
@@ -102,6 +103,7 @@ const notes = [
   // "If your deposit is not received, Please send it directly to Tiranga Games Self-service Ce"
 ];
 const TrxWinGo = () => {
+  const { timers } = useSocket();
   const [myDetails, setMyDetails] = useState(null)
   const [betGameId, setBetGameId] = useState(null);
   const [selectedIMgIndex, setSelectedImgIndex] = useState("1Min");
@@ -136,13 +138,30 @@ const TrxWinGo = () => {
   const [nextPeriod, setnextPeriod] = useState(Number(gameHistoryData[0]?.period))
   const userId = localStorage.getItem("userId");
   const limit = 10;
+  useEffect(() => {
+    const selectedTime =
+      gameDetails.gameId === 6 ? timers.type2 :
+        gameDetails.gameId === 7 ? timers.type3 :
+          gameDetails.gameId === 8 ? timers.type4 :
+            gameDetails.gameId === 9 ? timers.type5 :
+              timers.type2;
+
+    setTimeLeft(selectedTime);
+  }, [timers, gameDetails.gameId]); 
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const interval = setInterval(() => {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timeLeft]);
   const handleTimerClick = (item, duration) => {
-    // console.log("duration", duration)
     setSelectedImgIndex(item);
     setCallTimer(duration)
   };
   const gameDetailsHandler = (item) => {
-    // console.log("item", item)
     setGameDetails((prevDetails) => ({
       ...prevDetails,
       gameId: item?.gameid
@@ -155,7 +174,6 @@ const TrxWinGo = () => {
     setBetGameId(gameDetails.gameId)
     setGameDetails({ ...gameDetails, betButtonId: betButtonId, colorCode: color, numericValue });
   };
-// console.log("CallTimer",callTimer)
   const handleRandomClick = (numericValueFromProps = null) => {
     const totalImages = 10;
     let currentIndex = 0;
@@ -238,22 +256,6 @@ const TrxWinGo = () => {
       profileDetails();
     }
   }, [userId]);
-  const calculateTimeLeft = () => {
-    const now = new Date();
-    const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % callTimer;
-    const remainingTime = Math.max(callTimer - secondsInCycle, 0);
-    setTimeLeft(remainingTime);
-  };
-  // console.log("callTimer",callTimer)
-  useEffect(() => {
-    const updateTimer = () => {
-      calculateTimeLeft();
-      setTimeout(updateTimer, 1000);
-    };
-
-    updateTimer();
-    return () => clearTimeout(updateTimer);
-  }, [callTimer]);
 
 
   const winAmountAnnouncement1 = async (i) => {
@@ -263,13 +265,13 @@ const TrxWinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?gameid=${i}&limit=${limit}&offset=${offset}`
       );
-      // console.log("res?.data?.data",res?.data?.data)
-      if (res?.data?.data) {
+      console.log("res?.data?.data", res)
+      if (res?.data?.status === "200") {
         // console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
           // alert("dcfd")
-          console.log("resooooooooo",resp)
+          console.log("resooooooooo", resp)
           if (resp?.data?.status === 200) {
             // console.log("res 1", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -292,8 +294,8 @@ const TrxWinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?gameid=${i}&limit=${limit}&offset=${offset}`
       );
-      // console.log("resres hai hai", res)
-      if (res?.data?.status === 200) {
+      console.log("resres hai hai", res)
+      if (res?.data?.status === "200") {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
           if (resp?.data?.status === 200) {
@@ -319,10 +321,10 @@ const TrxWinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?gameid=${i}&limit=${limit}&offset=${offset}`
       );
-      if (res?.data?.status === 200) {
+      if (res?.data?.status === "200") {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
-          
+
           if (resp?.data?.status === 200) {
             console.log("res 3", resp)
             toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win}`)
@@ -345,7 +347,7 @@ const TrxWinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?gameid=${i}&limit=${limit}&offset=${offset}`
       );
-      if (res?.data?.status === 200) {
+      if (res?.data?.status === "200") {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.period}`)
           if (resp?.data?.status === 200) {
@@ -409,7 +411,7 @@ const TrxWinGo = () => {
       if (res?.data?.status === "200") {
         // console.log("Number(res?.data?.data[0]?.period)",(typeof Number(res?.data?.data[0]?.period)))
         setGameHistoryData(res?.data?.data);
-        const n=res?.data?.data[0]?.period.slice(-10)
+        const n = res?.data?.data[0]?.period.slice(-10)
         setnextPeriod(n)
         setGameHistoryDataPagination(res?.data);
         if (res?.data?.data?.length < limit) {
@@ -422,7 +424,6 @@ const TrxWinGo = () => {
       setIsLoading(false);
     }
   };
-  // console.log("next period",myHistoryData)
   const nextPage = () => {
     if (hasMore) {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -443,39 +444,38 @@ const TrxWinGo = () => {
       setMyHistoryCurrentPage((prevPage) => prevPage - 1);
     }
   };
-
   useEffect(() => {
-    // console.log("timeLeft:", timeLeft);
-    
-    if (timeLeft < 12) {
-      setBetModal(false);
-    }
-  
-    if (timeLeft === 57) {
-      console.log("Executing loop for i values");
-      
-      profileDetails();
-  
-      for (let i = 6; i <= 9; i++) {
-        // console.log("Loop iteration:", i); // Add log here
-        let betstats = localStorage.getItem(`betStatus${i}`);
-        if (betstats > 0) {
-          // console.log(`Bet status found for i=${i}`);
-          if (i === 6) winAmountAnnouncement1(i);
-          if (i === 7) winAmountAnnouncement2(i);
-          if (i === 8) winAmountAnnouncement3(i);
-          if (i === 9) winAmountAnnouncement4(i);
-          localStorage.setItem(`betStatus${i}`, "0");
-        }
-      }
-      gameHistory();
-    }
-    if(timeLeft===57){
-      myHistory();
 
+    if (timers.type2 === 59) {
+      console.log("winAmountAnnouncement1")
+      winAmountAnnouncement1(6)
+      myHistory()
+      gameHistory()
     }
-  }, [timeLeft]);
-  
+    if (timers.type3 === 179) {
+      console.log("winAmountAnnouncement2")
+      winAmountAnnouncement2(7)
+      myHistory()
+      gameHistory()
+    }
+    if (timers.type4 === 299) {
+      console.log("winAmountAnnouncement4")
+      winAmountAnnouncement3(8)
+      myHistory()
+      gameHistory()
+    }
+    if (timers.type5 === 599) {
+      console.log("winAmountAnnouncement2")
+      winAmountAnnouncement4(9)
+      myHistory()
+      gameHistory()
+    }
+    if (timers.type2 === 11) {
+      setBetModal(false)
+    }
+
+  }, [timeLeft])
+
 
   useEffect(() => {
     myHistory()
@@ -659,7 +659,7 @@ const TrxWinGo = () => {
                 </div>
                 <p className='text-xs mt-4'>Trx Win Go {selectedIMgIndex}</p>
                 <p className='flex justify-start text-sm font-semibold'>
-                  {gameHistoryData[0]?.period.slice(0,7)}{Number(nextPeriod)+1}
+                  {gameHistoryData[0]?.period.slice(0, 7)}{Number(nextPeriod) + 1}
                 </p>
                 <div className='flex text-black items-center justify-center gap-4 mt-12'>
                   <img src={imageSrc} className="w-12" alt="game result" />
@@ -673,7 +673,7 @@ const TrxWinGo = () => {
                 </div>
                 {/* <TronscanViewer /> */}
                 <div className='flex justify-end items-center gap-1 mt-5 w-full text-sm'>
-                  <LotteryTimerTrx duration={callTimer} />
+                  <LotteryTimerTrx timeLeft={timeLeft} duration={callTimer} />
                 </div>
                 <div className='flex text-black items-center justify-start gap-4 -ml-5 mt-12'>
                   <img src={imageSrc2} className="w-12" alt="game result" />
@@ -687,7 +687,7 @@ const TrxWinGo = () => {
           {/* betting buttons 5th divv */}
           <div ref={fifthDivRef} className=' bg-white mt-[17rem] xsm:mt-[17.5rem] md:mt-[16.5rem]  p-3 mx-4 rounded-2xl'>
             <div className='flex items-center bg-white justify-center mr-1 z-50'>
-              <TimerModalTrx duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
+              <TimerModalTrx timeLeft={timeLeft} duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
             </div>
             <div className='flex justify-between gap-5'>
               <button onClick={() => handleBtnClick("green", 10)} className={`${timerModal ? "" : "relative z-10"}  w-24  h-10 rounded-bl-lg rounded-tr-lg  bg-green text-xsm  `}>Green</button>

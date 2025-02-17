@@ -274,12 +274,12 @@ function VIP() {
                     </div>
                     <div className="text-xs mt-2 w-full px-2">
                       <div className="flex items-center justify-between">
-                        <p className={`${item?.name === "vip 1" ? "bg-[#8AA0C0]" : item?.name === "vip 2" ? "bg-[#E3994F]" : item?.name === "vip 3" ? "bg-[#FF7979]" : item?.name === "vip 4" ? "bg-[#4AC9F2]" : item?.name === "vip 5" ? "bg-[#b73d9d]" : item?.name === "vip 6" ? "bg-[#54D8A3]" : item?.name === "vip 7" ? "bg-[#49B13E]" : item?.name === "vip 8" ? "bg-[#4FAEF1]" : item?.name === "vip 9" ? "bg-[#C378E9]" : item?.name === "vip 10" ? "bg-[#F2A83A]" : ""} rounded p-1`}>{item?.bet_amount} / {item?.range_amount}</p>
+                        <p className={`${item?.name === "vip 1" ? "bg-[#8AA0C0]" : item?.name === "vip 2" ? "bg-[#E3994F]" : item?.name === "vip 3" ? "bg-[#FF7979]" : item?.name === "vip 4" ? "bg-[#4AC9F2]" : item?.name === "vip 5" ? "bg-[#b73d9d]" : item?.name === "vip 6" ? "bg-[#54D8A3]" : item?.name === "vip 7" ? "bg-[#49B13E]" : item?.name === "vip 8" ? "bg-[#4FAEF1]" : item?.name === "vip 9" ? "bg-[#C378E9]" : item?.name === "vip 10" ? "bg-[#F2A83A]" : ""} rounded p-1`}>{item?.bet_amount>=item?.range_amount?item?.range_amount:item?.bet_amount} / {item?.range_amount}</p>
                         <p>{Math.min(((item?.bet_amount / item?.range_amount) * 100), 100).toFixed(2)}% Completed</p>
                       </div>
                       <div className="w-full bg-gray h-2 mt-2 rounded">
                         <div
-                          className={`${item?.name === "vip 1" ? "bg-[#8AA0C0]" : item?.name === "vip 2" ? "bg-[#E3994F]" : item?.name === "vip 3" ? "bg-[#FF7979]" : item?.name === "vip 4" ? "bg-[#4AC9F2]" : item?.name === "vip 5" ? "bg-[#b73d9d]" : item?.name === "vip 6" ? "bg-[#54D8A3]" : item?.name === "vip 7" ? "bg-[#49B13E]" : item?.name === "vip 8" ? "bg-[#4FAEF1]" : item?.name === "vip 9" ? "bg-[#C378E9]" : item?.name === "vip 10" ? "bg-[#F2A83A]" : ""} h-2 rounded`}
+                          className={`${item?.name === "vip 1" ? "bg-[#243f67]" : item?.name === "vip 2" ? "bg-[#E3994F]" : item?.name === "vip 3" ? "bg-[#FF7979]" : item?.name === "vip 4" ? "bg-[#21677e]" : item?.name === "vip 5" ? "bg-[#b73d9d]" : item?.name === "vip 6" ? "bg-[#105c3e]" : item?.name === "vip 7" ? "bg-[#49B13E]" : item?.name === "vip 8" ? "bg-[#4FAEF1]" : item?.name === "vip 9" ? "bg-[#C378E9]" : item?.name === "vip 10" ? "bg-[#F2A83A]" : ""} h-2 rounded`}
                           style={{
                             width: `${Math.min((item?.bet_amount / item?.range_amount) * 100, 100)}%`,
                           }}

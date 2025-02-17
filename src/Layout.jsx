@@ -4,6 +4,8 @@ import { useState } from "react";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import usaserviceIcon from "./assets/icons/usaServiceIcon.png";
+import AvitatorLayout from "./pages/AviatorGame/AvitatorLayout";
+import AviatorHome from "./pages/AviatorGame/AviatorHome";
 
 const Layout = () => {
     const location = useLocation();
@@ -125,51 +127,53 @@ const Layout = () => {
     };
 
     return (
-        <div className="flex h-screen font-inter">
-            <div className="flex-1 bg-[#9195A3]"></div>
-            <div
-                className={`${bgColor} shrink-0 flex flex-col h-screen overflow-hidden  w-full xsm:w-[400px] text-white `}
-            >
-                <div className={`h-[3.22rem]  w-full xsm:w-[400px] z-50 fixed top-0  ${headerDisplay}`}>
-                    <Header />
-                </div>
+        <>
+            {location?.pathname === "/aviator" ? <AvitatorLayout component={<AviatorHome/>} /> : <div className="flex h-screen font-inter">
+                <div className="flex-1 bg-[#9195A3]"></div>
                 <div
-                    className={`flex-1 overflow-auto ${headerDisplay === "hidden" ? "mt-0" : "mt-[3.22rem]"} hide-scrollbar  pb-${outletPadding}`}
+                    className={`${bgColor} shrink-0 flex flex-col h-screen overflow-hidden  w-full xsm:w-[400px] text-white `}
                 >
-                    <Outlet />
+                    <div className={`h-[3.22rem]  w-full xsm:w-[400px] z-50 fixed top-0  ${headerDisplay}`}>
+                        <Header />
+                    </div>
+                    <div
+                        className={`flex-1 overflow-auto ${headerDisplay === "hidden" ? "mt-0" : "mt-[3.22rem]"} hide-scrollbar  pb-${outletPadding}`}
+                    >
+                        <Outlet />
+                    </div>
+                    <div
+                        className={`fixed bottom-0 z-40  w-full xsm:w-[400px] bg-transparent ${footerDisplay}`}
+                    >
+                        <Footer />
+                    </div>
+                    <div
+                        className={`fixed z-50 ${location?.pathname === "/login" ||
+                            location?.pathname === "/register" ? "hidden" : "block"} `}
+                        style={{
+                            top: `${position.y}px`,
+                            left: `${position.x}px`,
+                            cursor: "grab",
+                        }}
+                        draggable
+                        onDrag={handleDrag}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleDragTouch}
+                        onTouchEnd={handleDragEndTouch}
+                    >
+                        <Link to="/customerservices">
+                            <img
+                                src={usaserviceIcon}
+                                className="h-14 bg-white rounded-full p-0.5 w-14"
+                                alt="Service Icon"
+                            />
+                        </Link>
+                    </div>
                 </div>
-                <div
-                    className={`fixed bottom-0 z-40  w-full xsm:w-[400px] bg-transparent ${footerDisplay}`}
-                >
-                    <Footer />
-                </div>
-                <div
-                    className={`fixed z-50 ${location?.pathname === "/login" ||
-                        location?.pathname === "/register" ? "hidden" : "block"} `}
-                    style={{
-                        top: `${position.y}px`,
-                        left: `${position.x}px`,
-                        cursor: "grab",
-                    }}
-                    draggable
-                    onDrag={handleDrag}
-                    onDragStart={handleDragStart}
-                    onDragEnd={handleDragEnd}
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleDragTouch}
-                    onTouchEnd={handleDragEndTouch}
-                >
-                    <Link to="/customerservices">
-                        <img
-                            src={usaserviceIcon}
-                            className="h-14 bg-white rounded-full p-0.5 w-14"
-                            alt="Service Icon"
-                        />
-                    </Link>
-                </div>
-            </div>
-            <div className="flex-1 bg-[#9195A3]"></div>
-        </div>
+                <div className="flex-1 bg-[#9195A3]"></div>
+            </div>}
+        </>
     );
 };
 

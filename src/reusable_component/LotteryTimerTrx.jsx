@@ -2,26 +2,25 @@
 import { useState, useEffect } from "react";
 import TimerModalTrx from "./TimerModalTrx";
 
-const LotteryTimerTrx = ({ duration }) => {
-  const [timeLeft, setTimeLeft] = useState(0);
+const LotteryTimerTrx = ({timeLeft, duration }) => {
   const [isWarning, setIsWarning] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const calculateTimeLeft = () => {
-    const now = new Date();
-    const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % duration;
-    const remainingTime = duration - secondsInCycle; 
-    setTimeLeft(remainingTime);
-  };
+  // const calculateTimeLeft = () => {
+  //   const now = new Date();
+  //   const secondsInCycle = (now.getMinutes() * 60 + now.getSeconds()) % duration;
+  //   const remainingTime = duration - secondsInCycle; 
+  //   setTimeLeft(remainingTime);
+  // };
 
-  useEffect(() => {
-    calculateTimeLeft();
-    const interval = setInterval(() => {
-      calculateTimeLeft();
-    }, 1000);
+  // useEffect(() => {
+  //   calculateTimeLeft();
+  //   const interval = setInterval(() => {
+  //     calculateTimeLeft();
+  //   }, 1000);
 
-    return () => clearInterval(interval); 
-  }, [duration]);
+  //   return () => clearInterval(interval); 
+  // }, [duration]);
 
   useEffect(() => {
     if (timeLeft <= 10 && timeLeft > 0) {
@@ -61,6 +60,7 @@ const LotteryTimerTrx = ({ duration }) => {
         style={{ width: "214%", transform: "translateX(-50%)" }}
       >
         <TimerModalTrx
+        timeLeft={timeLeft}
           duration={duration}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}

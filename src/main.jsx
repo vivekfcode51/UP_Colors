@@ -10,10 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import '@fontsource/roboto'; // Default weight (400)
 import '@fontsource/inter'; // Variable font weights
 import FirstDepositModalReset from './reusable_component/FirstDepositModalReset';
+import { SocketProvider } from "./shared/socket/SocketContext";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* Render the FirstDepositModalReset component */}
     <FirstDepositModalReset />
     <ToastContainer
       position="top-center"
@@ -27,7 +27,9 @@ createRoot(document.getElementById('root')).render(
       pauseOnHover
     />
     <Provider store={store}>
-      <RouterProvider router={Router} />
+      <SocketProvider>
+        <RouterProvider router={Router} />
+      </SocketProvider>
     </Provider>
   </StrictMode>
 );
