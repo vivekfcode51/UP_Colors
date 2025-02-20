@@ -100,7 +100,7 @@ export const fetchGameURLSpribe = async (gameid, userId, navigate, setLoading) =
    await updateSpribeWallet()
     setLoading(true)
     if (!gameid || !userId) {
-        // navigate("/login")
+        navigate("/login")
     };
 
     const payload = {

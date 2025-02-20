@@ -78,7 +78,7 @@ function Login() {
   const countryCodeHandler = async () => {
     try {
       const res = await axios.post(apis.country)
-      console.log("res", res)
+      // console.log("res", res)
       if (res?.data?.status === "success") {
         setCountryCodeData(res?.data?.data)
       }

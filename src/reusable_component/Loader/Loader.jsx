@@ -7,7 +7,7 @@ const Loader = () => {
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-faded-gray">
       <div className="loader-container">
         <div className="loader"></div>
-        <div className="loader-dot"></div> {/* Small circular dot */}
+        <div className="loader-dot"></div>
         <img src={usawinlogo} alt="Loading" />
       </div>
     </div>
