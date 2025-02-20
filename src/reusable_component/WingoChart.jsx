@@ -36,12 +36,13 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
 
   const calculatePosition = (index, gameData) => {
     const totalGames = gameData.length;
-    const rowHeight = 48; // Height of each row in px
-    const colWidth = 21; // Width of each column in px
-    const x = (gameData[index]?.number || 0) * colWidth + 6; // Adjust circle position
-    const y = index * rowHeight + 24; // Adjust for vertical position
+    const rowHeight = window.innerWidth < 500 ? 48 : 48; // Adjust for small screens
+    const colWidth = window.innerWidth < 380 ? 16 :window.innerWidth < 400 ? 18 :window.innerWidth < 420 ? 21 :window.innerWidth < 440 ? 22 :window.innerWidth < 460 ? 23  : 21;  // Adjust column width for smaller screens
+    const x = (gameData[index]?.number || 0) * colWidth + 6;
+    const y = index * rowHeight + 24;
     return { x, y };
   };
+
 
   const renderGameRow = (item) => {
     return (
@@ -97,6 +98,7 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
 
         // Update position for next connection
         prevPosition = { x, y };
+        // console.log(`Line from (${x1}, ${y1}) to (${x}, ${y})`);
 
         return (
           <line
@@ -119,7 +121,7 @@ const WingoChart = ({ handlehistorybox, gameHistoryData }) => {
 
   return (
     <div className="bg-bg1 px-4 !w-full mt-5 relative hide-scrollbar overflow-x-hidden">
-      <svg className="absolute mt-48 left-[42vw] xsm:left-[37%] mr-4 h-full pointer-events-none">
+      <svg className="absolute mt-48 left-[42vw] xsm:left-[37%] h-full w-full pointer-events-none">
         {renderLines()}
       </svg>
       <div className="flex w-full bg-[#F95959] rounded-t-lg py-2 font-semibold">

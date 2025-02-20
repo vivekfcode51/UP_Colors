@@ -406,8 +406,8 @@ const TrxWinGo = () => {
       const res = await axios.get(
         `${wingo_game_history}?gameid=${gameDetails?.gameId}&limit=${limit}&offset=${offset}`
       );
-      // console.log("urls", `${wingo_game_history}?gameid=${gameDetails?.gameId}&offset=${offset}&limit=${limit}`)
-      // console.log("res", res)
+      console.log("urls", `${wingo_game_history}?gameid=${gameDetails?.gameId}&offset=${offset}&limit=${limit}`)
+      console.log("res", res)
       if (res?.data?.status === "200") {
         // console.log("Number(res?.data?.data[0]?.period)",(typeof Number(res?.data?.data[0]?.period)))
         setGameHistoryData(res?.data?.data);
@@ -449,24 +449,28 @@ const TrxWinGo = () => {
     if (timers.type2 === 59) {
       console.log("winAmountAnnouncement1")
       winAmountAnnouncement1(6)
+      profileDetails()
       myHistory()
       gameHistory()
     }
     if (timers.type3 === 179) {
       console.log("winAmountAnnouncement2")
       winAmountAnnouncement2(7)
+      profileDetails()
       myHistory()
       gameHistory()
     }
     if (timers.type4 === 299) {
       console.log("winAmountAnnouncement4")
       winAmountAnnouncement3(8)
+      profileDetails()
       myHistory()
       gameHistory()
     }
     if (timers.type5 === 599) {
       console.log("winAmountAnnouncement2")
       winAmountAnnouncement4(9)
+      profileDetails()
       myHistory()
       gameHistory()
     }
@@ -661,7 +665,7 @@ const TrxWinGo = () => {
                 <p className='flex justify-start text-sm font-semibold'>
                   {gameHistoryData[0]?.period.slice(0, 7)}{Number(nextPeriod) + 1}
                 </p>
-                <div className='flex text-black items-center justify-center gap-4 mt-12'>
+                <div className='flex text-black items-center justify-center gap-4 mt-7 xsm:mt-10'>
                   <img src={imageSrc} className="w-12" alt="game result" />
                   <img src={imageSrc1} className="w-12" alt="game result" />
 
@@ -675,7 +679,7 @@ const TrxWinGo = () => {
                 <div className='flex justify-end items-center gap-1 mt-5 w-full text-sm'>
                   <LotteryTimerTrx timeLeft={timeLeft} duration={callTimer} />
                 </div>
-                <div className='flex text-black items-center justify-start gap-4 -ml-5 mt-12'>
+                <div className='flex text-black items-center justify-start gap-4 -ml-5 mt-7 xsm:mt-10'>
                   <img src={imageSrc2} className="w-12" alt="game result" />
                   <img src={imageSrc3} className="w-12" alt="game result" />
                   <img src={imageSrc4} className="w-12" alt="game result" />
@@ -685,7 +689,7 @@ const TrxWinGo = () => {
             </div>
           </div>
           {/* betting buttons 5th divv */}
-          <div ref={fifthDivRef} className=' bg-white mt-[17rem] xsm:mt-[17.5rem] md:mt-[16.5rem]  p-3 mx-4 rounded-2xl'>
+          <div ref={fifthDivRef} className=' bg-white mt-[16.5rem] xsm:mt-[17.5rem] md:mt-[16.5rem]  p-3 mx-4 rounded-2xl'>
             <div className='flex items-center bg-white justify-center mr-1 z-50'>
               <TimerModalTrx timeLeft={timeLeft} duration={callTimer} isOpen={false} parentRef={fifthDivRef} onClose={(v) => handleCloseModal(v)} style={{ width: fifthDivWidth }} />
             </div>

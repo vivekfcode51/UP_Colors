@@ -35,14 +35,17 @@ function Activity() {
   useEffect(() => {
     bannerDataHandler()
   }, [])
+
   useEffect(() => {
+    const userid= localStorage.getItem("userId")
+    // console.log("userid",userid)
     const status = localStorage.getItem("firstDepositModalValue");
-    if (status === "0") {
-      setFirstDepsoitModal(true);
+    if (status === "0"&&userid) {
+        setFirstDepsoitModal(true);
     } else {
-      setFirstDepsoitModal(false);
+        setFirstDepsoitModal(false);
     }
-  }, [])
+}, [])
   return (
     <>
     {loading && <Loader setLoading={setLoading} loading={loading} />}

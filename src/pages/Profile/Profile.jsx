@@ -25,14 +25,14 @@ import guide from "../../assets/usaAsset/account/guide.png"
 import aboutus from "../../assets/usaAsset/account/aboutus.png"
 import languageIcon from "../../assets/usaAsset/account/languageIcon.png"
 import usaserviceIcon from "../../assets/icons/usaServiceIcon.png";
-import apis from '../../utils/apis'
 import FirstDepositModal from '../../reusable_component/FirstDepositModal';
 import Loader from '../../reusable_component/Loader/Loader';
+import apis from '../../utils/apis'
 const profileApi = apis.profile
 
 function Profile() {
-    const [loading, setLoading] = useState(false);
     const [langModal, setLangModal] = useState(false)
+    const [loading, setLoading] = useState(false);
     const [myDetails, setMyDetails] = useState(null)
     const [isUidCopied, setIsUidCopied] = useState(false)
     const [isAnimating, setIsAnimating] = useState(false);
@@ -75,9 +75,12 @@ function Profile() {
             profileDetails(userId);
         }
     }, [userId]);
+
     useEffect(() => {
+        const userid= localStorage.getItem("userId")
+        // console.log("userid",userid)
         const status = localStorage.getItem("firstDepositModalValue");
-        if (status === "0") {
+        if (status === "0"&&userid) {
             setFirstDepsoitModal(true);
         } else {
             setFirstDepsoitModal(false);

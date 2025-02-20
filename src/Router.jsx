@@ -67,7 +67,6 @@ import FirstDeposit from "./reusable_component/FirstDeposit";
 import TronscanViewer from "./pages/Lottery/TronscanViewer";
 import TronscanViewer2 from "./pages/Lottery/Transconviewer2";
 import AvitatorLayout from "./pages/AviatorGame/AvitatorLayout";
-import AviatorHome from "./pages/AviatorGame/AviatorHome";
 
 export const Router = createBrowserRouter([
   {

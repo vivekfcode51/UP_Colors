@@ -111,13 +111,15 @@ const Wallet = () => {
   const array = [{ game: "Lottery", amount: myDetails?.data?.wallet }, { game: "JILI", amount: myDetails?.data?.third_party_wallet }, { game: "EVO_Video", amount: myDetails?.data?.third_party_wallet }, { game: "TV_Chess", amount: myDetails?.data?.third_party_wallet }, { game: "Wickets9", amount: myDetails?.data?.third_party_wallet }, { game: "JDB", amount: myDetails?.data?.third_party_wallet }, { game: "DG", amount: myDetails?.data?.third_party_wallet }, { game: "CMD", amount: myDetails?.data?.third_party_wallet }, { game: "CQ9", amount: myDetails?.data?.third_party_wallet }, { game: "MG", amount: myDetails?.data?.third_party_wallet }, { game: "SaBa", amount: myDetails?.data?.third_party_wallet }, { game: "TB", amount: myDetails?.data?.third_party_wallet }, { game: "PG", amount: myDetails?.data?.third_party_wallet }, { game: "AG_Video", amount: myDetails?.data?.third_party_wallet }, { game: "Card365", amount: myDetails?.data?.third_party_wallet }, { game: "V8Card", amount: myDetails?.data?.third_party_wallet }]
 
   useEffect(() => {
+    const userid= localStorage.getItem("userId")
+    // console.log("userid",userid)
     const status = localStorage.getItem("firstDepositModalValue");
-    if (status === "0") {
-      setFirstDepsoitModal(true);
+    if (status === "0"&&userid) {
+        setFirstDepsoitModal(true);
     } else {
-      setFirstDepsoitModal(false);
+        setFirstDepsoitModal(false);
     }
-  }, [])
+}, [])
   // console.log("timer",timer)
   return (
     <>

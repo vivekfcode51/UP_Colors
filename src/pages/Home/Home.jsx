@@ -52,7 +52,6 @@ import { toast } from "react-toastify";
 import FirstDepositModal from "../../reusable_component/FirstDepositModal";
 import Loader from "../../reusable_component/Loader/Loader";
 import { updateUserWalletFromJili, updateUserWalletFromSpribe } from "../../reusable_component/gameApi";
-import { NavLink } from "react-router-dom";
 const notes = [
     "Welcome to the Tiranga Games! Greetings, Gamers and Enthusiasts! the Tiranga",
     "Please be sure to always use our official website for playing the games with the fol",
@@ -202,8 +201,10 @@ function Home() {
     ].slice(0, 5);
 
     useEffect(() => {
+        const userid= localStorage.getItem("userId")
+        // console.log("userid",userid)
         const status = localStorage.getItem("firstDepositModalValue");
-        if (status === "0") {
+        if (status === "0"&&userid) {
             setFirstDepsoitModal(true);
         } else {
             setFirstDepsoitModal(false);

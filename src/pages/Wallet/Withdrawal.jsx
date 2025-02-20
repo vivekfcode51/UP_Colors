@@ -42,7 +42,7 @@ function Withdrawal() {
             toast.error(err);
         }
     };
-    console.log("paymenLimts",paymenLimts)
+    console.log("paymenLimts", paymenLimts)
     const validateAmount = (amount) => {
         // console.log("amount", amount)
         if (!paymenLimts) return;
@@ -98,9 +98,9 @@ function Withdrawal() {
         }
         try {
             const res = await axios.get(`${apis.usdt_account_view}${userId}`);
-            console.log("res",res)
+            console.log("res", res)
             if (res?.data?.status === 200) {
-                console.log("res?.data?.data",res?.data?.data)
+                console.log("res?.data?.data", res?.data?.data)
                 setViewAccountDetailsUSDT(res?.data?.data);
             } else {
                 toast.error("Error: " + res?.data?.message);
@@ -110,7 +110,7 @@ function Withdrawal() {
             // toast.error("Something went wrong");
         }
     };
-
+    console.log("myDetails", myDetails)
     const profileDetails = async (userId) => {
         if (!userId) {
             toast.error("User not logged in");
@@ -148,14 +148,14 @@ function Withdrawal() {
         }
         const payload = {
             user_id: userId,
-            account_id:activeModal == 0 ? viewAccountDetails[0]?.id : activeModal == 2 ? viewAccountDetailsUSDT[0]?.id : null ,
+            account_id: activeModal == 0 ? viewAccountDetails[0]?.id : activeModal == 2 ? viewAccountDetailsUSDT[0]?.id : null,
             type: activeModal,
             amount: activeModal == 0 ? upiAmount : activeModal == 2 ? usdtAmount : null
         }
         // console.log("payload", payload)
         try {
             const res = await axios.post(apis?.payout_withdraw, payload)
-            console.log("sddfsfs",res )
+            // console.log("sddfsfs",res )
             if (res?.data?.status === 200) {
                 setloading(false)
                 toast.success(res?.data?.message)
@@ -265,7 +265,7 @@ function Withdrawal() {
                             <ul className="px-2 py-4 my-2 bg-inputBg  rounded-lg text-xs  text-blackLight">
                                 <li className="flex items-start">
                                     <span className="text-redLight  mr-2">◆</span>
-                                    Need to bet <p className='text-redLight'> &nbsp; ₹0.00&nbsp;</p> to be able to withdraw.
+                                    Need to bet <p className='text-redLight'> &nbsp; ₹{myDetails?.data?.recharge}&nbsp;</p> to be able to withdraw.
                                 </li>
                                 <li className="flex items-start mt-2">
                                     <span className="text-redLight  mr-2">◆</span>

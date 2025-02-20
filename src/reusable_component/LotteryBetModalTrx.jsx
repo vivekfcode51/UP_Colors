@@ -103,7 +103,7 @@ function LotteryBetModalTrx({ gameHistoryData, profileDetails, myHistory, bet_ap
                 const res = await axios.post(`${bet_api}`, payload)
                 console.log("resresrs", res)
                 if (res?.data?.status === 200) {
-                    console.log("hey")
+                    // console.log("hey")
                     const currentValue = parseInt(localStorage.getItem(`betStatus${gameDetails?.gameId}`)) || 0;
                     const updatedValue = currentValue + 1;
                     localStorage.setItem(`betStatus${gameDetails?.gameId}`, updatedValue)
@@ -135,7 +135,7 @@ function LotteryBetModalTrx({ gameHistoryData, profileDetails, myHistory, bet_ap
                     <div className={`${gameDetails?.colorCode === "rv" ? `bg-[#9B48DB]` : gameDetails?.colorCode === "gv" ? `bg-[#9B48DB]` : "bg-inputBg text-blackLight"} h-[6.6rem] rounded-t-3xl`}>
                         <div className="relative flex flex-col items-center justify-center rounded-t-3xl py-3 text-white" style={{ backgroundColor: colorClass }}>
                             <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-3 w-full h-3" style={{ backgroundColor: colorClass, clipPath: 'polygon(50% 100%, -20% -20%, 100% 0%)' }} />
-                            <h1 className="text-lg font-bold">Win Go {gameDetails?.gameId === 1 ? "30 Seconds" : gameDetails?.gameId === 2 ? "1 Minute" : gameDetails?.gameId === 3 ? "3 Minutes" : "5 Minutes"} </h1>
+                            <h1 className="text-lg font-bold">Trx Win Go {gameDetails?.gameId === 6 ? "1 Minute" : gameDetails?.gameId === 7 ? "3 Minutes" : gameDetails?.gameId === 8 ? "5 Minutes" : "10 Minutes"} </h1>
                             <p className="bg-white capitalize w-[80%] mt-3 text-black flex justify-center rounded-md text-sm sm:text-base md:text-sm py-1">
                                 Select &nbsp; &nbsp; {gameDetails?.colorCode === "yellow" ? "Big" : gameDetails?.colorCode === "bg3" ? "Small" : gameDetails?.colorCode === "r" ? gameDetails?.betButtonId : gameDetails?.colorCode === "rv" ? gameDetails?.betButtonId : gameDetails?.colorCode === "g" ? gameDetails?.betButtonId : gameDetails?.colorCode === "gv" ? gameDetails?.betButtonId : gameDetails?.colorCode}
                             </p>

@@ -120,9 +120,12 @@ function PromotionHome() {
             return () => clearTimeout(timer);
         }
     }, [copyInvitationCode, setCopyInvitationCode]);
+
     useEffect(() => {
+        const userid= localStorage.getItem("userId")
+        // console.log("userid",userid)
         const status = localStorage.getItem("firstDepositModalValue");
-        if (status === "0") {
+        if (status === "0"&&userid) {
             setFirstDepsoitModal(true);
         } else {
             setFirstDepsoitModal(false);

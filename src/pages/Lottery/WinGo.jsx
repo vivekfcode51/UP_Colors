@@ -103,24 +103,28 @@ const WinGo = () => {
     if (timers.type1 === 29) {
       // console.log("winAmountAnnouncement1")
       winAmountAnnouncement1(1)
+      profileDetails()
       myHistory()
       gameHistory()
     }
     if (timers.type2 === 59) {
       // console.log("winAmountAnnouncement2")
       winAmountAnnouncement2(2)
+      profileDetails()
       myHistory()
       gameHistory()
     }
     if (timers.type3 === 179) {
       // console.log("winAmountAnnouncement2")
       winAmountAnnouncement3(3)
+      profileDetails()
       myHistory()
       gameHistory()
     }
     if (timers.type4 === 299) {
       // console.log("winAmountAnnouncement4")
       winAmountAnnouncement4(4)
+      profileDetails()
       myHistory()
       gameHistory()
     }

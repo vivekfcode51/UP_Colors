@@ -30,18 +30,40 @@ function Login() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true)
+  const MyProfileFn = async (userid) => {
+    // const loginTokenFromLocalStorage = localStorage.getItem("login_token");
     try {
-      const payload = { mobile: formData.mobile, country_code: selectedCountryCode, password: formData.password };
-      // console.log("payload",payload)
-      const response = await axios.post(loginEndpoint, payload);
-      if (response?.data?.status === 200) {
-        localStorage.setItem("userId", response?.data?.data?.userId)
+      const response = await axios.get(`${apis.profile}${userid}`);
+      // const profileToken = response?.data?.data?.login_token;
+      if (response?.data?.success === 423) {
+        // console.log("blocked")
+        toast.error("Blocked by admin")
+      } else {
+        localStorage.setItem("userId", userid)
         setLoading(false)
         toast.success("Login successful!");
         navigate("/")
+      }
+    } catch (e) {
+      // console.error(e);
+      setLoading(false)
+      toast.error("Blocked by admin")
+    }
+  };
+
+  const generateToken = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true)
+    const token = generateToken()
+    try {
+      const payload = { mobile: formData.mobile, country_code: selectedCountryCode, password: formData.password, login_token: token };
+      // console.log("payload",payload)
+      const response = await axios.post(loginEndpoint, payload);
+      // console.log("resresrers",response)
+      if (response?.data?.status === 200) {
+        localStorage.setItem("login_token", token)
+        await MyProfileFn(response?.data?.data?.userId)
       } else {
         toast.error(response?.data?.message);
         setLoading(false)

@@ -38,7 +38,14 @@ function AllGames() {
         image1: jilli2,
         name: "Jilli",
         type: 1
-    }]
+    },
+   {
+        image: jilli1,
+        image1: jilli4,
+        name: "Spribe",
+        type: 2
+    }
+]
 
     useEffect(() => {
         if (activeModal == 1) {

@@ -33,11 +33,11 @@ const ChartTrx = ({ handlehistorybox, gameHistoryData }) => {
       }
       return null;
     };
-  
+
     const calculatePosition = (index, gameData) => {
       const totalGames = gameData.length;
-      const rowHeight = 48; // Height of each row in px
-      const colWidth = 21; // Width of each column in px
+      const rowHeight = window.innerWidth < 500 ? 48 : 48; // Adjust for small screens
+      const colWidth = window.innerWidth < 380 ? 16 :window.innerWidth < 400 ? 18 :window.innerWidth < 420 ? 21 :window.innerWidth < 440 ? 22 :window.innerWidth < 460 ? 23  : 21;  // Adjust column width for smaller screens
       const x = (gameData[index]?.result || 0) * colWidth + 6; // Adjust circle position
       const y = index * rowHeight + 24; // Adjust for vertical position
       return { x, y };

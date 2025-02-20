@@ -51,7 +51,7 @@ const TimerModal = ({ timeLeft,duration, isOpen, onClose, parentRef }) => {
       onClose(false);
     }
   }, [timeLeft]);
-  console.log("trueee", timeLeft)
+  // console.log("trueee", timeLeft)
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const formatTime = (value) => value.toString().padStart(2, "0");
