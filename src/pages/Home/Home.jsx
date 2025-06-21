@@ -53,9 +53,9 @@ import FirstDepositModal from "../../reusable_component/FirstDepositModal";
 import Loader from "../../reusable_component/Loader/Loader";
 import { updateUserWalletFromJili, updateUserWalletFromSpribe } from "../../reusable_component/gameApi";
 const notes = [
-    "Welcome to the Tiranga Games! Greetings, Gamers and Enthusiasts! the Tiranga",
+    "Welcome to the UP Color Games! Greetings, Gamers and Enthusiasts! the UP Color",
     "Please be sure to always use our official website for playing the games with the fol",
-    "If your deposit is not received, Please send it directly to Tiranga Games Self-service Ce"
+    "If your deposit is not received, Please send it directly to UP Color Games Self-service Ce"
 ];
 function Home() {
     const [loading, setLoading] = useState(false);
@@ -74,50 +74,50 @@ function Home() {
         const gameName = "lottery";
         dispatch(handleGameContainerType({ height, gameName }));
     };
-    const handleMiniGamesContainer = () => {
-        const height = "5rem";
-        const gameName = "minigames";
-        dispatch(handleGameContainerType({ height, gameName }));
-    };
-    const handlePopularContainer = () => {
-        const height = "5rem";
-        const gameName = "popular";
-        dispatch(handleGameContainerType({ height, gameName }));
-    };
-    const handleSlotsContainer = () => {
-        const height = "5rem";
-        const gameName = "slots";
-        dispatch(handleGameContainerType({ height, gameName }));
-    };
-    const handleFishingContainer = () => {
-        const height = "5rem";
-        const gameName = "fishing";
-        dispatch(handleGameContainerType({ height, gameName }));
-    };
-    const handleCasinoContainer = () => {
-        const height = "5rem";
-        const gameName = "casino";
-        dispatch(handleGameContainerType({ height, gameName }));
-    };
-    const handleLobbyContainer = () => {
-        const height = "5rem";
-        const gameName = "lobby";
-        dispatch(handleGameContainerType({ height, gameName }));
-    };
-    const handlePokerContainer = () => {
-        const height = "5rem";
-        const gameName = "poker";
-        dispatch(handleGameContainerType({ height, gameName }));
-    };
+    // const handleMiniGamesContainer = () => {
+    //     const height = "5rem";
+    //     const gameName = "minigames";
+    //     dispatch(handleGameContainerType({ height, gameName }));
+    // };
+    // const handlePopularContainer = () => {
+    //     const height = "5rem";
+    //     const gameName = "popular";
+    //     dispatch(handleGameContainerType({ height, gameName }));
+    // };
+    // const handleSlotsContainer = () => {
+    //     const height = "5rem";
+    //     const gameName = "slots";
+    //     dispatch(handleGameContainerType({ height, gameName }));
+    // };
+    // const handleFishingContainer = () => {
+    //     const height = "5rem";
+    //     const gameName = "fishing";
+    //     dispatch(handleGameContainerType({ height, gameName }));
+    // };
+    // const handleCasinoContainer = () => {
+    //     const height = "5rem";
+    //     const gameName = "casino";
+    //     dispatch(handleGameContainerType({ height, gameName }));
+    // };
+    // const handleLobbyContainer = () => {
+    //     const height = "5rem";
+    //     const gameName = "lobby";
+    //     dispatch(handleGameContainerType({ height, gameName }));
+    // };
+    // const handlePokerContainer = () => {
+    //     const height = "5rem";
+    //     const gameName = "poker";
+    //     dispatch(handleGameContainerType({ height, gameName }));
+    // };
     const buttonData = [
         { onClick: handleLotteryContainer, key: "lottery", bg: bgActiveCategory, icon: gamecategoryLottery, label: "Lottery" },
-        { onClick: handleMiniGamesContainer, key: "minigames", bg: bgActiveCategory, icon: gamecategoryminigames, label: "Mini Games" },
-        { onClick: handlePopularContainer, key: "popular", bg: bgActiveCategory, icon: gamecategorypopular, label: "Popular" },
-        { onClick: handleSlotsContainer, key: "slots", bg: bgActiveCategory, icon: gamecategoryslots, label: "Slots" },
-        { onClick: handleFishingContainer, key: "fishing", bg: bgActiveCategory, icon: gamecategoryfish, label: "Fishing" },
-        { onClick: handleCasinoContainer, key: "casino", bg: bgActiveCategory, icon: gamecategorycasino, label: "Casino" },
-        { onClick: handleLobbyContainer, key: "lobby", bg: bgActiveCategory, icon: gamecategoryloby, label: "Lobby" },
-        { onClick: handlePokerContainer, key: "poker", bg: bgActiveCategory, icon: gamecategorypoker, label: "Poker" },
+        { key: "minigames", bg: bgActiveCategory, icon: gamecategoryminigames, label: "Mini Games" },
+        { key: "popular", bg: bgActiveCategory, icon: gamecategorypopular, label: "Popular" },
+        { key: "slots", bg: bgActiveCategory, icon: gamecategoryslots, label: "Slots" },
+        { key: "fishing", bg: bgActiveCategory, icon: gamecategoryfish, label: "Fishing" },
+        // { onClick: handleCasinoContainer, key: "casino", bg: bgActiveCategory, icon: gamecategorycasino, label: "Casino" },
+        // { onClick: handleLobbyContainer, key: "lobby", bg: bgActiveCategory, icon: gamecategoryloby, label: "Lobby" },
+        // { onClick: handlePokerContainer, key: "poker", bg: bgActiveCategory, icon: gamecategorypoker, label: "Poker" },
     ];
     const bannerDataHandler = async () => {
         setLoading(true)
@@ -162,26 +162,26 @@ function Home() {
         return () => clearInterval(intervalId);
     }, [currentIndex, notes]);
     const winningData = [
-        { id: 1, avatar: person1, gameImage: gamecategorycasino, name: "Mem***CQF", amount: "₹600.00" },
-        { id: 2, avatar: person2, gameImage: lotterycategorywingo, name: "Mem***CDM", amount: "₹95.00" },
-        { id: 3, avatar: person3, gameImage: lotterycategorytrx, name: "Mem***JVW", amount: "₹540.00" },
-        { id: 4, avatar: person4, gameImage: gamecategorycasino, name: "Mem***QGS", amount: "₹170.00" },
-        { id: 5, avatar: person5, gameImage: gamecategorycasino, name: "Mem***UUQ", amount: "₹600.00" },
-        { id: 6, avatar: person6, gameImage: gamecategorycasino, name: "Mem***GTR", amount: "₹85.00" },
-        { id: 7, avatar: person7, gameImage: lotterycategorywingo, name: "Mem***WTY", amount: "₹430.00" },
-        { id: 8, avatar: person8, gameImage: gamecategorycasino, name: "Mem***HSD", amount: "₹190.00" },
-        { id: 9, avatar: person9, gameImage: lotterycategorytrx, name: "Mem***JKL", amount: "₹310.00" },
-        { id: 10, avatar: person10, gameImage: gamecategorycasino, name: "Mem***PQR", amount: "₹725.00" },
-        { id: 11, avatar: person11, gameImage: gamecategorycasino, name: "Mem***XYZ", amount: "₹245.00" },
-        { id: 12, avatar: person12, gameImage: lotterycategorywingo, name: "Mem***AAA", amount: "₹560.00" },
-        { id: 13, avatar: person13, gameImage: lotterycategorytrx, name: "Mem***BBB", amount: "₹670.00" },
-        { id: 14, avatar: person14, gameImage: gamecategorycasino, name: "Mem***CCC", amount: "₹380.00" },
-        { id: 15, avatar: person15, gameImage: lotterycategorywingo, name: "Mem***DDD", amount: "₹290.00" },
-        { id: 16, avatar: person16, gameImage: lotterycategorytrx, name: "Mem***EEE", amount: "₹820.00" },
-        { id: 17, avatar: person17, gameImage: lotterycategorytrx, name: "Mem***FFF", amount: "₹430.00" },
-        { id: 18, avatar: person18, gameImage: lotterycategorytrx, name: "Mem***GGG", amount: "₹600.00" },
-        { id: 19, avatar: person19, gameImage: gamecategorycasino, name: "Mem***HHH", amount: "₹950.00" },
-        { id: 20, avatar: person20, gameImage: gamecategorycasino, name: "Mem***III", amount: "₹110.00" },
+        { id: 1, avatar: person1, gameImage: gamecategorycasino, name: "Mem**QF", amount: "₹600.00" },
+        { id: 2, avatar: person2, gameImage: lotterycategorywingo, name: "Mem**DM", amount: "₹95.00" },
+        { id: 3, avatar: person3, gameImage: lotterycategorytrx, name: "Mem**VW", amount: "₹540.00" },
+        { id: 4, avatar: person4, gameImage: gamecategorycasino, name: "Mem**GS", amount: "₹170.00" },
+        { id: 5, avatar: person5, gameImage: gamecategorycasino, name: "Mem**UQ", amount: "₹600.00" },
+        { id: 6, avatar: person6, gameImage: gamecategorycasino, name: "Mem**TR", amount: "₹85.00" },
+        { id: 7, avatar: person7, gameImage: lotterycategorywingo, name: "Mem**TY", amount: "₹430.00" },
+        { id: 8, avatar: person8, gameImage: gamecategorycasino, name: "Mem**SD", amount: "₹190.00" },
+        { id: 9, avatar: person9, gameImage: lotterycategorytrx, name: "Mem**KL", amount: "₹310.00" },
+        { id: 10, avatar: person10, gameImage: gamecategorycasino, name: "Mem**QR", amount: "₹725.00" },
+        { id: 11, avatar: person11, gameImage: gamecategorycasino, name: "Mem**YZ", amount: "₹245.00" },
+        { id: 12, avatar: person12, gameImage: lotterycategorywingo, name: "Mem**AA", amount: "₹560.00" },
+        { id: 13, avatar: person13, gameImage: lotterycategorytrx, name: "Mem**BB", amount: "₹670.00" },
+        { id: 14, avatar: person14, gameImage: gamecategorycasino, name: "Mem**CC", amount: "₹380.00" },
+        { id: 15, avatar: person15, gameImage: lotterycategorywingo, name: "Mem**DD", amount: "₹290.00" },
+        { id: 16, avatar: person16, gameImage: lotterycategorytrx, name: "Mem**EE", amount: "₹820.00" },
+        { id: 17, avatar: person17, gameImage: lotterycategorytrx, name: "Mem**FF", amount: "₹430.00" },
+        { id: 18, avatar: person18, gameImage: lotterycategorytrx, name: "Mem**GG", amount: "₹600.00" },
+        { id: 19, avatar: person19, gameImage: gamecategorycasino, name: "Mem**HH", amount: "₹950.00" },
+        { id: 20, avatar: person20, gameImage: gamecategorycasino, name: "Mem**II", amount: "₹110.00" },
     ];
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -274,24 +274,26 @@ function Home() {
                 <div className="rounded-xl px-3">
                     <ImageCarousel imagesData={bannerData} />
                 </div>
-                <div className='px-3 flex shadow-lg justify-between w-full gap-1 items-center bg-white text-gray p-1 rounded-full '>
-                    <div className='shrink-0'><HiMiniSpeakerWave size={20} className="text-red" />                </div>
+              <div className="px-3 flex items-center justify-center mt-2">
+                  <div className='px-3 flex shadow-lg justify-between w-full gap-1 items-center bg-white text-gray p-1 rounded-full '>
+                    {/* <div className='shrink-0'><HiMiniSpeakerWave size={20} className="text-red" />                </div> */}
                     <div className="h-9 flex items-center overflow-hidden">
                         <div
-                            className={`flex-1 font-bold xsm:flex-0 text-gray w-[80%] xsm:w-[19rem] text-[10px] xsm:text-xs overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
+                            className={`flex-1 font-bold xsm:flex-0 text-gray w-[100%] xsm:w-[100%] text-[10px] overflow-hidden text-ellipsis whitespace-normal break-words transition-transform duration-1000 ease-in-out ${animate ? "transform -translate-y-full" : "transform translate-y-0"
                                 }`}
                             style={{ transform: animate ? "translateY(-100%)" : "translateY(0)" }}
                         >
                             {noteValue}
                         </div>
                     </div>
-                    <div
+                    {/* <div
                         className='shrink-0 w-[20%] font-bold xsm:w-[22%] py-1 text-white text-xs bg-red flex gap-1 justify-center items-center  rounded-3xl'
                     >
                         <RiFireFill className='' />
                         Detail
-                    </div>
+                    </div> */}
                 </div>
+              </div>
                 <div className="overflow-y-scroll pl-3 pr-0.5 w-full mt-5 flex items-start justify-between hide-scrollbar">
                     <div className="w-[20%]">
                         {buttonData?.map((item, i) => {
@@ -299,19 +301,19 @@ function Home() {
                                 <button
                                     key={i}
                                     onClick={item.onClick}
-                                    className="flex flex-col pt-1 w-[74.5px] mb-3 h-[69.5px] bg-cover bg-no-repeat  justify-between items-center rounded-md"
+                                    className="flex flex-col py-1 w-[74.5px] mb-3 h-[81.5px] bg-cover bg-no-repeat  justify-between items-center rounded-3xl"
                                     style={{
                                         backgroundImage: `url(${gameName === item.key ? item.bg : ""})`,
                                         backgroundPosition: "center",
                                     }}
                                 >
-                                    <img src={item.icon} className="w-12 h-10" alt="lotterycase not found" />
-                                    <p className={`text-xs pb-1 font-semibold ${gameName === item.key ? "text-white" : "text-black"} `}>{item.label}</p>
+                                    <img src={item.icon} className="w-12 h-10 mt-[10px]" alt="lotterycase not found" />
+                                    <p className={`text-xs pb-2 font-semibold ${gameName === item.key ? "text-white" : "text-black"} `}>{item.label}</p>
                                 </button>
                             )
                         })}
                     </div>
-                    <div className=" w-[75%]">
+                    <div className=" w-[75%] mr-3">
                         <AllGamesContainer />
                     </div>
                 </div>
@@ -330,7 +332,7 @@ function Home() {
                                         animation: `fadeInFromTop 300ms ease-in-out`,
                                     }}
                                 >
-                                    <div className="flex items-center space-x-1 xsm:space-x-2 w-[35%]">
+                                    <div className="flex items-center space-x-1 xsm:space-x-2 w-[36%]">
                                         <img
                                             src={data.avatar}
                                             alt="Avatar"
@@ -338,12 +340,12 @@ function Home() {
                                         />
                                         <p className="text-xs 3xl:text-xsm font-semibold">{data.name}</p>
                                     </div>
-                                    <div className="flex w-[65%] gap-6">
-                                        <div className="bg-redLight flex justify-center items-center rounded-lg w-[4.2rem] h-12">
+                                    <div className="flex w-[64%] gap-5">
+                                        <div className="bg-redLight flex justify-center items-center rounded-lg w-16 h-12">
                                             <img
                                                 src={data.gameImage}
                                                 alt="Game"
-                                                className="w-12 h-9 rounded-md object-fill"
+                                                className="w-10 h-9 rounded-md object-fill"
                                             />
                                         </div>
                                         <div className="flex flex-col justify-start items-start">
@@ -453,7 +455,7 @@ function Home() {
 
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     );
 }

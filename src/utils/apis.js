@@ -1,7 +1,7 @@
-// const baseUrlTirangaWin = "https://root.tirangawin.club/";
+// const baseUrlTirangaWin = "https://root.tirangawin.club/"; 
 // const configModalTirangaWin = `${baseUrlTirangaWin}api/`
-const baseUrlUsaWin = "https://root.usawin.vip/";
-const configModalUsaWin = `${baseUrlUsaWin}api/`
+export const baseUrlUsaWin = "https://root.upcolor.live";
+const configModalUsaWin = `${baseUrlUsaWin}/api/`
 // const baseUrlmobileappdemo = "https://tiranga.mobileappdemo.net/";
 // const configModalMobileappdemo = `${baseUrlmobileappdemo}api/`
 
@@ -23,7 +23,7 @@ const apis = {
   dragon_bet: `${configModalUsaWin}dragon_bet`,
   dragonBet_history: `${configModalUsaWin}bet_history`,
   dragonResults: `${configModalUsaWin}results`,
-  payin_deposit: `${configModalUsaWin}payin`,
+  payin_deposit: `${configModalUsaWin}payzaaar`,
   payin_deposit_usdt: `${configModalUsaWin}usdt_payin`,
   depositHistory: `${configModalUsaWin}deposit-history`,
   addAccount: `${configModalUsaWin}addAccount`,

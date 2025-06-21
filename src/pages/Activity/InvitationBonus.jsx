@@ -124,7 +124,7 @@ function InvitationBonus() {
                         <div className='border-border1 border-[1px]'></div>
                         <div className='bg-inputBg text-xsm text-gray flex items-center justify-between px-2 mx-2 mt-2 py-1 rounded-md'>
                             <p>Number of Invitees</p>
-                            <p className='text-black'>{item?.no_of_invitees}</p>
+                            <p className='text-black'>{item?.no_of_invitees < item?.no_of_user ? item?.no_of_invitees : item?.no_of_user}</p>
                         </div>
                         <div className='bg-inputBg text-xsm text-gray flex items-center justify-between px-2 mx-2 mt-2 py-1 rounded-md'>
                             <p>Recharge per people</p>
@@ -136,12 +136,12 @@ function InvitationBonus() {
                                 <p className='text-xsm text-gray'>Number of invitees</p>
                             </div>
                             <div className='col-span-1 flex flex-col items-center '>
-                                <p className='text-redLight'>{item?.no_of_invitees < item?.no_of_user ? item?.no_of_invitees : item?.refer_invitees}/{item.no_of_user}</p>
+                                <p className='text-redLight'>{item?.refer_invitees < item?.no_of_user ? item?.refer_invitees : item?.no_of_user}/{item?.no_of_user}</p>
                                 <p className='text-xsm text-gray'>Deposit number</p>
                             </div>
                         </div>
                         <div className='px-2'>
-                            <button onClick={() => bonusClaimHandler(item?.claim_amount, item?.bonus_id)} className='bg-[#CBCDDC] rounded-full w-full font-bold text-sm py-2 mt-5'>{item?.status == 1 ? "Unfinished" : "Finished"}</button>
+                            <button  disabled={(item?.no_of_invitees < item?.no_of_user ? item?.no_of_invitees : item?.no_of_user!==item?.no_of_user)||(item?.refer_invitees < item?.no_of_user ? item?.refer_invitees : item?.no_of_user!==item?.no_of_user)}  onClick={() => bonusClaimHandler(item?.claim_amount, item?.bonus_id)} className={`${item?.status == 1?"bg-[#CBCDDC]":"bg-green"}  rounded-full w-full font-bold text-sm py-2 mt-5`}>{item?.status == 1 ? "Unfinished" : "Received"}</button>
                         </div>
                         <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-6 h-6 bg-bg1 opacity-70 rounded-full"></div>
                         <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-6 h-6 bg-bg1 opacity-70 rounded-full"></div>

@@ -8,7 +8,8 @@ import axios from 'axios';
 import apis from '../../utils/apis'
 import { toast } from 'react-toastify';
 import usdt_icon from '../../assets/images/usdt_icon.png';
-import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+// import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+import payzaar from "../../assets/payzaar.png";
 import Loader from '../../reusable_component/Loader/Loader';
 function Withdrawal() {
     const [loading, setloading] = useState(false);
@@ -42,7 +43,7 @@ function Withdrawal() {
             toast.error(err);
         }
     };
-    console.log("paymenLimts", paymenLimts)
+    // console.log("paymenLimts", paymenLimts)
     const validateAmount = (amount) => {
         // console.log("amount", amount)
         if (!paymenLimts) return;
@@ -171,15 +172,16 @@ function Withdrawal() {
     }
     // console.log("cricket match",myDetails)
     const payMethod = [{
-        image: bank_card,
-        name: "Bank card",
+        image: payzaar,
+        name: "payzaar",
         type: 0
     },
-    {
-        image: usdt_icon,
-        name: "USDT",
-        type: 2
-    }]
+    // {
+    //     image: usdt_icon,
+    //     name: "USDT",
+    //     type: 2
+    // }
+    ]
     return (
         <div className='px-3 h-full bg-white'>
             {loading == true && <Loader setloading={setloading} loading={loading} />}
@@ -205,11 +207,11 @@ function Withdrawal() {
                     <div
                         onClick={() => toggleModal(item?.type)}
                         key={i}
-                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "text-white" : "bg-white text-gray"
                             } shadow-md text-lightGray`}
                     >
-                        <img className='w-10 h-10' src={item.image} alt="UPI Payment" />
-                        <p className='text-nowrap'>{item?.name}</p>
+                        <img className='w-20 h-16' src={item.image} alt="UPI Payment" />
+                        {/* <p className='text-nowrap'>{item?.name}</p> */}
                     </div>
                 ))}
             </div>

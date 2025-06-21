@@ -116,11 +116,12 @@ function VIP() {
       level_id: id,
       level_up_rewards: reward
     }
-    // console.log(":level payload", payload)
+    console.log(":level payload", payload,apis.vipLevelAddMoney)
     try {
       const res = await axios.post(apis.vipLevelAddMoney, payload)
       // console.log("level", res)
       if (res?.data?.status === 200) {
+        vipLevelHandler()
         setLoading(false)
         toast.success(res?.data?.message)
       } else {
@@ -144,6 +145,7 @@ function VIP() {
       const res = await axios.post(apis.vipLevelAddMoney, payload)
       // console.log("monthly", res)
       if (res?.data?.status === 200) {
+        vipLevelHandler()
         setLoading(false)
         toast.success(res?.data?.message)
       } else {
@@ -253,12 +255,12 @@ function VIP() {
                       <div className="flex flex-col items-start w-full justify-start">
                         <div className="flex text-nowrap items-start w-full  gap-2">
                           <div>
-                            <img src={item?.status === 1 ? viptop1 : viptop2} className="w-6 h-6" alt="fdd" />
+                            <img src={item?.status == 1 ? viptop1 : viptop2} className="w-6 h-6" alt="fdd" />
                           </div>
                           <div className="capitalize">{item?.name}</div>
                           <div className="flex items-center gap-2">
-                            <img src={item?.status === 1 ? viptick : vipununlocked} className="w-4 h-4" alt="fdd" />
-                            <p>{item?.status === 1 ? "Opened" : "Not open yet"}</p>
+                            <img src={item?.status == 1 ? viptick : vipununlocked} className="w-4 h-4" alt="fdd" />
+                            <p>{item?.status == 1 ? "Opened" : "Not open yet"}</p>
                           </div>
                         </div>
                         <div className="border-white py-1 text-xs rounded mt-2 px-4">
@@ -275,7 +277,7 @@ function VIP() {
                     <div className="text-xs mt-2 w-full px-2">
                       <div className="flex items-center justify-between">
                         <p className={`${item?.name === "vip 1" ? "bg-[#8AA0C0]" : item?.name === "vip 2" ? "bg-[#E3994F]" : item?.name === "vip 3" ? "bg-[#FF7979]" : item?.name === "vip 4" ? "bg-[#4AC9F2]" : item?.name === "vip 5" ? "bg-[#b73d9d]" : item?.name === "vip 6" ? "bg-[#54D8A3]" : item?.name === "vip 7" ? "bg-[#49B13E]" : item?.name === "vip 8" ? "bg-[#4FAEF1]" : item?.name === "vip 9" ? "bg-[#C378E9]" : item?.name === "vip 10" ? "bg-[#F2A83A]" : ""} rounded p-1`}>{item?.bet_amount>=item?.range_amount?item?.range_amount:item?.bet_amount} / {item?.range_amount}</p>
-                        <p>{Math.min(((item?.bet_amount / item?.range_amount) * 100), 100).toFixed(2)}% Completed</p>
+                        <p>{Math.min(((item?.bet_amount / item?.range_amount) * 100), 100).toFixed(2)}%  {item?.bet_amount>=item?.range_amount?"Completed":""}</p>
                       </div>
                       <div className="w-full bg-gray h-2 mt-2 rounded">
                         <div
@@ -382,7 +384,7 @@ function VIP() {
                       </div>
                       < p className="text-black text-sm mx-1">Level up rewards</p>
                       <p className="text-xs text-black mt-2 mx-1">Each account can only receive 1 time</p>
-                      <button onClick={() => addMoneyLevelUpHandler(item?.id, item?.level_up_rewards)} className="mt-5 bg-[#CCCEDC] text-lightGray font-bold text-xsm w-full py-1.5 rounded-full mx-1">Received</button>
+                      <button disabled={item?.level_up_status!==1} onClick={() => addMoneyLevelUpHandler(item?.id, item?.level_up_rewards)} className={`mt-5 ${item?.level_up_status==0?"bg-[#CCCEDC]  text-lightGray":item?.level_up_status==1?"bg-green text-white":"bg-yellow text-white"} font-bold text-xsm w-full py-1.5 rounded-full mx-1`}> {item?.level_up_status==0?"To be received":item?.level_up_status==1?"Receive":"Received"} </button>
                     </div>
                     <div className="w-full col-span-1">
                       <div className="bg-gradient-to-r from-[#f95959] to-[#ff9a8e] rounded-t-lg w-full flex flex-col items-end justify-center">
@@ -409,10 +411,11 @@ function VIP() {
                       </div>
                       <p className="text-black text-sm mx-1" >Monthly rewards</p>
                       <p className="text-xs text-black mt-2 mx-1">Each account can only receive 1 time per monthly received</p>
-                      <button onClick={() => addMoneyMonthlyHandler(item?.id, item?.monthly_rewards)} className="mt-5 bg-[#CCCEDC] text-lightGray font-bold text-xsm w-full py-1.5 rounded-full mx-1">Received</button>
+                      <button  disabled={item?.monthly_rewards_status!==1} onClick={() => addMoneyMonthlyHandler(item?.id, item?.monthly_rewards)} className={`mt-5 ${item?.monthly_rewards_status==0?"bg-[#CCCEDC]  text-lightGray":item?.monthly_rewards_status==1?"bg-green text-white":"bg-yellow text-white"} font-bold text-xsm w-full py-1.5 rounded-full mx-1`}>{item?.monthly_rewards_status==0?"To be received":item?.monthly_rewards_status==1?"Receive":"Received"}</button>
+                   
                     </div>
                     <div className="w-full col-span-1">
-                      <div className="bg-gradient-to-l from-[#f95959] to-[#ff9a8e] rounded-t-lg w-full flex flex-col items-center justify-center">
+                      <div className="bg-gradient-to-l from-red to-redLight rounded-t-lg w-full flex flex-col items-center justify-center">
                         <div className="w-full h-24 flex flex-col justify-end bg-no-repeat"
                           style={{
                             backgroundImage: `url(${vipwelfare5})`,
@@ -450,20 +453,26 @@ function VIP() {
           }
         </div>
 
-
         <div className="bg-white grid grid-cols-2  mt-3">
           <button onClick={() => setModal("history")} className={`col-span-1  w-full ${modal === "history" ? "border-redLight text-redLight border-b-[2px]" : "text-gray"} p-3`}>History</button>
           <button onClick={() => setModal("rules")} className={`col-span-1  w-full p-3 ${modal === "rules" ? "border-redLight text-redLight border-b-[2px]" : "text-gray"}`}>Rules</button>
         </div>
         {modal === "history" && <div className="bg-white text-gray mt-3 pt-3 px-3">
-          {vipLevelHistoryData.length > 0 ? vipLevelHistoryData.map((item, i) => (
-            <div className="flex items-center justify-between pb-20" key={i}>
+          <div className="flex items-center justify-between pb-3">
               <p>
                 <p className="text-black font-bold text-center" >Experience</p>
-                <p className="text-xsm text-center">{item?.exp}</p>
               </p>
               <p>
                 <p className="text-black font-bold text-center" >Date</p>
+              </p>
+              {/* <p>{item?.created_at}</p> */}
+            </div>
+          {vipLevelHistoryData.length > 0 ? vipLevelHistoryData.map((item, i) => (
+            <div className="flex items-center justify-between pb-2" key={i}>
+              <p>
+                <p className="text-xsm text-center">{item?.exp}</p>
+              </p>
+              <p>
                 <p className="text-xsm text-center">{item?.created_at}</p>
               </p>
               {/* <p>{item?.created_at}</p> */}

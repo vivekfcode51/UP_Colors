@@ -9,7 +9,7 @@ import jilli6 from "../../assets/usaAsset/homeScreen/JILLI6.png"
 import wingoNew from "../../assets/usaAsset/homeScreen/wingonew.jpeg"
 import k3new from "../../assets/usaAsset/homeScreen/k3new.png"
 import new5d from "../../assets/usaAsset/homeScreen/new5d.png"
-// ssets/usaAsset/homeScreen/aviatornew.png
+import aviatornew from "../../assets/usaAsset/homeScreen/aviatornew.png"
 import gamecategoryminigames from "../../assets/usaAsset/homeScreen/aviatornew.png"
 import minesnew from "../../assets/usaAsset/homeScreen/minesnew.png"
 import trx_colnew from "../../assets/usaAsset/homeScreen/trx_colnew.png"
@@ -33,18 +33,18 @@ function AllGames() {
         name: "Lottery",
         type: 0
     },
-    {
-        image: jilli3,
-        image1: jilli2,
-        name: "Jilli",
-        type: 1
-    },
-   {
-        image: jilli1,
-        image1: jilli4,
-        name: "Spribe",
-        type: 2
-    }
+//     {
+//         image: jilli3,
+//         image1: jilli2,
+//         name: "Jilli",
+//         type: 1
+//     },
+//    {
+//         image: jilli1,
+//         image1: jilli4,
+//         name: "Spribe",
+//         type: 2
+//     }
 ]
 
     useEffect(() => {
@@ -105,13 +105,13 @@ function AllGames() {
 
     const LotteryGames = [
         { id: 1, name: "Win Go", image: wingoNew, route: "/lottery/wingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
-        { id: 2, name: "Trx Win", image: trx_colnew, route: "/lottery/trxwingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
-        { id: 3, name: "K3", image: k3new, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even" },
-        { id: 4, name: "5D", image: new5d, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even" },
-        // { id: 5, name: "Aviator", image: aviatornew, route: "/comingsoon", description1: "Fly High", description2: "" },
+        // { id: 2, name: "Trx Win", image: trx_colnew, route: "/lottery/trxwingo", description1: "Guess Number", description2: "Green/Red/Violet to win" },
+        // { id: 3, name: "K3", image: k3new, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even" },
+        // { id: 4, name: "5D", image: new5d, route: "/comingsoon", description1: "Guess Number", description2: "Big/Small/Odd/Even" },
+        { id: 2, name: "Aviator", image: aviatornew, route: "/comingsoon", description1: "Fly High", description2: "" },
         // { id: 6, name: "Mines", image: minesnew, route: "/comingsoon", description1: "Choose Boxes", description2: "" },
     ];
-    console.log("allGamesListView", allGamesListView)
+    // console.log("allGamesListView", allGamesListView)
     return (
         <div>
             {loading && <Loader setLoading={setLoading} loading={loading} />}
@@ -151,14 +151,12 @@ function AllGames() {
                                 </div>
                             </Link>
                         ))}
-                        {/* <Link key={i} to={item?.route} > */}
                         <div onClick={() => fetchGameURLSpribe(allGamesListView?.data?.message?.data[0]?.game_id_long, userId, navigate, setLoading)} className="flex flex-col items-center text-black p-2">
                             <img src={gamecategoryminigames} className="w-36 h-32 rounded-lg" alt="sd" />
                         </div>
                         <div onClick={() => fetchGameURLSpribe(allGamesListView?.data?.message?.data[6]?.game_id_long, userId, navigate, setLoading)} className="flex flex-col items-center text-black p-2">
                             <img src={minesnew} className="w-36 h-32 rounded-lg" alt="sd" />
                         </div>
-                        {/* </Link> */}
 
                     </>)}
             </div>

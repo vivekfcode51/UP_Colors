@@ -7,8 +7,8 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '@fontsource/roboto'; // Default weight (400)
-import '@fontsource/inter'; // Variable font weights
+import '@fontsource/roboto'; 
+import '@fontsource/inter';
 import FirstDepositModalReset from './reusable_component/FirstDepositModalReset';
 import { SocketProvider } from "./shared/socket/SocketContext";
 
@@ -25,6 +25,13 @@ createRoot(document.getElementById('root')).render(
       pauseOnFocusLoss
       draggable
       pauseOnHover
+      style={{
+      top: '50%',
+      transform: 'translateY(-50%)',
+      position: 'fixed',
+      left: '50%',
+      transform: 'translateX(-50%)'
+    }}
     />
     <Provider store={store}>
       <SocketProvider>

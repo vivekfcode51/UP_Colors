@@ -43,7 +43,7 @@ export const SocketProvider = ({ children }) => {
       // });
     };
 
-    socket.on("onemin", handleOneMin);
+    socket.on("upcolor_wingo", handleOneMin);
 
     return () => {
       socket.off("onemin", handleOneMin);

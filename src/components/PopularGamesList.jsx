@@ -16,24 +16,26 @@
 import { fetchAllGames, fetchGameURL } from "../reusable_component/gameApi";
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-  import viewall from "../assets/usaAsset/homeScreen/viewall.png"
+import viewall from "../assets/usaAsset/homeScreen/viewall.png"
 import { useNavigate } from "react-router-dom";
+import Loader from "../reusable_component/Loader/Loader";
 function PopularGamesList() {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem("userId")
-  console.log("userId",userId)
+  // console.log("userId", userId)
   const [allGamesListView, setAllGamesListView] = useState(null)
   useEffect(() => {
     fetchAllGames(setAllGamesListView);
   }, []);
-  console.log("allGamesListView",allGamesListView)
+  // console.log("allGamesListView",allGamesListView)
   return (
     <>
+      {/* {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className="grid grid-cols-3 w-full">
-        {allGamesListView?.data?.popular?.length>0 ? (
+        {allGamesListView?.data?.popular?.length > 0 ? (
           allGamesListView?.data?.popular?.map((item, i) => (
-            <div onClick={() => fetchGameURL(item?.id, userId,navigate,setLoading)} key={i} className=" flex flex-col items-center text-black p-2 ">
+            <div onClick={() => fetchGameURL(item?.id, userId, navigate, setLoading)} key={i} className=" flex flex-col items-center text-black p-2 ">
               <img src={item?.img} className="w-36 h-24 rounded-lg" alt="sd" />
             </div>
           ))
@@ -48,7 +50,7 @@ function PopularGamesList() {
             <p className="text-xsm">View All</p>
           </button>
         </Link>
-      </div>
+      </div> */}
     </>
   );
 }

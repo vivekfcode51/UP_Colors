@@ -3,7 +3,8 @@ import usdt_icon from '../../assets/images/usdt_icon.png'
 import depo_wallet from '../../assets/icons/depo_wallet.png'
 import { useEffect, useState } from 'react';
 import { RxCrossCircled } from 'react-icons/rx';
-import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+// import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+import payzaar from "../../assets/payzaar.png";
 // import depositbg from "../../assets/usaAsset/wallet/depositbg.png"
 // import upi from "../../assets/usaAsset/wallet/upi.png"
 // import paytm from "../../assets/usaAsset/wallet/paytm.png"
@@ -41,6 +42,7 @@ function Deposit() {
         setloading(true)
         try {
             const res = await axios.get(`${apis.getPaymentLimits}`);
+            console.log("respone ss", res?.data?.data)
             if (res?.data?.status === 200) {
                 setloading(false)
                 setPaymenLimts(res?.data?.data)
@@ -110,10 +112,11 @@ function Deposit() {
         }
         setloading(true)
         const payload = {
-            userid: userId,
-            amount: upiAmount,
+            user_id: userId,
+            cash: upiAmount,
+            type:0
         }
-        const apiIndianPay = apis.payin_deposit
+        const apiPayzaarPay = apis.payin_deposit
         const apiUsdtPay = apis.payin_deposit_usdt
         const payloadUsdt = {
             user_id: userId,
@@ -122,11 +125,11 @@ function Deposit() {
         }
         console.log("payload", activeModal === 0 ? payload : payloadUsdt, activeModal)
         try {
-            const res = await axios.post(activeModal === 0 ? apiIndianPay : apiUsdtPay, activeModal === 0 ? payload : payloadUsdt)
+            const res = await axios.post(activeModal === 0 ? apiPayzaarPay : apiUsdtPay, activeModal === 0 ? payload : payloadUsdt)
             console.log("res", res)
-            if (res?.data?.status === "200") {
-                console.log("payment_link",activeModal === 0 ? res?.data?.response?.payment_link : res?.data?.data?.status_url)
-                window.open(activeModal === 0 ? res?.data?.response?.payment_link : res?.data?.data?.status_url, "_blank");
+            if (res?.data?.status === "200"||res?.data?.status === 200||res?.data?.status==="success") {
+                // console.log("payment_link",activeModal === 0 ? res?.data?.response?.payment_link : res?.data?.data?.status_url)
+                window.open(activeModal === 0 ? res?.data?.data?.paymentlink : res?.data?.data?.status_url, "_blank");
                 setloading(false)
             } else {
                 setloading(false)
@@ -173,15 +176,16 @@ function Deposit() {
     };
 
     const payMethod = [{
-        image: bank_card,
-        name: "Bank card",
+        image: payzaar,
+        name: "payzaar",
         type: 0
     },
-    {
-        image: usdt_icon,
-        name: "USDT",
-        type: 2
-    }]
+    // {
+    //     image: usdt_icon,
+    //     name: "USDT",
+    //     type: 2
+    // }
+   ]
 
     // console.log("paymenLimts", paymenLimts)
     return (
@@ -208,11 +212,11 @@ function Deposit() {
                     <div
                         onClick={() => toggleModal(item?.type)}
                         key={i}
-                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
+                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "bg-white text-white" : "bg-white text-gray"
                             } shadow-md text-lightGray`}
                     >
-                        <img className='w-10 h-10' src={item.image} alt="UPI Payment" />
-                        <p className='text-nowrap'>{item?.name}</p>
+                        <img className='w-20 h-16' src={item.image} alt="UPI Payment" />
+                        {/* <p className='text-nowrap'>{item?.name}</p> */}
                     </div>
                 ))}
             </div>

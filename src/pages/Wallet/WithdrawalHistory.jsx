@@ -1,5 +1,5 @@
 import usdt_icon from '../../assets/images/usdt_icon.png';
-import chip from "../../assets/usaAsset/wallet/chip.png"
+// import chip from "../../assets/usaAsset/wallet/chip.png"
 import no_data_available from '../../assets/images/no_data_available.png';
 import { useState, useEffect, useRef } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -10,7 +10,7 @@ import apis from '../../utils/apis'
 import { useNavigate } from 'react-router-dom';
 import moment from "moment";
 import { PiCopyLight } from 'react-icons/pi';
-import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+import payzaar from "../../assets/payzaar.png";
 import Loader from '../../reusable_component/Loader/Loader';
 
 function WithdrawalHistory() {
@@ -150,15 +150,15 @@ function WithdrawalHistory() {
     }, [isOrderidCopied, setIsOrderidCopied]);
 
     const payMethod = [{
-        image: bank_card,
-        name: "Bank card",
+        image: payzaar,
+        name: "payzaar card",
         type: 0
     },
-    {
-        image: usdt_icon,
-        name: "USDT",
-        type: 2
-    }
+    // {
+    //     image: usdt_icon,
+    //     name: "USDT",
+    //     type: 2
+    // }
     ]
     return (
         <>
@@ -179,18 +179,18 @@ function WithdrawalHistory() {
                                 }  px-3 cursor-pointer`}
                             onClick={() => toggleModal(1)}
                         >
-                            <img className='w-6 h-6' src={chip} alt="UPI Payment" />
-                            <p className=" font-bold text-nowrap">Bank Card</p>
+                            <img className='w-20 h-16' src={payzaar} alt="UPI Payment" />
+                            {/* <p className=" font-bold text-nowrap">Bank Card</p> */}
                         </div>
 
-                        <div
+                        {/* <div
                             className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 2 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
                                 }  px-5 cursor-pointer`}
                             onClick={() => toggleModal(2)}
                         >
                             <img className="w-6 h-6" src={usdt_icon} alt="USDT TRC 20" />
                             <p className=" text-nowrap">USDT</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 mt-3 mx-3">
@@ -248,7 +248,7 @@ function WithdrawalHistory() {
                                     </div>
                                     <div className="flex mt-4 text-gray justify-between items-center">
                                         <p className="text-xsm font-bold">Type</p>
-                                        <p className="text-xsm text-gray font-semibold">{item?.type === 0 ? "Indian Pay" : "USDT"}</p>
+                                        <p className="text-xsm text-gray font-semibold">{item?.type === 0 ? "payzaar" : "USDT"}</p>
                                     </div>
                                     <div className="flex mt-4 text-gray justify-between items-center">
                                         <p className="text-xsm font-bold">Time</p>

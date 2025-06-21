@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import viewall from "../assets/usaAsset/homeScreen/viewall.png"
 import { useNavigate } from "react-router-dom";
+import Loader from "../reusable_component/Loader/Loader";
 function CasinoGamesList() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ function CasinoGamesList() {
   }, []);
   return (
     <div>
+            {/* {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className="grid grid-cols-3 w-full">
         {allGamesListView?.data?.casino?.length>0 ? (
           allGamesListView?.data?.casino?.map((item, i) => (
@@ -31,7 +33,7 @@ function CasinoGamesList() {
             <p className="text-xsm">View All</p>
           </button>
         </Link>
-      </div>
+      </div> */}
     </div>
   )
 }

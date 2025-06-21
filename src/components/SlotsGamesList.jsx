@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import viewall from "../assets/usaAsset/homeScreen/viewall.png"
 import { useNavigate } from "react-router-dom";
+import Loader from "../reusable_component/Loader/Loader";
 function SlotsGamesList() {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem("userId")
   const [allGamesListView, setAllGamesListView] = useState(null)
@@ -13,10 +14,11 @@ function SlotsGamesList() {
   }, []);
   return (
     <div>
+      {/* {loading && <Loader setLoading={setLoading} loading={loading} />}
       <div className="grid grid-cols-3 w-full">
-        {allGamesListView?.data?.slots?.length>0 ? (
+        {allGamesListView?.data?.slots?.length > 0 ? (
           allGamesListView?.data?.slots?.map((item, i) => (
-            <div onClick={() => fetchGameURL(item?.id, userId,navigate,setLoading)} key={i} className=" flex flex-col items-center text-black p-2 ">
+            <div onClick={() => fetchGameURL(item?.id, userId, navigate, setLoading)} key={i} className=" flex flex-col items-center text-black p-2 ">
               <img src={item?.img} className="w-36 h-24 rounded-lg" alt="sd" />
             </div>
           ))
@@ -31,7 +33,8 @@ function SlotsGamesList() {
             <p className="text-xsm">View All</p>
           </button>
         </Link>
-      </div></div>
+      </div> */}
+      </div>
   )
 }
 

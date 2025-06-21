@@ -9,7 +9,8 @@ import axios from 'axios';
 import apis from '../../utils/apis'
 import { useNavigate } from 'react-router-dom';
 import usdt_icon from '../../assets/images/usdt_icon.png';
-import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
+import payzaar from "../../assets/payzaar.png";
+// import bank_card from "../../assets/usaAsset/wallet/bank_card.png"
 import Loader from "../../reusable_component/Loader/Loader";
 // import ipRemovedbg from "../../assets/usaAsset/ipRemovedbg.png"
 // import kuberPayLogo from "../../assets/usaAsset/kuberPayLogo.png"
@@ -125,15 +126,16 @@ function DepositHistory() {
     }, [isOrderidCopied, setIsOrderidCopied]);
 
     const payMethod = [{
-        image: bank_card,
-        name: "Bank card",
+        image: payzaar,
+        name: "payzaar",
         type: 0
     },
-    {
-        image: usdt_icon,
-        name: "USDT",
-        type: 2
-    }]
+    // {
+    //     image: usdt_icon,
+    //     name: "USDT",
+    //     type: 2
+    // }
+    ]
     return (
         <>
             <div className='w-full'>
@@ -154,8 +156,8 @@ function DepositHistory() {
                                     }  px-3 cursor-pointer`}
                                 onClick={() => toggleModal(item?.type)}
                             >
-                                <img className='w-5 h-5' src={item?.image} alt="UPI Payment" />
-                                <p className=" font-bold text-nowrap">{item?.name}</p>
+                                <img className='w-20 h-16' src={item?.image} alt="UPI Payment" />
+                                {/* <p className=" font-bold text-nowrap">{item?.name}</p> */}
                             </div>
                         ))}
                     </div>
@@ -213,7 +215,7 @@ function DepositHistory() {
                                     </div>
                                     <div className="flex mt-4 text-gray justify-between items-center">
                                         <p className="text-xsm font-bold">Type</p>
-                                        <p className="text-xsm text-gray font-semibold">{item?.type == 0 ? "Bank card" : item?.type == 1 ? "Bank card" : item?.type === 2 ? "USDT" : ""}</p>
+                                        <p className="text-xsm text-gray font-semibold">{item?.type == 0 ? "payzaar" : item?.type == 1 ? "Bank card" : item?.type === 2 ? "USDT" : ""}</p>
                                     </div>
                                     <div className="flex mt-4 text-gray justify-between items-center">
                                         <p className="text-xsm font-bold">Time</p>

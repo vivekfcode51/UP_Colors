@@ -101,7 +101,10 @@ function LotteryBetModal({ gameHistoryData, profileDetails, myHistory, bet_api, 
             try {
                 const res = await axios.post(`${bet_api}`, payload)
                 // console.log("wingo nbet res",res)
-                if (res?.data?.status === 200) {
+                if (res?.data?.status === 400) {
+                    // console.log("zssfdsfdf",res)
+                    toast.error(res?.data?.message)
+                } else if (res?.data?.status === 200) {
                     const currentValue = parseInt(localStorage.getItem(`betStatus${gameDetails?.gameId}`)) || 0;
                     const updatedValue = currentValue + 1;
                     localStorage.setItem(`betStatus${gameDetails?.gameId}`, updatedValue)

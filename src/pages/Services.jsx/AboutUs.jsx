@@ -54,7 +54,7 @@ function AboutUs() {
                 </Link>
                 <Link onClick={() => naivatorhandle(7)}  to="/aboutus/child" className='px-2 border-b border-bg1 py-4 text-sm flex justify-between items-center' >
                     <div className='flex items-center'>
-                        <img src={invitation} className='rounded-full h-8 w-8' alt="not found" />&nbsp;USAWin FAQs
+                        <img src={invitation} className='rounded-full h-8 w-8' alt="not found" />&nbsp;UP Color FAQs
                     </div>
                     <div className='flex items-end'>
                         <MdKeyboardArrowRight size={25} className="text-gray" />

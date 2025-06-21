@@ -61,7 +61,7 @@ const Wallet = () => {
       setTimer((prev) => {
         if (prev === 1) {
           clearInterval(countdown);
-          console.log("triggered is to start")
+          // console.log("triggered is to start")
           triggerFundTransfer();
           isFundTransferRunningRef.current = false;
         }

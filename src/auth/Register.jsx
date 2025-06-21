@@ -41,7 +41,7 @@ function Register() {
         .oneOf([Yup.ref('password')], 'Passwords must match')
         .min(6, 'Password confirmation must be at least 6 characters')
         .matches(/^(?=.*[A-Za-z])(?=.*\d)/, 'Password must contain at least one letter and one number'),
-    referral_code: Yup.string(),
+    referral_code: Yup.string().required(),
   });
 
   const formik = useFormik({
@@ -138,7 +138,7 @@ function Register() {
                 </div>
                 <div className="relative flex items-center gap-2 mt-2">
                   <p
-                    className="bg-inputBg w-[30%] text-gray p-3 flex items-center justify-center rounded-md cursor-pointer"
+                    className="bg-inputBg h-[44px] w-[30%] text-gray p-3 flex items-center justify-center rounded-md cursor-pointer"
                     onClick={() => setIsModalOpen(!isModalOpen)}
                   >
                     {selectedCountryCode} <MdKeyboardArrowDown size={20} />
@@ -163,8 +163,9 @@ function Register() {
                     {...formik.getFieldProps('mobile')}
                     type="number"
                     name="mobile"
+                    pattern="[^@]+@[^@]+\.[a-zA-Z]"
                     placeholder="Enter your phone number"
-                    className="col-span-[60%] bg-inputBg text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
+                    className="no-spinner col-span-[60%] bg-inputBg text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
                   />
                 </div>
                 {formik.touched.mobile && formik.errors.mobile && (
@@ -177,7 +178,7 @@ function Register() {
                   <div>
                     <img className='w-6 h-6' src={passwordUsa} alt="sd" />
                   </div>
-                  <label htmlFor="password" className="text-sm text-gray font-medium">Set Password</label>
+                  <label htmlFor="password" className="text-sm text-gray font-medium">New Password</label>
                 </div>
                 <input
                   {...formik.getFieldProps('password')}
@@ -242,15 +243,15 @@ function Register() {
                   className="bg-inputBg mt-2 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
                 />
               </div>
-              <div className="flex items-center mt-4">
-                <div onClick={() => setCheckAgreement(!checkAgreement)} className={`flex items-center cursor-pointer rounded-full ${checkAgreement ? "text-lightGray bg-white " : "text-chocolate"}`}>
+              <div className="flex items-center space-x-2 mt-4">
+                <div onClick={() => setCheckAgreement(!checkAgreement)} className={`flex w-6 h-6 items-center cursor-pointer rounded-full ${checkAgreement ? "text-lightGray bg-white " : "text-chocolate"}`}>
                   {checkAgreement ? (
                     <img className='w-5 h-5' src={tikki} alt="df" />
                   ) : (
                     <div className='border-[1px] border-[#c8c9cc] p-2 rounded-full'></div>
                   )}
                 </div>
-                <label htmlFor="agree" className="text-gray ml-2 text-xs sm:text-base md:text-xs">I have read and agree </label>
+                <label htmlFor="agree" className="text-gray ml-0 text-xs sm:text-base md:text-xs">I have read and agree </label>
                 <a onClick={naivatorhandle} href="/aboutus/child" className="ml-2 text-redLight underline text-xs sm:text-base md:text-xs">Privacy Agreement</a>
               </div>
               <div className='flex flex-col w-full font-bold items-center justify-center'>
@@ -261,8 +262,8 @@ function Register() {
               </div>
             </form>
           </div>
-        </div >
-      </section >
+        </div>
+      </section>
     </>
   );
 }

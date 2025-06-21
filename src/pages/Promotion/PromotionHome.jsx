@@ -69,20 +69,20 @@ function PromotionHome() {
         }
     }, [userId])
     const handleCopyInvitationLink = () => {
-        if (myDetails?.data?.u_id) {
-            const baseUrl = `https://usawin.vip/register`
-            const invitationCode = myDetails?.data?.u_id
-            const referralLink = `${baseUrl}?referral=${invitationCode}`;
+        console.log("myDetails",myDetails)
+        if (myDetails?.referral_code_url) {
+            const invitationCode = myDetails?.referral_code_url
+            const referralLink = invitationCode
             navigator.clipboard
                 .writeText(referralLink)
                 .then(() => {
                     setCopyInvitation(true)
                 })
                 .catch(() => {
-                    toast.error('Failed to copy UID.');
+                    toast.error('Failed to copy refer url .');
                 });
         } else {
-            toast.error('UID is not available.');
+            toast.error('refer url is not available.');
         }
     };
 

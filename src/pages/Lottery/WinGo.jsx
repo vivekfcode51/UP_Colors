@@ -37,9 +37,9 @@ const wingo_game_history = apis.wingo_game_history
 const wingo_win_amount_announcement = apis.wingo_win_amount_announcement
 const images = [zero, one, two, three, four, five, six, seven, eight, nine];
 const notes = [
-  "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
-  "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
-  "Notice:To visit our official website, be sure to use the link below,https://usawin.com / Please re",
+  "Notice:To visit our official website, be sure to use the link below,https://upcolor.com / Please re",
+  "Notice:To visit our official website, be sure to use the link below,https://upcolor.com / Please re",
+  "Notice:To visit our official website, be sure to use the link below,https://upcolor.com / Please re",
 ];
 const WinGo = () => {
   const { timers } = useSocket();
@@ -234,21 +234,21 @@ const WinGo = () => {
   }, [userId]);
 
   const winAmountAnnouncement1 = async (i) => {
-    console.log("111111")
+    // console.log("111111")
     try {
       const offset = (currentPage - 1) * limit;
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      console.log("resres hai hai 3030", res?.data?.data)
+      // console.log("resres hai hai 3030", res?.data?.data)
       if (res?.data?.status === 200) {
-        console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
+        // console.log("one one noe ", `${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
-          console.log("resp 3030", resp)
+          // console.log("resp 3030", resp)
           if (resp?.data?.status === 200) {
-            console.log("res 1", resp)
-            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 30s`)
+            // console.log("res 1", resp)
+            // toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 30s`)
             const data = resp?.data?.data;
             setModalData(data);
             setIsModalVisible(true);
@@ -262,19 +262,19 @@ const WinGo = () => {
     }
   }
   const winAmountAnnouncement2 = async (i) => {
-    console.log("2222")
+    // console.log("2222")
     try {
       const offset = (currentPage - 1) * limit;
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      console.log("resres hai hai", res)
+      // console.log("resres hai hai", res)
       if (res?.data?.status === 200) {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
-            console.log("res 2", resp)
-            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 1 min`)
+            // console.log("res 2", resp)
+            // toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 1 min`)
             const data = resp?.data?.data;
             setModalData(data);
             setIsModalVisible(true);
@@ -288,20 +288,20 @@ const WinGo = () => {
     }
   }
   const winAmountAnnouncement3 = async (i) => {
-    console.log("3333")
+    // console.log("3333")
 
     try {
       const offset = (currentPage - 1) * limit;
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      console.log('333',res)
+      // console.log('333',res)
       if (res?.data?.status === 200) {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
-            console.log("res 3", resp)
-            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 3 min`)
+            // console.log("res 3", resp)
+            // toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 3 min`)
             const data = resp?.data?.data;
             setModalData(data);
             setIsModalVisible(true);
@@ -315,19 +315,19 @@ const WinGo = () => {
     }
   }
   const winAmountAnnouncement4 = async (i) => {
-    console.log("44444")
+    // console.log("44444")
     try {
       const offset = (currentPage - 1) * limit;
       const res = await axios.get(
         `${wingo_game_history}?game_id=${i}&limit=${limit}&offset=${offset}`
       );
-      console.log("4444",res)
+      // console.log("4444",res)
       if (res?.data?.status === 200) {
         try {
           const resp = await axios.get(`${wingo_win_amount_announcement}?userid=${userId}&game_id=${i}&games_no=${res?.data?.data[0]?.games_no}`)
           if (resp?.data?.status === 200) {
-            console.log("res 4", resp)
-            toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 5 min`)
+            // console.log("res 4", resp)
+            // toast.success(`You ${resp?.data?.data?.result} ${resp?.data?.data?.win} for 5 min`)
             const data = resp?.data?.data;
             setModalData(data);
             setIsModalVisible(true);

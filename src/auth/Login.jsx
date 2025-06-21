@@ -27,13 +27,18 @@ function Login() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    
+    if (/^\d{0,10}$/.test(value)) {
     setFormData({ ...formData, [name]: value });
+  }
+    // setFormData({ ...formData, [name]: value });
   };
 
   const MyProfileFn = async (userid) => {
     // const loginTokenFromLocalStorage = localStorage.getItem("login_token");
     try {
       const response = await axios.get(`${apis.profile}${userid}`);
+      // console.log("ereseresresres",response)
       // const profileToken = response?.data?.data?.login_token;
       if (response?.data?.success === 423) {
         // console.log("blocked")
@@ -45,7 +50,7 @@ function Login() {
         navigate("/")
       }
     } catch (e) {
-      // console.error(e);
+      console.error(e);
       setLoading(false)
       toast.error("Blocked by admin")
     }
@@ -101,7 +106,7 @@ function Login() {
         <div className="bg-gradient-to-l from-red to-redLight w-full pb-5">
           <h1 className="text-sm font-bold font-inter px-10 mt-2">Log in</h1>
           <p className="text-[10px] px-10 mt-2">Please login with your phone number or email </p>
-          <p className="text-[10px] px-10">If you forget your password,please contact customer service </p>
+          <p className="text-[10px] px-10">If you forget your password ,please contact customer service </p>
         </div>
         <div className="flex flex-col w-full items-center justify-center px-5 lg:py-0">
           <div className="bg-bg1 w-full  text-white">
@@ -121,7 +126,7 @@ function Login() {
                 </div>
                 <div className="relative flex items-center gap-2 ju">
                   <p
-                    className="bg-inputBg w-[30%] text-gray p-3 flex items-center justify-center rounded-md cursor-pointer"
+                    className="bg-inputBg h-[44px] w-[30%] text-gray p-3 flex items-center justify-center rounded-md cursor-pointer"
                     onClick={() => setIsModalOpen(!isModalOpen)}
                   >
                     {selectedCountryCode} <MdKeyboardArrowDown size={20} />
@@ -143,9 +148,10 @@ function Login() {
                     </div>
                   )}
                   <input
-                    type="number"
+                    type="text"
                     name="mobile"
                     id="mobile"
+                    inputMode="numeric"
                     placeholder="Please enter the phone number"
                     className="col-span-[60%] bg-inputBg text-[14px] focus:border-[1px] border-bg2 rounded-md outline-none w-full pl-3 p-3 placeholder:text-gray text-gray"
                     value={formData.mobile}
@@ -179,16 +185,19 @@ function Login() {
                   {passwordVisible ? <MdVisibilityOff size={20} /> : <MdVisibility className='dark:text-gray opacity-65' size={20} />}
                 </button>
               </div>
-              <div className="flex items-center mt-4">
-                <div onClick={() => setCheckAgreement(!checkAgreement)} className={`flex items-center cursor-pointer rounded-full ${checkAgreement ? "text-lightGray bg-white " : "text-chocolate"}`}>
+
+              <div className=" w-full flex items-center space-x-2 mt-4">
+                <div onClick={() => setCheckAgreement(!checkAgreement)} className={`w-6 h-6 flex items-center cursor-pointer rounded-full 
+                    ${checkAgreement ? "text-lightGray bg-white " : "text-chocolate"}`}>
                   {checkAgreement ? (
                     <img className='w-5 h-5' src={tikki} alt="df" />
                   ) : (
-                    <div className='border-[1px] border-[#c8c9cc] p-2 rounded-full'></div>
+                    <div className='border-[1px] border-[#c8c9cc] p-2.5 rounded-full'></div>
                   )}
                 </div>
-                <label htmlFor="agree" className="text-gray ml-2 text-xs sm:text-base md:text-xs">Remember Password</label>
+                <label htmlFor="agree" className="text-gray select-none text-xs sm:text-base md:text-xs">Remember Password</label>
               </div>
+
               <div className='flex flex-col font-bold items-center justify-center'>
                 <button
                   type="submit"

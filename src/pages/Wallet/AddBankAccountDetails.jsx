@@ -25,6 +25,10 @@ const validationSchema = yup.object().shape({
         .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Invalid IFSC code format")
         .required("IFSC code is required"),
     branch_name: yup.string().required("Branch name is required"),
+     upi_id: yup
+        .string()
+        .matches(/^[\w.-]+@[\w.-]+$/, "Invalid UPI ID format")
+        .required("UPI ID is required"),
 });
 
 const AddBankAccountDetails = () => {
@@ -65,6 +69,7 @@ const AddBankAccountDetails = () => {
             }
         } catch (err) {
             setLoading(false)
+            // console.error("Error while adding bank account:", err);
             toast.error("Something went wrong");
         }
     };
@@ -124,6 +129,21 @@ const AddBankAccountDetails = () => {
                         className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 border border-redLight rounded-lg bg-inputBg"
                     />
                     {errors.name && <p className="text-red text-xs">{errors.name.message}</p>}
+                </div>
+
+                 {/* Bank upi id */}
+                <div className="mb-6">
+                    <label className="text-xsm font-medium flex items-center text-white">
+                        <img src={acc_number} alt="icon" className="w-7 h-7 mr-2" />
+                        Bank UPI Id
+                    </label>
+                    <input
+                        {...register("upi_id")}
+                        type="text"
+                        placeholder="Enter bank UPI Id"
+                        className="w-full text-xsm text-gray placeholder:font-bold outline-none mt-2 px-4 py-3 border border-redLight rounded-lg bg-inputBg"
+                    />
+                    {errors.upi_id && <p className="text-bg2 text-xs">{errors.upi_id.message}</p>}
                 </div>
 
                 {/* Bank account number */}
