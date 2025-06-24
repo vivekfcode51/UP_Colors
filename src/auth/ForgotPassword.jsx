@@ -97,11 +97,11 @@ function ForgotPassword() {
                                     id="password"
                                     placeholder="New password"
                                     className="bg-slate-100 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray "
-                                    // onInput={(e) => {
-                                    //     // Only allow alphanumeric characters (letters and numbers)
-                                    //     e.target.value = e.target.value.replace(/[^A-Za-z0-9]/g, "");
-                                    //     formik.setFieldValue("password", e.target.value);
-                                    // }}
+                                    onInput={(e) => {
+                                        // Only allow alphanumeric characters (letters and numbers)
+                                        e.target.value = e.target.value.replace(/[^A-Za-z0-9]/g, "");
+                                        formik.setFieldValue("password", e.target.value);
+                                    }}
                                 />
                                 <button
                                     type="button"
@@ -130,11 +130,11 @@ function ForgotPassword() {
                                     id="password_confirmation"
                                     placeholder="Confirm new password"
                                     className="bg-slate-100 focus:border-[1px] text-[14px] border-bg2 rounded-md outline-none w-full pl-3 p-2.5 placeholder:text-gray text-gray"
-                                    // onInput={(e) => {
-                                    //     // Only allow alphanumeric characters (letters and numbers)
-                                    //     e.target.value = e.target.value.replace(/[^A-Za-z0-9]/g, "");
-                                    //     formik.setFieldValue("password_confirmation", e.target.value);
-                                    // }}
+                                    onInput={(e) => {
+                                        // Only allow alphanumeric characters (letters and numbers)
+                                        e.target.value = e.target.value.replace(/[^A-Za-z0-9]/g, "");
+                                        formik.setFieldValue("password_confirmation", e.target.value);
+                                    }}
                                 />
                                 <button
                                     type="button"
