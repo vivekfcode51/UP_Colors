@@ -154,11 +154,11 @@ function WithdrawalHistory() {
         name: "payzaar card",
         type: 0
     },
-    // {
-    //     image: usdt_icon,
-    //     name: "USDT",
-    //     type: 2
-    // }
+    {
+        image: usdt_icon,
+        name: "USDT",
+        type: 2
+    }
     ]
     return (
         <>
@@ -183,14 +183,14 @@ function WithdrawalHistory() {
                             {/* <p className=" font-bold text-nowrap">Bank Card</p> */}
                         </div>
 
-                        {/* <div
+                        <div
                             className={`w-32 py-3 flex-shrink-0 flex items-center justify-between shadow-lg rounded-lg ${activeModal === 2 ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
                                 }  px-5 cursor-pointer`}
                             onClick={() => toggleModal(2)}
                         >
                             <img className="w-6 h-6" src={usdt_icon} alt="USDT TRC 20" />
                             <p className=" text-nowrap">USDT</p>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 mt-3 mx-3">

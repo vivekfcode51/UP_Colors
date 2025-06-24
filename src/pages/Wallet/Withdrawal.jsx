@@ -176,11 +176,11 @@ function Withdrawal() {
         name: "payzaar",
         type: 0
     },
-    // {
-    //     image: usdt_icon,
-    //     name: "USDT",
-    //     type: 2
-    // }
+    {
+        image: usdt_icon,
+        name: "USDT",
+        type: 2
+    }
     ]
     return (
         <div className='px-3 h-full bg-white'>
@@ -207,10 +207,10 @@ function Withdrawal() {
                     <div
                         onClick={() => toggleModal(item?.type)}
                         key={i}
-                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "text-white" : "bg-white text-gray"
+                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
                             } shadow-md text-lightGray`}
                     >
-                        <img className='w-20 h-16' src={item.image} alt="UPI Payment" />
+                        <img className='w-20 h-12' src={item.image} alt="UPI Payment" />
                         {/* <p className='text-nowrap'>{item?.name}</p> */}
                     </div>
                 ))}

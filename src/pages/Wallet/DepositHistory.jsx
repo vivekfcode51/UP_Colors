@@ -130,11 +130,11 @@ function DepositHistory() {
         name: "payzaar",
         type: 0
     },
-    // {
-    //     image: usdt_icon,
-    //     name: "USDT",
-    //     type: 2
-    // }
+    {
+        image: usdt_icon,
+        name: "USDT",
+        type: 2
+    }
     ]
     return (
         <>
@@ -156,7 +156,7 @@ function DepositHistory() {
                                     }  px-3 cursor-pointer`}
                                 onClick={() => toggleModal(item?.type)}
                             >
-                                <img className='w-20 h-16' src={item?.image} alt="UPI Payment" />
+                                <img className='w-20 h-12' src={item?.image} alt="UPI Payment" />
                                 {/* <p className=" font-bold text-nowrap">{item?.name}</p> */}
                             </div>
                         ))}

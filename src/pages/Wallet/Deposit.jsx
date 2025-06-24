@@ -104,44 +104,201 @@ function Deposit() {
         getPaymentLimits()
     }, [])
 
+    // const payin_deposit = async () => {
+    //     if (!userId) {
+    //         toast.error("User not logged in");
+    //         navigate("/login");
+    //         return;
+    //     }
+    //     setloading(true)
+    //     const payload = {
+    //         user_id: userId,
+    //         cash: upiAmount,
+    //         type:0
+    //     }
+    //     const apiPayzaarPay = apis.payin_deposit
+    //     const apiUsdtPay = apis.payin_deposit_usdt
+    //     const payloadUsdt = {
+    //         user_id: userId,
+    //         amount: usdtAmount,
+    //         type: 2
+    //     }
+    //     console.log("payload", activeModal === 0 ? payload : payloadUsdt, activeModal)
+    //     try {
+    //         const res = await axios.post(activeModal === 0 ? apiPayzaarPay : apiUsdtPay, activeModal === 0 ? payload : payloadUsdt)
+    //         console.log("res", res)
+    //         if (res?.data?.status === "200"||res?.data?.status === 200||res?.data?.status==="success") {
+                // console.log(
+                //   "paymentlink",
+                //   activeModal === 0
+                //     ? res?.data?.data?.paymentlink
+                //     : res?.data?.data?.status_url
+                // );
+    //             window.open(activeModal === 0 ? res?.data?.data?.paymentlink : res?.data?.data?.status_url, "_blank");
+    //             setloading(false)
+    //         } else {
+    //             setloading(false)
+    //             console.log("res?.data?.message",res?.data?.message)
+    //             toast.error(res?.data?.message)
+    //         }
+    //     } catch (er) {
+    //         setloading(false)
+    //         console.log(er)
+    //         toast.error(er)
+    //     }
+    // }
+
+    // const payin_deposit = async () => {
+    //   if (!userId) {
+    //     toast.error("User not logged in");
+    //     navigate("/login");
+    //     return;
+    //   }
+
+    //   setloading(true);
+
+    //   const payload = {
+    //     user_id: userId,
+    //     cash: upiAmount,
+    //     type: 0,
+    //   };
+    //   const payloadUsdt = {
+    //     user_id: userId,
+    //     amount: usdtAmount,
+    //     type: 2,
+    //   };
+
+    //   const apiPayzaarPay = apis.payin_deposit;
+    //   const apiUsdtPay = apis.payin_deposit_usdt;
+
+    //   const isUPI = activeModal === 0;
+    //   const apiURL = isUPI ? apiPayzaarPay : apiUsdtPay;
+    //   const requestBody = isUPI ? payload : payloadUsdt;
+
+    //   try {
+    //     const res = await axios.post(apiURL, requestBody);
+    //     const status = res?.data?.status;
+    //     console.log("response payin deposit:", res)
+    //     const success =
+    //       status === "200" || status === 200 || status === "success";
+
+    //                       console.log(
+    //               "paymentlink",
+    //               activeModal === 0
+    //                 ? res?.data?.data?.paymentlink
+    //                 : res?.data?.data?.status_url
+    //             );
+    //                       console.log(
+    //               "Qr_Link",
+    //               activeModal === 0
+    //                 ? res?.data?.data?.Qr_Link
+    //                 : res?.data?.data?.status_url
+    //             );
+    //                       console.log(
+    //               "paymentlink",
+    //               activeModal === 0
+    //                 ? res?.data?.data?.paymentlink
+    //                 : res?.data?.data?.status_url
+    //             );
+
+    //     if (success) {
+    //       const link = isUPI
+    //         ? res?.data?.data?.paymentlink
+    //         : res?.data?.data?.status_url;
+
+    //       if (link?.startsWith("upi://")) {
+    //         // Mobile UPI intent: navigate directly
+    //         window.location.href = link;
+    //       } else {
+    //         // Open in new tab for non-UPI link (e.g., USDT or fallback)
+    //         window.open(link, "_blank");
+    //       }
+
+    //       setloading(false);
+    //     } else {
+    //       setloading(false);
+    //       toast.error(res?.data?.message || "Something went wrong.");
+    //     }
+    //   } catch (error) {
+    //     setloading(false);
+    //     console.error(error);
+    //     toast.error("Something went wrong");
+    //   }
+    // };
+      
     const payin_deposit = async () => {
-        if (!userId) {
-            toast.error("User not logged in");
-            navigate("/login");
-            return;
-        }
-        setloading(true)
-        const payload = {
-            user_id: userId,
-            cash: upiAmount,
-            type:0
-        }
-        const apiPayzaarPay = apis.payin_deposit
-        const apiUsdtPay = apis.payin_deposit_usdt
-        const payloadUsdt = {
-            user_id: userId,
-            amount: usdtAmount,
-            type: 2
-        }
-        console.log("payload", activeModal === 0 ? payload : payloadUsdt, activeModal)
-        try {
-            const res = await axios.post(activeModal === 0 ? apiPayzaarPay : apiUsdtPay, activeModal === 0 ? payload : payloadUsdt)
-            console.log("res", res)
-            if (res?.data?.status === "200"||res?.data?.status === 200||res?.data?.status==="success") {
-                // console.log("payment_link",activeModal === 0 ? res?.data?.response?.payment_link : res?.data?.data?.status_url)
-                window.open(activeModal === 0 ? res?.data?.data?.paymentlink : res?.data?.data?.status_url, "_blank");
-                setloading(false)
+      if (!userId) {
+        toast.error("User not logged in");
+        navigate("/login");
+        return;
+      }
+
+      setloading(true);
+
+      const payload = {
+        user_id: userId,
+        cash: upiAmount,
+        type: 0,
+      };
+      const payloadUsdt = {
+        user_id: userId,
+        amount: usdtAmount,
+        type: 2,
+      };
+
+      const apiPayzaarPay = apis.payin_deposit;
+      const apiUsdtPay = apis.payin_deposit_usdt;
+
+      const isUPI = activeModal === 0;
+      const apiURL = isUPI ? apiPayzaarPay : apiUsdtPay;
+      const requestBody = isUPI ? payload : payloadUsdt;
+
+      try {
+        const res = await axios.post(apiURL, requestBody);
+        const status = res?.data?.status;
+        const success =
+          status === "200" || status === 200 || status === "success";
+
+        console.log("response payin deposit:", res);
+
+        const paymentLink = isUPI
+          ? res?.data?.data?.paymentlink
+          : res?.data?.data?.status_url;
+        const qrLink = isUPI
+          ? res?.data?.data?.Qr_Link
+          : res?.data?.data?.status_url;
+
+        console.log("paymentlink:", paymentLink);
+        console.log("Qr_Link:", qrLink);
+
+        if (success) {
+          const screenWidth = window.innerWidth;
+
+          if (screenWidth >= 1024) {
+            // Desktop or large screen: open QR link
+            window.open(qrLink, "_blank");
+          } else {
+            // Mobile screen: open UPI payment link (can trigger UPI apps)
+            if (paymentLink?.startsWith("upi://")) {
+              window.location.href = paymentLink;
             } else {
-                setloading(false)
-                console.log("res?.data?.message",res?.data?.message)
-                toast.error(res?.data?.message)
+              window.open(paymentLink, "_blank");
             }
-        } catch (er) {
-            setloading(false)
-            console.log(er)
-            toast.error(er)
+          }
+
+          setloading(false);
+        } else {
+          setloading(false);
+          toast.error(res?.data?.message || "Something went wrong.");
         }
-    }
+      } catch (error) {
+        setloading(false);
+        console.error(error);
+        toast.error("Something went wrong");
+      }
+    };
+      
+
     useEffect(() => {
         if (userId) {
             profileDetails(userId);
@@ -180,11 +337,11 @@ function Deposit() {
         name: "payzaar",
         type: 0
     },
-    // {
-    //     image: usdt_icon,
-    //     name: "USDT",
-    //     type: 2
-    // }
+    {
+        image: usdt_icon,
+        name: "USDT",
+        type: 2
+    }
    ]
 
     // console.log("paymenLimts", paymenLimts)
@@ -212,10 +369,10 @@ function Deposit() {
                     <div
                         onClick={() => toggleModal(item?.type)}
                         key={i}
-                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "bg-white text-white" : "bg-white text-gray"
+                        className={`col-span-1 mb-2 p-4 rounded-md flex flex-col items-center text-xsm justify-evenly ${item?.type == activeModal ? "bg-gradient-to-l from-[#ff9a8e] to-[#f95959] text-white" : "bg-white text-gray"
                             } shadow-md text-lightGray`}
                     >
-                        <img className='w-20 h-16' src={item.image} alt="UPI Payment" />
+                        <img className='w-16 h-12' src={item.image} alt="UPI Payment" />
                         {/* <p className='text-nowrap'>{item?.name}</p> */}
                     </div>
                 ))}
