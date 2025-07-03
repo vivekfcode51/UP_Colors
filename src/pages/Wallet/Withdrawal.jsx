@@ -97,10 +97,11 @@ function Withdrawal() {
             navigate("/login");
             return;
         }
+        console.log("sdgfdsgzdgzdfgd",`${apis.usdt_account_view}${userId}`)
         try {
             const res = await axios.get(`${apis.usdt_account_view}${userId}`);
             console.log("res", res)
-            if (res?.data?.status === 200) {
+            if (res?.data?.status === true) {
                 console.log("res?.data?.data", res?.data?.data)
                 setViewAccountDetailsUSDT(res?.data?.data);
             } else {
@@ -139,7 +140,7 @@ function Withdrawal() {
         }
     }, [userId]);
 
-    // console.log("viewAccountDetails",viewAccountDetailsUSDT)
+    console.log("viewAccountDetails",viewAccountDetailsUSDT);
     const payoutWithdrawHandler = async () => {
         setloading(true)
         if (!userId && !viewAccountDetails[0]?.id) {
@@ -147,16 +148,18 @@ function Withdrawal() {
             navigate("/login");
             return;
         }
+                console.log("payout_withdraw",apis?.payout_withdraw )
+
         const payload = {
             user_id: userId,
             account_id: activeModal == 0 ? viewAccountDetails[0]?.id : activeModal == 2 ? viewAccountDetailsUSDT[0]?.id : null,
             type: activeModal,
             amount: activeModal == 0 ? upiAmount : activeModal == 2 ? usdtAmount : null
         }
-        // console.log("payload", payload)
+        console.log("payload withdraw", payload)
         try {
             const res = await axios.post(apis?.payout_withdraw, payload)
-            // console.log("sddfsfs",res )
+            console.log(":withdraw res", res)
             if (res?.data?.status === 200) {
                 setloading(false)
                 toast.success(res?.data?.message)
@@ -388,7 +391,7 @@ function Withdrawal() {
                     </div>
                 )
             }
-        </div >
+        </div>
     )
 }
 
